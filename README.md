@@ -5,7 +5,7 @@
 
 A pixel-perfect recreation of the iOS Lock Screen for Android, with built-in Dynamic Island, stock wallpapers and deep personalization — all powered by KLCK.
 
-<img width="1920" alt="image" src="https://github.com/user-attachments/assets/fe1457a0-b3d0-4e63-a818-35892d63deda" />
+<img width="1920" alt="image" src="https://github.com/user-attachments/assets/84aa39f9-b77a-4c1d-8273-f699f267d1c8" />
 
 ---
 
