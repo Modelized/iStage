@@ -8,10 +8,10 @@ A pixel-perfect recreation of the iOS Lock Screen for Android, with built-in Dyn
 ---
 
 ## Key Features
-- **Liquid-Glass interface** — Real-time glass effects give every swipe vivid depth.  
-- **Silky-smooth system animations** — Transitions replicate iOS for a truly fluid experience.  
-- **Built-in Dynamic Island** — Live activities, charging states and the lock indicator appear exactly where you expect them.  
-- **Immersive full-screen music player** — Artwork-driven colors, large controls and subtle blur let your music take center stage.  
+- **Liquid-Glass interface** — Real-time glass effects give every swipe vivid depth.
+- **Silky-smooth system animations** — Transitions replicate iOS for a truly fluid experience.
+- **Built-in Dynamic Island** — Live activities, charging states and the lock indicator appear exactly where you expect them.
+- **Immersive full-screen music player** — Artwork-driven colors, large controls and subtle blur let your music take center stage.
 - **Lock-Screen Editor & Wallpaper Gallery** — Swap clock fonts, colors and any stock iOS wallpaper with a tap.
 
 ---
@@ -19,15 +19,14 @@ A pixel-perfect recreation of the iOS Lock Screen for Android, with built-in Dyn
 ## Feature Details
 
 ### Dynamic Island
-- Displays the **lock indicator** whenever the device is secured.  
+- Displays the **lock indicator** whenever the device is secured.
 - Plays a **charging animation** automatically when you plug in.
 
 ### Status Bar
-- Shows **carrier name**, **signal-strength bars**, **data-network type** and a **battery icon**.  
-- Battery percentage can be toggled on or off.
+- Shows **carrier name**, **signal strength bars**, **data network type** and a **battery icon**.
 
 ### Shortcuts
-- Launch an app or system toggle from each corner. 
+- Launch an app or system toggle from each corner.
 - Availability may vary by device or ROM.
 
 ### Notification Center
@@ -55,7 +54,7 @@ A pixel-perfect recreation of the iOS Lock Screen for Android, with built-in Dyn
 ### Extended Options
 - Reposition the **clock** freely.
 - Set a **custom carrier label**.
-- Apply **custom signal-strength bars** or **network icons**.
+- Apply **custom signal strength bars** or **network icons**.
 
 ---
 
