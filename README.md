@@ -1,7 +1,7 @@
 > [!IMPORTANT]
 > This project is still under development. May encounter unexpected bugs or errors, could increase battery drain or cause performance lag on the device.
 
-# iOS KLCK — Redefine Android.
+# iOS KLCK — Android. Reimagined.
 
 A pixel-perfect recreation of the iOS Lock Screen for Android, with built-in Dynamic Island, stock wallpapers and deep personalization — all powered by KLCK.
 
