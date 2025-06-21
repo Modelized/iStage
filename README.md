@@ -10,7 +10,7 @@ A pixel-perfect recreation of the iOS Lock Screen for Android, with built-in Dyn
 ---
 
 ## Key Features
-- **Liquid-Glass interface** — Real-time glass effects give every swipe vivid depth.
+- **Liquid Glass interface** — Real-time glass effects give every swipe vivid depth.
 - **Silky-smooth system animations** — Transitions replicate iOS for a truly fluid experience.
 - **Built-in Dynamic Island** — Live activities, charging states and the lock indicator appear exactly where you expect them.
 - **Immersive full-screen music player** — Artwork-driven colors, large controls and subtle blur let your music take center stage.
