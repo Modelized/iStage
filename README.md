@@ -10,7 +10,7 @@ Formerly iOS KLCK
 
 ---
 
-##📌 Key Features
+## Key Features
 - **Liquid Glass interface** — A dynamic, fluid surface that shifts and stretches with your movements, revealing layers of depth and smooth motion throughout the interface. (Available on iStage 26 and later)
 - **Seamless system animations** — Transitions flow naturally, reflecting the motion and flow of iOS.
 - **Built-in Dynamic Island** — Live activities, charging states, and the lock indicator appear right when you need them.
@@ -19,7 +19,7 @@ Formerly iOS KLCK
 
 ---
 
-##📋 Feature Details
+## Feature Details
 
 ### Dynamic Island
 - Shows the **lock indicator** when the device is locked.
@@ -61,5 +61,5 @@ Formerly iOS KLCK
 
 ---
 
-## 📄 License
+## License
 Released under the MIT License — see `LICENSE` for details.
