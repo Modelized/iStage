@@ -3,8 +3,7 @@
 
 # iStage — Android. Reimagined.
 
-A pixel-perfect recreation of the iOS Lock Screen for Android, with built-in Dynamic Island, stock wallpapers and deep personalization — all powered by KLCK.
-
+A pixel-perfect recreation of the iOS Lock Screen for Android, with built-in Dynamic Island, stock wallpapers and deep personalization — all powered by KLCK.  
 Formerly iOS KLCK
 
 <img width="1920" height="1080" alt="iStage Thumbnail" src="https://github.com/user-attachments/assets/72c5c262-3c3e-44d8-a15e-a0f56a28dbf9" />
@@ -63,9 +62,9 @@ Formerly iOS KLCK
 ---
 
 ## Terms of Use
-This preset is a personal project.
-Redistribution or modification is not permitted.
-For personal use only.
+This preset is a personal project.  
+Redistribution or modification is not permitted.  
+For personal use only.  
 
-© 2025 Modelized (Jason Lee)
+© 2025 Modelized (Jason Lee)  
 Contributors: Liquid Glass effect by u/\_Peace\_among\_us\_
