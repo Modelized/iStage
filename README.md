@@ -56,7 +56,7 @@ Formerly iOS KLCK
 - Toggle the **battery percentage** whenever you want exact information.
 
 ### Extended Options
-- Reposition the **clock** freely. (Only available on iStage 18 and earlier)
+- Reposition the **clock** freely. (Only available on iStage 18)
 - Set a **custom carrier label**.
 - Apply **custom signal strength bars** or **network icons**.
 
