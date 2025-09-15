@@ -62,5 +62,10 @@ Formerly iOS KLCK
 
 ---
 
-## License
-Released under the MIT License — see `LICENSE` for details.
+## Terms of Use
+This preset is a personal project.
+Redistribution or modification is not permitted.
+For personal use only.
+
+© 2025 Modelized (Jason Lee)
+Contributors: Liquid Glass effect by u/\_Peace\_among\_us\_
