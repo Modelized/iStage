@@ -79,7 +79,7 @@ Formerly iOS KLCK
 
 ### 3. Notes
 - **Apple-owned resources are not included in this repository.**  
-  Certain parts of the interface are designed to use *SF Pro fonts* and *SF Symbols*.  
+  Certain parts of the interface are designed to use **SF Pro fonts** and **SF Symbols**.  
   These must be prepared by the user separately.  
   (Installation methods or download links are **not provided** here.)
 
