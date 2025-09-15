@@ -1,4 +1,8 @@
 > [!IMPORTANT]
+> **iStage 26 Public Beta is LIVE!**
+> For details, please see the **Download & Setup** section below.
+
+> [!WARNING]
 > This project is still under development. May encounter unexpected bugs or errors, could increase battery drain or cause performance lag on the device.
 
 # iStage — Android. Reimagined.
@@ -59,6 +63,25 @@ Formerly iOS KLCK
 - Reposition the **clock** freely. (Only available on iStage 18)
 - Set a **custom carrier label**.
 - Apply **custom signal strength bars** or **network icons**.
+
+---
+
+## Download & Setup
+
+### Download
+- Get the latest public beta release from the [Releases](../../releases) page.
+- Download the `.klck` preset file included in the release.
+
+### Setup
+- Open **KLCK** on your Android device.
+- Import the downloaded `.klck` preset file.
+- Apply the preset as your lock screen layout.
+
+### 3. Notes
+- **Apple-owned resources are not included in this repository.**  
+  Certain parts of the interface are designed to use *SF Pro fonts* and *SF Symbols*.  
+  These must be prepared by the user separately.  
+  (⚠️ Installation methods or download links are **not provided** here.)
 
 ---
 
