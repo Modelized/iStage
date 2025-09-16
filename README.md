@@ -77,11 +77,13 @@ Formerly iOS KLCK
 - Import the downloaded `.klck` preset file.
 - Apply the preset as your lock screen layout.
 
-### Notes
-- **Apple-owned resources are not included in this repository.**  
-  Certain parts of the interface are designed to use **SF Pro fonts** and **SF Symbols**.  
-  These must be prepared by the user separately. Please see the font list needed to use the lock screen in globals(config/font) of the preset.
-  (Installation methods or download links are **not provided** here.)
+---
+
+## Notes
+**Apple-owned resources are not included in this repository.**  
+Certain parts of the interface are designed to use **SF Pro fonts** and **SF Symbols**.  
+These must be prepared by the user separately. Please see the font list needed to use the lock screen in **globals(config/font)** of the preset.  
+(Installation methods or download links are **not provided** here.)
 
 ---
 
