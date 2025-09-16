@@ -82,7 +82,9 @@ Formerly iOS KLCK
 ## Notes
 **Apple-owned resources are not included in this repository.**  
 Certain parts of the interface are designed to use **SF Pro fonts** and **SF Symbols**.  
-These must be prepared by the user separately. Please see the font list needed to use the lock screen in **globals(config/font)** of the preset.  
+These must be prepared by the user separately.
+
+Please see the font list needed to use the lock screen in **globals(config/font)** of the preset.  
 (Installation methods or download links are **not provided** here.)
 
 ---
