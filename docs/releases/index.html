@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>iStage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="../">iStage</a>
+    <ul class="menu">
+      <li><a href="../iStage-26/">iStage 26</a></li>
+      <li><a href="../iStage-18/">iStage 18</a></li>
+      <li><a href="../compare/">Compare</a></li>
+      <li><a href="../releases/">Releases</a></li>
+      <li><a href="../help/">Help</a></li>
+      <li><a href="../gallery/">Gallery</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="container prose">
+  <h1>Releases</h1>
+  <p>Latest builds and changelogs fetched live from GitHub Releases.</p>
+
+  <div id="releases" class="releases-list">
+    <div class="card"><p class="muted">Loading releases…</p></div>
+  </div>
+
+  <template id="release-tpl">
+    <article class="card release">
+      <header class="release-head">
+        <h2 class="release-title"></h2>
+        <span class="tag"></span>
+      </header>
+      <p class="release-meta muted"></p>
+      <div class="release-body"></div>
+      <div class="assets"></div>
+    </article>
+  </template>
+</main>
+
+<script>
+const GH_OWNER = "Modelized";
+const GH_REPO  = "iStage";
+const API = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/releases`;
+
+function mdToHtml(md) { 
+  return (md || '—')
+    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/^[-*] (.*$)/gim, '<li>$1</li>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>');
+}
+
+async function loadReleases() { 
+  const list = document.getElementById('releases');
+  try {
+    const res = await fetch(API, { headers: { 'Accept': 'application/vnd.github+json' }});
+    if (!res.ok) throw new Error('GitHub API error: ' + res.status);
+    const data = await res.json();
+    list.innerHTML = '';
+    if (!Array.isArray(data) || !data.length) { 
+      list.innerHTML = '<div class="card"><p>No releases yet.</p></div>'; 
+      return;
+    }
+    const tpl = document.getElementById('release-tpl');
+    data.forEach(rel => {
+      const node = tpl.content.cloneNode(true);
+      node.querySelector('.release-title').textContent = rel.name || rel.tag_name;
+      node.querySelector('.tag').textContent = rel.prerelease ? 'Pre-release' : (rel.draft ? 'Draft' : 'Release');
+      const date = new Date(rel.published_at || rel.created_at);
+      node.querySelector('.release-meta').textContent = `${rel.tag_name} • ${date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}`;
+      const body = node.querySelector('.release-body');
+      body.innerHTML = '<h3>Changelog</h3><p>' + mdToHtml(rel.body) + '</p>';
+      const assets = node.querySelector('.assets');
+      if (rel.assets && rel.assets.length) {
+        const ul = document.createElement('ul');
+        rel.assets.forEach(a => {
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = a.browser_download_url;
+          link.textContent = a.name + (a.size ? ` (${Math.round(a.size/1024)} KB)` : '');
+          link.rel = "noopener";
+          link.target = "_blank";
+          li.appendChild(link);
+          ul.appendChild(li);
+        });
+        assets.appendChild(ul);
+      } else {
+        assets.innerHTML = '<p class="muted">No assets</p>';
+      }
+      list.appendChild(node);
+    });
+  } catch (e) {
+    list.innerHTML = '<div class="card"><p class="muted">Failed to load releases. Visit the <a target="_blank" rel="noopener">GitHub Releases page</a>.</p></div>';
+    const a = list.querySelector('a');
+    if (a) a.href = "https://github.com/"+GH_OWNER+"/"+GH_REPO+"/releases";
+    console.error(e);
+  }
+}
+loadReleases();
+</script>
+
+<footer class="footer">
+  <div class="container">
+    <p class="muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</p>
+  </div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</footer>
+</body>
+</html>

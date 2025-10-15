@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>iStage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="../">iStage</a>
+    <ul class="menu">
+      <li><a href="../iStage-26/">iStage 26</a></li>
+      <li><a href="../iStage-18/">iStage 18</a></li>
+      <li><a href="../compare/">Compare</a></li>
+      <li><a href="../releases/">Releases</a></li>
+      <li><a href="../help/">Help</a></li>
+      <li><a href="../gallery/">Gallery</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="container prose">
+  <h1>Legal & Notices</h1>
+  <p><strong>Disclaimer</strong>: iStage is not affiliated with or endorsed by Apple Inc.</p>
+  <p>Logos, trademarks, and brand names are the property of their respective owners.</p>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p class="muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</p>
+  </div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</footer>
+</body>
+</html>
