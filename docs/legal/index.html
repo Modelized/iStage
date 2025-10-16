@@ -9,10 +9,24 @@
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-<nav class="nav">
+<nav class="nav nav--glass" role="navigation" aria-label="Primary">
   <div class="container nav-inner">
     <a class="brand" href="../">iStage</a>
-    <ul class="menu">
+    <ul class="menu" id="primary-menu">
+      <li><a href="../iStage-26/">iStage 26</a></li>
+      <li><a href="../iStage-18/">iStage 18</a></li>
+      <li><a href="../compare/">Compare</a></li>
+      <li><a href="../releases/">Releases</a></li>
+      <li><a href="../help/">Help</a></li>
+      <li><a href="../gallery/">Gallery</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="nav-toggle-bar"></span>
+      <span class="sr-only">Menu</span>
+    </button>
+  </div>
+  <div class="mobile-panel" id="mobile-menu" hidden>
+    <ul class="mobile-menu">
       <li><a href="../iStage-26/">iStage 26</a></li>
       <li><a href="../iStage-18/">iStage 18</a></li>
       <li><a href="../compare/">Compare</a></li>
@@ -22,18 +36,35 @@
     </ul>
   </div>
 </nav>
-
 <main class="container prose">
   <h1>Legal & Notices</h1>
   <p><strong>Disclaimer</strong>: iStage is not affiliated with or endorsed by Apple Inc.</p>
   <p>Logos, trademarks, and brand names are the property of their respective owners.</p>
 </main>
-
 <footer class="footer">
   <div class="container">
     <p class="muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</p>
   </div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    const rootNav = document.querySelector('.nav');
+    const toggle  = document.querySelector('.nav-toggle');
+    const panel   = document.getElementById('mobile-menu');
+    if (toggle && panel && rootNav) {
+      toggle.addEventListener('click', () => {
+        const open = rootNav.classList.toggle('nav--open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        panel.hidden = !open;
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && rootNav.classList.contains('nav--open')) {
+          rootNav.classList.remove('nav--open');
+          toggle.setAttribute('aria-expanded','false');
+          panel.hidden = true;
+        }
+      });
+    }
+  </script>
 </footer>
 </body>
 </html>
