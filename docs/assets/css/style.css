@@ -1,122 +1,74 @@
 
-/* Reset / base */
+:root{
+  --blue:#0071e3;
+  --bg-black:#000;
+  --bg-gray:#f5f5f7;
+  --page-bg:#fff;
+  --text:#111;
+  --glass-bg:rgba(20,20,23,.72);
+  --glass-border:rgba(255,255,255,.14);
+  --radius:12px;
+  --gap:12px;
+}
 *{box-sizing:border-box}
-html,body{margin:0;padding:0}
-html,body{overflow-x:hidden} /* 가로 스와이프 방지 */
-:root{ --apple-blue:#0071e3; --radius:16px }
-body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif; line-height:1.6; color:#111317; background:#fff;}
-.container{max-width:1100px;margin:0 auto;padding:0 12px}
-.muted{color:#5e6572}
-.small{font-size:.9rem}
-.no-scroll{overflow:hidden}
+html,body{height:100%;overflow-x:hidden}
+body{margin:0;background:var(--page-bg);color:var(--text);font:16px -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,system-ui,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
 
-/* Nav (glass / sticky) */
-.nav{position:sticky; top:12px; z-index:100; padding:0 12px}
-.nav-inner{border:1px solid #1e2230; border-radius:var(--radius); background:rgba(15,17,22,.75); backdrop-filter:saturate(160%) blur(12px); -webkit-backdrop-filter:saturate(160%) blur(12px); box-shadow:0 8px 30px rgba(0,0,0,.12)}
-.row{height:56px; display:flex; align-items:center; justify-content:space-between; gap:12px}
-.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#e8e9ec}
-.brand-logo{display:none; height:clamp(28px, 7vw, 36px); width:auto}
-.brand-text{display:inline}
-.brand.has-logo .brand-logo{display:block}
-.brand.has-logo .brand-text{display:none}
-.menu{display:flex; gap:14px; list-style:none; margin:0; padding:0}
-.menu a{color:#e8e9ec; text-decoration:none; padding:8px 10px; border-radius:12px}
-.menu a:hover{background:rgba(255,255,255,.06)}
-.nav-toggle{display:none; width:42px; height:36px; border:none; outline:none; border-radius:14px; background:transparent !important; color:#e8e9ec; place-items:center; z-index:2}
-.nav--open .nav-toggle{ background:rgba(255,255,255,.06) !important; }
-.nav-toggle:focus,.nav-toggle:focus-visible{outline:none}
-.nav-toggle-bar{display:block; width:18px; height:2px; background:currentColor; position:relative; border-radius:2px}
-.nav-toggle-bar::before,.nav-toggle-bar::after{content:""; position:absolute; left:0; width:18px; height:2px; background:currentColor; border-radius:2px; transition:transform .35s cubic-bezier(.22,1,.36,1), opacity .2s linear}
-.nav-toggle-bar::before{top:-6px}.nav-toggle-bar::after{top:6px}
-.sheet{ display:none; }
-@media (max-width:900px){ .desktop{display:none} .nav-toggle{display:grid} .sheet{ display:grid; grid-template-rows:0fr; transition: grid-template-rows .45s cubic-bezier(.22,1,.36,1); } }
-.sheet-content{overflow:hidden}
-.mobile-menu{ list-style:none; margin:0; padding:10px }
-.mobile-menu a{ display:block; padding:12px 14px; color:#e8e9ec; text-decoration:none; border-radius:12px }
-.mobile-menu a:hover{ background:rgba(255,255,255,.06) }
-.nav--open .sheet{ grid-template-rows:1fr }
-.nav--open .nav-toggle-bar{background:transparent}
-.nav--open .nav-toggle-bar::before{transform: translateY(6px) rotate(45deg)}
-.nav--open .nav-toggle-bar::after{transform: translateY(-6px) rotate(-45deg)}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid #9ecbff;outline-offset:2px;border-radius:12px}
+img{max-width:100%;display:block;height:auto}
 
-/* Sections */
-.section{padding:40px 0 64px}
-.section + .section{ margin-top:12px }
-.section--first{ padding-top:56px }
-@media (min-width:900px){ .section--first{ padding-top:72px } }
-.section--black{background:#000; color:#e8e9ec}
-.section--white{background:#f5f5f7; color:#111317}
+/* ===== NAV (floating glass, overlays content) ===== */
+.nav-wrap{position:sticky;top:12px;z-index:1000;padding-inline:12px;pointer-events:none}
+.nav{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;background:var(--glass-bg);backdrop-filter:saturate(140%) blur(20px);
+  -webkit-backdrop-filter:saturate(140%) blur(20px);border:1px solid var(--glass-border);
+  border-radius:var(--radius);color:#fff}
+.brand{display:inline-flex;align-items:center;gap:8px}
+.brand-logo{width:22px;height:22px;object-fit:contain}
+.hamburger{all:unset;cursor:pointer;display:inline-grid;gap:4px;padding:10px;border-radius:10px}
+.hamburger span{width:20px;height:2px;background:#fff;display:block;border-radius:2px}
+.menu-panel{position:absolute;left:12px;right:12px;top:calc(100% + 10px);background:var(--glass-bg);
+  border:1px solid var(--glass-border);border-radius:16px;display:grid;gap:2px;padding:14px 12px;
+  transform-origin:top right;transform:scale(.96) translateY(-6px);opacity:0;pointer-events:none;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .3s ease}
+.menu-panel a{color:#fff;padding:12px 10px;border-radius:10px}
+.menu-panel a:hover{background-color:rgba(255,255,255,.08)}
+.menu-panel .close-x{all:unset;position:absolute;right:10px;top:10px;width:32px;height:32px;
+  display:grid;place-items:center;color:#fff;font-size:22px;line-height:1;border-radius:10px;cursor:pointer}
+.nav-wrap.open .menu-panel{opacity:1;transform:scale(1) translateY(0);pointer-events:auto}
 
-/* Hero (copy 위, 이미지 아래) */
-.hero{ display:flex; flex-direction:column; align-items:center; gap:16px }
-.copy{ text-align:center; display:flex; flex-direction:column; align-items:center; gap:12px; padding:0 6px }
-.copy .title{ margin:0; font-size:clamp(28px,4.6vw,56px); line-height:1.06; letter-spacing:-.01em }
-.copy .subtitle{ margin:0; color:rgba(232,233,236,.88) }
-.section--white .copy .subtitle{ color:#5e6572 }
-.cta{ display:flex; gap:12px; justify-content:center; margin-top:14px }
+/* keep nav above all */
+.nav-wrap, .menu-panel{z-index:1000}
 
-/* Hero 이미지 블록 (텍스트 아래에 배치) */
-.media{
-  width:100%;
-  background-position:center;
-  background-repeat:no-repeat;
-  background-size:cover;
-  border-radius:12px;
-  aspect-ratio: 1 / 1;    /* 모바일 1:1 */
-}
-@media (min-width:900px){
-  .media{ aspect-ratio:16/9; width:92%; margin:0 auto }
-}
+/* ===== HERO SECTIONS ===== */
+.hero{padding:64px 0 56px}
+.hero .container{max-width:1100px;margin:0 auto;padding:0 12px;text-align:center}
+.hero--26{background:var(--bg-black);color:#fff}
+.hero--18{background:var(--bg-gray);color:#111}
+.title{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:0 0 10px;font-weight:700}
+.subtitle{font-size:clamp(16px,3.6vw,22px);opacity:.92;margin:0 0 22px}
+.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 
-/* 이미지 소스 */
-.media-26{
-  background-image:
-    url("../img/hero-iStage-26-mobile.jpg"),
-    url("../img/hero-iStage-26-mobile.png");
-}
-.media-18{
-  background-image:
-    url("../img/hero-iStage-18-mobile.jpg"),
-    url("../img/hero-iStage-18-mobile.png");
-}
-@media (min-width:900px){
-  .media-26{ background-image:
-    url("../img/hero-iStage-26-desktop.jpg"),
-    url("../img/hero-iStage-26-desktop.png"); }
-  .media-18{ background-image:
-    url("../img/hero-iStage-18-desktop.jpg"),
-    url("../img/hero-iStage-18-desktop.png"); }
-}
+/* Buttons - slightly smaller */
+.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:9999px;
+  padding:10px 18px;font-size:17px;line-height:1.2;border:2px solid transparent;transition:transform .08s ease, background-color .2s ease, border-color .2s ease, color .2s ease}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn-outline{background:transparent;border-color:var(--blue);color:var(--blue)}
+/* never change visited colors */
+.btn:visited{color:inherit}
+.btn-outline:visited{color:var(--blue)}
+.btn-primary:visited{color:#fff}
 
-/* Buttons (애플 스타일) */
-a.btn, .btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:.4ch;
-  padding:12px 18px; border-radius:999px; font-weight:500; line-height:1;
-  text-decoration:none !important; border:0; appearance:none; -webkit-appearance:none;
-}
-/* 방문 상태로 색이 변하지 않도록 강제 */
-a.btn:link, a.btn:visited{ color:inherit; }
-
-.btn-blue{ background:var(--apple-blue); color:#fff !important }
-.btn-blue:hover{ filter:brightness(1.05) }
-.btn-outline{ color:var(--apple-blue) !important; border:2px solid var(--apple-blue); background:transparent }
-.btn-outline:hover{ background:color-mix(in oklab, var(--apple-blue), transparent 92%) }
-
-/* Releases */
-.card{background:rgba(18,21,27,1);border:1px solid #1e2230;border-radius:18px;padding:18px;color:#e8e9ec}
-.releases-list{display:grid;gap:16px}
-.release-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.tag{font-size:.8rem;padding:.2rem .5rem;border:1px solid #1e2230;border-radius:999px;color:#a7acb7}
-
-/* Tabs */
-.version-tabs-wrap{ display:flex; justify-content:center; margin-bottom:18px }
-.version-tabs-shell{ display:flex; align-items:center; gap:8px }
-.chev{ border:1px solid #1e2230; background:rgba(15,17,22,.75); color:#e8e9ec; width:34px; height:34px; border-radius:10px; display:grid; place-items:center }
-.version-tabs{ position:relative; display:flex; gap:6px; align-items:center; padding:6px; border-radius:14px; border:1px solid #1e2230; background:rgba(15,17,22,.75); backdrop-filter:saturate(160%) blur(12px); -webkit-backdrop-filter:saturate(160%) blur(12px) }
-.version-tabs.viewported .tab[hidden]{ display:none !important }
-.version-thumb{ position:absolute; top:4px; bottom:4px; left:6px; width:0; border-radius:12px; background:rgba(255,255,255,.12); transition: transform .45s cubic-bezier(.22,1,.36,1), width .45s cubic-bezier(.22,1,.36,1); pointer-events:none }
-.tab{ position:relative; z-index:1; border:0; background:transparent; color:#e8e9ec; padding:8px 10px; border-radius:10px; font-weight:600; cursor:pointer; white-space:nowrap }
-.tab[aria-selected="true"]{ color:#e8e9ec }
+.hero-image{margin-top:clamp(24px,6vw,56px)}
+.hero-image img{width:min(100%,980px);margin:0 auto;}
 
 /* Footer */
-.footer{border-top:1px solid #1e2230; padding:24px 0; background:#000; color:#a7acb7}
+.site-footer{background:#000;color:#bfbfbf}
+.site-footer .inner{max-width:1100px;margin:0 auto;padding:18px 12px}
+
+/* Prevent white strip at the very top behind glass: ensure first section reaches top */
+body::before{
+  content:"";position:fixed;inset:0 0 auto 0;height:1px;background:transparent;z-index:0
+}
