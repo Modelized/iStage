@@ -8,30 +8,34 @@
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-<nav class="nav nav--glass" role="navigation" aria-label="Primary">
-  <div class="container nav-inner">
-    <a class="brand" href="../">iStage</a>
-    <ul class="menu" id="primary-menu">
-      <li><a href="../iStage-26/">iStage 26</a></li>
-      <li><a href="../iStage-18/">iStage 18</a></li>
-      <li><a href="../compare/">Compare</a></li>
-      <li><a href="../releases/">Releases</a></li>
-      <li><a href="../help/">Help</a></li>
-      <li><a href="../gallery/">Gallery</a></li>
-    </ul>
-    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-      <span class="nav-toggle-bar"></span>
-    </button>
-  </div>
-  <div class="mobile-panel" id="mobile-menu" hidden>
-    <ul class="mobile-menu">
-      <li><a href="../iStage-26/">iStage 26</a></li>
-      <li><a href="../iStage-18/">iStage 18</a></li>
-      <li><a href="../compare/">Compare</a></li>
-      <li><a href="../releases/">Releases</a></li>
-      <li><a href="../help/">Help</a></li>
-      <li><a href="../gallery/">Gallery</a></li>
-    </ul>
+<nav class="nav" role="navigation" aria-label="Primary">
+  <div class="nav-inner">
+    <div class="container row">
+      <a class="brand" href="../">iStage</a>
+      <ul class="menu desktop">
+        <li><a href="../iStage-26/">iStage 26</a></li>
+        <li><a href="../iStage-18/">iStage 18</a></li>
+        <li><a href="../compare/">Compare</a></li>
+        <li><a href="../releases/">Releases</a></li>
+        <li><a href="../help/">Help</a></li>
+        <li><a href="../gallery/">Gallery</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-sheet">
+        <span class="nav-toggle-bar"></span>
+      </button>
+    </div>
+    <div class="container sheet" id="mobile-sheet" aria-hidden="true">
+      <div class="sheet-content">
+        <ul class="mobile-menu">
+          <li><a href="../iStage-26/">iStage 26</a></li>
+          <li><a href="../iStage-18/">iStage 18</a></li>
+          <li><a href="../compare/">Compare</a></li>
+          <li><a href="../releases/">Releases</a></li>
+          <li><a href="../help/">Help</a></li>
+          <li><a href="../gallery/">Gallery</a></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </nav>
 <main class='container prose'><h1>Legal</h1></main>
@@ -39,22 +43,22 @@
   <div class="container small muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script>
-    const rootNav = document.querySelector('.nav');
-    const toggle  = document.querySelector('.nav-toggle');
-    const panel   = document.getElementById('mobile-menu');
-    const body    = document.body;
-    if (toggle && panel && rootNav) {
+    const nav = document.querySelector('.nav');
+    const toggle = document.querySelector('.nav-toggle');
+    const sheet  = document.getElementById('mobile-sheet');
+    const body   = document.body;
+    if (toggle && sheet) {
       toggle.addEventListener('click', () => {
-        const open = rootNav.classList.toggle('nav--open');
+        const open = nav.classList.toggle('nav--open');
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        panel.hidden = !open;
+        sheet.setAttribute('aria-hidden', open ? 'false' : 'true');
         body.classList.toggle('no-scroll', open);
       });
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && rootNav.classList.contains('nav--open')) {
-          rootNav.classList.remove('nav--open');
+        if (e.key === 'Escape' && nav.classList.contains('nav--open')) {
+          nav.classList.remove('nav--open');
           toggle.setAttribute('aria-expanded','false');
-          panel.hidden = true;
+          sheet.setAttribute('aria-hidden','true');
           body.classList.remove('no-scroll');
         }
       });
