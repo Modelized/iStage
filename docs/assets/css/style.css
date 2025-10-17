@@ -1,3 +1,6 @@
+:root{--accent:#0A84FF;--accent-ink:#0A84FF;--nav-border:#2A2F3C}
+/* smoothing to avoid heavy/thick rendering */
+html,body{ -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility }
 
 /* Reset / base */
 *{box-sizing:border-box}
@@ -121,65 +124,19 @@ a.btn:link, a.btn:visited{ color:inherit; }
 /* Footer */
 .footer{border-top:1px solid #1e2230; padding:24px 0; background:#000; color:#a7acb7}
 
+/* Top-of-page black strip so the floating nav never shows white behind it */
+body{ background: linear-gradient(#000 0 220px, #F2F3F7 220px 100%); }
 
+/* Make nav float when open, without pushing layout */
+.nav--open{ position:fixed; top:12px; left:12px; right:12px; z-index:9999; }
+.nav-inner{ padding:6px 14px; border-radius:22px; border-color:var(--nav-border) !important }
 
-/* === r15 patch overrides === */
+/* Ensure menu panel overlays and doesn't affect layout height */
+.nav--open .sheet{ position:fixed; inset:12px; display:grid }
+.nav--open .sheet-body{ overflow:auto }
 
-/* Smaller buttons slightly */
-.btn{ padding:10px 18px !important; font-weight:600 !important; border-radius:999px !important; }
-
-/* Learn more = filled blue */
-.btn-blue{
-  background:var(--apple-blue) !important;
-  color:#fff !important;
-  border:2px solid var(--apple-blue) !important;
-  box-shadow:0 6px 16px rgba(0,113,227,.28);
-}
-.btn-blue:visited{ color:#fff !important; }
-
-/* Download = blue outline */
-.btn-outline{
-  background:transparent !important;
-  color:var(--apple-blue) !important;
-  border:2px solid var(--apple-blue) !important;
-}
-.btn-outline:visited{ color:var(--apple-blue) !important; }
-.btn-outline:hover{ background:color-mix(in oklab, var(--apple-blue), transparent 90%) !important; }
-
-/* Prevent default link visited colors changing inside dark/white sections */
-.section a.btn:visited{ color:inherit }
-.section .btn-outline:visited{ color:var(--apple-blue) !important }
-.section .btn-blue:visited{ color:#fff !important }
-
-
-
-/* Overlay sheet refactor: panel floats above content */
-.sheet{
-  position:fixed !important;
-  inset:0 !important;
-  display:grid !important;
-  align-items:flex-start !important;
-  justify-content:center !important;
-  padding:82px 12px 20px !important;
-  background:rgba(0,0,0,.35) !important;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  opacity:0; pointer-events:none;
-  transition: opacity .35s cubic-bezier(.22,1,.36,1) !important;
-}
-.nav--open .sheet{ opacity:1; pointer-events:auto }
-
-/* The inner panel */
-.sheet-content{
-  background:rgba(18,21,27,.82);
-  -webkit-backdrop-filter:saturate(160%) blur(12px);
-  backdrop-filter:saturate(160%) blur(12px);
-  border:1px solid #1e2230;
-  border-radius:18px;
-  max-width:980px;
-  width:min(100%, 960px);
-  transform: translateY(-8px) scale(.985);
-  transition: transform .45s cubic-bezier(.22,1,.36,1);
-  box-shadow:0 10px 28px rgba(0,0,0,.35);
-}
-.nav--open .sheet-content{ transform:translateY(0) scale(1) }
+.btn{ font-weight:500 !important; text-shadow:none !important; box-shadow:none !important; padding:10px 16px !important; font-size:16px !important }
+.btn-blue{ background:#0A84FF !important; color:#fff !important; box-shadow:none !important; filter:none !important }
+.btn-outline{ background:transparent !important; border:2px solid #0A84FF !important; color:#0A84FF !important; box-shadow:none !important }
+.btn-outline:hover{ background:rgba(10,132,255,.08) !important }
+.btn-outline:active{ background:rgba(10,132,255,.14) !important }
