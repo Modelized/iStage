@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<div class="nav-backdrop nav-backdrop--dark" aria-hidden="true"></div>
 <nav class="nav" role="navigation" aria-label="Primary">
   <div class="nav-inner">
     <div class="container row">
@@ -45,8 +44,8 @@
 <main>
   <section class="section section--black section--first">
     <div class="container">
-      <div class="media-box media-26">
-        <div class="overlay">
+      <div class="hero hero-26">
+        <div class="copy">
           <h1 class="title">iStage 26</h1>
           <p class="subtitle">Refined Liquid Glass. Faster animations.</p>
           <div class="cta">
@@ -54,14 +53,15 @@
             <a class="btn btn-outline" href="releases/#v=26">Download</a>
           </div>
         </div>
+        <div class="media media-26" role="img" aria-label="iStage 26 hero"></div>
       </div>
     </div>
   </section>
 
   <section class="section section--white">
     <div class="container">
-      <div class="media-box media-18">
-        <div class="overlay overlay--darktext">
+      <div class="hero hero-18">
+        <div class="copy">
           <h2 class="title">iStage 18</h2>
           <p class="subtitle">Classic frosted aesthetic. Solid baseline.</p>
           <div class="cta">
@@ -69,6 +69,7 @@
             <a class="btn btn-outline" href="releases/#v=18">Download</a>
           </div>
         </div>
+        <div class="media media-18" role="img" aria-label="iStage 18 hero"></div>
       </div>
     </div>
   </section>
@@ -97,7 +98,6 @@
         }
       });
     }
-    // Brand logo fallback (show text only if logo fails to load)
     const brand = document.querySelector('.brand');
     const logo  = document.querySelector('.brand-logo');
     const txt   = document.querySelector('.brand-text');
