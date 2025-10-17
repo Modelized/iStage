@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
   <title>iStage</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
@@ -22,7 +21,6 @@
     </ul>
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
       <span class="nav-toggle-bar"></span>
-      <span class="sr-only">Menu</span>
     </button>
   </div>
   <div class="mobile-panel" id="mobile-menu" hidden>
@@ -36,44 +34,58 @@
     </ul>
   </div>
 </nav>
-<main class="products container">
-  <a class="product-tile" href="iStage-26/">
-    <div class="tile-media tile-26"></div>
-    <div class="tile-copy">
-      <h2>iStage 26</h2>
-      <p>Refined Liquid Glass. Faster animations.</p>
-      <span class="btn primary">Learn more</span>
+<main>
+  <section class="section section--black">
+    <div class="container">
+      <div class="media-box media-26">
+        <div class="overlay">
+          <h1 class="title">iStage 26</h1>
+          <p class="subtitle">Refined Liquid Glass. Faster animations.</p>
+          <div class="cta">
+            <a class="btn btn-blue" href="iStage-26/">Learn more</a>
+            <a class="btn btn-outline" href="releases/#v=26">Download</a>
+          </div>
+        </div>
+      </div>
     </div>
-  </a>
-  <a class="product-tile" href="iStage-18/">
-    <div class="tile-media tile-18"></div>
-    <div class="tile-copy">
-      <h2>iStage 18</h2>
-      <p>Classic frosted aesthetic. Solid baseline.</p>
-      <span class="btn ghost">Learn more</span>
+  </section>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="media-box media-18">
+        <div class="overlay overlay--darktext">
+          <h2 class="title">iStage 18</h2>
+          <p class="subtitle">Classic frosted aesthetic. Solid baseline.</p>
+          <div class="cta">
+            <a class="btn btn-blue" href="iStage-18/">Learn more</a>
+            <a class="btn btn-outline" href="releases/#v=18">Download</a>
+          </div>
+        </div>
+      </div>
     </div>
-  </a>
+  </section>
 </main>
 <footer class="footer">
-  <div class="container">
-    <p class="muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</p>
-  </div>
+  <div class="container small muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script>
     const rootNav = document.querySelector('.nav');
     const toggle  = document.querySelector('.nav-toggle');
     const panel   = document.getElementById('mobile-menu');
+    const body    = document.body;
     if (toggle && panel && rootNav) {
       toggle.addEventListener('click', () => {
         const open = rootNav.classList.toggle('nav--open');
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         panel.hidden = !open;
+        body.classList.toggle('no-scroll', open);
       });
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && rootNav.classList.contains('nav--open')) {
           rootNav.classList.remove('nav--open');
           toggle.setAttribute('aria-expanded','false');
           panel.hidden = true;
+          body.classList.remove('no-scroll');
         }
       });
     }

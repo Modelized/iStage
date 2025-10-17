@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
   <title>iStage</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -22,7 +21,6 @@
     </ul>
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
       <span class="nav-toggle-bar"></span>
-      <span class="sr-only">Menu</span>
     </button>
   </div>
   <div class="mobile-panel" id="mobile-menu" hidden>
@@ -36,31 +34,28 @@
     </ul>
   </div>
 </nav>
-<main class="container prose">
-  <h1>iStage 18</h1>
-  <p>The classic baseline: frosted look with a focus on simplicity.</p>
-  <p><a class="btn" href="../compare/">See what's new in 26</a> <a class="btn primary" href="../releases/">Download</a></p>
-</main>
+<main class='container prose'><h1>Istage 18</h1></main>
 <footer class="footer">
-  <div class="container">
-    <p class="muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</p>
-  </div>
+  <div class="container small muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script>
     const rootNav = document.querySelector('.nav');
     const toggle  = document.querySelector('.nav-toggle');
     const panel   = document.getElementById('mobile-menu');
+    const body    = document.body;
     if (toggle && panel && rootNav) {
       toggle.addEventListener('click', () => {
         const open = rootNav.classList.toggle('nav--open');
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         panel.hidden = !open;
+        body.classList.toggle('no-scroll', open);
       });
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && rootNav.classList.contains('nav--open')) {
           rootNav.classList.remove('nav--open');
           toggle.setAttribute('aria-expanded','false');
           panel.hidden = true;
+          body.classList.remove('no-scroll');
         }
       });
     }
