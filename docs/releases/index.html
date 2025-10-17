@@ -117,14 +117,18 @@ init();
         }
       });
     }
-    // Brand logo fallback: show text unless image loads
+    // Brand logo fallback: show text only if logo fails; otherwise logo-only
     const brand = document.querySelector('.brand');
     const logo  = document.querySelector('.brand-logo');
     const txt   = document.querySelector('.brand-text');
-    if (logo && txt) {
+    function hideTextIfLogoReady(){
+      if (!brand || !logo || !txt) return;
       if (logo.complete && logo.naturalWidth > 0) { brand.classList.add('has-logo'); }
-      logo.addEventListener('load', () => brand.classList.add('has-logo'));
-      logo.addEventListener('error', () => brand.classList.remove('has-logo'));
+    }
+    hideTextIfLogoReady();
+    if (logo) {
+      logo.addEventListener('load', () => brand && brand.classList.add('has-logo'));
+      logo.addEventListener('error', () => brand && brand.classList.remove('has-logo'));
     }
   </script>
 </footer>
