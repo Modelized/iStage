@@ -9,6 +9,11 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .muted{color:#5e6572}
 .small{font-size:.9rem}
 
+/* Fixed backdrop behind navbar (index only adds .nav-backdrop--dark) */
+.nav-backdrop{ position:fixed; top:0; left:0; right:0; height:160px; z-index:0; }
+.nav-backdrop--dark{ background:#000; }
+@media (min-width:900px){ .nav-backdrop{ height:200px } }
+
 /* Nav (glass) */
 .nav{position:sticky; top:12px; z-index:100; padding:0 12px}
 .nav-inner{border:1px solid #1e2230; border-radius:var(--radius); background:rgba(15,17,22,.75); backdrop-filter:saturate(160%) blur(12px); -webkit-backdrop-filter:saturate(160%) blur(12px); box-shadow:0 8px 30px rgba(0,0,0,.12)}
@@ -42,6 +47,8 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 /* Sections and backgrounds with white gutters */
 .section{padding:40px 0 64px}
 .section + .section{ margin-top:12px }
+.section--first{ padding-top:56px } /* space below navbar */
+@media (min-width:900px){ .section--first{ padding-top:72px } }
 .section--black{background:#000; color:#e8e9ec}
 .section--white{background:#f5f5f7; color:#111317}
 .section--white .muted{color:#5e6572}
@@ -60,19 +67,20 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
   .media-box::before{ padding-top:0; aspect-ratio:1/1 }
   @media (min-width:900px){ .media-box::before{ aspect-ratio:16/9 } }
 }
-.media-26::before{ background-image:url("assets/img/hero-iStage-26-mobile.jpg") }
-.media-18::before{ background-image:url("assets/img/hero-iStage-18-mobile.jpg") }
+/* Try JPG first, then PNG fallback */
+.media-26::before{ background-image:url("assets/img/hero-iStage-26-mobile.jpg"), url("assets/img/hero-iStage-26-mobile.png") }
+.media-18::before{ background-image:url("assets/img/hero-iStage-18-mobile.jpg"), url("assets/img/hero-iStage-18-mobile.png") }
 @media (min-width:900px){
-  .media-26::before{ background-image:url("assets/img/hero-iStage-26-desktop.jpg") }
-  .media-18::before{ background-image:url("assets/img/hero-iStage-18-desktop.jpg") }
+  .media-26::before{ background-image:url("assets/img/hero-iStage-26-desktop.jpg"), url("assets/img/hero-iStage-26-desktop.png") }
+  .media-18::before{ background-image:url("assets/img/hero-iStage-18-desktop.jpg"), url("assets/img/hero-iStage-18-desktop.png") }
 }
 
-/* Overlay copy: top-aligned like Apple */
+/* Overlay copy: higher on the canvas (less top padding) */
 .overlay{
   position:absolute; inset:0;
   display:flex; flex-direction:column; align-items:center;
-  justify-content:flex-start; gap:12px;
-  padding:clamp(28px, 8vh, 72px) 20px 20px;
+  justify-content:flex-start; gap:10px;
+  padding:clamp(10px, 4vh, 40px) 20px 20px; /* lifted up */
   text-align:center; pointer-events:none;
 }
 .overlay .title{ margin:0; font-size:clamp(28px,4.6vw,56px); line-height:1.06; letter-spacing:-.01em }
@@ -88,7 +96,7 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .btn-outline{ color:var(--apple-blue); border:2px solid currentColor; background:transparent }
 .btn-outline:hover{ background:color-mix(in oklab, var(--apple-blue), transparent 92%) }
 
-/* Releases styling keeps dark cards for contrast */
+/* Releases dark cards for contrast */
 .card{background:rgba(18,21,27,1);border:1px solid #1e2230;border-radius:18px;padding:18px;color:#e8e9ec}
 .releases-list{display:grid;gap:16px}
 .release-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
