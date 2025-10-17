@@ -12,7 +12,7 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 /* Fixed backdrop behind navbar (index only) */
 .nav-backdrop{ position:fixed; top:0; left:0; right:0; height:160px; z-index:0; transition:height .35s cubic-bezier(.22,1,.36,1) }
 .nav-backdrop--dark{ background:#000; }
-.no-scroll .nav-backdrop--dark{ height:100vh } /* when menu open, cover full viewport */
+.no-scroll .nav-backdrop--dark{ height:100vh }
 @media (min-width:900px){ .nav-backdrop{ height:200px } }
 
 /* Nav (glass) */
@@ -28,7 +28,6 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .menu a{color:#e8e9ec; text-decoration:none; padding:8px 10px; border-radius:12px}
 .menu a:hover{background:rgba(255,255,255,.06)}
 .nav-toggle{display:none; width:42px; height:36px; border:none; outline:none; border-radius:14px; background:transparent !important; color:#e8e9ec; place-items:center; z-index:2}
-/* only show background when open (X state) */
 .nav--open .nav-toggle{ background:rgba(255,255,255,.06) !important; }
 .nav-toggle:focus,.nav-toggle:focus-visible{outline:none}
 .nav-toggle-bar{display:block; width:18px; height:2px; background:currentColor; position:relative; border-radius:2px}
@@ -45,10 +44,10 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .nav--open .nav-toggle-bar::before{transform: translateY(6px) rotate(45deg)}
 .nav--open .nav-toggle-bar::after{transform: translateY(-6px) rotate(-45deg)}
 
-/* Sections and backgrounds with white gutters */
+/* Sections */
 .section{padding:40px 0 64px}
 .section + .section{ margin-top:12px }
-.section--first{ padding-top:56px } /* space below navbar */
+.section--first{ padding-top:56px }
 @media (min-width:900px){ .section--first{ padding-top:72px } }
 .section--black{background:#000; color:#e8e9ec}
 .section--white{background:#f5f5f7; color:#111317}
@@ -58,17 +57,17 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .media-box{ position:relative; border-radius:var(--radius); overflow:hidden; background:transparent; border:none !important; box-shadow:none !important }
 .media-box::before{
   content:""; display:block; width:100%;
+  position:absolute; inset:0; z-index:0;
   background-position:center; background-repeat:no-repeat; background-size:cover;
-  padding-top:100%; /* 1:1 mobile fallback */
+  padding-top:100%;
 }
 @media (min-width:900px){
-  .media-box::before{ padding-top:56.25%; width:92%; margin:0 auto; border-radius:12px }
+  .media-box::before{ width:92%; left:4%; right:4%; margin:0 auto; border-radius:12px }
 }
 @supports (aspect-ratio: 1 / 1){
-  .media-box::before{ padding-top:0; aspect-ratio:1/1 }
+  .media-box::before{ aspect-ratio:1/1 }
   @media (min-width:900px){ .media-box::before{ aspect-ratio:16/9 } }
 }
-/* JPG first, PNG fallback */
 .media-26::before{ background-image:url("../img/hero-iStage-26-mobile.jpg"), url("../img/hero-iStage-26-mobile.png") }
 .media-18::before{ background-image:url("../img/hero-iStage-18-mobile.jpg"), url("../img/hero-iStage-18-mobile.png") }
 @media (min-width:900px){
@@ -76,20 +75,31 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
   .media-18::before{ background-image:url("../img/hero-iStage-18-desktop.jpg"), url("../img/hero-iStage-18-desktop.png") }
 }
 
-/* Overlay copy */
+/* Overlay copy (above image) */
 .overlay{
-  position:absolute; inset:0;
+  position:absolute; inset:0; z-index:1;
   display:flex; flex-direction:column; align-items:center;
-  justify-content:flex-start; gap:10px;
-  padding:clamp(10px, 4vh, 40px) 20px 20px;
+  justify-content:flex-start; gap:12px;
+  padding:clamp(14px, 5vh, 44px) 20px 20px;
   text-align:center; pointer-events:none;
 }
 .overlay .title{ margin:0; font-size:clamp(28px,4.6vw,56px); line-height:1.06; letter-spacing:-.01em }
-.overlay .subtitle{ margin:0; color:rgba(232,233,236,.85) }
+.overlay .subtitle{ margin:0; color:rgba(232,233,236,.88) }
 .overlay.overlay--darktext .subtitle{ color:#5e6572 }
 .section--white .overlay{ color:#111317 }
-/* slightly larger gap from subtitle to buttons */
-.cta{ display:flex; gap:12px; justify-content:center; pointer-events:auto; margin-top:8px }
+
+/* CTA buttons */
+.cta{ display:flex; gap:12px; justify-content:center; pointer-events:auto; margin-top:10px }
+a.btn, .btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.4ch;
+  padding:12px 18px; border-radius:999px; font-weight:500; line-height:1;
+  text-decoration:none !important; border:0; appearance:none; -webkit-appearance:none;
+}
+.btn:visited{ color:inherit }
+.btn-blue{ background:var(--apple-blue); color:#fff }
+.btn-blue:hover{ filter:brightness(1.05) }
+.btn-outline{ color:var(--apple-blue); border:2px solid var(--apple-blue); background:transparent }
+.btn-outline:hover{ background:color-mix(in oklab, var(--apple-blue), transparent 92%) }
 
 /* Releases */
 .card{background:rgba(18,21,27,1);border:1px solid #1e2230;border-radius:18px;padding:18px;color:#e8e9ec}
