@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="icon" href="assets/img/logo.png">
 </head>
-<body class="home">
+<body>
   <header class="site-header">
     <div class="nav-glass">
       <a class="brand" href="index.html" aria-label="iStage home">
@@ -29,41 +29,19 @@
     </div>
   </header>
 
-  <main id="main">
-    <section class="product dark" id="p26">
-      <div class="con">
-        <h1 class="title">iStage 26</h1>
-        <p class="subtitle">Refined Liquid Glass. Faster animations.</p>
-        <div class="cta">
-          <a class="btn primary" href="istage-26.html">Learn more</a>
-          <a class="btn outline" href="releases.html?version=26">Download</a>
-        </div>
-        <div class="hero-visual">
-          <picture>
-            <source media="(min-width: 768px)" srcset="assets/img/hero-iStage-26-desktop.jpg">
-            <img src="assets/img/hero-iStage-26-mobile.jpg" alt="iStage 26 hero">
-          </picture>
-        </div>
-      </div>
-    </section>
-
-    <section class="product light" id="p18">
-      <div class="con">
-        <h2 class="title">iStage 18</h2>
-        <p class="subtitle">Classic frosted aesthetic. Solid baseline.</p>
-        <div class="cta">
-          <a class="btn primary" href="istage-18.html">Learn more</a>
-          <a class="btn outline" href="releases.html?version=18">Download</a>
-        </div>
-        <div class="hero-visual">
-          <picture>
-            <source media="(min-width: 768px)" srcset="assets/img/hero-iStage-18-desktop.jpg">
-            <img src="assets/img/hero-iStage-18-mobile.jpg" alt="iStage 18 hero">
-          </picture>
-        </div>
-      </div>
-    </section>
-  </main>
+<main class="page"><div class="con">
+  <div class="version-tabs" data-has-multi="true">
+    <button class="tab" data-v="26">iStage 26</button>
+    <button class="tab" data-v="18">iStage 18</button>
+    <div class="pill"></div>
+  </div>
+  <section class="release-list" data-v="26">
+    <h2>Releases — iStage 26</h2><ul class="card-list"><li class="card">Public Beta 1 — tag v26</li></ul>
+  </section>
+  <section class="release-list" data-v="18">
+    <h2>Releases — iStage 18</h2><ul class="card-list"><li class="card">Stable 1.0 — tag v18</li></ul>
+  </section>
+</div></main>
 
   <footer class="site-footer">
     <p>© 2025 iStage. Not affiliated with Apple Inc.</p>

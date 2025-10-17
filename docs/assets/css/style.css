@@ -1,74 +1,61 @@
 
 :root{
-  --blue:#0071e3;
-  --bg-black:#000;
-  --bg-gray:#f5f5f7;
-  --page-bg:#fff;
-  --text:#111;
-  --glass-bg:rgba(20,20,23,.72);
-  --glass-border:rgba(255,255,255,.14);
-  --radius:12px;
-  --gap:12px;
+  --apple-blue:#0071e3;
+  --black:#000;
+  --page-white:#ffffff;
+  --tile-white:#f2f2f5;
+  --radius:16px;
+  --pad:12px;
 }
+
 *{box-sizing:border-box}
-html,body{height:100%;overflow-x:hidden}
-body{margin:0;background:var(--page-bg);color:var(--text);font:16px -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,system-ui,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
-
+html,body{height:100%}
+body{margin:0;background:var(--page-white);color:#0b0b0c;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.45}
 a{color:inherit;text-decoration:none}
-a:focus-visible,button:focus-visible{outline:2px solid #9ecbff;outline-offset:2px;border-radius:12px}
-img{max-width:100%;display:block;height:auto}
+img{display:block;max-width:100%;height:auto}
 
-/* ===== NAV (floating glass, overlays content) ===== */
-.nav-wrap{position:sticky;top:12px;z-index:1000;padding-inline:12px;pointer-events:none}
-.nav{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;
-  padding:12px 14px;background:var(--glass-bg);backdrop-filter:saturate(140%) blur(20px);
-  -webkit-backdrop-filter:saturate(140%) blur(20px);border:1px solid var(--glass-border);
-  border-radius:var(--radius);color:#fff}
-.brand{display:inline-flex;align-items:center;gap:8px}
-.brand-logo{width:22px;height:22px;object-fit:contain}
-.hamburger{all:unset;cursor:pointer;display:inline-grid;gap:4px;padding:10px;border-radius:10px}
-.hamburger span{width:20px;height:2px;background:#fff;display:block;border-radius:2px}
-.menu-panel{position:absolute;left:12px;right:12px;top:calc(100% + 10px);background:var(--glass-bg);
-  border:1px solid var(--glass-border);border-radius:16px;display:grid;gap:2px;padding:14px 12px;
-  transform-origin:top right;transform:scale(.96) translateY(-6px);opacity:0;pointer-events:none;
-  transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .3s ease}
-.menu-panel a{color:#fff;padding:12px 10px;border-radius:10px}
-.menu-panel a:hover{background-color:rgba(255,255,255,.08)}
-.menu-panel .close-x{all:unset;position:absolute;right:10px;top:10px;width:32px;height:32px;
-  display:grid;place-items:center;color:#fff;font-size:22px;line-height:1;border-radius:10px;cursor:pointer}
-.nav-wrap.open .menu-panel{opacity:1;transform:scale(1) translateY(0);pointer-events:auto}
+.con{width:min(1200px, 100% - 24px); margin:0 auto; padding: 48px 0}
 
-/* keep nav above all */
-.nav-wrap, .menu-panel{z-index:1000}
+.site-header{position:sticky;top:12px;z-index:1000}
+.nav-glass{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin:0 auto;width:min(1200px, 100% - 24px);padding:10px 14px;border-radius:24px;
+  backdrop-filter:saturate(180%) blur(24px); background:rgba(24,24,28,.55); border:1px solid rgba(255,255,255,.08)}
+.brand-logo{width:28px;height:28px;object-fit:contain}
+.menu-toggle{all:unset;cursor:pointer;display:grid;place-items:center;width:42px;height:36px;border-radius:12px;position:relative}
+.menu-toggle .bar{width:20px;height:2px;background:#fff;border-radius:1px;display:block;margin:3px 0}
+.menu-panel{position:fixed;inset:0;display:none;align-items:flex-start;justify-content:center;padding:72px 12px 24px;background:rgba(18,18,20,.75);backdrop-filter:blur(24px);z-index:1100}
+.menu-panel ul{list-style:none;margin:0;padding:24px 18px;display:flex;flex-direction:column;gap:20px;background:rgba(26,26,30,.7);border:1px solid rgba(255,255,255,.08);border-radius:24px;max-width:680px;width:100%}
+.menu-panel a{color:#eaeaf0;font-size:18px}
+.menu-close{position:absolute;top:18px;right:18px;width:40px;height:40px;border-radius:12px;background:rgba(34,34,38,.85);color:#fff;border:none;font-size:24px;line-height:1;cursor:pointer}
+.nav-open .menu-panel{display:flex}
+.nav-open{overflow:hidden}
 
-/* ===== HERO SECTIONS ===== */
-.hero{padding:64px 0 56px}
-.hero .container{max-width:1100px;margin:0 auto;padding:0 12px;text-align:center}
-.hero--26{background:var(--bg-black);color:#fff}
-.hero--18{background:var(--bg-gray);color:#111}
-.title{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:0 0 10px;font-weight:700}
-.subtitle{font-size:clamp(16px,3.6vw,22px);opacity:.92;margin:0 0 22px}
-.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.product{scroll-margin-top:96px}
+.product.dark{background:#000;color:#fff}
+.product.light{background:var(--tile-white);color:#111}
+.product + .product{border-top:12px solid var(--page-white)} /* white gutter */
 
-/* Buttons - slightly smaller */
-.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:9999px;
-  padding:10px 18px;font-size:17px;line-height:1.2;border:2px solid transparent;transition:transform .08s ease, background-color .2s ease, border-color .2s ease, color .2s ease}
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--blue);border-color:var(--blue);color:#fff}
-.btn-outline{background:transparent;border-color:var(--blue);color:var(--blue)}
-/* never change visited colors */
-.btn:visited{color:inherit}
-.btn-outline:visited{color:var(--blue)}
-.btn-primary:visited{color:#fff}
+.title{font-size:44px;font-weight:700;margin:0 0 10px;text-align:center}
+.subtitle{font-size:20px;opacity:.9;margin:0 auto 22px;text-align:center;max-width:780px}
 
-.hero-image{margin-top:clamp(24px,6vw,56px)}
-.hero-image img{width:min(100%,980px);margin:0 auto;}
+.cta{display:flex;gap:14px;justify-content:center;margin:0 0 24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 18px;border-radius:22px;font-weight:600}
+.btn.primary{background:var(--apple-blue);color:#fff;border:1px solid var(--apple-blue)}
+.btn.outline{background:transparent;color:var(--apple-blue);border:1.5px solid var(--apple-blue)}
 
-/* Footer */
-.site-footer{background:#000;color:#bfbfbf}
-.site-footer .inner{max-width:1100px;margin:0 auto;padding:18px 12px}
-
-/* Prevent white strip at the very top behind glass: ensure first section reaches top */
-body::before{
-  content:"";position:fixed;inset:0 0 auto 0;height:1px;background:transparent;z-index:0
+.hero-visual{display:grid;place-items:center;margin:0 auto; padding: 8px 0 24px}
+.hero-visual img{width:min(92vw, 1200px);aspect-ratio:16/9;object-fit:contain}
+@media (max-width:767px){
+  .title{font-size:34px}
+  .subtitle{font-size:17px}
+  .hero-visual img{aspect-ratio:1/1;width:min(88vw, 560px)}
 }
+
+.page .con{padding-top:96px;padding-bottom:96px}
+.site-footer{background:#000;color:#9ea0a6}
+.site-footer p{margin:0;padding:24px 12px;text-align:center}
+
+.version-tabs{position:relative;display:flex;gap:8px;justify-content:center;margin:8px 0 28px}
+.version-tabs .tab{position:relative;z-index:2;padding:8px 14px;border-radius:999px;border:1px solid #2e2e35;background:#15151a;color:#e4e4ea;cursor:pointer}
+.release-list{display:none}
+.version-tabs .tab.active{border-color:var(--apple-blue);color:#fff}
