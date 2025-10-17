@@ -57,16 +57,11 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .media-box{ position:relative; border-radius:var(--radius); overflow:hidden; background:transparent; border:none !important; box-shadow:none !important }
 .media-box::before{
   content:""; display:block; width:100%;
-  position:absolute; inset:0; z-index:0;
   background-position:center; background-repeat:no-repeat; background-size:cover;
-  padding-top:100%;
+  aspect-ratio: 1 / 1; /* mobile 1:1 */
 }
 @media (min-width:900px){
-  .media-box::before{ width:92%; left:4%; right:4%; margin:0 auto; border-radius:12px }
-}
-@supports (aspect-ratio: 1 / 1){
-  .media-box::before{ aspect-ratio:1/1 }
-  @media (min-width:900px){ .media-box::before{ aspect-ratio:16/9 } }
+  .media-box::before{ aspect-ratio:16/9; width:92%; margin:0 auto; border-radius:12px }
 }
 .media-26::before{ background-image:url("../img/hero-iStage-26-mobile.jpg"), url("../img/hero-iStage-26-mobile.png") }
 .media-18::before{ background-image:url("../img/hero-iStage-18-mobile.jpg"), url("../img/hero-iStage-18-mobile.png") }
@@ -75,7 +70,7 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
   .media-18::before{ background-image:url("../img/hero-iStage-18-desktop.jpg"), url("../img/hero-iStage-18-desktop.png") }
 }
 
-/* Overlay copy (above image) */
+/* Overlay copy */
 .overlay{
   position:absolute; inset:0; z-index:1;
   display:flex; flex-direction:column; align-items:center;
@@ -89,7 +84,7 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .section--white .overlay{ color:#111317 }
 
 /* CTA buttons */
-.cta{ display:flex; gap:12px; justify-content:center; pointer-events:auto; margin-top:10px }
+.cta{ display:flex; gap:12px; justify-content:center; pointer-events:auto; margin-top:14px }
 a.btn, .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:.4ch;
   padding:12px 18px; border-radius:999px; font-weight:500; line-height:1;
