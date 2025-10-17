@@ -46,7 +46,6 @@
   <div class="container small muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script>
-    // Nav open/close
     const nav = document.querySelector('.nav');
     const toggle = document.querySelector('.nav-toggle');
     const sheet  = document.getElementById('mobile-sheet');
@@ -67,19 +66,12 @@
         }
       });
     }
-    // Brand logo fallback: show text only if logo fails; otherwise logo-only
+    // Brand logo fallback: logo-only when it loads; show text only if it fails
     const brand = document.querySelector('.brand');
     const logo  = document.querySelector('.brand-logo');
     const txt   = document.querySelector('.brand-text');
-    function hideTextIfLogoReady(){
-      if (!brand || !logo || !txt) return;
-      if (logo.complete && logo.naturalWidth > 0) { brand.classList.add('has-logo'); }
-    }
-    hideTextIfLogoReady();
-    if (logo) {
-      logo.addEventListener('load', () => brand && brand.classList.add('has-logo'));
-      logo.addEventListener('error', () => brand && brand.classList.remove('has-logo'));
-    }
+    function update(){ if(brand&&logo&&txt && logo.naturalWidth>0){ brand.classList.add('has-logo'); } }
+    if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
   </script>
 </footer>
 </body>
