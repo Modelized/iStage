@@ -1,36 +1,77 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang='en'>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>iStage</title>
-<link rel="stylesheet" href="/assets/css/style.css">
-<link rel="icon" href="/assets/img/logo.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iStage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-<header class="nav-wrap" aria-label="Site navigation">
-  <nav class="nav glass">
-    <a class="brand" href="/"><img src="/assets/img/logo.png" alt="iStage" class="brand-logo"></a>
-    <button class="hamburger" aria-label="Menu" id="navToggle">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="menu-panel" id="menuPanel" role="menu" aria-hidden="true">
-      <a href="/iStage-26/" role="menuitem">iStage 26</a>
-      <a href="/iStage-18/" role="menuitem">iStage 18</a>
-      <a href="/compare/" role="menuitem">Compare</a>
-      <a href="/releases/" role="menuitem">Releases</a>
-      <a href="/help/" role="menuitem">Help</a>
-      <a href="/gallery/" role="menuitem">Gallery</a>
-      <button class="close-x" aria-label="Close" id="navClose">×</button>
+<nav class="nav" role="navigation" aria-label="Primary">
+  <div class="nav-inner">
+    <div class="container row">
+      <a class="brand" href="../" aria-label="iStage">
+        <img class="brand-logo" src="../assets/img/logo.png" alt="" loading="eager" decoding="async">
+        <span class="brand-text">iStage</span>
+      </a>
+      <ul class="menu desktop">
+        <li><a href="../iStage-26/">iStage 26</a></li>
+        <li><a href="../iStage-18/">iStage 18</a></li>
+        <li><a href="../compare/">Compare</a></li>
+        <li><a href="../releases/">Releases</a></li>
+        <li><a href="../help/">Help</a></li>
+        <li><a href="../gallery/">Gallery</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-sheet">
+        <span class="nav-toggle-bar"></span>
+      </button>
     </div>
-  </nav>
-</header>
-<main>
-<section class="hero hero--26"><div class="container"><h1 class="title">Istage-26</h1><p class="subtitle">Content coming soon.</p></div></section>
-</main>
-<footer class="site-footer">
-  <div class="inner">© 2025 iStage. Not affiliated with Apple Inc.</div>
+    <div class="container sheet" id="mobile-sheet" aria-hidden="true">
+      <div class="sheet-content">
+        <ul class="mobile-menu">
+          <li><a href="../iStage-26/">iStage 26</a></li>
+          <li><a href="../iStage-18/">iStage 18</a></li>
+          <li><a href="../compare/">Compare</a></li>
+          <li><a href="../releases/">Releases</a></li>
+          <li><a href="../help/">Help</a></li>
+          <li><a href="../gallery/">Gallery</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<main class='container prose'><h1>Istage 26</h1></main>
+<footer class="footer">
+  <div class="container small muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    const nav = document.querySelector('.nav');
+    const toggle = document.querySelector('.nav-toggle');
+    const sheet  = document.getElementById('mobile-sheet');
+    const body   = document.body;
+    if (toggle && sheet) {
+      toggle.addEventListener('click', () => {
+        const open = nav.classList.toggle('nav--open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        sheet.setAttribute('aria-hidden', open ? 'false' : 'true');
+        body.classList.toggle('no-scroll', open);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('nav--open')) {
+          nav.classList.remove('nav--open');
+          toggle.setAttribute('aria-expanded','false');
+          sheet.setAttribute('aria-hidden','true');
+          body.classList.remove('no-scroll');
+        }
+      });
+    }
+    const brand = document.querySelector('.brand');
+    const logo  = document.querySelector('.brand-logo');
+    const txt   = document.querySelector('.brand-text');
+    function update(){ if(brand&&logo&&txt && logo.naturalWidth>0){ brand.classList.add('has-logo'); } }
+    if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
+  </script>
 </footer>
-<script src="/assets/js/main.js"></script>
 </body>
 </html>
