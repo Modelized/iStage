@@ -9,9 +9,10 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .muted{color:#5e6572}
 .small{font-size:.9rem}
 
-/* Fixed backdrop behind navbar (index only adds .nav-backdrop--dark) */
-.nav-backdrop{ position:fixed; top:0; left:0; right:0; height:160px; z-index:0; }
+/* Fixed backdrop behind navbar (index only) */
+.nav-backdrop{ position:fixed; top:0; left:0; right:0; height:160px; z-index:0; transition:height .35s cubic-bezier(.22,1,.36,1) }
 .nav-backdrop--dark{ background:#000; }
+.no-scroll .nav-backdrop--dark{ height:100vh } /* when menu open, cover full viewport */
 @media (min-width:900px){ .nav-backdrop{ height:200px } }
 
 /* Nav (glass) */
@@ -53,7 +54,7 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .section--white{background:#f5f5f7; color:#111317}
 .section--white .muted{color:#5e6572}
 
-/* Hero media (robust height & cover) */
+/* Hero media */
 .media-box{ position:relative; border-radius:var(--radius); overflow:hidden; background:transparent; border:none !important; box-shadow:none !important }
 .media-box::before{
   content:""; display:block; width:100%;
@@ -67,36 +68,30 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
   .media-box::before{ padding-top:0; aspect-ratio:1/1 }
   @media (min-width:900px){ .media-box::before{ aspect-ratio:16/9 } }
 }
-/* Try JPG first, then PNG fallback */
-.media-26::before{ background-image:url("assets/img/hero-iStage-26-mobile.jpg"), url("assets/img/hero-iStage-26-mobile.png") }
-.media-18::before{ background-image:url("assets/img/hero-iStage-18-mobile.jpg"), url("assets/img/hero-iStage-18-mobile.png") }
+/* JPG first, PNG fallback */
+.media-26::before{ background-image:url("../img/hero-iStage-26-mobile.jpg"), url("../img/hero-iStage-26-mobile.png") }
+.media-18::before{ background-image:url("../img/hero-iStage-18-mobile.jpg"), url("../img/hero-iStage-18-mobile.png") }
 @media (min-width:900px){
-  .media-26::before{ background-image:url("assets/img/hero-iStage-26-desktop.jpg"), url("assets/img/hero-iStage-26-desktop.png") }
-  .media-18::before{ background-image:url("assets/img/hero-iStage-18-desktop.jpg"), url("assets/img/hero-iStage-18-desktop.png") }
+  .media-26::before{ background-image:url("../img/hero-iStage-26-desktop.jpg"), url("../img/hero-iStage-26-desktop.png") }
+  .media-18::before{ background-image:url("../img/hero-iStage-18-desktop.jpg"), url("../img/hero-iStage-18-desktop.png") }
 }
 
-/* Overlay copy: higher on the canvas (less top padding) */
+/* Overlay copy */
 .overlay{
   position:absolute; inset:0;
   display:flex; flex-direction:column; align-items:center;
   justify-content:flex-start; gap:10px;
-  padding:clamp(10px, 4vh, 40px) 20px 20px; /* lifted up */
+  padding:clamp(10px, 4vh, 40px) 20px 20px;
   text-align:center; pointer-events:none;
 }
 .overlay .title{ margin:0; font-size:clamp(28px,4.6vw,56px); line-height:1.06; letter-spacing:-.01em }
 .overlay .subtitle{ margin:0; color:rgba(232,233,236,.85) }
 .overlay.overlay--darktext .subtitle{ color:#5e6572 }
 .section--white .overlay{ color:#111317 }
+/* slightly larger gap from subtitle to buttons */
+.cta{ display:flex; gap:12px; justify-content:center; pointer-events:auto; margin-top:8px }
 
-/* CTA buttons */
-.cta{ display:flex; gap:12px; justify-content:center; pointer-events:auto }
-.btn{ display:inline-flex; align-items:center; justify-content:center; gap:.4ch; padding:12px 18px; border-radius:999px; font-weight:500; line-height:1; text-decoration:none }
-.btn-blue{ background:var(--apple-blue); color:#fff }
-.btn-blue:hover{ filter:brightness(1.05) }
-.btn-outline{ color:var(--apple-blue); border:2px solid currentColor; background:transparent }
-.btn-outline:hover{ background:color-mix(in oklab, var(--apple-blue), transparent 92%) }
-
-/* Releases dark cards for contrast */
+/* Releases */
 .card{background:rgba(18,21,27,1);border:1px solid #1e2230;border-radius:18px;padding:18px;color:#e8e9ec}
 .releases-list{display:grid;gap:16px}
 .release-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
