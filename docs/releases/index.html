@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
+  <meta name="theme-color" content="#f5f5f7">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>iStage</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
+
+  <link rel="stylesheet" href="assets/css/r20-fixes.css">
 </head>
 <body>
 <nav class="nav" role="navigation" aria-label="Primary">
@@ -123,5 +126,7 @@ init();
     if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
   </script>
 </footer>
+
+  <script src="assets/js/r20-themecolor.js" defer></script>
 </body>
 </html>

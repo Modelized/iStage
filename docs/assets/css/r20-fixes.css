@@ -1,0 +1,53 @@
+/* r20-fixes: nav overlay behavior, size, button glow, font smoothing */
+:root{
+  --nav-inset: 12px;
+  --nav-row-height: 46px; /* thinner than previous ~56px */
+  --nav-radius: 22px;     /* a touch rounder */
+  --stage-light: #f5f5f7;
+  --stage-dark: #000000;
+}
+
+/* Keep nav always floating (no layout shift when opening/closing) */
+.nav{position:fixed; left:var(--nav-inset); right:var(--nav-inset); top:calc(env(safe-area-inset-top,0px) + 10px); z-index:1000;}
+body{scroll-padding-top: calc(var(--nav-row-height) + 24px);} /* for in-page anchors */
+main, .page{padding-top: calc(var(--nav-row-height) + 26px);} /* headroom below floating bar */
+
+/* Make the bar a bit slimmer and rounder */
+.nav-inner{border-radius:var(--nav-radius);}
+.nav .row{height:var(--nav-row-height);}
+/* When open, DO NOT change container width/position */
+.nav--open{left:var(--nav-inset); right:var(--nav-inset);}
+
+/* Ensure menu panel overlays content rather than pushing it */
+.nav--open .sheet{position:fixed; top:calc(var(--nav-row-height) + env(safe-area-inset-top,0px) + 18px);
+  left:var(--nav-inset); right:var(--nav-inset); max-height: min(72vh, 680px);
+  background: rgba(27,30,38,.92); border-radius: 22px; border:1px solid rgba(255,255,255,.08);
+  overflow: auto; -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%);
+}
+
+/* Desktop buttons: remove any residual glow completely */
+.hero .actions .btn{ box-shadow:none !important; filter:none !important; text-shadow:none !important; }
+@media (hover:hover){
+  .hero .actions .btn:hover{ box-shadow:none !important; }
+}
+
+/* Font rendering – align weight across desktop/mobile */
+html,body,.hero h1,.hero p,.hero .actions .btn{
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variation-settings: "wght" var(--wght, 600);
+}
+
+/* Keep the download outline and color parity with Learn more */
+.btn-outline{border:2px solid #2f6df6; color:#2f6df6;}
+.btn-outline:active{transform: translateY(0.5px);}
+
+/* Minor polish to sheet close button corner radius to match bar */
+.sheet .close{border-radius: 14px;}
+
+/* Make sure hero media never overlaps copy */
+.hero .media{margin-top: 18px;}
+
+/* Status bar / theme-color friendly backgrounds */
+.hero-26{background-color:#000;}
+.hero-18{background-color:#f5f5f7;}
