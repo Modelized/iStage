@@ -73,59 +73,5 @@
     if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
   </script>
 </footer>
-
-<script>
-// === Dynamic nav backdrop tied to first product section ===
-(function(){
-  const backdrop = document.getElementById('navBackdrop') || (function(){
-    const d=document.createElement('div'); d.id='navBackdrop'; document.body.prepend(d); return d;
-  })();
-  // Helper: get first product/hero section
-  function getHero(){
-    return document.querySelector('.hero, .section-hero, .product-hero, section.hero, section#hero, section[data-hero], .stage26, .istage26, .product--26, .product-first, .first-product, [data-product="26"]') || 
-           document.querySelector('main section, section');
-  }
-  function isDarkColor(c){
-    if(!c) return false;
-    // Parse rgb/rgba or hex
-    const ctx = document.createElement('canvas').getContext('2d');
-    // normalize: set fillStyle handles many formats
-    try { ctx.fillStyle = c; } catch(e){ return false; }
-    const hex = ctx.fillStyle; // like #rrggbb
-    const r = parseInt(hex.slice(1,3),16);
-    const g = parseInt(hex.slice(3,5),16);
-    const b = parseInt(hex.slice(5,7),16);
-    // luminance threshold
-    const L = 0.2126*r + 0.7152*g + 0.0722*b;
-    return L < 105; // dark if luminance low
-  }
-  function computeHeroBg(){
-    const hero = getHero();
-    if(!hero){ return null; }
-    const cs = getComputedStyle(hero);
-    // prefer background-color of hero; fallback body
-    let bg = cs.backgroundColor;
-    if(!bg || bg==='transparent' || bg==='rgba(0, 0, 0, 0)'){
-      const bodyBg = getComputedStyle(document.body).backgroundColor;
-      if(bodyBg && bodyBg !== 'rgba(0, 0, 0, 0)') bg = bodyBg;
-    }
-    return bg;
-  }
-  function apply(){
-    const bg = computeHeroBg();
-    if(!bg) return;
-    // Set page background to match hero while hero is at top of page
-    document.documentElement.style.setProperty('--page-bg', bg);
-    // Backdrop mirrors hero theme (dark -> black, light -> white)
-    const dark = isDarkColor(bg);
-    const color = dark ? '#000000' : '#ffffff';
-    backdrop.style.backgroundColor = color;
-  }
-  apply();
-  window.addEventListener('load', apply, {passive:true});
-  window.addEventListener('resize', apply, {passive:true});
-  window.addEventListener('scroll', apply, {passive:true});
-})();
-</script>
 </body>
 </html>

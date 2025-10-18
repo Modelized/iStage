@@ -7,8 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-<div id=\"navBackdrop\"></div>
+\1
+  <div class=\"nav-backdrop\" aria-hidden=\"true\"></div>
 <nav class="nav" role="navigation" aria-label="Primary">
   <div class="nav-inner">
     <div class="container row">
@@ -106,29 +106,5 @@
     if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
   </script>
 </footer>
-
-<script>
-(function(){
-  const backdrop = document.getElementById('navBackdrop');
-  function heroEl(){ return document.querySelector('.section--first') || document.querySelector('main section'); }
-  function isDark(rgb){
-    const el=document.createElement('span'); try{ el.style.color=rgb; }catch(e){ return false; }
-    const c=getComputedStyle(el).color;
-    const m=c.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/); if(!m) return false;
-    const r=+m[1],g=+m[2],b=+m[3];
-    const L = 0.2126*r + 0.7152*g + 0.0722*b;
-    return L < 128;
-  }
-  function update(){
-    const h=heroEl(); if(!h) return;
-    const bg=getComputedStyle(h).backgroundColor;
-    const dark=isDark(bg);
-    backdrop.style.backgroundColor = dark ? '#000' : '#fff';
-  }
-  ['load','scroll','resize'].forEach(ev=>window.addEventListener(ev, update, {passive:true}));
-  update();
-})();
-</script>
-
 </body>
 </html>
