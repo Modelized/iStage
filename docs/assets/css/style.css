@@ -11,7 +11,7 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .no-scroll{overflow:hidden}
 
 /* Nav (glass / sticky) */
-.nav{position:sticky; top:12px; z-index:100; padding:0 12px}
+.nav{position:sticky; top:12px; z-index:9999; padding:0 12px}
 .nav-inner{border:1px solid #1e2230; border-radius:var(--radius); background:rgba(15,17,22,.75); backdrop-filter:saturate(160%) blur(12px); -webkit-backdrop-filter:saturate(160%) blur(12px); box-shadow:0 8px 30px rgba(0,0,0,.12)}
 .row{height:56px; display:flex; align-items:center; justify-content:space-between; gap:12px}
 .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#e8e9ec}
@@ -22,7 +22,7 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .menu{display:flex; gap:14px; list-style:none; margin:0; padding:0}
 .menu a{color:#e8e9ec; text-decoration:none; padding:8px 10px; border-radius:12px}
 .menu a:hover{background:rgba(255,255,255,.06)}
-.nav-toggle{display:none; width:42px; height:36px; border:none; outline:none; border-radius:14px; background:transparent !important; color:#e8e9ec; place-items:center; z-index:2}
+.nav-toggle{display:none; width:36px; height:36px; border:none; outline:none; border-radius:14px; background:transparent !important; color:#e8e9ec; place-items:center; z-index:2}
 .nav--open .nav-toggle{ background:rgba(255,255,255,.06) !important; }
 .nav-toggle:focus,.nav-toggle:focus-visible{outline:none}
 .nav-toggle-bar{display:block; width:18px; height:2px; background:currentColor; position:relative; border-radius:2px}
@@ -120,81 +120,3 @@ a.btn:link, a.btn:visited{ color:inherit; }
 
 /* Footer */
 .footer{border-top:1px solid #1e2230; padding:24px 0; background:#000; color:#a7acb7}
-
-
-
-/* === r18c patch: menu overlay + CTA outline + nav styling === */
-
-:root{
-  --blue-500:#2f6dff;
-  --blue-500-08: rgba(47,109,255,.08);
-  --nav-radius: 18px;
-  --nav-height: 46px;
-  --nav-light: rgba(255,255,255,.72);
-  --nav-dark:  rgba(26,28,31,.72);
-  --nav-border-light: rgba(0,0,0,.12);
-  --nav-border-dark: rgba(255,255,255,.24);
-}
-
-/* Nav always above content */
-.nav{ z-index: 2147483646; }
-.nav .row{ height: var(--nav-height); }
-.nav{
-  border-radius: var(--nav-radius);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
-  backdrop-filter: saturate(180%) blur(12px);
-  border: 1px solid var(--nav-border-light);
-  background: var(--nav-light);
-}
-@media (prefers-color-scheme: dark){
-  .nav{ border-color: var(--nav-border-dark); background: var(--nav-dark); }
-}
-
-/* Menu sheet behaves as overlay; default hidden */
-.sheet{
-  position: fixed !important;
-  left: 12px; right:12px; top: 12px;
-  max-height: min(80vh, 720px);
-  overflow:auto;
-  z-index: 2147483647 !important;
-  opacity:0; pointer-events:none;
-  transform: translateY(-6px) scale(.98);
-  transition: opacity .25s ease, transform .25s ease;
-}
-
-/* Open when hidden checkbox is checked */
-#nav-toggle:checked ~ .sheet{
-  opacity:1; pointer-events:auto;
-  transform: translateY(0) scale(1);
-  display:grid;
-}
-
-/* Hide page scroll when menu open (optional) */
-#nav-toggle:checked ~ .sheet ~ *{}
-
-/* Toggle icon states using :checked if your CSS depends on .nav--open */
-#nav-toggle:checked ~ .sheet,
-#nav-toggle:checked ~ .nav-overlay{}
-/* If previous CSS expects .nav--open, simulate it */
-#nav-toggle:checked ~ .sheet,
-#nav-toggle:checked ~ .sheet + .nav--open{}
-
-/* CTA styles */
-.btn.btn-blue{
-  background: var(--blue-500) !important;
-  color: #fff !important;
-  filter:none !important; box-shadow:none !important; text-shadow:none !important;
-}
-.btn.btn-outline{
-  background: transparent !important;
-  color: var(--blue-500) !important;
-  border: 2px solid var(--blue-500) !important;
-  filter:none !important; box-shadow:none !important; text-shadow:none !important;
-}
-.btn.btn-outline:hover{ background: var(--blue-500-08) !important; }
-
-/* Title - subtitle spacing slightly reduced */
-.title + .subtitle{ margin-top: .55rem; }
-
-/* Prevent horizontal scroll */
-html, body{ max-width:100%; overflow-x:hidden; }
