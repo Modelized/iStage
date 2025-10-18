@@ -7,8 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-\1
-  <div class=\"nav-backdrop\" aria-hidden=\"true\"></div>
+<body>
+  <div class=\"nav-backdrop\"></div>
 <nav class="nav" role="navigation" aria-label="Primary">
   <div class="nav-inner">
     <div class="container row">
@@ -106,5 +106,16 @@
     if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
   </script>
 </footer>
+
+<script>
+(function(){
+  try{
+    var first = document.querySelector('section.section--first') || document.querySelector('section');
+    var isDark = first && first.classList.contains('section--black');
+    document.documentElement.style.setProperty('--nav-backdrop', isDark ? '#000' : '#fff');
+  }catch(e){}
+})();
+</script>
+
 </body>
 </html>
