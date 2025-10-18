@@ -163,3 +163,17 @@ a.btn:link, a.btn:visited{ color:inherit; }
   .section--first{ margin-top: 16px; padding-top: 48px !important; }
 }
 /* === end patch === */
+
+
+/* ===== iStage hotfix: push first product section below floating nav ===== */
+.section--first{
+  /* Clear the fixed nav + safe area */
+  padding-top: calc(144px + env(safe-area-inset-top)) !important;
+}
+@media (min-width: 768px){
+  .section--first{
+    padding-top: calc(168px + env(safe-area-inset-top)) !important;
+  }
+}
+/* ===== end hotfix ===== */
+

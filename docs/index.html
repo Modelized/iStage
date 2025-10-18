@@ -6,11 +6,6 @@
   <title>iStage</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
-<style id='fix-first-hero-offset-20251018-style'>
-/* injected: hero offset fix */
-:root{ --nav-outer-h: 72px; }
-
-</style>
 </head>
 <body>
   <div class=\"nav-backdrop\"></div>
@@ -122,39 +117,5 @@
 })();
 </script>
 
-<script id='fix-first-hero-offset-20251018'>
-(function(){
-  function setOffset(){
-    try{
-      var fixedTop = Array.from(document.querySelectorAll('body *')).filter(function(el){
-        var s = getComputedStyle(el);
-        if (s.position !== 'fixed') return false;
-        var r = el.getBoundingClientRect();
-        return r.top > -2 && r.top < 40 && r.height > 40 && r.width > (window.innerWidth * 0.6);
-      }).sort(function(a,b){return b.getBoundingClientRect().height - a.getBoundingClientRect().height;})[0];
-      var h = 72;
-      if (fixedTop){
-        var r = fixedTop.getBoundingClientRect();
-        h = Math.max(56, Math.min(120, Math.ceil(r.height))) + 8;
-      }
-      document.documentElement.style.setProperty('--nav-outer-h', h + 'px');
-      var heading = Array.from(document.querySelectorAll('h1,h2,h3')).find(function(el){
-        return /iStage\s*26/i.test(el.textContent || '');
-      });
-      if(heading){
-        var sec = heading.closest('section') || heading.closest('[data-section]') || heading.parentElement;
-        if (sec && !sec.hasAttribute('data-hero-offset-patched')){
-          var currentPadding = parseFloat(getComputedStyle(sec).paddingTop) || 0;
-          sec.style.paddingTop = (currentPadding + Math.ceil(h * 0.5)) + 'px';
-          sec.style.scrollMarginTop = (h + 16) + 'px';
-          sec.setAttribute('data-hero-offset-patched','');
-        }
-      }
-    }catch(e){}
-  }
-  window.addEventListener('load', setOffset);
-  window.addEventListener('resize', setOffset);
-})();
-</script>
 </body>
 </html>
