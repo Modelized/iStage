@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
   <title>iStage</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
@@ -105,5 +106,17 @@
     if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
   </script>
 </footer>
+
+<script>
+(function(){
+  var first = document.querySelector('.section--first');
+  var isLight = first && first.classList.contains('section--white');
+  var bg = isLight ? '#f5f5f7' : '#000000';
+  document.documentElement.style.setProperty('--page-bg', bg);
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', bg);
+})();
+</script>
+
 </body>
 </html>
