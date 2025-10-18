@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#000000">
   <title>iStage</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<div id=\"navBackdrop\"></div>
 <nav class="nav" role="navigation" aria-label="Primary">
   <div class="nav-inner">
     <div class="container row">
@@ -109,12 +109,24 @@
 
 <script>
 (function(){
-  var first = document.querySelector('.section--first');
-  var isLight = first && first.classList.contains('section--white');
-  var bg = isLight ? '#f5f5f7' : '#000000';
-  document.documentElement.style.setProperty('--page-bg', bg);
-  var meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', bg);
+  const backdrop = document.getElementById('navBackdrop');
+  function heroEl(){ return document.querySelector('.section--first') || document.querySelector('main section'); }
+  function isDark(rgb){
+    const el=document.createElement('span'); try{ el.style.color=rgb; }catch(e){ return false; }
+    const c=getComputedStyle(el).color;
+    const m=c.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/); if(!m) return false;
+    const r=+m[1],g=+m[2],b=+m[3];
+    const L = 0.2126*r + 0.7152*g + 0.0722*b;
+    return L < 128;
+  }
+  function update(){
+    const h=heroEl(); if(!h) return;
+    const bg=getComputedStyle(h).backgroundColor;
+    const dark=isDark(bg);
+    backdrop.style.backgroundColor = dark ? '#000' : '#fff';
+  }
+  ['load','scroll','resize'].forEach(ev=>window.addEventListener(ev, update, {passive:true}));
+  update();
 })();
 </script>
 
