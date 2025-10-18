@@ -6,29 +6,6 @@
   <title>iStage</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-<style id="istage-fix-first-section-offset">
-  :root{ --nav-extra-gap: 8px; }
-  .section:first-of-type,
-  #hero:first-of-type{
-    padding-top: calc(var(--nav-outer-h, 80px) + var(--nav-extra-gap));
-  }
-</style>
-
-<style id="istage-download-outline">
-  :root { --btn-blue: #0a84ff; }
-  .btn-outline, .button-outline, .cta a.button.outline, .cta a.btn.outline,
-  a.btn.outline, button.btn.outline {
-    border: 2px solid var(--btn-blue) !important;
-    color: var(--btn-blue) !important;
-    background: transparent !important;
-  }
-  .btn-outline:hover, .button-outline:hover,
-  .cta a.button.outline:hover, .cta a.btn.outline:hover,
-  a.btn.outline:hover, button.btn.outline:hover {
-    background: rgba(10,132,255,0.12) !important;
-  }
-</style>
-
 </head>
 <body>
 <nav class="nav" role="navigation" aria-label="Primary">
@@ -96,25 +73,5 @@
     if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
   </script>
 </footer>
-<script id="istage-measure-nav-height">
-(function(){
-  function setNavOffset(){
-    var nav = document.querySelector('.nav');
-    var inner = document.querySelector('.nav-inner') || nav;
-    if(!nav || !inner) return;
-    var top = parseFloat(getComputedStyle(nav).top) || 0;
-    var rectInner = inner.getBoundingClientRect();
-    var rectNav = nav.getBoundingClientRect();
-    var h = (rectInner && rectInner.height) ? rectInner.height : rectNav.height;
-    var offset = Math.round(h + top);
-    document.documentElement.style.setProperty('--nav-outer-h', offset + 'px');
-  }
-  setNavOffset();
-  window.addEventListener('resize', setNavOffset, {passive:true});
-  window.addEventListener('orientationchange', setNavOffset, {passive:true});
-  window.addEventListener('load', setNavOffset, {once:true});
-})();
-</script>
-
 </body>
 </html>

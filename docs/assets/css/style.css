@@ -11,7 +11,16 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .no-scroll{overflow:hidden}
 
 /* Nav (glass / sticky) */
-.nav{position:sticky; top:12px; z-index:100; padding:0 12px}
+
+/* Fixed backdrop under the nav that follows the first section theme */
+.nav-backdrop{position:fixed; top:0; left:0; right:0; height:120px; 
+  background: var(--nav-backdrop, #000); z-index: 500; pointer-events:none;}
+@supports (height: env(safe-area-inset-top)) {
+  .nav-backdrop{height: calc(env(safe-area-inset-top) + 112px);}
+}
+
+.nav{position:fixed; top:calc(env(safe-area-inset-top, 0px) + 8px); left:0; right:0; z-index:999; padding:0 12px; pointer-events:none}
+.nav *{pointer-events:auto}
 .nav-inner{border:1px solid #1e2230; border-radius:var(--radius); background:rgba(15,17,22,.75); backdrop-filter:saturate(160%) blur(12px); -webkit-backdrop-filter:saturate(160%) blur(12px); box-shadow:0 8px 30px rgba(0,0,0,.12)}
 .row{height:56px; display:flex; align-items:center; justify-content:space-between; gap:12px}
 .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#e8e9ec}
@@ -120,3 +129,37 @@ a.btn:link, a.btn:visited{ color:inherit; }
 
 /* Footer */
 .footer{border-top:1px solid #1e2230; padding:24px 0; background:#000; color:#a7acb7}
+
+/* === iStage patch r-fix-padding-outline (2025-10-18) === */
+/* Ensure Download button shows blue outline identical to Learn more bg */
+:root {
+  --istage-blue: var(--apple-blue, #2f6bff);
+}
+.btn-outline{
+  color: var(--istage-blue) !important;
+  border: 2px solid var(--istage-blue) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.btn-outline:hover{
+  background: color-mix(in srgb, var(--istage-blue) 12%, transparent);
+}
+
+/* Reduce bottom paddings for all product sections */
+.section{
+  padding-bottom: 32px !important;
+}
+
+/* Make the first black section sit slightly below the nav background
+   and normalize its extra-large top padding */
+.section--first{
+  padding-top: 40px !important;   /* was 56/72 */
+  margin-top: 12px;               /* drop the black bg a bit */
+}
+
+/* Keep white section spacing balanced on mobile */
+@media (min-width: 768px){
+  .section{ padding-bottom: 40px !important; }
+  .section--first{ margin-top: 16px; padding-top: 48px !important; }
+}
+/* === end patch === */
