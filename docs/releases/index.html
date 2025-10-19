@@ -46,7 +46,7 @@
 
   /* card + typography balance */
   .releases-list{ display:grid; gap:16px; }
-  .release-title{ margin:0 0 4px; font-weight:700; font-size:clamp(20px, 5vw, 24px); }
+  .release-title{ margin:0 0 4px; font-weight:700; font-size:clamp(19px, 4.6vw, 22px); }
   .release-meta{ margin:0; }
   .prose{ line-height:1.65; }
   .prose h1,.prose h2{ font-size:clamp(18px, 4vw, 20px); margin:16px 0 8px; font-weight:600; }
@@ -54,7 +54,15 @@
   .prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
   .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
   .prose li{ margin:6px 0; }
-  .release-head{ align-items:flex-start; }
+  .release-head{ display:flex; align-items:flex-start; gap:10px; }
+  .release-icon{
+    width:clamp(20px, 5vw, 28px);
+    height:clamp(20px, 5vw, 28px);
+    flex:0 0 auto;
+    border-radius:6px;
+    object-fit:contain;
+  }
+  .release-head-text{ min-width:0; }
   .release-actions{ display:flex; align-items:center; gap:.6rem; }
   /* card surface follows theme; no outer surface */
   .page-releases .card{
@@ -256,6 +264,11 @@
       return out.join('');
     };
 
+    const versionFromTag = (tag = '') => {
+      const m = String(tag).match(/\d+/);
+      return m ? m[0] : '';
+    };
+
     const tpl = (r) => {
       const title = r.name || r.tag_name || 'Untitled';
       const tag   = r.tag_name ? `${r.tag_name}` : '';
@@ -266,10 +279,16 @@
 
       const meta = [date, tag, size].filter(Boolean).join(' • ');
 
+      const ver  = versionFromTag(tag);
+      const icon = ver
+        ? `<img class="release-icon" src="../assets/img/iStage-${ver}-icon.png" alt="iStage ${ver} icon" loading="lazy" onerror="this.style.display='none'">`
+        : '';
+
       return `
         <article class="card">
           <header class="release-head">
-            <div>
+            ${icon}
+            <div class="release-head-text">
               <h3 class="release-title">${esc(title)}</h3>
               <div class="muted small release-meta">${esc(meta)}</div>
             </div>
