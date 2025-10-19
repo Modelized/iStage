@@ -1,313 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Releases · iStage</title>
-  <link rel="stylesheet" href="../style.css" />
-  <style>
-    /* Page-scoped tweaks for releases */
-    main{ padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile)); }
-    @media (min-width:900px){ main{ padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop)); } }
-    .stack{ display:grid; gap:16px }
-    .release-body h1,.release-body h2,.release-body h3{ margin:16px 0 8px }
-    .release-body ul{ margin:8px 0 8px 18px }
-    .release-title{ margin:0; font-size:clamp(18px,2.6vw,24px) }
-    .release-meta{ margin-top:4px }
-    .assets{ margin-top:12px }
-    .section--white{ padding-top: 24px; }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iStage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-  <!-- Nav backdrop + nav (uses shared CSS vars/colors) -->
-  <div class="nav-backdrop"></div>
-  <nav class="nav" aria-label="Primary">
-    <div class="nav-inner container">
-      <div class="row">
-        <a class="brand" href="../index.html"><span class="brand-text">iStage</span></a>
-        <button class="nav-toggle" aria-expanded="false" aria-label="Menu"><span class="nav-toggle-bar"></span></button>
-        <ul class="menu desktop">
-          <li><a href="../index.html#v26">iStage 26</a></li>
-          <li><a href="../index.html#v18">iStage 18</a></li>
-          <li><a aria-current="page" href="./">Releases</a></li>
-          <li><a href="../help.html">Help</a></li>
-          <li><a href="../gallery.html">Gallery</a></li>
+<nav class="nav" role="navigation" aria-label="Primary">
+  <div class="nav-inner">
+    <div class="container row">
+      <a class="brand" href="../" aria-label="iStage">
+        <img class="brand-logo" src="../assets/img/logo.png" alt="" loading="eager" decoding="async">
+        <span class="brand-text">iStage</span>
+      </a>
+      <ul class="menu desktop">
+        <li><a href="../iStage-26/">iStage 26</a></li>
+        <li><a href="../iStage-18/">iStage 18</a></li>
+        <li><a href="../compare/">Compare</a></li>
+        <li><a href="../releases/">Releases</a></li>
+        <li><a href="../help/">Help</a></li>
+        <li><a href="../gallery/">Gallery</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-sheet">
+        <span class="nav-toggle-bar"></span>
+      </button>
+    </div>
+    <div class="container sheet" id="mobile-sheet" aria-hidden="true">
+      <div class="sheet-content">
+        <ul class="mobile-menu">
+          <li><a href="../iStage-26/">iStage 26</a></li>
+          <li><a href="../iStage-18/">iStage 18</a></li>
+          <li><a href="../compare/">Compare</a></li>
+          <li><a href="../releases/">Releases</a></li>
+          <li><a href="../help/">Help</a></li>
+          <li><a href="../gallery/">Gallery</a></li>
         </ul>
       </div>
-      <div class="sheet" aria-hidden="true">
-        <div class="sheet-content">
-          <ul class="mobile-menu">
-            <li><a href="../index.html#v26">iStage 26</a></li>
-            <li><a href="../index.html#v18">iStage 18</a></li>
-            <li><a aria-current="page" href="./">Releases</a></li>
-            <li><a href="../help.html">Help</a></li>
-            <li><a href="../gallery.html">Gallery</a></li>
-          </ul>
-        </div>
-      </div>
     </div>
-  </nav>
-
-  <!-- Content -->
-  <main>
-    <section class="section section--white">
-      <div class="container">
-        <!-- Version tabs -->
-        <div class="version-tabs-wrap" id="version-tabs-wrap" hidden>
-          <div class="version-tabs-shell">
-            <button class="chev" id="ver-prev" aria-label="Previous versions">‹</button>
-            <div class="version-tabs" id="version-tabs">
-              <span class="version-thumb" id="version-thumb"></span>
-              <!-- tabs will be injected -->
-            </div>
-            <button class="chev" id="ver-next" aria-label="Next versions">›</button>
-          </div>
-        </div>
-
-        <!-- Releases list -->
-        <div id="releases" class="stack" aria-live="polite">
-          <div class="card"><p class="muted">Loading releases…</p></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container"><p class="small">© 2025 iStage. Not affiliated with Apple Inc.</p></div>
-  </footer>
-
-  <!-- Template for a release card -->
-  <template id="release-tpl">
-    <article class="card">
-      <header class="release-head">
-        <div>
-          <h3 class="release-title"></h3>
-          <div class="release-meta small muted"></div>
-        </div>
-        <span class="tag">Release</span>
-      </header>
-      <div class="release-body"></div>
-      <div class="assets"></div>
-    </article>
-  </template>
-
-  <!-- Minimal nav toggle (mobile) -->
+  </div>
+</nav>
+<main class="container">
+  <section class="section section--white">
+    <div class="hero copy">
+      <h1 class="title" style="margin-bottom:6px">Releases</h1>
+      <p class="subtitle small">Latest changes and downloads.</p>
+    </div>
+    <div class="releases-list" id="releases-list"></div>
+  </section>
+</main>
+<footer class="footer">
+  <div class="container small muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script>
-    (function(){
-      const nav = document.querySelector('.nav');
-      const toggle = document.querySelector('.nav-toggle');
-      const sheet = document.querySelector('.sheet');
-      const body = document.body;
-      function close(){ nav.classList.remove('nav--open'); toggle.setAttribute('aria-expanded','false'); sheet.setAttribute('aria-hidden','true'); body.classList.remove('no-scroll'); }
-      function open(){ nav.classList.add('nav--open'); toggle.setAttribute('aria-expanded','true'); sheet.setAttribute('aria-hidden','false'); body.classList.add('no-scroll'); }
-      toggle && toggle.addEventListener('click', () => nav.classList.contains('nav--open') ? close() : open());
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
-    })();
-  </script>
-
-  <!-- GitHub Releases → text-only cards + direct download -->
-  <script>
-  /* GitHub Releases → clean cards with text-only changelog and a direct download button (.klck preferred) */
-  const GH_OWNER = "Modelized", GH_REPO = "iStage";
-  const API = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/releases`;
-
-  /* utils */
-  const majorOf = (t)=>{ const m = String(t||"").match(/v?(\d+)(?:[._-]|$)/i); return m ? parseInt(m[1],10) : null; };
-  const listEl   = document.getElementById('releases');
-  const tabsWrap = document.getElementById('version-tabs-wrap');
-  const tabsEl   = document.getElementById('version-tabs');
-  const thumbEl  = document.getElementById('version-thumb');
-  const btnPrev  = document.getElementById('ver-prev');
-  const btnNext  = document.getElementById('ver-next');
-  let MAJORS = [], windowStart = 0, currentMajor = null;
-
-  /* --- text-only markdown (strip images) --- */
-  function stripImages(md){
-    return (md||"")
-      .replace(/!\[[^\]]*?\]\([^)]*?\)/g, "")   /* markdown images */
-      .replace(/<img[\s\S]*?>/gi, "");          /* html images */
-  }
-  function formatBytes(bytes){
-    if (bytes == null) return "";
-    const units = ["B","KB","MB","GB"];
-    let i = 0, n = bytes;
-    while (n >= 1024 && i < units.length - 1){ n /= 1024; i++; }
-    return (i > 1 ? n.toFixed(1) : Math.round(n)) + " " + units[i];
-  }
-  /* light markup: headings, emphasis, inline code, lists */
-  function mdLite(md){
-    const s = stripImages(md).replace(/</g,"&lt;").replace(/>/g,"&gt;");
-    let h = s
-      .replace(/^### (.*)$/gim, "<h3>$1</h3>")
-      .replace(/^## (.*)$/gim,  "<h2>$1</h2>")
-      .replace(/^# (.*)$/gim,   "<h1>$1</h1>")
-      .replace(/^\s*[-*] (.*)$/gim, "<li>$1</li>")
-      .replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>")
-      .replace(/\*(.*?)\*/gim, "<em>$1</em>")
-      .replace(/`([^`]+)`/g, "<code>$1</code>");
-    /* wrap consecutive <li> into a <ul> */
-    h = h.replace(/(?:<li>.*?<\/li>\s*)+/g, m => "<ul>" + m + "</ul>");
-    /* paragraphs for plain lines */
-    h = h.replace(/^(?!<(?:h\d|ul|li|p|code|\/))(.*\S.*)$/gim, "<p>$1</p>");
-    return h.trim();
-  }
-  function pickAsset(arr){
-    if (!arr || !arr.length) return null;
-    const klck = arr.find(a => /\.klck$/i.test(a.name));
-    return klck || arr[0];
-  }
-
-  /* render a single release as a clean card */
-  function renderRelease(rel){
-    const tpl  = document.getElementById('release-tpl');
-    const node = tpl.content.cloneNode(true);
-    const major = majorOf(rel.tag_name);
-
-    /* title / tag / date */
-    node.querySelector('.release-title').textContent = rel.name || rel.tag_name;
-    node.querySelector('.tag').textContent = rel.prerelease ? 'Pre-release' : (rel.draft ? 'Draft' : 'Release');
-
-    const d = new Date(rel.published_at || rel.created_at);
-    node.querySelector('.release-meta').textContent =
-      `${rel.tag_name} • ${d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})}`;
-
-    /* changelog (text only) */
-    const bodyHTML = mdLite(rel.body || "");
-    node.querySelector('.release-body').innerHTML =
-      bodyHTML ? (`<h3>Changelog</h3>` + bodyHTML) : `<p class="muted">No notes.</p>`;
-
-    /* download: prefer .klck, show size */
-    const assetsEl = node.querySelector('.assets');
-    const asset = pickAsset(rel.assets || []);
-    if (asset){
-      const btn = document.createElement('a');
-      btn.className = 'btn btn-outline';
-      btn.href = asset.browser_download_url;
-      btn.target = '_blank';
-      btn.rel = 'noopener';
-      btn.textContent = 'Download';
-      assetsEl.appendChild(btn);
-
-      const size = formatBytes(asset.size);
-      if (size){
-        const s = document.createElement('span');
-        s.className = 'small muted';
-        s.style.marginLeft = '8px';
-        s.textContent = size;
-        assetsEl.appendChild(s);
-      }
-    }else{
-      assetsEl.innerHTML = '<span class="small muted">No downloadable asset</span>';
+    const nav = document.querySelector('.nav');
+    const toggle = document.querySelector('.nav-toggle');
+    const sheet  = document.getElementById('mobile-sheet');
+    const body   = document.body;
+    if (toggle && sheet) {
+      toggle.addEventListener('click', () => {
+        const open = nav.classList.toggle('nav--open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        sheet.setAttribute('aria-hidden', open ? 'false' : 'true');
+        body.classList.toggle('no-scroll', open);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('nav--open')) {
+          nav.classList.remove('nav--open');
+          toggle.setAttribute('aria-expanded','false');
+          sheet.setAttribute('aria-hidden','true');
+          body.classList.remove('no-scroll');
+        }
+      });
     }
+    const brand = document.querySelector('.brand');
+    const logo  = document.querySelector('.brand-logo');
+    const txt   = document.querySelector('.brand-text');
+    function update(){ if(brand&&logo&&txt && logo.naturalWidth>0){ brand.classList.add('has-logo'); } }
+    if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
+  </script>
+  <script>
+/* ---- Releases renderer (GitHub API) ---- */
+(function(){
+  const OWNER = 'Modelized';
+  const REPO  = 'iStage';
+  const list  = document.getElementById('releases-list');
+  if (!list) return;
 
-    node.querySelector('article').dataset.major = major;
-    return node;
-  }
-
-  /* list mount */
-  function mountList(d){
-    listEl.innerHTML = '';
-    d.forEach(r => listEl.appendChild(renderRelease(r)));
-  }
-
-  /* major filtering + tabs */
-  function filterByMajor(m){
-    Array.from(listEl.children).forEach(c => c.style.display = (String(c.dataset.major) === String(m)) ? '' : 'none');
-  }
-  function animateThumbTo(target){
-    if (!target) return;
-    const r = target.getBoundingClientRect(), host = tabsEl.getBoundingClientRect();
-    thumbEl.style.width = r.width + 'px';
-    thumbEl.style.transform = `translateX(${r.left - host.left}px)`;
-  }
-  function selectMajor(m, btn, animate = true){
-    currentMajor = m;
-    Array.from(tabsEl.querySelectorAll('.tab')).forEach(t => t.setAttribute('aria-selected', String(t.dataset.major) === String(m) ? 'true' : 'false'));
-    filterByMajor(m);
-    if (animate){ requestAnimationFrame(() => animateThumbTo(btn || tabsEl.querySelector('.tab[aria-selected="true"]'))); }
-    else { animateThumbTo(btn || tabsEl.querySelector('.tab[aria-selected="true"]')); }
-  }
-  function updateChevronVisibility(){
-    const narrow = window.matchMedia('(max-width:520px)').matches;
-    const many = MAJORS.length > 2;
-    btnPrev.hidden = !(narrow && many);
-    btnNext.hidden = !(narrow && many);
-    tabsEl.classList.toggle('viewported', narrow && many);
-  }
-  function applyWindow(){
-    const vp = tabsEl.classList.contains('viewported');
-    const tabs = Array.from(tabsEl.querySelectorAll('.tab'));
-    if (!vp){ tabs.forEach(t => t.hidden = false); return; }
-    tabs.forEach((t,i) => t.hidden = !(i === windowStart || i === windowStart + 1));
-  }
-  function shiftWindow(dir){
-    const maxStart = Math.max(0, MAJORS.length - 2);
-    windowStart = Math.min(maxStart, Math.max(0, windowStart + dir));
-    applyWindow();
-    const m = (dir > 0) ? MAJORS[Math.min(MAJORS.length - 1, windowStart + 1)] : MAJORS[windowStart];
-    const btn = tabsEl.querySelector(`.tab[data-major="${m}"]`);
-    selectMajor(m, btn);
-  }
-  btnPrev.addEventListener('click', () => shiftWindow(-1));
-  btnNext.addEventListener('click', () => shiftWindow(1));
-  window.addEventListener('resize', () => {
-    updateChevronVisibility();
-    applyWindow();
-    animateThumbTo(tabsEl.querySelector('.tab[aria-selected="true"]'));
-  });
-  function buildTabs(majors){
-    tabsEl.querySelectorAll('button.tab').forEach(b => b.remove());
-    majors.forEach(m => {
-      const b = document.createElement('button');
-      b.className = 'tab'; b.type = 'button'; b.dataset.major = m;
-      b.setAttribute('role','tab'); b.setAttribute('aria-selected','false');
-      b.textContent = `iStage ${m}`;
-      b.addEventListener('click', () => selectMajor(m, b));
-      tabsEl.appendChild(b);
-    });
-    updateChevronVisibility();
-    applyWindow();
-  }
-  function desiredFromURL(){
-    const u = new URL(location.href);
-    const qs = u.searchParams.get('v');
-    const hs = (u.hash || '').match(/v=(\d+)/i);
-    const num = qs || (hs ? hs[1] : null);
-    return num ? parseInt(num, 10) : null;
-  }
-
-  /* bootstrap */
-  async function init(){
+  const fmtDate = iso => {
     try{
-      listEl.innerHTML = '<div class="card"><p class="muted">Loading releases…</p></div>';
-      const res = await fetch(API, { headers: { 'Accept':'application/vnd.github+json' }});
-      if (!res.ok) throw new Error('GitHub API error: ' + res.status);
-      const data = await res.json();
-      if (!Array.isArray(data) || !data.length){
-        listEl.innerHTML = '<div class="card"><p class="muted">No releases yet.</p></div>';
-        return;
-      }
-      mountList(data);
+      const d = new Date(iso);
+      return d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+    }catch(_){ return iso || ''; }
+  };
+  const fmtSize = bytes => {
+    if (bytes == null) return '';
+    const units = ['B','KB','MB','GB'];
+    let i = 0, n = bytes;
+    while (n >= 1024 && i < units.length-1){ n/=1024; i++; }
+    return `${n.toFixed(n < 10 && i>0 ? 1 : 0)} ${units[i]}`;
+  };
+  const stripImages = md => (md||'')
+    // remove markdown images ![alt](url)
+    .replace(/!\[[^\]]*]\([^)]*\)/g, '')
+    // remove html <img ...> tags
+    .replace(/<img[\s\S]*?>/gi, '')
+    .trim();
 
-      MAJORS = Array.from(new Set(data.map(r => majorOf(r.tag_name)).filter(Boolean))).sort((a,b) => b - a);
-      const want = desiredFromURL();
-      if (MAJORS.length >= 2){
-        tabsWrap.hidden = false;
-        buildTabs(MAJORS);
+  const mdToHtml = md => {
+    // very small markdown-to-HTML for bullets and newlines
+    const text = stripImages(md);
+    const lines = text.split(/\r?\n/);
+    const out = [];
+    let inList = false;
+    for (const line of lines){
+      if (/^\s*[-*]\s+/.test(line)){
+        if (!inList){ out.push('<ul>'); inList = true; }
+        out.push(`<li>${line.replace(/^\s*[-*]\s+/, '')}</li>`);
+      }else{
+        if (inList){ out.push('</ul>'); inList = false; }
+        if (line.trim()) out.push(`<p>${line}</p>`);
       }
-      const initial = (want && MAJORS.includes(want)) ? want : (MAJORS[0] || null);
-      if (initial){
-        const btn = tabsEl.querySelector(`.tab[data-major="${initial}"]`);
-        selectMajor(initial, btn, false);
-      }
-    }catch(e){
-      listEl.innerHTML = '<div class="card"><p class="muted">Failed to load releases. Visit the <a target="_blank" rel="noopener">GitHub Releases page</a>.</p></div>';
-      const a = listEl.querySelector('a');
-      if (a) a.href = 'https://github.com/' + GH_OWNER + '/' + GH_REPO + '/releases';
-      console.error(e);
     }
-  }
-  init();
+    if (inList) out.push('</ul>');
+    return out.join('');
+  };
+
+  const tpl = (r) => {
+    const title = r.name || r.tag_name || 'Untitled';
+    const tag   = r.tag_name ? ` • ${r.tag_name}` : '';
+    const date  = r.published_at ? fmtDate(r.published_at) : '';
+    const asset = (r.assets||[]).find(a => /\.klck$/i.test(a.name)) || (r.assets||[])[0];
+    const size  = asset ? fmtSize(asset.size) : '';
+    const href  = asset ? asset.browser_download_url : r.html_url;
+
+    return `
+      <article class="card">
+        <header class="release-head">
+          <div>
+            <h2 class="title" style="margin:0 0 4px">${title}</h2>
+            <div class="muted small">${date}${tag}</div>
+          </div>
+          <div>
+            <a class="btn btn-outline" href="${href}" ${asset ? 'download' : ''}>Download</a>
+            ${size ? `<span class="small muted" style="margin-left:.6rem">${size}</span>` : ''}
+          </div>
+        </header>
+        <div class="prose" style="margin-top:12px">${mdToHtml(r.body)}</div>
+      </article>
+    `;
+  };
+
+  const showError = (msg) => {
+    list.innerHTML = `
+      <div class="card" role="alert">
+        <strong>Failed to load releases.</strong><br />
+        <span class="small muted">${msg}</span>
+      </div>`;
+  };
+
+  fetch(`https://api.github.com/repos/${OWNER}/${REPO}/releases`, {
+    headers: { 'Accept': 'application/vnd.github+json' }
+  })
+  .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
+  .then(items => {
+    if (!Array.isArray(items) || !items.length){ showError('No releases found.'); return; }
+    list.innerHTML = items.map(tpl).join('');
+  })
+  .catch(err => showError(String(err)));
+})();
   </script>
+</footer>
 </body>
 </html>
