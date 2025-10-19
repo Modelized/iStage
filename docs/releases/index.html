@@ -12,6 +12,13 @@
     --surface-light:#f5f5f7;
     --surface-dark:#0f1116; /* dark surface behind cards */
   }
+  /* no backdrop under nav on this page */
+  .page-releases .nav-backdrop{ display:none !important; }
+  /* subtitle contrast */
+  .page-releases .subtitle{ color:#5e6572; }
+  @media (prefers-color-scheme: dark){
+    .page-releases .subtitle{ color:#a7acb7; }
+  }
   .page-releases{ background:#fff; }
   @media (prefers-color-scheme: dark){
     .page-releases{ background:#000; color:#e8e9ec; }
@@ -19,20 +26,17 @@
 
   /* push first section clear of fixed nav (tiny extra to avoid clipping on iOS) */
   .page-releases .section--first{
-    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 6px);
+    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 12px);
     margin-top:0;
   }
   @media (min-width:900px){
     .page-releases .section--first{
-      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 8px);
+      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 14px);
     }
   }
 
   /* surface only for the list area (no grey behind the header) */
-  .releases-surface{ background:var(--surface-light); padding:20px 0; }
-  @media (prefers-color-scheme: dark){
-    .releases-surface{ background:var(--surface-dark); }
-  }
+  .releases-surface{ background:transparent; padding:16px 0 24px; }
 
   /* card + typography balance */
   .releases-list{ display:grid; gap:16px; }
@@ -46,10 +50,40 @@
   .prose li{ margin:6px 0; }
   .release-head{ align-items:flex-start; }
   .release-actions{ display:flex; align-items:center; gap:.6rem; }
+  /* card surface follows theme; no outer surface */
+  .page-releases .card{
+    background:#f5f5f7;
+    color:#111317;
+    border:1px solid #e1e3e8;
+    border-radius:18px;
+  }
+  @media (prefers-color-scheme: dark){
+    .page-releases .card{
+      background:#0f1116;
+      color:#e8e9ec;
+      border-color:#1e2230;
+    }
+  }
+  .release-foot{
+    display:flex; justify-content:flex-end; align-items:center; gap:.6rem; margin-top:12px;
+  }
+
+  /* footer theming only for releases page */
+  .page-releases .footer{
+    background:#f5f5f7;
+    color:#5e6572;
+    border-top:1px solid #e1e3e8;
+  }
+  @media (prefers-color-scheme: dark){
+    .page-releases .footer{
+      background:#0f1116;
+      color:#a7acb7;
+      border-top-color:#1e2230;
+    }
+  }
   </style>
 </head>
 <body class="page-releases">
-<div class="nav-backdrop" aria-hidden="true"></div>
 <nav class="nav" role="navigation" aria-label="Primary">
   <div class="nav-inner">
     <div class="container row">
@@ -227,12 +261,12 @@
               <h3 class="release-title">${esc(title)}</h3>
               <div class="muted small release-meta">${date}${tag}</div>
             </div>
-            <div class="release-actions">
-              <a class="btn btn-outline" href="${href}" ${asset ? 'download' : ''}>Download</a>
-              ${size ? `<span class="small muted">${size}</span>` : ''}
-            </div>
           </header>
           <div class="prose" style="margin-top:12px">${mdToHtml(r.body||'')}</div>
+          <footer class="release-foot">
+            <a class="btn btn-outline" href="${href}" ${asset ? 'download' : ''}>Download</a>
+            ${size ? `<span class="small muted">${size}</span>` : ''}
+          </footer>
         </article>
       `;
     };
