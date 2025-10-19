@@ -6,6 +6,14 @@
   <title>iStage</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+  /* Home-only tweak: extra top space for the first section on mobile */
+  @media (width < 900px){
+    #home-first{
+      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 16px);
+    }
+  }
+  </style>
 </head>
 <body>
   <div class=\"nav-backdrop\"></div>
@@ -43,7 +51,7 @@
   </div>
 </nav>
 <main>
-  <section class="section section--black section--first">
+  <section class="section section--black section--first" id="home-first">
     <div class="container">
       <div class="hero hero-26">
         <div class="copy">
