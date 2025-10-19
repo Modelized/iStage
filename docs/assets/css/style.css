@@ -1,27 +1,67 @@
+/* ========== iStage CSS ========== */
 
-/* Reset / base */
+/* Base */
 *{box-sizing:border-box}
-html,body{margin:0;padding:0}
-html,body{overflow-x:hidden} /* Disable horizontal swipe */
-:root{ --apple-blue:#0071e3; --radius:16px }
-body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif; line-height:1.6; color:#111317; background:#fff;}
+html,body{margin:0;padding:0;overflow-x:hidden}
+:root{
+  --apple-blue:#0071e3;
+  --radius:16px;
+
+  /* Nav palette (fixed) */
+  --nav-backdrop:#000;     /* dark strip behind nav */
+  --nav-border:#1e2230;    /* nav outline */
+
+  /* Offsets for first section under the fixed nav */
+  --nav-offset-mobile:96px;
+  --nav-offset-desktop:112px;
+}
+body{
+  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif;
+  line-height:1.6; color:#111317; background:#fff;
+}
 .container{max-width:1100px;margin:0 auto;padding:0 12px}
 .muted{color:#5e6572}
 .small{font-size:.9rem}
 .no-scroll{overflow:hidden}
 
-/* Nav (glass / sticky) */
-
-/* Fixed backdrop under the nav that follows the first section theme */
-.nav-backdrop{position:fixed; top:0; left:0; right:0; height:120px; 
-  background: var(--nav-backdrop, #000); z-index: 500; pointer-events:none;}
-@supports (height: env(safe-area-inset-top)) {
-  .nav-backdrop{height: calc(env(safe-area-inset-top) + 112px);}
+/* Nav (glass + sticky) */
+.nav-backdrop{
+  position:fixed; top:0; left:0; right:0;
+  height:120px;
+  background:var(--nav-backdrop);
+  z-index:1;               /* keep behind the nav at all times */
+  pointer-events:none;
 }
-
-.nav{position:fixed; top:calc(env(safe-area-inset-top, 0px) + 8px); left:0; right:0; z-index:999; padding:0 12px; pointer-events:none}
+@supports (height: env(safe-area-inset-top)) {
+  .nav-backdrop{height:calc(env(safe-area-inset-top) + 112px)}
+}
+.nav{
+  position:fixed; 
+  top:calc(env(safe-area-inset-top, 0px) + 8px);
+  left:0; right:0; 
+  z-index:1000;           /* above .nav-backdrop */
+  padding:0 12px;
+  pointer-events:none;
+  backface-visibility:hidden;
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
 .nav *{pointer-events:auto}
-.nav-inner{border:1px solid #1e2230; border-radius:var(--radius); background:rgba(15,17,22,.75); backdrop-filter:saturate(160%) blur(12px); -webkit-backdrop-filter:saturate(160%) blur(12px); box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.nav-inner{
+  border:1px solid var(--nav-border);
+  border-radius:var(--radius);
+  background:rgba(15,17,22,.75);
+  backdrop-filter:saturate(160%) blur(12px);
+  -webkit-backdrop-filter:saturate(160%) blur(12px);
+  box-shadow:0 8px 30px rgba(0,0,0,.12);
+  position:relative;
+  z-index:2;                               /* keep contents above backdrop */
+  backface-visibility:hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+}
 .row{height:56px; display:flex; align-items:center; justify-content:space-between; gap:12px}
 .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#e8e9ec}
 .brand-logo{display:none; height:clamp(28px, 7vw, 36px); width:auto}
@@ -37,44 +77,53 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
 .nav-toggle-bar{display:block; width:18px; height:2px; background:currentColor; position:relative; border-radius:2px}
 .nav-toggle-bar::before,.nav-toggle-bar::after{content:""; position:absolute; left:0; width:18px; height:2px; background:currentColor; border-radius:2px; transition:transform .35s cubic-bezier(.22,1,.36,1), opacity .2s linear}
 .nav-toggle-bar::before{top:-6px}.nav-toggle-bar::after{top:6px}
-.sheet{ display:none; }
-@media (max-width:900px){ .desktop{display:none} .nav-toggle{display:grid} .sheet{ display:grid; grid-template-rows:0fr; transition: grid-template-rows .45s cubic-bezier(.22,1,.36,1); } }
+.sheet{display:none}
+@media (max-width:900px){
+  .desktop{display:none}
+  .nav-toggle{display:grid}
+  .sheet{display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1)}
+}
 .sheet-content{overflow:hidden}
-.mobile-menu{ list-style:none; margin:0; padding:10px }
-.mobile-menu a{ display:block; padding:12px 14px; color:#e8e9ec; text-decoration:none; border-radius:12px }
-.mobile-menu a:hover{ background:rgba(255,255,255,.06) }
-.nav--open .sheet{ grid-template-rows:1fr }
+.mobile-menu{list-style:none; margin:0; padding:10px}
+.mobile-menu a{display:block; padding:12px 14px; color:#e8e9ec; text-decoration:none; border-radius:12px}
+.mobile-menu a:hover{background:rgba(255,255,255,.06)}
+.nav--open .sheet{grid-template-rows:1fr}
 .nav--open .nav-toggle-bar{background:transparent}
-.nav--open .nav-toggle-bar::before{transform: translateY(6px) rotate(45deg)}
-.nav--open .nav-toggle-bar::after{transform: translateY(-6px) rotate(-45deg)}
+.nav--open .nav-toggle-bar::before{transform:translateY(6px) rotate(45deg)}
+.nav--open .nav-toggle-bar::after{transform:translateY(-6px) rotate(-45deg)}
 
 /* Sections */
-.section{padding:40px 0 64px}
-.section + .section{ margin-top:12px }
-.section--first{ padding-top:56px }
-@media (min-width:900px){ .section--first{ padding-top:72px } }
+.section{padding:40px 0 32px}
+.section + .section{margin-top:12px}
+.section--first{
+  margin-top:0;
+  padding-top:calc(env(safe-area-inset-top) + var(--nav-offset-mobile));
+}
+@media (min-width:900px){
+  .section--first{padding-top:calc(env(safe-area-inset-top) + var(--nav-offset-desktop))}
+}
 .section--black{background:#000; color:#e8e9ec}
 .section--white{background:#f5f5f7; color:#111317}
 
-/* Hero (copy top, image bottom) */
-.hero{ display:flex; flex-direction:column; align-items:center; gap:16px }
-.copy{ text-align:center; display:flex; flex-direction:column; align-items:center; gap:12px; padding:0 6px }
-.copy .title{ margin:0; font-size:clamp(28px,4.6vw,56px); line-height:1.06; letter-spacing:-.01em }
-.copy .subtitle{ margin:0; color:rgba(232,233,236,.88) }
-.section--white .copy .subtitle{ color:#5e6572 }
-.cta{ display:flex; gap:12px; justify-content:center; margin-top:14px }
+/* Hero */
+.hero{display:flex; flex-direction:column; align-items:center; gap:16px}
+.copy{text-align:center; display:flex; flex-direction:column; align-items:center; gap:12px; padding:0 6px}
+.copy .title{margin:0; font-size:clamp(28px,4.6vw,56px); line-height:1.06; letter-spacing:-.01em}
+.copy .subtitle{margin:0; color:rgba(232,233,236,.88)}
+.section--white .copy .subtitle{color:#5e6572}
+.cta{display:flex; gap:12px; justify-content:center; margin-top:14px}
 
-/* Hero image block (place under the text) */
+/* Hero image block */
 .media{
   width:100%;
   background-position:center;
   background-repeat:no-repeat;
   background-size:cover;
   border-radius:12px;
-  aspect-ratio: 1 / 1;    /* Mobile 1:1 */
+  aspect-ratio:1/1; /* mobile */
 }
 @media (min-width:900px){
-  .media{ aspect-ratio:16/9; width:92%; margin:0 auto }
+  .media{aspect-ratio:16/9; width:92%; margin:0 auto}
 }
 
 /* Image sources */
@@ -89,91 +138,48 @@ body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, H
     url("../img/hero-iStage-18-mobile.png");
 }
 @media (min-width:900px){
-  .media-26{ background-image:
+  .media-26{background-image:
     url("../img/hero-iStage-26-desktop.jpg"),
-    url("../img/hero-iStage-26-desktop.png"); }
-  .media-18{ background-image:
+    url("../img/hero-iStage-26-desktop.png")}
+  .media-18{background-image:
     url("../img/hero-iStage-18-desktop.jpg"),
-    url("../img/hero-iStage-18-desktop.png"); }
+    url("../img/hero-iStage-18-desktop.png")}
 }
 
 /* Buttons */
-a.btn, .btn{
+a.btn,.btn{
   display:inline-flex; align-items:center; justify-content:center; gap:.4ch;
   padding:12px 18px; border-radius:999px; font-weight:500; line-height:1;
   text-decoration:none !important; border:0; appearance:none; -webkit-appearance:none;
 }
-/* Force color */
-a.btn:link, a.btn:visited{ color:inherit; }
-
-.btn-blue{ background:var(--apple-blue); color:#fff !important }
-.btn-blue:hover{ filter:brightness(1.05) }
-.btn-outline{ color:var(--apple-blue) !important; border:2px solid var(--apple-blue); background:transparent }
-.btn-outline:hover{ background:color-mix(in oklab, var(--apple-blue), transparent 92%) }
+a.btn:link,a.btn:visited{color:inherit}
+.btn-blue{background:var(--apple-blue); color:#fff !important}
+.btn-blue:hover{filter:brightness(1.05)}
+.btn-outline{
+  color:var(--apple-blue) !important;
+  border:2px solid currentColor !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+.btn-outline:hover{background:color-mix(in oklab, var(--apple-blue), transparent 92%)}
 
 /* Releases */
-.card{background:rgba(18,21,27,1);border:1px solid #1e2230;border-radius:18px;padding:18px;color:#e8e9ec}
-.releases-list{display:grid;gap:16px}
-.release-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.tag{font-size:.8rem;padding:.2rem .5rem;border:1px solid #1e2230;border-radius:999px;color:#a7acb7}
+.card{background:rgba(18,21,27,1); border:1px solid var(--nav-border); border-radius:18px; padding:18px; color:#e8e9ec}
+.releases-list{display:grid; gap:16px}
+.release-head{display:flex; align-items:center; justify-content:space-between; gap:12px}
+.tag{font-size:.8rem; padding:.2rem .5rem; border:1px solid var(--nav-border); border-radius:999px; color:#a7acb7}
 
-/* Tabs */
-.version-tabs-wrap{ display:flex; justify-content:center; margin-bottom:18px }
-.version-tabs-shell{ display:flex; align-items:center; gap:8px }
-.chev{ border:1px solid #1e2230; background:rgba(15,17,22,.75); color:#e8e9ec; width:34px; height:34px; border-radius:10px; display:grid; place-items:center }
-.version-tabs{ position:relative; display:flex; gap:6px; align-items:center; padding:6px; border-radius:14px; border:1px solid #1e2230; background:rgba(15,17,22,.75); backdrop-filter:saturate(160%) blur(12px); -webkit-backdrop-filter:saturate(160%) blur(12px) }
-.version-tabs.viewported .tab[hidden]{ display:none !important }
-.version-thumb{ position:absolute; top:4px; bottom:4px; left:6px; width:0; border-radius:12px; background:rgba(255,255,255,.12); transition: transform .45s cubic-bezier(.22,1,.36,1), width .45s cubic-bezier(.22,1,.36,1); pointer-events:none }
-.tab{ position:relative; z-index:1; border:0; background:transparent; color:#e8e9ec; padding:8px 10px; border-radius:10px; font-weight:600; cursor:pointer; white-space:nowrap }
-.tab[aria-selected="true"]{ color:#e8e9ec }
+/* Version tabs */
+.version-tabs-wrap{display:flex; justify-content:center; margin-bottom:18px}
+.version-tabs-shell{display:flex; align-items:center; gap:8px}
+.chev{border:1px solid var(--nav-border); background:rgba(15,17,22,.75); color:#e8e9ec; width:34px; height:34px; border-radius:10px; display:grid; place-items:center}
+.version-tabs{position:relative; display:flex; gap:6px; align-items:center; padding:6px; border-radius:14px; border:1px solid var(--nav-border); background:rgba(15,17,22,.75); backdrop-filter:saturate(160%) blur(12px); -webkit-backdrop-filter:saturate(160%) blur(12px)}
+.version-tabs.viewported .tab[hidden]{display:none !important}
+.version-thumb{position:absolute; top:4px; bottom:4px; left:6px; width:0; border-radius:12px; background:rgba(255,255,255,.12); transition:transform .45s cubic-bezier(.22,1,.36,1), width .45s cubic-bezier(.22,1,.36,1); pointer-events:none}
+.tab{position:relative; z-index:1; border:0; background:transparent; color:#e8e9ec; padding:8px 10px; border-radius:10px; font-weight:600; cursor:pointer; white-space:nowrap}
+[aria-selected="true"].tab{color:#e8e9ec}
 
 /* Footer */
-.footer{border-top:1px solid #1e2230; padding:24px 0; background:#000; color:#a7acb7}
+.footer{border-top:1px solid var(--nav-border); padding:24px 0; background:#000; color:#a7acb7}
 
-/* === iStage patch r-fix-padding-outline (2025-10-18) === */
-/* Ensure Download button shows blue outline identical to Learn more bg */
-:root {
-  --istage-blue: var(--apple-blue, #2f6bff);
-}
-.btn-outline{
-  color: var(--istage-blue) !important;
-  border: 2px solid var(--istage-blue) !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-.btn-outline:hover{
-  background: color-mix(in srgb, var(--istage-blue) 12%, transparent);
-}
-
-/* Reduce bottom paddings for all product sections */
-.section{
-  padding-bottom: 32px !important;
-}
-
-/* Make the first black section sit slightly below the nav background
-   and normalize its extra-large top padding */
-.section--first{
-  padding-top: 40px !important;   /* was 56/72 */
-  margin-top: 12px;               /* drop the black bg a bit */
-}
-
-/* Keep white section spacing balanced on mobile */
-@media (min-width: 768px){
-  .section{ padding-bottom: 40px !important; }
-  .section--first{ margin-top: 16px; padding-top: 48px !important; }
-}
-/* === end patch === */
-
-
-/* ===== iStage hotfix: push first product section below floating nav ===== */
-.section--first{
-  /* Clear the fixed nav + safe area */
-  padding-top: calc(96px + env(safe-area-inset-top)) !important;
-}
-@media (min-width: 768px){
-  .section--first{
-    padding-top: calc(112px + env(safe-area-inset-top)) !important;
-  }
-}
-/* ===== end hotfix ===== */
-
+/* ========== End ========== */
