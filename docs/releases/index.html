@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
+<div class="nav-backdrop" aria-hidden="true"></div>
 <nav class="nav" role="navigation" aria-label="Primary">
   <div class="nav-inner">
     <div class="container row">
@@ -42,7 +43,7 @@
   </div>
 </nav>
 <main class="container">
-  <section class="section section--white">
+  <section class="section section--white section--first">
     <div class="hero copy">
       <h1 class="title" style="margin-bottom:6px">Releases</h1>
       <p class="subtitle small">Latest changes and downloads.</p>
@@ -79,97 +80,131 @@
     const txt   = document.querySelector('.brand-text');
     function update(){ if(brand&&logo&&txt && logo.naturalWidth>0){ brand.classList.add('has-logo'); } }
     if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
+  (function(){
+    try{
+      var first = document.querySelector('section.section--first') || document.querySelector('section');
+      var isDark = first && first.classList.contains('section--black');
+      document.documentElement.style.setProperty('--nav-backdrop', isDark ? '#000' : '#fff');
+    }catch(e){}
+  })();
   </script>
   <script>
-/* ---- Releases renderer (GitHub API) ---- */
-(function(){
-  const OWNER = 'Modelized';
-  const REPO  = 'iStage';
-  const list  = document.getElementById('releases-list');
-  if (!list) return;
+  /* ---- Releases renderer (GitHub API) ---- */
+  (function(){
+    const OWNER = 'Modelized';
+    const REPO  = 'iStage';
+    const list  = document.getElementById('releases-list');
+    if (!list) return;
 
-  const fmtDate = iso => {
-    try{
-      const d = new Date(iso);
-      return d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
-    }catch(_){ return iso || ''; }
-  };
-  const fmtSize = bytes => {
-    if (bytes == null) return '';
-    const units = ['B','KB','MB','GB'];
-    let i = 0, n = bytes;
-    while (n >= 1024 && i < units.length-1){ n/=1024; i++; }
-    return `${n.toFixed(n < 10 && i>0 ? 1 : 0)} ${units[i]}`;
-  };
-  const stripImages = md => (md||'')
-    // remove markdown images ![alt](url)
-    .replace(/!\[[^\]]*]\([^)]*\)/g, '')
-    // remove html <img ...> tags
-    .replace(/<img[\s\S]*?>/gi, '')
-    .trim();
+    const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-  const mdToHtml = md => {
-    // very small markdown-to-HTML for bullets and newlines
-    const text = stripImages(md);
-    const lines = text.split(/\r?\n/);
-    const out = [];
-    let inList = false;
-    for (const line of lines){
-      if (/^\s*[-*]\s+/.test(line)){
-        if (!inList){ out.push('<ul>'); inList = true; }
-        out.push(`<li>${line.replace(/^\s*[-*]\s+/, '')}</li>`);
-      }else{
-        if (inList){ out.push('</ul>'); inList = false; }
-        if (line.trim()) out.push(`<p>${line}</p>`);
+    const fmtDate = iso => {
+      try{
+        const d = new Date(iso);
+        return d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+      }catch(_){ return iso || ''; }
+    };
+    const fmtSize = bytes => {
+      if (bytes == null) return '';
+      const units = ['B','KB','MB','GB'];
+      let i = 0, n = bytes;
+      while (n >= 1024 && i < units.length-1){ n/=1024; i++; }
+      return `${n.toFixed(n < 10 && i>0 ? 1 : 0)} ${units[i]}`;
+    };
+
+    // Strip images from markdown
+    const stripImages = (md='') =>
+      md.replace(/!\[[^\]]*]\([^)]*\)/g, '').replace(/<img[\s\S]*?>/gi, '');
+
+    // Minimal markdown → HTML (headings, lists, links, code, paragraphs)
+    const mdToHtml = (md='') => {
+      md = stripImages(md);
+
+      // code blocks ``` ```
+      md = md.replace(/```([\s\S]*?)```/g, (_, code) => `<pre><code>${esc(code)}</code></pre>`);
+
+      const lines = md.split(/\r?\n/);
+      const out = [];
+      let inList = false;
+
+      const flushList = () => { if (inList){ out.push('</ul>'); inList = false; } };
+
+      for (let raw of lines){
+        const line = raw.trimEnd();
+
+        // headings
+        if (/^###\s+/.test(line)){ flushList(); out.push(`<h3>${esc(line.replace(/^###\s+/, ''))}</h3>`); continue; }
+        if (/^##\s+/.test(line)){ flushList(); out.push(`<h2>${esc(line.replace(/^##\s+/, ''))}</h2>`); continue; }
+        if (/^#\s+/.test(line)){ flushList(); out.push(`<h1>${esc(line.replace(/^#\s+/, ''))}</h1>`); continue; }
+
+        // list items
+        if (/^\s*[-*]\s+/.test(line)){
+          if (!inList){ out.push('<ul>'); inList = true; }
+          out.push(`<li>${esc(line.replace(/^\s*[-*]\s+/, ''))}</li>`);
+          continue;
+        }
+
+        // blank line
+        if (!line.trim()){ flushList(); continue; }
+
+        flushList();
+
+        // inline: links, bold, italics, `code`
+        let html = esc(line)
+          .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+          .replace(/`([^`]+)`/g, '<code>$1</code>');
+
+        out.push(`<p>${html}</p>`);
       }
-    }
-    if (inList) out.push('</ul>');
-    return out.join('');
-  };
+      flushList();
+      return out.join('');
+    };
 
-  const tpl = (r) => {
-    const title = r.name || r.tag_name || 'Untitled';
-    const tag   = r.tag_name ? ` • ${r.tag_name}` : '';
-    const date  = r.published_at ? fmtDate(r.published_at) : '';
-    const asset = (r.assets||[]).find(a => /\.klck$/i.test(a.name)) || (r.assets||[])[0];
-    const size  = asset ? fmtSize(asset.size) : '';
-    const href  = asset ? asset.browser_download_url : r.html_url;
+    const tpl = (r) => {
+      const title = r.name || r.tag_name || 'Untitled';
+      const tag   = r.tag_name ? ` • ${r.tag_name}` : '';
+      const date  = r.published_at ? fmtDate(r.published_at) : '';
+      const asset = (r.assets||[]).find(a => /\.klck$/i.test(a.name)) || (r.assets||[])[0];
+      const size  = asset ? fmtSize(asset.size) : '';
+      const href  = asset ? asset.browser_download_url : r.html_url;
 
-    return `
-      <article class="card">
-        <header class="release-head">
-          <div>
-            <h2 class="title" style="margin:0 0 4px">${title}</h2>
-            <div class="muted small">${date}${tag}</div>
-          </div>
-          <div>
-            <a class="btn btn-outline" href="${href}" ${asset ? 'download' : ''}>Download</a>
-            ${size ? `<span class="small muted" style="margin-left:.6rem">${size}</span>` : ''}
-          </div>
-        </header>
-        <div class="prose" style="margin-top:12px">${mdToHtml(r.body)}</div>
-      </article>
-    `;
-  };
+      return `
+        <article class="card">
+          <header class="release-head">
+            <div>
+              <h2 class="title" style="margin:0 0 4px">${esc(title)}</h2>
+              <div class="muted small">${date}${tag}</div>
+            </div>
+            <div>
+              <a class="btn btn-outline" href="${href}" ${asset ? 'download' : ''}>Download</a>
+              ${size ? `<span class="small muted" style="margin-left:.6rem">${size}</span>` : ''}
+            </div>
+          </header>
+          <div class="prose" style="margin-top:12px">${mdToHtml(r.body||'')}</div>
+        </article>
+      `;
+    };
 
-  const showError = (msg) => {
-    list.innerHTML = `
-      <div class="card" role="alert">
-        <strong>Failed to load releases.</strong><br />
-        <span class="small muted">${msg}</span>
-      </div>`;
-  };
+    const showError = (msg) => {
+      list.innerHTML = `
+        <div class="card" role="alert">
+          <strong>Failed to load releases.</strong><br/>
+          <span class="small muted">${msg}</span>
+        </div>`;
+    };
 
-  fetch(`https://api.github.com/repos/${OWNER}/${REPO}/releases`, {
-    headers: { 'Accept': 'application/vnd.github+json' }
-  })
-  .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
-  .then(items => {
-    if (!Array.isArray(items) || !items.length){ showError('No releases found.'); return; }
-    list.innerHTML = items.map(tpl).join('');
-  })
-  .catch(err => showError(String(err)));
-})();
+    fetch(`https://api.github.com/repos/${OWNER}/${REPO}/releases`, {
+      headers: { 'Accept': 'application/vnd.github+json' }
+    })
+    .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
+    .then(items => {
+      if (!Array.isArray(items) || !items.length){ showError('No releases found.'); return; }
+      list.innerHTML = items.map(tpl).join('');  // shows ALL releases, not only latest
+    })
+    .catch(err => showError(String(err)));
+  })();
   </script>
 </footer>
 </body>
