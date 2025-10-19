@@ -37,7 +37,7 @@ body{
 }
 .nav{
   position:fixed; 
-  top:calc(env(safe-area-inset-top, 0px) + 8px);
+  top:calc(env(safe-area-inset-top, 0px) + 12px);
   left:0; right:0; 
   z-index:1000;           /* above .nav-backdrop */
   padding:0 12px;
