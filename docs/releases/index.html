@@ -38,7 +38,16 @@
   .page-releases .copy{ gap:6px }
   .page-releases .title{ margin:0 0 4px }
   .releases-hero{ display:flex; justify-content:center; margin:8px 0 18px }
-  .releases-hero img{ width: clamp(180px, 48vw, 360px); aspect-ratio:1/1; object-fit:cover; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,.12) }
+  .releases-hero img{
+    width: clamp(180px, 48vw, 360px);
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+    background-color: transparent;
+    box-shadow: none;
+    filter: drop-shadow(0 8px 30px rgba(0,0,0,.12)); /* shadow follows alpha */
+    border-radius: 12px;          /* optional rounding */
+  }
 
   /* push first section clear of fixed nav (tiny extra to avoid clipping on iOS) */
   .page-releases .section--first{
