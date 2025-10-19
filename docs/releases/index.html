@@ -6,8 +6,49 @@
   <title>iStage</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+  /* ---- Releases page (scoped) ---- */
+  :root{
+    --surface-light:#f5f5f7;
+    --surface-dark:#0f1116; /* dark surface behind cards */
+  }
+  .page-releases{ background:#fff; }
+  @media (prefers-color-scheme: dark){
+    .page-releases{ background:#000; color:#e8e9ec; }
+  }
+
+  /* push first section clear of fixed nav (tiny extra to avoid clipping on iOS) */
+  .page-releases .section--first{
+    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 6px);
+    margin-top:0;
+  }
+  @media (min-width:900px){
+    .page-releases .section--first{
+      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 8px);
+    }
+  }
+
+  /* surface only for the list area (no grey behind the header) */
+  .releases-surface{ background:var(--surface-light); padding:20px 0; }
+  @media (prefers-color-scheme: dark){
+    .releases-surface{ background:var(--surface-dark); }
+  }
+
+  /* card + typography balance */
+  .releases-list{ display:grid; gap:16px; }
+  .release-title{ margin:0 0 4px; font-weight:600; font-size:clamp(18px, 3.8vw, 20px); }
+  .release-meta{ margin:0; }
+  .prose{ line-height:1.65; }
+  .prose h1,.prose h2{ font-size:clamp(18px, 4.2vw, 20px); margin:18px 0 8px; }
+  .prose h3{ font-size:clamp(16px, 4vw, 18px); margin:16px 0 6px; }
+  .prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
+  .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
+  .prose li{ margin:6px 0; }
+  .release-head{ align-items:flex-start; }
+  .release-actions{ display:flex; align-items:center; gap:.6rem; }
+  </style>
 </head>
-<body>
+<body class="page-releases">
 <div class="nav-backdrop" aria-hidden="true"></div>
 <nav class="nav" role="navigation" aria-label="Primary">
   <div class="nav-inner">
@@ -42,13 +83,18 @@
     </div>
   </div>
 </nav>
-<main class="container">
-  <section class="section section--white section--first">
-    <div class="hero copy">
+<main>
+  <section class="section section--first" id="releases">
+    <div class="container hero copy">
       <h1 class="title" style="margin-bottom:6px">Releases</h1>
       <p class="subtitle small">Latest changes and downloads.</p>
     </div>
-    <div class="releases-list" id="releases-list"></div>
+
+    <div class="releases-surface">
+      <div class="container">
+        <div class="releases-list" id="releases-list"></div>
+      </div>
+    </div>
   </section>
 </main>
 <footer class="footer">
@@ -82,9 +128,13 @@
     if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
   (function(){
     try{
-      var first = document.querySelector('section.section--first') || document.querySelector('section');
-      var isDark = first && first.classList.contains('section--black');
-      document.documentElement.style.setProperty('--nav-backdrop', isDark ? '#000' : '#fff');
+      const mql = window.matchMedia('(prefers-color-scheme: dark)');
+      const apply = () => {
+        document.documentElement.style.setProperty('--nav-backdrop', mql.matches ? '#000' : '#fff');
+      };
+      apply();
+      if (mql.addEventListener) mql.addEventListener('change', apply);
+      else if (mql.addListener) mql.addListener(apply);
     }catch(e){}
   })();
   </script>
@@ -174,12 +224,12 @@
         <article class="card">
           <header class="release-head">
             <div>
-              <h2 class="title" style="margin:0 0 4px">${esc(title)}</h2>
-              <div class="muted small">${date}${tag}</div>
+              <h3 class="release-title">${esc(title)}</h3>
+              <div class="muted small release-meta">${date}${tag}</div>
             </div>
-            <div>
+            <div class="release-actions">
               <a class="btn btn-outline" href="${href}" ${asset ? 'download' : ''}>Download</a>
-              ${size ? `<span class="small muted" style="margin-left:.6rem">${size}</span>` : ''}
+              ${size ? `<span class="small muted">${size}</span>` : ''}
             </div>
           </header>
           <div class="prose" style="margin-top:12px">${mdToHtml(r.body||'')}</div>
