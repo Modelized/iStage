@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body{margin:0;display:grid;place-items:center;height:100dvh;font:16px/1.5 system-ui}
+</style>
+<script>
+(function(){
+  var p = location.pathname;          // ex) /istage/ or /istage/releases/
+  var q = location.search || "";
+  var h = location.hash   || "";
+
+  // Redirection
+  var m = p.match(/^\/istage(\/.*)?$/i);
+  if (m) {
+    var rest = m[1] || "/";
+    location.replace("/iStage" + rest + q + h);
+    return;
+  }
+
+  // Not found
+  document.write("Not found");
+})();
+</script>
+<p>Redirecting…</p>
+<noscript>
+  If you typed a lowercase path like <code>/istage</code>, please use <code>/iStage</code>.
+</noscript>
