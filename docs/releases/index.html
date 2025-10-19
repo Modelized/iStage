@@ -54,15 +54,25 @@
   .prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
   .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
   .prose li{ margin:6px 0; }
-  .release-head{ display:flex; align-items:flex-start; gap:10px; }
+  .release-head{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    column-gap:12px;
+    align-items:center;
+  }
   .release-icon{
-    width:clamp(20px, 5vw, 28px);
-    height:clamp(20px, 5vw, 28px);
+    width:clamp(40px, 12vw, 56px);
+    height:clamp(40px, 12vw, 56px);
     flex:0 0 auto;
-    border-radius:6px;
+    border-radius:8px;
     object-fit:contain;
   }
-  .release-head-text{ min-width:0; }
+  .release-head-text{
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center; /* vertically center next to the icon */
+  }
   .release-actions{ display:flex; align-items:center; gap:.6rem; }
   /* card surface follows theme; no outer surface */
   .page-releases .card{
