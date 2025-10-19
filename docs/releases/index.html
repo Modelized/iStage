@@ -54,6 +54,11 @@
   .prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
   .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
   .prose li{ margin:6px 0; }
+  /* Slightly increase horizontal padding for body text */
+  .prose{ padding-inline: 6px; }
+  @media (min-width:900px){
+    .prose{ padding-inline: 10px; }
+  }
   .release-head{
     display:grid;
     grid-template-columns:auto 1fr;
