@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Releases · iStage</title>
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="/iStage/docs/style.css" />
   <style>
     /* Page-scoped tweaks for releases */
     main{ padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile)); }
@@ -65,7 +65,9 @@
         </div>
 
         <!-- Releases list -->
-        <div id="releases" class="stack" aria-live="polite"></div>
+        <div id="releases" class="stack" aria-live="polite">
+          <div class="card"><p class="muted">Loading releases…</p></div>
+        </div>
       </div>
     </section>
   </main>
@@ -277,6 +279,7 @@
   /* bootstrap */
   async function init(){
     try{
+      listEl.innerHTML = '<div class="card"><p class="muted">Loading releases…</p></div>';
       const res = await fetch(API, { headers: { 'Accept':'application/vnd.github+json' }});
       if (!res.ok) throw new Error('GitHub API error: ' + res.status);
       const data = await res.json();
