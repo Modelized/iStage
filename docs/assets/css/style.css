@@ -180,6 +180,12 @@ a.btn:link,a.btn:visited{color:inherit}
 [aria-selected="true"].tab{color:#e8e9ec}
 
 /* Footer */
-.footer{border-top:0; margin-top:12px; padding:24px 0; background:#f5f5f7; color:#a7acb7}
+.footer{
+  border-top:0;
+  margin-top:12px;
+  padding:24px clamp(16px, 5vw, 16px);
+  background:#f5f5f7;
+  color:#a7acb7;
+}
 
 /* ========== End ========== */
