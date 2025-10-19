@@ -1,202 +1,310 @@
-<script>
-/* GitHub Releases → clean cards with text-only changelog and a direct download button (.klck preferred) */
-const GH_OWNER = "Modelized", GH_REPO = "iStage";
-const API = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/releases`;
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Releases · iStage</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    /* Page-scoped tweaks for releases */
+    main{ padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile)); }
+    @media (min-width:900px){ main{ padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop)); } }
+    .stack{ display:grid; gap:16px }
+    .release-body h1,.release-body h2,.release-body h3{ margin:16px 0 8px }
+    .release-body ul{ margin:8px 0 8px 18px }
+    .release-title{ margin:0; font-size:clamp(18px,2.6vw,24px) }
+    .release-meta{ margin-top:4px }
+    .assets{ margin-top:12px }
+    .section--white{ padding-top: 24px; }
+  </style>
+</head>
+<body>
+  <!-- Nav backdrop + nav (uses shared CSS vars/colors) -->
+  <div class="nav-backdrop"></div>
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner container">
+      <div class="row">
+        <a class="brand" href="../index.html"><span class="brand-text">iStage</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-label="Menu"><span class="nav-toggle-bar"></span></button>
+        <ul class="menu desktop">
+          <li><a href="../index.html#v26">iStage 26</a></li>
+          <li><a href="../index.html#v18">iStage 18</a></li>
+          <li><a aria-current="page" href="./">Releases</a></li>
+          <li><a href="../help.html">Help</a></li>
+          <li><a href="../gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="sheet" aria-hidden="true">
+        <div class="sheet-content">
+          <ul class="mobile-menu">
+            <li><a href="../index.html#v26">iStage 26</a></li>
+            <li><a href="../index.html#v18">iStage 18</a></li>
+            <li><a aria-current="page" href="./">Releases</a></li>
+            <li><a href="../help.html">Help</a></li>
+            <li><a href="../gallery.html">Gallery</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-/* utils */
-const majorOf = (t)=>{ const m = String(t||"").match(/v?(\d+)(?:[._-]|$)/i); return m ? parseInt(m[1],10) : null; };
-const listEl   = document.getElementById('releases');
-const tabsWrap = document.getElementById('version-tabs-wrap');
-const tabsEl   = document.getElementById('version-tabs');
-const thumbEl  = document.getElementById('version-thumb');
-const btnPrev  = document.getElementById('ver-prev');
-const btnNext  = document.getElementById('ver-next');
-let MAJORS = [], windowStart = 0, currentMajor = null;
+  <!-- Content -->
+  <main>
+    <section class="section section--white">
+      <div class="container">
+        <!-- Version tabs -->
+        <div class="version-tabs-wrap" id="version-tabs-wrap" hidden>
+          <div class="version-tabs-shell">
+            <button class="chev" id="ver-prev" aria-label="Previous versions">‹</button>
+            <div class="version-tabs" id="version-tabs">
+              <span class="version-thumb" id="version-thumb"></span>
+              <!-- tabs will be injected -->
+            </div>
+            <button class="chev" id="ver-next" aria-label="Next versions">›</button>
+          </div>
+        </div>
 
-/* --- text-only markdown (strip images) --- */
-function stripImages(md){
-  return (md||"")
-    .replace(/!\[[^\]]*?\]\([^)]*?\)/g, "")   /* markdown images */
-    .replace(/<img[\s\S]*?>/gi, "");          /* html images */
-}
-function formatBytes(bytes){
-  if (bytes == null) return "";
-  const units = ["B","KB","MB","GB"];
-  let i = 0, n = bytes;
-  while (n >= 1024 && i < units.length - 1){ n /= 1024; i++; }
-  return (i > 1 ? n.toFixed(1) : Math.round(n)) + " " + units[i];
-}
-/* light markup: headings, emphasis, inline code, lists */
-function mdLite(md){
-  const s = stripImages(md).replace(/</g,"&lt;").replace(/>/g,"&gt;");
-  let h = s
-    .replace(/^### (.*)$/gim, "<h3>$1</h3>")
-    .replace(/^## (.*)$/gim,  "<h2>$1</h2>")
-    .replace(/^# (.*)$/gim,   "<h1>$1</h1>")
-    .replace(/^\s*[-*] (.*)$/gim, "<li>$1</li>")
-    .replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>")
-    .replace(/\*(.*?)\*/gim, "<em>$1</em>")
-    .replace(/`([^`]+)`/g, "<code>$1</code>");
-  /* wrap consecutive <li> into a <ul> */
-  h = h.replace(/(?:<li>.*?<\/li>\s*)+/g, m => "<ul>" + m + "</ul>");
-  /* paragraphs for plain lines */
-  h = h.replace(/^(?!<(?:h\d|ul|li|p|code|\/))(.*\S.*)$/gim, "<p>$1</p>");
-  return h.trim();
-}
-function pickAsset(arr){
-  if (!arr || !arr.length) return null;
-  const klck = arr.find(a => /\.klck$/i.test(a.name));
-  return klck || arr[0];
-}
+        <!-- Releases list -->
+        <div id="releases" class="stack" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
 
-/* render a single release as a clean card */
-function renderRelease(rel){
-  const tpl  = document.getElementById('release-tpl');
-  const node = tpl.content.cloneNode(true);
-  const major = majorOf(rel.tag_name);
+  <footer class="footer">
+    <div class="container"><p class="small">© 2025 iStage. Not affiliated with Apple Inc.</p></div>
+  </footer>
 
-  /* title / tag / date */
-  node.querySelector('.release-title').textContent = rel.name || rel.tag_name;
-  node.querySelector('.tag').textContent = rel.prerelease ? 'Pre-release' : (rel.draft ? 'Draft' : 'Release');
+  <!-- Template for a release card -->
+  <template id="release-tpl">
+    <article class="card">
+      <header class="release-head">
+        <div>
+          <h3 class="release-title"></h3>
+          <div class="release-meta small muted"></div>
+        </div>
+        <span class="tag">Release</span>
+      </header>
+      <div class="release-body"></div>
+      <div class="assets"></div>
+    </article>
+  </template>
 
-  const d = new Date(rel.published_at || rel.created_at);
-  node.querySelector('.release-meta').textContent =
-    `${rel.tag_name} • ${d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})}`;
+  <!-- Minimal nav toggle (mobile) -->
+  <script>
+    (function(){
+      const nav = document.querySelector('.nav');
+      const toggle = document.querySelector('.nav-toggle');
+      const sheet = document.querySelector('.sheet');
+      const body = document.body;
+      function close(){ nav.classList.remove('nav--open'); toggle.setAttribute('aria-expanded','false'); sheet.setAttribute('aria-hidden','true'); body.classList.remove('no-scroll'); }
+      function open(){ nav.classList.add('nav--open'); toggle.setAttribute('aria-expanded','true'); sheet.setAttribute('aria-hidden','false'); body.classList.add('no-scroll'); }
+      toggle && toggle.addEventListener('click', () => nav.classList.contains('nav--open') ? close() : open());
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    })();
+  </script>
 
-  /* changelog (text only) */
-  const bodyHTML = mdLite(rel.body || "");
-  node.querySelector('.release-body').innerHTML =
-    bodyHTML ? (`<h3>Changelog</h3>` + bodyHTML) : `<p class="muted">No notes.</p>`;
+  <!-- GitHub Releases → text-only cards + direct download -->
+  <script>
+  /* GitHub Releases → clean cards with text-only changelog and a direct download button (.klck preferred) */
+  const GH_OWNER = "Modelized", GH_REPO = "iStage";
+  const API = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/releases`;
 
-  /* download: prefer .klck, show size */
-  const assetsEl = node.querySelector('.assets');
-  const asset = pickAsset(rel.assets || []);
-  if (asset){
-    const btn = document.createElement('a');
-    btn.className = 'btn btn-outline';
-    btn.href = asset.browser_download_url;
-    btn.target = '_blank';
-    btn.rel = 'noopener';
-    btn.textContent = 'Download';
-    assetsEl.appendChild(btn);
+  /* utils */
+  const majorOf = (t)=>{ const m = String(t||"").match(/v?(\d+)(?:[._-]|$)/i); return m ? parseInt(m[1],10) : null; };
+  const listEl   = document.getElementById('releases');
+  const tabsWrap = document.getElementById('version-tabs-wrap');
+  const tabsEl   = document.getElementById('version-tabs');
+  const thumbEl  = document.getElementById('version-thumb');
+  const btnPrev  = document.getElementById('ver-prev');
+  const btnNext  = document.getElementById('ver-next');
+  let MAJORS = [], windowStart = 0, currentMajor = null;
 
-    const size = formatBytes(asset.size);
-    if (size){
-      const s = document.createElement('span');
-      s.className = 'small muted';
-      s.style.marginLeft = '8px';
-      s.textContent = size;
-      assetsEl.appendChild(s);
-    }
-  }else{
-    assetsEl.innerHTML = '<span class="small muted">No downloadable asset</span>';
+  /* --- text-only markdown (strip images) --- */
+  function stripImages(md){
+    return (md||"")
+      .replace(/!\[[^\]]*?\]\([^)]*?\)/g, "")   /* markdown images */
+      .replace(/<img[\s\S]*?>/gi, "");          /* html images */
+  }
+  function formatBytes(bytes){
+    if (bytes == null) return "";
+    const units = ["B","KB","MB","GB"];
+    let i = 0, n = bytes;
+    while (n >= 1024 && i < units.length - 1){ n /= 1024; i++; }
+    return (i > 1 ? n.toFixed(1) : Math.round(n)) + " " + units[i];
+  }
+  /* light markup: headings, emphasis, inline code, lists */
+  function mdLite(md){
+    const s = stripImages(md).replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    let h = s
+      .replace(/^### (.*)$/gim, "<h3>$1</h3>")
+      .replace(/^## (.*)$/gim,  "<h2>$1</h2>")
+      .replace(/^# (.*)$/gim,   "<h1>$1</h1>")
+      .replace(/^\s*[-*] (.*)$/gim, "<li>$1</li>")
+      .replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/gim, "<em>$1</em>")
+      .replace(/`([^`]+)`/g, "<code>$1</code>");
+    /* wrap consecutive <li> into a <ul> */
+    h = h.replace(/(?:<li>.*?<\/li>\s*)+/g, m => "<ul>" + m + "</ul>");
+    /* paragraphs for plain lines */
+    h = h.replace(/^(?!<(?:h\d|ul|li|p|code|\/))(.*\S.*)$/gim, "<p>$1</p>");
+    return h.trim();
+  }
+  function pickAsset(arr){
+    if (!arr || !arr.length) return null;
+    const klck = arr.find(a => /\.klck$/i.test(a.name));
+    return klck || arr[0];
   }
 
-  node.querySelector('article').dataset.major = major;
-  return node;
-}
+  /* render a single release as a clean card */
+  function renderRelease(rel){
+    const tpl  = document.getElementById('release-tpl');
+    const node = tpl.content.cloneNode(true);
+    const major = majorOf(rel.tag_name);
 
-/* list mount */
-function mountList(d){
-  listEl.innerHTML = '';
-  d.forEach(r => listEl.appendChild(renderRelease(r)));
-}
+    /* title / tag / date */
+    node.querySelector('.release-title').textContent = rel.name || rel.tag_name;
+    node.querySelector('.tag').textContent = rel.prerelease ? 'Pre-release' : (rel.draft ? 'Draft' : 'Release');
 
-/* major filtering + tabs (unchanged) */
-function filterByMajor(m){
-  Array.from(listEl.children).forEach(c => c.style.display = (String(c.dataset.major) === String(m)) ? '' : 'none');
-}
-function animateThumbTo(target){
-  if (!target) return;
-  const r = target.getBoundingClientRect(), host = tabsEl.getBoundingClientRect();
-  thumbEl.style.width = r.width + 'px';
-  thumbEl.style.transform = `translateX(${r.left - host.left}px)`;
-}
-function selectMajor(m, btn, animate = true){
-  currentMajor = m;
-  Array.from(tabsEl.querySelectorAll('.tab')).forEach(t => t.setAttribute('aria-selected', String(t.dataset.major) === String(m) ? 'true' : 'false'));
-  filterByMajor(m);
-  if (animate){ requestAnimationFrame(() => animateThumbTo(btn || tabsEl.querySelector('.tab[aria-selected="true"]'))); }
-  else { animateThumbTo(btn || tabsEl.querySelector('.tab[aria-selected="true"]')); }
-}
-function updateChevronVisibility(){
-  const narrow = window.matchMedia('(max-width:520px)').matches;
-  const many = MAJORS.length > 2;
-  btnPrev.hidden = !(narrow && many);
-  btnNext.hidden = !(narrow && many);
-  tabsEl.classList.toggle('viewported', narrow && many);
-}
-function applyWindow(){
-  const vp = tabsEl.classList.contains('viewported');
-  const tabs = Array.from(tabsEl.querySelectorAll('.tab'));
-  if (!vp){ tabs.forEach(t => t.hidden = false); return; }
-  tabs.forEach((t,i) => t.hidden = !(i === windowStart || i === windowStart + 1));
-}
-function shiftWindow(dir){
-  const maxStart = Math.max(0, MAJORS.length - 2);
-  windowStart = Math.min(maxStart, Math.max(0, windowStart + dir));
-  applyWindow();
-  const m = (dir > 0) ? MAJORS[Math.min(MAJORS.length - 1, windowStart + 1)] : MAJORS[windowStart];
-  const btn = tabsEl.querySelector(`.tab[data-major="${m}"]`);
-  selectMajor(m, btn);
-}
-btnPrev.addEventListener('click', () => shiftWindow(-1));
-btnNext.addEventListener('click', () => shiftWindow(1));
-window.addEventListener('resize', () => {
-  updateChevronVisibility();
-  applyWindow();
-  animateThumbTo(tabsEl.querySelector('.tab[aria-selected="true"]'));
-});
-function buildTabs(majors){
-  tabsEl.querySelectorAll('button.tab').forEach(b => b.remove());
-  majors.forEach(m => {
-    const b = document.createElement('button');
-    b.className = 'tab'; b.type = 'button'; b.dataset.major = m;
-    b.setAttribute('role','tab'); b.setAttribute('aria-selected','false');
-    b.textContent = `iStage ${m}`;
-    b.addEventListener('click', () => selectMajor(m, b));
-    tabsEl.appendChild(b);
+    const d = new Date(rel.published_at || rel.created_at);
+    node.querySelector('.release-meta').textContent =
+      `${rel.tag_name} • ${d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})}`;
+
+    /* changelog (text only) */
+    const bodyHTML = mdLite(rel.body || "");
+    node.querySelector('.release-body').innerHTML =
+      bodyHTML ? (`<h3>Changelog</h3>` + bodyHTML) : `<p class="muted">No notes.</p>`;
+
+    /* download: prefer .klck, show size */
+    const assetsEl = node.querySelector('.assets');
+    const asset = pickAsset(rel.assets || []);
+    if (asset){
+      const btn = document.createElement('a');
+      btn.className = 'btn btn-outline';
+      btn.href = asset.browser_download_url;
+      btn.target = '_blank';
+      btn.rel = 'noopener';
+      btn.textContent = 'Download';
+      assetsEl.appendChild(btn);
+
+      const size = formatBytes(asset.size);
+      if (size){
+        const s = document.createElement('span');
+        s.className = 'small muted';
+        s.style.marginLeft = '8px';
+        s.textContent = size;
+        assetsEl.appendChild(s);
+      }
+    }else{
+      assetsEl.innerHTML = '<span class="small muted">No downloadable asset</span>';
+    }
+
+    node.querySelector('article').dataset.major = major;
+    return node;
+  }
+
+  /* list mount */
+  function mountList(d){
+    listEl.innerHTML = '';
+    d.forEach(r => listEl.appendChild(renderRelease(r)));
+  }
+
+  /* major filtering + tabs */
+  function filterByMajor(m){
+    Array.from(listEl.children).forEach(c => c.style.display = (String(c.dataset.major) === String(m)) ? '' : 'none');
+  }
+  function animateThumbTo(target){
+    if (!target) return;
+    const r = target.getBoundingClientRect(), host = tabsEl.getBoundingClientRect();
+    thumbEl.style.width = r.width + 'px';
+    thumbEl.style.transform = `translateX(${r.left - host.left}px)`;
+  }
+  function selectMajor(m, btn, animate = true){
+    currentMajor = m;
+    Array.from(tabsEl.querySelectorAll('.tab')).forEach(t => t.setAttribute('aria-selected', String(t.dataset.major) === String(m) ? 'true' : 'false'));
+    filterByMajor(m);
+    if (animate){ requestAnimationFrame(() => animateThumbTo(btn || tabsEl.querySelector('.tab[aria-selected="true"]'))); }
+    else { animateThumbTo(btn || tabsEl.querySelector('.tab[aria-selected="true"]')); }
+  }
+  function updateChevronVisibility(){
+    const narrow = window.matchMedia('(max-width:520px)').matches;
+    const many = MAJORS.length > 2;
+    btnPrev.hidden = !(narrow && many);
+    btnNext.hidden = !(narrow && many);
+    tabsEl.classList.toggle('viewported', narrow && many);
+  }
+  function applyWindow(){
+    const vp = tabsEl.classList.contains('viewported');
+    const tabs = Array.from(tabsEl.querySelectorAll('.tab'));
+    if (!vp){ tabs.forEach(t => t.hidden = false); return; }
+    tabs.forEach((t,i) => t.hidden = !(i === windowStart || i === windowStart + 1));
+  }
+  function shiftWindow(dir){
+    const maxStart = Math.max(0, MAJORS.length - 2);
+    windowStart = Math.min(maxStart, Math.max(0, windowStart + dir));
+    applyWindow();
+    const m = (dir > 0) ? MAJORS[Math.min(MAJORS.length - 1, windowStart + 1)] : MAJORS[windowStart];
+    const btn = tabsEl.querySelector(`.tab[data-major="${m}"]`);
+    selectMajor(m, btn);
+  }
+  btnPrev.addEventListener('click', () => shiftWindow(-1));
+  btnNext.addEventListener('click', () => shiftWindow(1));
+  window.addEventListener('resize', () => {
+    updateChevronVisibility();
+    applyWindow();
+    animateThumbTo(tabsEl.querySelector('.tab[aria-selected="true"]'));
   });
-  updateChevronVisibility();
-  applyWindow();
-}
-function desiredFromURL(){
-  const u = new URL(location.href);
-  const qs = u.searchParams.get('v');
-  const hs = (u.hash || '').match(/v=(\d+)/i);
-  const num = qs || (hs ? hs[1] : null);
-  return num ? parseInt(num, 10) : null;
-}
-
-/* bootstrap */
-async function init(){
-  try{
-    const res = await fetch(API, { headers: { 'Accept':'application/vnd.github+json' }});
-    if (!res.ok) throw new Error('GitHub API error: ' + res.status);
-    const data = await res.json();
-    if (!Array.isArray(data) || !data.length){
-      listEl.innerHTML = '<div class="card"><p class="muted">No releases yet.</p></div>';
-      return;
-    }
-    mountList(data);
-
-    MAJORS = Array.from(new Set(data.map(r => majorOf(r.tag_name)).filter(Boolean))).sort((a,b) => b - a);
-    const want = desiredFromURL();
-    if (MAJORS.length >= 2){
-      tabsWrap.hidden = false;
-      buildTabs(MAJORS);
-    }
-    const initial = (want && MAJORS.includes(want)) ? want : (MAJORS[0] || null);
-    if (initial){
-      const btn = tabsEl.querySelector(`.tab[data-major="${initial}"]`);
-      selectMajor(initial, btn, false);
-    }
-  }catch(e){
-    listEl.innerHTML = '<div class="card"><p class="muted">Failed to load releases. Visit the <a target="_blank" rel="noopener">GitHub Releases page</a>.</p></div>';
-    const a = listEl.querySelector('a');
-    if (a) a.href = 'https://github.com/' + GH_OWNER + '/' + GH_REPO + '/releases';
-    console.error(e);
+  function buildTabs(majors){
+    tabsEl.querySelectorAll('button.tab').forEach(b => b.remove());
+    majors.forEach(m => {
+      const b = document.createElement('button');
+      b.className = 'tab'; b.type = 'button'; b.dataset.major = m;
+      b.setAttribute('role','tab'); b.setAttribute('aria-selected','false');
+      b.textContent = `iStage ${m}`;
+      b.addEventListener('click', () => selectMajor(m, b));
+      tabsEl.appendChild(b);
+    });
+    updateChevronVisibility();
+    applyWindow();
   }
-}
-init();
-</script>
+  function desiredFromURL(){
+    const u = new URL(location.href);
+    const qs = u.searchParams.get('v');
+    const hs = (u.hash || '').match(/v=(\d+)/i);
+    const num = qs || (hs ? hs[1] : null);
+    return num ? parseInt(num, 10) : null;
+  }
+
+  /* bootstrap */
+  async function init(){
+    try{
+      const res = await fetch(API, { headers: { 'Accept':'application/vnd.github+json' }});
+      if (!res.ok) throw new Error('GitHub API error: ' + res.status);
+      const data = await res.json();
+      if (!Array.isArray(data) || !data.length){
+        listEl.innerHTML = '<div class="card"><p class="muted">No releases yet.</p></div>';
+        return;
+      }
+      mountList(data);
+
+      MAJORS = Array.from(new Set(data.map(r => majorOf(r.tag_name)).filter(Boolean))).sort((a,b) => b - a);
+      const want = desiredFromURL();
+      if (MAJORS.length >= 2){
+        tabsWrap.hidden = false;
+        buildTabs(MAJORS);
+      }
+      const initial = (want && MAJORS.includes(want)) ? want : (MAJORS[0] || null);
+      if (initial){
+        const btn = tabsEl.querySelector(`.tab[data-major="${initial}"]`);
+        selectMajor(initial, btn, false);
+      }
+    }catch(e){
+      listEl.innerHTML = '<div class="card"><p class="muted">Failed to load releases. Visit the <a target="_blank" rel="noopener">GitHub Releases page</a>.</p></div>';
+      const a = listEl.querySelector('a');
+      if (a) a.href = 'https://github.com/' + GH_OWNER + '/' + GH_REPO + '/releases';
+      console.error(e);
+    }
+  }
+  init();
+  </script>
+</body>
+</html>
