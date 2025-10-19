@@ -10,9 +10,10 @@ html,body{margin:0;padding:0;overflow-x:hidden}
   /* Nav palette (fixed) */
   --nav-backdrop:#000;     /* dark strip behind nav */
   --nav-border:#1e2230;    /* nav outline */
+  --nav-top:12px;         /* extra gap under status bar for nav */
 
   /* Offsets for first section under the fixed nav */
-  --nav-offset-mobile:112px;
+  --nav-offset-mobile:96px;
   --nav-offset-desktop:112px;
 }
 body{
@@ -37,7 +38,7 @@ body{
 }
 .nav{
   position:fixed; 
-  top:calc(env(safe-area-inset-top, 0px) + 12px);
+  top:calc(env(safe-area-inset-top, 0px) + var(--nav-top, 12px));
   left:0; right:0; 
   z-index:1000;           /* above .nav-backdrop */
   padding:0 12px;
