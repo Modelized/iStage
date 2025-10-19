@@ -24,6 +24,12 @@
     .page-releases{ background:#000; color:#e8e9ec; }
   }
 
+  /* tighten heading stack + reserve space for hero image */
+  .page-releases .copy{ gap:6px }
+  .page-releases .title{ margin:0 0 4px }
+  .releases-hero{ display:flex; justify-content:center; margin:8px 0 18px }
+  .releases-hero img{ width: clamp(180px, 48vw, 360px); aspect-ratio:1/1; object-fit:cover; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,.12) }
+
   /* push first section clear of fixed nav (tiny extra to avoid clipping on iOS) */
   .page-releases .section--first{
     padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 12px);
@@ -40,10 +46,10 @@
 
   /* card + typography balance */
   .releases-list{ display:grid; gap:16px; }
-  .release-title{ margin:0 0 4px; font-weight:600; font-size:clamp(18px, 3.8vw, 20px); }
+  .release-title{ margin:0 0 4px; font-weight:700; font-size:clamp(20px, 5vw, 24px); }
   .release-meta{ margin:0; }
   .prose{ line-height:1.65; }
-  .prose h1,.prose h2{ font-size:clamp(18px, 4.2vw, 20px); margin:18px 0 8px; }
+  .prose h1,.prose h2{ font-size:clamp(18px, 4vw, 20px); margin:16px 0 8px; font-weight:600; }
   .prose h3{ font-size:clamp(16px, 4vw, 18px); margin:16px 0 6px; }
   .prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
   .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
@@ -54,14 +60,14 @@
   .page-releases .card{
     background:#f5f5f7;
     color:#111317;
-    border:1px solid #e1e3e8;
+    border:0;
     border-radius:18px;
   }
   @media (prefers-color-scheme: dark){
     .page-releases .card{
       background:#0f1116;
       color:#e8e9ec;
-      border-color:#1e2230;
+      border:0;
     }
   }
   .release-foot{
@@ -72,15 +78,16 @@
   .page-releases .footer{
     background:#f5f5f7;
     color:#5e6572;
-    border-top:1px solid #e1e3e8;
   }
   @media (prefers-color-scheme: dark){
     .page-releases .footer{
       background:#0f1116;
       color:#a7acb7;
-      border-top-color:#1e2230;
     }
   }
+
+  .page-releases main{ margin-bottom:0; padding-bottom:0 }
+  .page-releases .footer{ margin:0 }
   </style>
 </head>
 <body class="page-releases">
@@ -120,8 +127,11 @@
 <main>
   <section class="section section--first" id="releases">
     <div class="container hero copy">
-      <h1 class="title" style="margin-bottom:6px">Releases</h1>
+      <h1 class="title" style="margin-bottom:4px">Releases</h1>
       <p class="subtitle small">Latest changes and downloads.</p>
+      <div class="releases-hero">
+        <img src="../assets/img/releases-hero.jpg" alt="iStage lock screen preview" loading="lazy" onerror="this.style.display='none'">
+      </div>
     </div>
 
     <div class="releases-surface">
@@ -248,24 +258,25 @@
 
     const tpl = (r) => {
       const title = r.name || r.tag_name || 'Untitled';
-      const tag   = r.tag_name ? ` • ${r.tag_name}` : '';
+      const tag   = r.tag_name ? `${r.tag_name}` : '';
       const date  = r.published_at ? fmtDate(r.published_at) : '';
       const asset = (r.assets||[]).find(a => /\.klck$/i.test(a.name)) || (r.assets||[])[0];
       const size  = asset ? fmtSize(asset.size) : '';
       const href  = asset ? asset.browser_download_url : r.html_url;
+
+      const meta = [date, tag, size].filter(Boolean).join(' • ');
 
       return `
         <article class="card">
           <header class="release-head">
             <div>
               <h3 class="release-title">${esc(title)}</h3>
-              <div class="muted small release-meta">${date}${tag}</div>
+              <div class="muted small release-meta">${esc(meta)}</div>
             </div>
           </header>
           <div class="prose" style="margin-top:12px">${mdToHtml(r.body||'')}</div>
           <footer class="release-foot">
             <a class="btn btn-outline" href="${href}" ${asset ? 'download' : ''}>Download</a>
-            ${size ? `<span class="small muted">${size}</span>` : ''}
           </footer>
         </article>
       `;
