@@ -46,8 +46,8 @@
 
   /* card + typography balance */
   .releases-list{ display:grid; gap:16px; }
-  .release-title{ margin:0 0 4px; font-weight:700; font-size:clamp(19px, 4.6vw, 22px); }
-  .release-meta{ margin:0; }
+  .release-title{ margin:1px 0 2px; font-weight:700; font-size:clamp(19px, 4.6vw, 22px); } /* push title down slightly and reduce gap */
+  .release-meta{ margin:-1px 0 0; } /* pull meta up slightly to tighten spacing */
   .prose{ line-height:1.65; }
   .prose h1,.prose h2{ font-size:clamp(18px, 4vw, 20px); margin:16px 0 8px; font-weight:600; }
   .prose h3{ font-size:clamp(16px, 4vw, 18px); margin:16px 0 6px; }
@@ -59,6 +59,7 @@
     grid-template-columns:auto 1fr;
     column-gap:12px;
     align-items:center;
+    padding:2px 0 0 2px; /* nudge to equalize icon top/left margin */
   }
   .release-icon{
     width:clamp(40px, 12vw, 56px);
@@ -72,6 +73,7 @@
     display:flex;
     flex-direction:column;
     justify-content:center; /* vertically center next to the icon */
+    padding-left:4px;       /* move texts slightly to the right */
   }
   .release-actions{ display:flex; align-items:center; gap:.6rem; }
   /* card surface follows theme; no outer surface */
