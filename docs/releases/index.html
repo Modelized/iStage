@@ -65,8 +65,31 @@
 
   /* card + typography balance */
   .releases-list{ display:grid; gap:16px; }
-  .release-title{ margin:1px 0 2px; font-weight:700; font-size:clamp(19px, 4.6vw, 22px); } /* push title down slightly and reduce gap */
-  .release-meta{ margin:-1px 0 0; } /* pull meta up slightly to tighten spacing */
+  .release-title{
+    margin:0 0 1px;
+    font-weight:600;
+    font-size:clamp(18px, 4vw, 20px);
+  }
+  .release-meta{
+    margin:-2px 0 0;
+    display:flex;
+    align-items:center;
+    gap:.6ch;
+  }
+  .latest-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:2px 8px;
+    border-radius:999px;
+    border:1.5px solid #ff9f0a;
+    color:#ff9f0a;
+    font-weight:600;
+    line-height:1;
+    font-size:.85em;
+  }
+  @media (prefers-color-scheme: dark){
+    .latest-badge{ border-color:#ff9f0a; color:#ff9f0a; }
+  }
   .prose{ line-height:1.65; }
   .prose h1,.prose h2{ font-size:clamp(18px, 4vw, 20px); margin:16px 0 8px; font-weight:600; }
   .prose h3{ font-size:clamp(16px, 4vw, 18px); margin:16px 0 6px; }
@@ -305,7 +328,7 @@
       return m ? m[0] : '';
     };
 
-    const tpl = (r) => {
+    const tpl = (r, isLatest) => {
       const title = r.name || r.tag_name || 'Untitled';
       const tag   = r.tag_name ? `${r.tag_name}` : '';
       const date  = r.published_at ? fmtDate(r.published_at) : '';
@@ -313,7 +336,8 @@
       const size  = asset ? fmtSize(asset.size) : '';
       const href  = asset ? asset.browser_download_url : r.html_url;
 
-      const meta = [date, tag, size].filter(Boolean).join(' • ');
+      const metaText = [date, size].filter(Boolean).join(' • ');
+      const latestHtml = isLatest ? '<span class="latest-badge" title="Latest release">Latest</span>' : '';
 
       const ver  = versionFromTag(tag);
       const icon = ver
@@ -326,7 +350,7 @@
             ${icon}
             <div class="release-head-text">
               <h3 class="release-title">${esc(title)}</h3>
-              <div class="muted small release-meta">${esc(meta)}</div>
+              <div class="muted small release-meta">${latestHtml}<span>${esc(metaText)}</span></div>
             </div>
           </header>
           <div class="prose" style="margin-top:12px">${mdToHtml(r.body||'')}</div>
@@ -351,7 +375,22 @@
     .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
     .then(items => {
       if (!Array.isArray(items) || !items.length){ showError('No releases found.'); return; }
-      list.innerHTML = items.map(tpl).join('');  // shows ALL releases, not only latest
+      // Determine latest per major version (based on published_at / created_at)
+      const latestByVer = new Map();
+      for (const r of items){
+        const v = versionFromTag(r.tag_name || '');
+        if (!v) continue;
+        const prev = latestByVer.get(v);
+        const t = new Date(r.published_at || r.created_at || 0).getTime();
+        const pt = prev ? new Date(prev.published_at || prev.created_at || 0).getTime() : -Infinity;
+        if (!prev || t > pt) latestByVer.set(v, r);
+      }
+      // Render all releases; show "Latest" badge when this item is the latest for its version
+      list.innerHTML = items.map(r => {
+        const v = versionFromTag(r.tag_name || '');
+        const isLatest = v ? latestByVer.get(v) === r : false;
+        return tpl(r, isLatest);
+      }).join('');
     })
     .catch(err => showError(String(err)));
   })();
