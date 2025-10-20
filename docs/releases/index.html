@@ -77,15 +77,18 @@
     gap:.6ch;
   }
   .latest-badge{
-    display:inline-flex;
+    display:inline-flex;          /* robust centering across browsers */
     align-items:center;
-    padding:2px 8px;
+    justify-content:center;
+    height:20px;                  /* visual chip height */
+    padding:0 8px;                /* horizontal padding only */
     border-radius:999px;
     border:1.5px solid #ff9f0a;
     color:#ff9f0a;
     font-weight:600;
     line-height:1;
     font-size:.85em;
+    vertical-align:middle;        /* align with adjacent meta text */
   }
   @media (prefers-color-scheme: dark){
     .latest-badge{ border-color:#ff9f0a; color:#ff9f0a; }
