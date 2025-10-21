@@ -16,8 +16,112 @@
   <!-- Address bar color -->
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <style>
+  /* ---- Legal page (scoped) ---- */
+  :root{
+    --surface-light:#f5f5f7;
+    --surface-dark:#0f1116; /* dark surface behind cards */
+  }
+  /* no backdrop under nav on this page */
+  .page-legal .nav-backdrop{ display:none !important; }
+  /* subtitle contrast */
+  .page-legal .subtitle{ color:#5e6572; }
+  @media (prefers-color-scheme: dark){
+    .page-legal .subtitle{ color:#a7acb7; }
+  }
+  .page-legal{ background:#fff; }
+  @media (prefers-color-scheme: dark){
+    .page-legal{ background:#000; color:#e8e9ec; }
+  }
+
+  /* tighten heading stack */
+  .page-legal .copy{ gap:6px }
+  .page-legal .title{ margin:0 0 4px }
+
+  /* push first section clear of fixed nav (tiny extra to avoid clipping on iOS) */
+  .page-legal .section--first{
+    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 12px);
+    margin-top:0;
+  }
+  @media (min-width:900px){
+    .page-legal .section--first{
+      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 14px);
+    }
+  }
+
+  /* surface only for the list area (no grey behind the header) */
+  .legal-surface{ background:transparent; padding:16px 0 24px; }
+
+  /* card + typography balance */
+  .legal-list{ display:grid; gap:16px; }
+  .legal-title{
+    margin:0 0 1px;
+    font-weight:600;
+    font-size:clamp(18px, 4vw, 20px);
+  }
+  .legal-meta{
+    margin:-2px 0 0;
+    display:flex;
+    align-items:center;
+    gap:.6ch;
+  }
+  .prose{ line-height:1.65; }
+  .prose h1,.prose h2{ font-size:clamp(18px, 4vw, 20px); margin:16px 0 8px; font-weight:600; }
+  .prose h3{ font-size:clamp(16px, 4vw, 18px); margin:16px 0 6px; }
+  .prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
+  .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
+  .prose li{ margin:6px 0; }
+  /* Slightly increase horizontal padding for body text */
+  .prose{ padding-inline: 6px; }
+  @media (min-width:900px){
+    .prose{ padding-inline: 10px; }
+  }
+  .legal-head{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    column-gap:12px;
+    align-items:center;
+    padding:2px 0 0 2px; /* nudge to equalize icon top/left margin */
+  }
+  .legal-head-text{
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center; /* vertically center next to the icon */
+    padding-left:4px;       /* move texts slightly to the right */
+  }
+  /* card surface follows theme; no outer surface */
+  .page-legal .card{
+    background:#f5f5f7;
+    color:#111317;
+    border:0;
+    border-radius:18px;
+  }
+  @media (prefers-color-scheme: dark){
+    .page-legal .card{
+      background:#0f1116;
+      color:#e8e9ec;
+      border:0;
+    }
+  }
+
+  /* footer theming for legal page */
+  .page-legal .footer{
+    background:#f5f5f7;
+    color:#5e6572;
+  }
+  @media (prefers-color-scheme: dark){
+    .page-legal .footer{
+      background:#0f1116;
+      color:#a7acb7;
+    }
+  }
+
+  .page-legal main{ margin-bottom:0; padding-bottom:0 }
+  .page-legal .footer{ margin:0 }
+  </style>
 </head>
-<body>
+<body class="page-legal">
 <nav class="nav" role="navigation" aria-label="Primary">
   <div class="nav-inner">
     <div class="container row">
@@ -51,9 +155,141 @@
     </div>
   </div>
 </nav>
-<main class='container prose'><h1>Legal</h1></main>
+<main>
+  <section class="section section--first" id="legal">
+    <div class="container hero copy">
+      <h1 class="title" style="margin-bottom:4px">Legal</h1>
+      <p class="subtitle small">Terms of use and beta addendum.</p>
+    </div>
+
+    <div class="legal-surface">
+      <div class="container">
+        <div class="legal-list">
+          <!-- Terms & Conditions -->
+          <article class="card">
+            <header class="legal-head">
+              <div class="legal-head-text">
+                <h3 class="legal-title">iStage Terms and Conditions</h3>
+                <div class="muted small legal-meta"><span>Effective Sep 15, 2025</span></div>
+              </div>
+            </header>
+            <div class="prose" style="margin-top:12px">
+              <p><strong>IMPORTANT:</strong> By downloading, installing, or applying this project (“Preset”), you agree to the following terms. If you do not agree, do not download, install, or apply the Preset.</p>
+
+              <h2>1. Definitions</h2>
+              <ul>
+                <li><strong>Project</strong>: the “iStage (formerly iOS KLCK)” lock screen preset for KLCK on Android, which emulates the look and feel of Apple’s iOS lock screen.</li>
+                <li><strong>Author</strong>: Jason Lee (also known as Modelized).</li>
+                <li><strong>Preset</strong>: any compiled KLCK file, resource pack, or update officially released by the Author.</li>
+                <li><strong>You / User</strong>: any individual who downloads, installs, or uses the Project.</li>
+              </ul>
+
+              <h2>2. License and Permitted Use</h2>
+              <ul>
+                <li>Officially released Presets may be downloaded and used for personal, non‑commercial use only.</li>
+                <li>Redistribution—whether unmodified, modified, forked, or ported—requires the Author’s prior written consent.</li>
+              </ul>
+
+              <h2>3. Ownership and Intellectual Property</h2>
+              <ul>
+                <li>All rights, title, and interest in the Project and Author‑created resources remain with the Author.</li>
+                <li>Reverse engineering, decompilation, extraction, or any other unauthorized reproduction or disclosure of the Project’s code, formulas, or assets is prohibited.</li>
+              </ul>
+
+              <h2>4. Third‑Party Rights Notice</h2>
+              <ul>
+                <li>“Apple”, “iOS”, “iPhone”, and related marks are trademarks of Apple Inc.</li>
+                <li>The Project is inspired by, but not affiliated with, endorsed by, or sponsored by Apple Inc.</li>
+                <li>The Project does not include any Apple‑owned assets (such as fonts, icons, or graphics). Users are solely responsible for acquiring any third‑party resources required for functionality.</li>
+              </ul>
+
+              <h2>5. Disclaimer of Warranty</h2>
+              <ul>
+                <li>The Project is provided “AS IS” without warranty of any kind, express or implied.</li>
+                <li>The Author does not guarantee that the Preset is error‑free or that it will not affect battery life, performance, or device stability. You assume all risk arising from installation or use.</li>
+              </ul>
+
+              <h2>6. Limitation of Liability</h2>
+              <p>To the maximum extent permitted by law, the Author shall not be liable for any indirect, incidental, consequential, or special damages arising out of or in connection with the Project.</p>
+
+              <h2>7. Termination</h2>
+              <ul>
+                <li>These Terms take effect on 15 September 2025.</li>
+                <li>The Author may terminate your license immediately upon any breach of these Terms. Upon termination you must delete all copies of the Preset.</li>
+              </ul>
+
+              <h2>8. Enforcement</h2>
+              <p>Violations may result in takedown requests, revocation of usage rights, and other remedies available under applicable law.</p>
+
+              <h2>9. Contact</h2>
+              <p>Questions may be directed to the Author via Reddit DM or the email address listed in the GitHub repository.</p>
+            </div>
+          </article>
+
+          <!-- Beta Software Addendum -->
+          <article class="card">
+            <header class="legal-head">
+              <div class="legal-head-text">
+                <h3 class="legal-title">Beta Software Addendum</h3>
+                <div class="muted small legal-meta"><span>Effective Sep 15, 2025</span></div>
+              </div>
+            </header>
+            <div class="prose" style="margin-top:12px">
+              <h2>1. Scope and Incorporation</h2>
+              <ul>
+                <li>This Addendum governs any pre‑release build of iStage that the Author supplies for testing.</li>
+                <li>The iStage Terms and Conditions (15 September 2025) remain fully in force. If a clause in this Addendum conflicts with the main Terms, this Addendum controls for the relevant Beta build.</li>
+              </ul>
+
+              <h2>2. Definition of “Beta Software”</h2>
+              <ul>
+                <li>“Beta Software” means any build explicitly labelled Alpha, Closed Beta, Public Beta, Preview, Test, Early‑Access or a similar pre‑release designation.</li>
+                <li>Alpha / Closed Beta builds are distributed to a limited group selected by the Author and are subject to stricter rules.</li>
+                <li>Public Beta / Preview builds are made available to a broader audience and follow the standard rules below unless otherwise stated.</li>
+              </ul>
+
+              <h2>3. License and Permitted Use</h2>
+              <ul>
+                <li>The Author grants you a personal, non‑transferable, non‑commercial license to install and use the Beta Software for personal use.</li>
+                <li>You may not redistribute the Beta Software (in whole or in part) without the Author’s prior written approval.</li>
+                <li>All other license limits in the main Terms continue to apply.</li>
+              </ul>
+
+              <h2>4. Feedback</h2>
+              <ul>
+                <li>You may voluntarily provide bug reports, logs, screenshots or suggestions (“Feedback”).</li>
+                <li>Feedback is optional and may be submitted through the channels designated by the Author.</li>
+              </ul>
+
+              <h2>5. Confidentiality (Alpha / Closed Beta Only)</h2>
+              <p>If the build is marked Alpha or Closed Beta, you must keep all features, files, screenshots and discussions confidential and must not post them publicly without the Author’s written consent.</p>
+
+              <h2>6. Termination (Alpha / Closed Beta Only)</h2>
+              <ul>
+                <li>The Author may revoke your Beta license at any time, including if your use of the Beta Software is deemed inappropriate or disruptive.</li>
+                <li>If your license is revoked, you must delete all copies of the Beta Software.</li>
+              </ul>
+
+              <h2>7. Disclaimer of Warranty (Beta Specific)</h2>
+              <ul>
+                <li>The Beta Software is experimental and may contain errors that cause crashes, battery drain or visual glitches.</li>
+                <li>The Author provides the Beta Software “AS IS” with no express or implied warranties and disclaims responsibility for any issues arising from its use.</li>
+              </ul>
+
+              <h2>8. Governing Law and Dispute Resolution</h2>
+              <p>The Governing Law and Dispute Resolution clause in the main Terms applies equally to this Addendum.</p>
+
+              <h2>9. Contact</h2>
+              <p>Questions about this Addendum or testing the Beta build may be directed via Reddit DM or the email address listed in the GitHub repository.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 <footer class="footer">
-  <div class="container small muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc.</div>
+  <div class="container small muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc. &middot; <a href="./legal/" style="color:inherit;text-decoration:none">Legal</a></div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script>
     const nav = document.querySelector('.nav');
