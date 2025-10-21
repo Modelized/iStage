@@ -117,6 +117,19 @@
     }
   }
 
+  /* IMPORTANT banner style: bold + uppercase */
+  .page-legal .important{
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.02em;
+  }
+  /* Spacing between subtitle and cards */
+  .page-legal .hero + .legal-surface{ margin-top:14px; }
+  @media (min-width:900px){
+    .page-legal .hero + .legal-surface{ margin-top:18px; }
+  }
+
+  .page-legal .footer-row a{ color:inherit; text-decoration:none; }
   .page-legal main{ margin-bottom:0; padding-bottom:0 }
   .page-legal .footer{ margin:0 }
   </style>
@@ -174,7 +187,7 @@
               </div>
             </header>
             <div class="prose" style="margin-top:12px">
-              <p><strong>IMPORTANT:</strong> By downloading, installing, or applying this project (“Preset”), you agree to the following terms. If you do not agree, do not download, install, or apply the Preset.</p>
+              <p class="important">IMPORTANT: By downloading, installing, or applying this project (“Preset”), you agree to the following terms. If you do not agree, do not download, install, or apply the Preset.</p>
 
               <h2>1. Definitions</h2>
               <ul>
