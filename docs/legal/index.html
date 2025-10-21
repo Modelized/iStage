@@ -116,25 +116,6 @@
       color:#a7acb7;
     }
   }
-  /* IMPORTANT banner style: bold + uppercase */
-  .page-legal .important{
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:.02em;
-  }
-  /* Spacing between subtitle and cards */
-  .page-legal .hero + .legal-surface{ margin-top:14px; }
-  @media (min-width:900px){
-    .page-legal .hero + .legal-surface{ margin-top:18px; }
-  }
-  /* Footer: push "Legal" link to the right on this page only */
-  .page-legal .footer-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-  }
-  .page-legal .footer-row a{ color:inherit; text-decoration:none; }
 
   .page-legal main{ margin-bottom:0; padding-bottom:0 }
   .page-legal .footer{ margin:0 }
@@ -193,7 +174,7 @@
               </div>
             </header>
             <div class="prose" style="margin-top:12px">
-              <p class="important">IMPORTANT: By downloading, installing, or applying this project (“Preset”), you agree to the following terms. If you do not agree, do not download, install, or apply the Preset.</p>
+              <p><strong>IMPORTANT:</strong> By downloading, installing, or applying this project (“Preset”), you agree to the following terms. If you do not agree, do not download, install, or apply the Preset.</p>
 
               <h2>1. Definitions</h2>
               <ul>
@@ -310,7 +291,7 @@
 <footer class="footer">
   <div class="container small muted footer-row">
     <span>© <span id="year"></span> iStage. Not affiliated with Apple Inc.</span>
-    <a href="./" class="footer-legal">Legal</a>
+    <a href="./legal/" class="footer-legal">Legal</a>
   </div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script>
