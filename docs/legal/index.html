@@ -116,6 +116,25 @@
       color:#a7acb7;
     }
   }
+  /* IMPORTANT banner style: bold + uppercase */
+  .page-legal .important{
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.02em;
+  }
+  /* Spacing between subtitle and cards */
+  .page-legal .hero + .legal-surface{ margin-top:14px; }
+  @media (min-width:900px){
+    .page-legal .hero + .legal-surface{ margin-top:18px; }
+  }
+  /* Footer: push "Legal" link to the right on this page only */
+  .page-legal .footer-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+  }
+  .page-legal .footer-row a{ color:inherit; text-decoration:none; }
 
   .page-legal main{ margin-bottom:0; padding-bottom:0 }
   .page-legal .footer{ margin:0 }
@@ -159,7 +178,7 @@
   <section class="section section--first" id="legal">
     <div class="container hero copy">
       <h1 class="title" style="margin-bottom:4px">Legal</h1>
-      <p class="subtitle small">Terms of use and beta addendum.</p>
+      <p class="subtitle small">Find legal information for iStage project.</p>
     </div>
 
     <div class="legal-surface">
@@ -174,7 +193,7 @@
               </div>
             </header>
             <div class="prose" style="margin-top:12px">
-              <p><strong>IMPORTANT:</strong> By downloading, installing, or applying this project (“Preset”), you agree to the following terms. If you do not agree, do not download, install, or apply the Preset.</p>
+              <p class="important">IMPORTANT: By downloading, installing, or applying this project (“Preset”), you agree to the following terms. If you do not agree, do not download, install, or apply the Preset.</p>
 
               <h2>1. Definitions</h2>
               <ul>
@@ -289,7 +308,10 @@
   </section>
 </main>
 <footer class="footer">
-  <div class="container small muted">© <span id="year"></span> iStage. Not affiliated with Apple Inc. &middot; <a href="./legal/" style="color:inherit;text-decoration:none">Legal</a></div>
+  <div class="container small muted footer-row">
+    <span>© <span id="year"></span> iStage. Not affiliated with Apple Inc.</span>
+    <a href="./" class="footer-legal">Legal</a>
+  </div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script>
     const nav = document.querySelector('.nav');
