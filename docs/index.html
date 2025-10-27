@@ -54,31 +54,60 @@
   .event-copy{
     text-align:center;
     font-weight:600;
-    font-size: clamp(16px, 2.1vw, 20px);
+    font-size: clamp(18px, 2.4vw, 22px);
     line-height:1.4;
     margin: 6px auto 4px;
     padding: 0 12px;
   }
   /* Animated tri-color text (softly blends as it moves) */
   .text-aurora{
+    --c1: 0,229,255;   /* #00E5FF */
+    --c2: 251,116,234; /* #FB74EA */
+    --c3: 238,189,75;  /* #EEBD4B */
+
     background-image:
-      radial-gradient(1200px 1200px at 15% 25%, rgba(0,229,255,.88) 0, rgba(0,229,255,0) 70%),
-      radial-gradient(1000px 1000px at 85% 30%, rgba(251,116,234,.88) 0, rgba(251,116,234,0) 70%),
-      radial-gradient(900px 900px at 60% 80%, rgba(238,189,75,.90) 0, rgba(238,189,75,0) 70%),
-      linear-gradient(90deg, rgba(0,229,255,.28), rgba(251,116,234,.28), rgba(238,189,75,.28));
-    background-size: 220% 220%, 220% 220%, 220% 220%, 100% 100%;
-    background-position: 10% 25%, 90% 30%, 60% 80%, 50% 50%;
+      /* primary moving blobs */
+      radial-gradient(60% 140% at 20% 30%, rgba(var(--c1), .98) 0, rgba(var(--c1), 0) 60%),
+      radial-gradient(70% 120% at 80% 35%, rgba(var(--c2), .98) 0, rgba(var(--c2), 0) 60%),
+      radial-gradient(70% 130% at 60% 80%, rgba(var(--c3), .98) 0, rgba(var(--c3), 0) 60%),
+      /* secondary soft blobs */
+      radial-gradient(140% 220% at 40% 60%, rgba(var(--c1), .28) 0, rgba(var(--c1), 0) 70%),
+      radial-gradient(140% 220% at 70% 40%, rgba(var(--c2), .28) 0, rgba(var(--c2), 0) 70%),
+      radial-gradient(140% 220% at 50% 70%, rgba(var(--c3), .28) 0, rgba(var(--c3), 0) 70%),
+      /* baseline tint */
+      linear-gradient(90deg, rgba(var(--c1), .32), rgba(var(--c2), .32), rgba(var(--c3), .32));
+
+    background-size: 140% 140%, 140% 140%, 140% 140%, 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+    background-position: 0% 30%, 100% 20%, 60% 80%, 40% 60%, 70% 40%, 50% 70%, 50% 50%;
     background-repeat: no-repeat;
-    background-blend-mode: screen;
+    background-blend-mode: screen, screen, screen, screen, screen, screen, normal;
+
     -webkit-background-clip: text;
     background-clip: text;
+    -webkit-text-fill-color: transparent;
     color: transparent;
-    animation: aurora-drift 16s ease-in-out infinite alternate;
+
+    animation: aurora-mix 24s cubic-bezier(.22,1,.36,1) infinite alternate;
+    will-change: background-position;
+
+    filter: saturate(1.15) contrast(1.02);
   }
-  @keyframes aurora-drift{
-    0%   { background-position: 10% 25%, 90% 30%, 60% 80%, 50% 50%; }
-    50%  { background-position: 45% 60%, 25% 70%, 50% 35%, 50% 50%; }
-    100% { background-position: 10% 25%, 90% 30%, 60% 80%, 50% 50%; }
+  @keyframes aurora-mix{
+    0%{
+      background-position: 0% 30%, 100% 20%, 60% 80%, 40% 60%, 70% 40%, 50% 70%, 50% 50%;
+    }
+    25%{
+      background-position: 18% 65%, 78% 28%, 52% 38%, 58% 42%, 42% 62%, 68% 48%, 50% 50%;
+    }
+    50%{
+      background-position: 44% 72%, 26% 76%, 24% 32%, 62% 58%, 36% 48%, 64% 62%, 50% 50%;
+    }
+    75%{
+      background-position: 82% 44%, 40% 22%, 18% 86%, 30% 56%, 84% 34%, 30% 78%, 50% 50%;
+    }
+    100%{
+      background-position: 0% 30%, 100% 20%, 60% 80%, 40% 60%, 70% 40%, 50% 70%, 50% 50%;
+    }
   }
   @media (prefers-reduced-motion: reduce){
     .text-aurora{ animation: none; }
@@ -127,7 +156,7 @@
       <div class="event-visual">
         <img src="assets/img/hero-iStage-series.png" alt="iStage series overview" loading="eager" decoding="async">
       </div>
-      <p class="event-copy text-aurora">
+      <p class="event-copy text-aurora" data-reveal>
         Introducing the next generation of iStage. Explore the all-new iStage 26 with dynamic, fluid Liquid Glass design, smoother motion, and pro-grade controls. Discover iStage 18 with a classic, familiar frosted design, finely tuned for a wider range of devices.
       </p>
     </div>
@@ -136,10 +165,10 @@
   <section class="section section--black section--istage-26">
     <div class="container">
       <div class="hero hero-26">
-        <div class="copy">
-          <h1 class="title">iStage 26</h1>
-          <p class="subtitle">Refined Liquid Glass. Fluid animations.</p>
-          <div class="cta">
+        <div class="copy" data-reveal-group>
+          <h1 class="title" data-reveal>iStage 26</h1>
+          <p class="subtitle" data-reveal>Refined Liquid Glass. Fluid animations.</p>
+          <div class="cta" data-reveal>
             <a class="btn btn-blue" href="iStage-26/">Learn more</a>
             <a class="btn btn-outline" href="releases/#v=26">Download</a>
           </div>
@@ -152,10 +181,10 @@
   <section class="section section--white section--istage-18">
     <div class="container">
       <div class="hero hero-18">
-        <div class="copy">
-          <h2 class="title">iStage 18</h2>
-          <p class="subtitle">Classic frosted aesthetic. Solid baseline.</p>
-          <div class="cta">
+        <div class="copy" data-reveal-group>
+          <h2 class="title" data-reveal>iStage 18</h2>
+          <p class="subtitle" data-reveal>Classic frosted aesthetic. Solid baseline.</p>
+          <div class="cta" data-reveal>
             <a class="btn btn-blue" href="iStage-18/">Learn more</a>
             <a class="btn btn-outline" href="releases/#v=18">Download</a>
           </div>
@@ -207,6 +236,37 @@
     var isDark = first && first.classList.contains('section--black');
     document.documentElement.style.setProperty('--nav-backdrop', isDark ? '#000' : '#fff');
   }catch(e){}
+})();
+</script>
+
+<script>
+/* Reveal on scroll (opt-in): applies only to elements with [data-reveal] */
+(function(){
+  const items = document.querySelectorAll('[data-reveal]');
+  if (!items.length) return;
+
+  /* Assign stagger index within groups */
+  document.querySelectorAll('[data-reveal-group]').forEach(group=>{
+    group.querySelectorAll('[data-reveal]').forEach((el,i)=>{
+      el.style.setProperty('--i', i);
+    });
+  });
+
+  if (!('IntersectionObserver' in window)){
+    items.forEach(el => el.classList.add('is-revealed'));
+    return;
+  }
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if (entry.isIntersecting){
+        entry.target.classList.add('is-revealed');
+        io.unobserve(entry.target); // animate once
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+
+  items.forEach(el=>io.observe(el));
 })();
 </script>
 
