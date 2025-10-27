@@ -24,7 +24,7 @@ body{
 .small{font-size:.9rem}
 .no-scroll{overflow:hidden}
 
-/* Nav (glass + sticky) */
+/* Nav */
 .nav-backdrop{
   position:fixed; top:0; left:0; right:0;
   height:120px;
@@ -93,7 +93,7 @@ body{
 .nav--open .nav-toggle-bar::after{transform:translateY(-6px) rotate(-45deg)}
 
 /* Sections */
-.section{padding:40px 0 32px}
+.section{padding:44px 0 32px}
 .section + .section{margin-top:12px}
 .section--first{
   margin-top:0;
