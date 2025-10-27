@@ -27,6 +27,63 @@
   .section--istage-18{
     background: linear-gradient(180deg, #F5F5F7 0%, #FFDEAF 100%);
   }
+  /* ===== Top announcement banner ===== */
+  .top-event{
+    /* Extra space below the announcement banner */
+    padding: 24px 0 56px;
+    background:#000;
+  }
+  /* clear fixed nav on both breakpoints without changing section--first */
+  @media (width < 900px){
+    .top-event{
+      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile));
+      padding-bottom: 44px;
+    }
+  }
+  @media (min-width:900px){
+    .top-event{
+      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop));
+      padding-bottom: 56px;
+    }
+  }
+  .event-visual img{
+    display:block; height:auto;
+    width: min(560px, 88%);
+    margin: 0 auto 12px;
+  }
+  .event-copy{
+    text-align:center;
+    font-weight:600;
+    font-size: clamp(16px, 2.1vw, 20px);
+    line-height:1.4;
+    margin: 6px auto 4px;
+    padding: 0 12px;
+  }
+  /* Animated tri-color text (softly blends as it moves) */
+  .text-aurora{
+    background-image:
+      radial-gradient(1200px 1200px at 15% 25%, rgba(0,229,255,.88) 0, rgba(0,229,255,0) 70%),
+      radial-gradient(1000px 1000px at 85% 30%, rgba(251,116,234,.88) 0, rgba(251,116,234,0) 70%),
+      radial-gradient(900px 900px at 60% 80%, rgba(238,189,75,.90) 0, rgba(238,189,75,0) 70%),
+      linear-gradient(90deg, rgba(0,229,255,.28), rgba(251,116,234,.28), rgba(238,189,75,.28));
+    background-size: 220% 220%, 220% 220%, 220% 220%, 100% 100%;
+    background-position: 10% 25%, 90% 30%, 60% 80%, 50% 50%;
+    background-repeat: no-repeat;
+    background-blend-mode: screen;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: aurora-drift 16s ease-in-out infinite alternate;
+  }
+  @keyframes aurora-drift{
+    0%   { background-position: 10% 25%, 90% 30%, 60% 80%, 50% 50%; }
+    50%  { background-position: 45% 60%, 25% 70%, 50% 35%, 50% 50%; }
+    100% { background-position: 10% 25%, 90% 30%, 60% 80%, 50% 50%; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .text-aurora{ animation: none; }
+  }
+  /* ===== end banner styles ===== */
   </style>
 </head>
 <body>
@@ -65,12 +122,23 @@
   </div>
 </nav>
 <main>
-  <section class="section section--black section--first" id="home-first">
+  <section class="section top-event" aria-label="iStage announcement">
+    <div class="container">
+      <div class="event-visual">
+        <img src="assets/img/hero-iStage-series.png" alt="iStage series overview" loading="eager" decoding="async">
+      </div>
+      <p class="event-copy text-aurora">
+        Introducing the next generation of iStage. Explore the all-new iStage 26 with dynamic, fluid Liquid Glass design, smoother motion, and pro-grade controls. Discover iStage 18 with a classic, familiar frosted design, finely tuned for a wider range of devices.
+      </p>
+    </div>
+  </section>
+  <!-- <section class="section section--black section--first" id="home-first"> -->
+  <section class="section section--black section--istage-26">
     <div class="container">
       <div class="hero hero-26">
         <div class="copy">
           <h1 class="title">iStage 26</h1>
-          <p class="subtitle">Refined Liquid Glass. Faster animations.</p>
+          <p class="subtitle">Refined Liquid Glass. Fluid animations.</p>
           <div class="cta">
             <a class="btn btn-blue" href="iStage-26/">Learn more</a>
             <a class="btn btn-outline" href="releases/#v=26">Download</a>
@@ -99,7 +167,7 @@
 </main>
 <footer class="footer">
   <div class="container small muted footer-row">
-    <span>© <span id="year"></span> iStage. Not affiliated with Apple Inc.</span>
+    <span>© <span id="year"></span> iStage. All rights reserved.</span>
     <a href="./legal/" class="footer-legal">Legal</a>
   </div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
