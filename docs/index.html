@@ -114,6 +114,7 @@
   }
   /* ===== end banner styles ===== */
   </style>
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
   <div class=\"nav-backdrop\"></div>
@@ -156,7 +157,7 @@
       <div class="event-visual">
         <img src="assets/img/hero-iStage-series.png" alt="iStage series overview" loading="eager" decoding="async">
       </div>
-      <p class="event-copy text-aurora">
+      <p class="event-copy text-aurora reveal">
         Introducing the next generation of iStage. Explore the all-new iStage 26 with dynamic, fluid Liquid Glass design, smoother motion, and pro-grade controls. Discover iStage 18 with a classic, familiar frosted design, finely tuned for a wider range of devices.
       </p>
     </div>
@@ -166,8 +167,8 @@
     <div class="container">
       <div class="hero hero-26">
         <div class="copy">
-          <h1 class="title">iStage 26</h1>
-          <p class="subtitle">Refined Liquid Glass. Fluid animations.</p>
+          <h1 class="title reveal">iStage 26</h1>
+          <p class="subtitle reveal">Refined Liquid Glass. Fluid animations.</p>
           <div class="cta">
             <a class="btn btn-blue" href="iStage-26/">Learn more</a>
             <a class="btn btn-outline" href="releases/#v=26">Download</a>
@@ -182,8 +183,8 @@
     <div class="container">
       <div class="hero hero-18">
         <div class="copy">
-          <h2 class="title">iStage 18</h2>
-          <p class="subtitle">Classic frosted aesthetic. Solid baseline.</p>
+          <h2 class="title reveal">iStage 18</h2>
+          <p class="subtitle reveal">Classic frosted aesthetic. Solid baseline.</p>
           <div class="cta">
             <a class="btn btn-blue" href="iStage-18/">Learn more</a>
             <a class="btn btn-outline" href="releases/#v=18">Download</a>
@@ -235,6 +236,35 @@
     var first = document.querySelector('section.section--first') || document.querySelector('section');
     var isDark = first && first.classList.contains('section--black');
     document.documentElement.style.setProperty('--nav-backdrop', isDark ? '#000' : '#fff');
+  }catch(e){}
+})();
+</script>
+<script>
+(function(){
+  try{
+    var nodes = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    if (!nodes.length) return;
+
+    // Respect reduced-motion: show everything immediately
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!('IntersectionObserver' in window) || reduce){
+      nodes.forEach(function(el){ el.classList.add('is-revealed'); });
+      return;
+    }
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-revealed');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { root:null, threshold:0.12, rootMargin:'0px 0px -8% 0px' });
+
+    nodes.forEach(function(el, i){
+      el.style.setProperty('--reveal-index', i);
+      io.observe(el);
+    });
   }catch(e){}
 })();
 </script>
