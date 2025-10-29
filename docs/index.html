@@ -245,25 +245,60 @@
     var nodes = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
     if (!nodes.length) return;
 
-    // Respect reduced-motion: show everything immediately
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!('IntersectionObserver' in window) || reduce){
-      nodes.forEach(function(el){ el.classList.add('is-revealed'); });
+    var reduce   = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var supportIO = 'IntersectionObserver' in window;
+
+    function reveal(el){
+      if (!el.classList.contains('is-revealed')){
+        el.classList.add('is-revealed');
+      }
+    }
+
+    /* If motion reduced or no IO support, show everything right away. */
+    if (reduce || !supportIO){
+      nodes.forEach(reveal);
       return;
     }
 
+    /* Visible check (>= 1px intersection) */
+    function inView(el){
+      var r  = el.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var vw = window.innerWidth  || document.documentElement.clientWidth;
+      return (r.bottom > 0 && r.right > 0 && r.top < vh && r.left < vw);
+    }
+
+    /* First paint: immediately reveal items already on screen */
+    requestAnimationFrame(function(){
+      nodes.forEach(function(el){ if (inView(el)) reveal(el); });
+    });
+
+    /* Observer: trigger as soon as element touches viewport */
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if (entry.isIntersecting){
-          entry.target.classList.add('is-revealed');
+          reveal(entry.target);
           io.unobserve(entry.target);
         }
       });
-    }, { root:null, threshold:0.12, rootMargin:'0px 0px -8% 0px' });
+    }, {
+      root: null,
+      threshold: 0,
+      rootMargin: '0px 0px -1px 0px' /* 1px visible */
+    });
 
     nodes.forEach(function(el, i){
       el.style.setProperty('--reveal-index', i);
-      io.observe(el);
+      if (!el.classList.contains('is-revealed')){
+        io.observe(el);
+      }
+    });
+
+    /* Safety net on resize/orientation changes */
+    window.addEventListener('resize', function(){
+      nodes.forEach(function(el){
+        if (!el.classList.contains('is-revealed') && inView(el)) reveal(el);
+      });
     });
   }catch(e){}
 })();

@@ -1,6 +1,6 @@
 /* ========== iStage CSS ========== */
 
-/* ----- Base ----- */
+/* ===== Base ===== */
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;overflow-x:hidden}
 :root{
@@ -198,7 +198,7 @@ a.btn:link,a.btn:visited{color:inherit}
 .footer a:hover{text-decoration:underline;}
 .footer-legal{margin-left:auto;}   /* push Legal to the right */
 
-/* ----- Reveal-on-scroll animations (opt‑in) ----- */
+/* ===== Reveal-on-scroll animations (opt‑in) ===== */
 /* Add class="reveal" on elements to animate.
    JS should add a "js" class to <html>. If JS is unavailable (local preview, etc.),
    content remains visible by default.
