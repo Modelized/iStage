@@ -227,7 +227,7 @@ a.btn:link,a.btn:visited{color:inherit}
   transition:
     opacity var(--reveal-duration, .75s) cubic-bezier(.22,1,.36,1),
     transform var(--reveal-duration, .75s) cubic-bezier(.22,1,.36,1);
-  transition-delay: var(--reveal-delay, .25s);
+  transition-delay: var(--reveal-delay, 0s);
 }
 
 /* Visible state (after reveal) */
@@ -239,7 +239,7 @@ a.btn:link,a.btn:visited{color:inherit}
 /* Optional: run once on page load without JS */
 .reveal-onload{
   animation: fade-up var(--reveal-duration, .75s) cubic-bezier(.22,1,.36,1) both;
-  animation-delay: var(--reveal-delay, .25s);
+  animation-delay: var(--reveal-delay, 0s);
 }
 
 /* Helpful delay utilities for easy staggering */
