@@ -108,10 +108,16 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  transform: translateY(6%);
+  transform: translateY(10%);
 }
-.page-gallery .btn {
-  margin-top: 96px; /* move the button further down */
+/* Responsive push for the button: scales with viewport height, caps for very short/tall screens */
+.page-gallery .btn{
+  margin-top: clamp(28px, 14vh, 180px);
+}
+@supports (height: 1dvh){
+  .page-gallery .btn{
+    margin-top: clamp(28px, 14dvh, 180px);
+  }
 }
   </style>
 </head>
