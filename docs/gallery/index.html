@@ -101,7 +101,18 @@
   height: calc(clamp(64px, 8vh, 96px) + env(safe-area-inset-bottom));
   width: 1px; /* minimal footprint */
 }
-.page-gallery .btn{ margin-top: 24px; }
+/* Adjust vertical alignment for perfect centering */
+.gallery-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transform: translateY(6%);
+}
+.page-gallery .btn {
+  margin-top: 96px; /* move the button further down */
+}
   </style>
 </head>
 <body class="page-gallery">
