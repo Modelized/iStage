@@ -24,8 +24,7 @@
   flex-direction:column;
 }
 
-/* Hero fills remaining space minus fixed nav */
-/* Hero fills the visual viewport; footer stays below the fold */
+/* Hero fills the viewport; keep footer just below the fold */
 .gallery-hero{
   flex:1;
   min-height:100vh;                 /* fallback */
@@ -34,23 +33,28 @@
   place-content:center;
   padding:24px 16px 24px;
 }
-/* Prefer dynamic viewport if supported (handles iOS Safari toolbars) */
+/* Prefer dynamic viewport; add bottom safe inset so footer doesn't peek on full‑screen iPhones */
 @supports (height: 1dvh){
-  .gallery-hero{ min-height:100dvh; }
+  .gallery-hero{ min-height: calc(100dvh + env(safe-area-inset-bottom)); }
 }
-/* As an additional guard on Safari tech preview / variants */
+/* Some Safari variants need large viewport to avoid rounding issues; let it override if available */
+@supports (height: 1lvh){
+  .gallery-hero{ min-height: calc(100lvh + env(safe-area-inset-bottom)); }
+}
+/* Last resort for older Safari tech-preview small viewport unit */
 @supports (height: 1svh){
-  .gallery-hero{ min-height:100svh; }
+  .gallery-hero{ min-height: calc(100svh + env(safe-area-inset-bottom)); }
 }
 @media (min-width:900px){
-  .gallery-hero{
-    min-height:100vh;               /* desktop fallback */
-  }
+  .gallery-hero{ min-height:100vh; }
   @supports (height: 1dvh){
-    .gallery-hero{ min-height:100dvh; }
+    .gallery-hero{ min-height: calc(100dvh + env(safe-area-inset-bottom)); }
+  }
+  @supports (height: 1lvh){
+    .gallery-hero{ min-height: calc(100lvh + env(safe-area-inset-bottom)); }
   }
   @supports (height: 1svh){
-    .gallery-hero{ min-height:100svh; }
+    .gallery-hero{ min-height: calc(100svh + env(safe-area-inset-bottom)); }
   }
 }
 .gallery-stack{text-align:center;max-width:960px;margin:0 auto;}
