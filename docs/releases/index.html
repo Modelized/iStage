@@ -65,6 +65,17 @@
 
   /* card + typography balance */
   .releases-list{ display:grid; gap:16px; }
+  /* empty/loading states */
+  .empty{
+    border:1px dashed var(--nav-border);
+    border-radius:14px;
+    padding:18px;
+    text-align:center;
+    margin:2px 0;
+  }
+  @media (prefers-color-scheme: dark){
+    .empty{ border-color: #56596466; }
+  }
   .releases-group{ margin: 12px 0 24px; }
   .group-title{
     text-align:left;
@@ -144,7 +155,7 @@
     border-radius:inherit;
     pointer-events:none;
     box-shadow:
-      inset 0 0 26px rgba(255,159,10,.45);
+      inset 0 0 22px rgba(255,159,10,.62);
     transition: box-shadow .2s ease;
   }
   /* Orange action to match highlight (top card only) */
@@ -164,7 +175,7 @@
   @media (prefers-color-scheme: light){
     .page-releases .card.is-highlight::after{
       box-shadow:
-        inset 0 0 22px rgba(255,159,10,.36);
+        inset 0 0 18px rgba(255,159,10,.54);
     }
   }
   .release-foot{
@@ -290,6 +301,17 @@
     const OWNER = 'Modelized';
     const REPO  = 'iStage';
     const list  = document.getElementById('releases-list');
+    const groupHTML = (title, inner) => `
+      <div class="releases-group" data-group="${title}">
+        <h2 class="group-title">${title}</h2>
+        <div class="releases-list">${inner}</div>
+      </div>`;
+    if (list){
+      list.innerHTML = [
+        groupHTML('Latest Releases',  `<div class="empty small muted">Loading latest…</div>`),
+        groupHTML('Previous Releases',`<div class="empty small muted">Loading previous…</div>`)
+      ].join('');
+    }
     if (!list) return;
 
     const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -434,18 +456,17 @@
         })
         .sort((a, b) => timeOf(b) - timeOf(a));
 
-      // Render two groups with left-aligned headings
-      const group = (title, arr) => `
+      const empty = (msg) => `<div class="empty"><p class="small muted">${esc(msg)}</p></div>`;
+      const group = (title, arr, emptyMsg) => `
         <div class="releases-group" data-group="${title}">
           <h2 class="group-title">${title}</h2>
           <div class="releases-list">
-            ${arr.map((r, i) => tpl(r, title === 'Latest Releases' && i === 0)).join('')}
+            ${arr.length ? arr.map((r, i) => tpl(r, title === 'Latest Releases' && i === 0)).join('') : empty(emptyMsg || 'No releases yet.')}
           </div>
         </div>`;
-
       list.innerHTML = [
-        group('Latest Releases', latestReleases),
-        group('Previous Releases', previousReleases)
+        group('Latest Releases',  latestReleases,  'No releases yet.'),
+        group('Previous Releases', previousReleases, previousReleases.length ? '' : 'No previous releases yet.')
       ].join('');
     })
     .catch(err => showError(String(err)));
