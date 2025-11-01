@@ -27,18 +27,17 @@
 /* Hero fills remaining space minus fixed nav */
 .gallery-hero{
   flex:1;
-  min-height:calc(100vh - (env(safe-area-inset-top) + var(--nav-offset-mobile)));
+  min-height:100vh;               /* fill full viewport so footer starts below the fold */
   display:grid;
   place-items:center;
   place-content:center;
-  padding:48px 16px 72px;
+  padding:24px 16px 24px;         /* small breathing room without shifting the center much */
 }
 @media (min-width:900px){
-  .gallery-hero{
-    min-height:calc(100vh - (env(safe-area-inset-top) + var(--nav-offset-desktop)));
-  }
+  .gallery-hero{ min-height:100vh; }
 }
 .gallery-stack{text-align:center;max-width:960px;margin:0 auto;}
+.gallery-stack > * + *{ margin-top:10px; } /* consistent vertical rhythm */
 .gallery-title{font-size:clamp(28px,3.4vw,44px);font-weight:700;letter-spacing:-.01em;margin:0;}
 .gallery-icon{
   display:block;
