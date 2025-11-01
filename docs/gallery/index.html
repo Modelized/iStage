@@ -17,18 +17,35 @@
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <style>
+/* Sticky footer layout (content fills the viewport, footer sits at bottom) */
+.page-gallery{
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* Hero fills remaining space minus fixed nav */
 .gallery-hero{
-  min-height:100vh;      /* fallback */
-  min-height:100svh;     /* small viewport height (iOS Safari) */
-  min-height:100dvh;     /* dynamic viewport height */
+  flex:1; /* let main grow so footer stays at bottom */
+  min-height: calc(100dvh - var(--nav-offset-mobile));
   display:grid;
   place-items:center;
-  place-content:center; /* vertical centering */
-  padding:72px 16px;
+  place-content:center;
+  padding:48px 16px 72px;
 }
+
+/* Prefer small/dynamic viewport units when supported (iOS Safari, etc.) */
+@supports (height: 100svh){
+  .gallery-hero{ min-height: calc(100svh - var(--nav-offset-mobile)); }
+}
+
+/* Desktop: subtract desktop nav height */
 @media (min-width:900px){
-  .gallery-hero{
-    min-height: calc(100dvh - var(--nav-offset-desktop));
+  .gallery-hero{ min-height: calc(100dvh - var(--nav-offset-desktop)); }
+}
+@supports (height: 100svh){
+  @media (min-width:900px){
+    .gallery-hero{ min-height: calc(100svh - var(--nav-offset-desktop)); }
   }
 }
 .gallery-stack{text-align:center;max-width:960px;margin:0 auto;}
