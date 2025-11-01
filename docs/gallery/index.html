@@ -24,41 +24,31 @@
   flex-direction:column;
 }
 
-/* Hero fills the viewport; keep footer just below the fold */
+/* Hero fills remaining space minus fixed nav */
 .gallery-hero{
-  flex:1;
-  min-height:100vh;                 /* fallback */
+  flex:1; /* let main grow so footer stays at bottom */
+  min-height: calc(100dvh - var(--nav-offset-mobile));
   display:grid;
   place-items:center;
   place-content:center;
-  padding:24px 16px 24px;
+  padding:48px 16px 72px;
 }
-/* Prefer dynamic viewport; add bottom safe inset so footer doesn't peek on full‑screen iPhones */
-@supports (height: 1dvh){
-  .gallery-hero{ min-height: calc(100dvh + env(safe-area-inset-bottom)); }
+
+/* Prefer small/dynamic viewport units when supported (iOS Safari, etc.) */
+@supports (height: 100svh){
+  .gallery-hero{ min-height: calc(100svh - var(--nav-offset-mobile)); }
 }
-/* Some Safari variants need large viewport to avoid rounding issues; let it override if available */
-@supports (height: 1lvh){
-  .gallery-hero{ min-height: calc(100lvh + env(safe-area-inset-bottom)); }
-}
-/* Last resort for older Safari tech-preview small viewport unit */
-@supports (height: 1svh){
-  .gallery-hero{ min-height: calc(100svh + env(safe-area-inset-bottom)); }
-}
+
+/* Desktop: subtract desktop nav height */
 @media (min-width:900px){
-  .gallery-hero{ min-height:100vh; }
-  @supports (height: 1dvh){
-    .gallery-hero{ min-height: calc(100dvh + env(safe-area-inset-bottom)); }
-  }
-  @supports (height: 1lvh){
-    .gallery-hero{ min-height: calc(100lvh + env(safe-area-inset-bottom)); }
-  }
-  @supports (height: 1svh){
-    .gallery-hero{ min-height: calc(100svh + env(safe-area-inset-bottom)); }
+  .gallery-hero{ min-height: calc(100dvh - var(--nav-offset-desktop)); }
+}
+@supports (height: 100svh){
+  @media (min-width:900px){
+    .gallery-hero{ min-height: calc(100svh - var(--nav-offset-desktop)); }
   }
 }
 .gallery-stack{text-align:center;max-width:960px;margin:0 auto;}
-.gallery-stack > * + *{ margin-top:10px; } /* consistent vertical rhythm */
 .gallery-title{font-size:clamp(28px,3.4vw,44px);font-weight:700;letter-spacing:-.01em;margin:0;}
 .gallery-icon{
   display:block;
