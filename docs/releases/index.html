@@ -65,6 +65,16 @@
 
   /* card + typography balance */
   .releases-list{ display:grid; gap:16px; }
+  .releases-group{ margin: 12px 0 24px; }
+  .group-title{
+    text-align:left;
+    margin: 0 0 8px;
+    padding-left:2px;
+    font-weight:600;
+    font-size:clamp(18px, 4vw, 20px);
+  }
+  /* ensure release titles are left-aligned */
+  .release-title{ text-align:left; }
   .release-title{
     margin:0 0 1px;
     font-weight:600;
@@ -75,23 +85,6 @@
     display:flex;
     align-items:center;
     gap:.6ch;
-  }
-  .latest-badge{
-    display:inline-flex;          /* robust centering across browsers */
-    align-items:center;
-    justify-content:center;
-    height:20px;                  /* visual chip height */
-    padding:1px 8px 0;            /* nudge text down ~1px for optical centering */
-    border-radius:999px;
-    border:1.5px solid #ff9f0a;
-    color:#ff9f0a;
-    font-weight:600;
-    line-height:1;
-    font-size:.85em;
-    vertical-align:middle;        /* align with adjacent meta text */
-  }
-  @media (prefers-color-scheme: dark){
-    .latest-badge{ border-color:#ff9f0a; color:#ff9f0a; }
   }
   .prose{ line-height:1.65; }
   .prose h1,.prose h2{ font-size:clamp(18px, 4vw, 20px); margin:16px 0 8px; font-weight:600; }
@@ -334,7 +327,7 @@
       return m ? m[0] : '';
     };
 
-    const tpl = (r, isLatest) => {
+    const tpl = (r) => {
       const title = r.name || r.tag_name || 'Untitled';
       const tag   = r.tag_name ? `${r.tag_name}` : '';
       const date  = r.published_at ? fmtDate(r.published_at) : '';
@@ -343,7 +336,6 @@
       const href  = asset ? asset.browser_download_url : r.html_url;
 
       const metaText = [date, size].filter(Boolean).join(' • ');
-      const latestHtml = isLatest ? '<span class="latest-badge" title="Latest release">Latest</span>' : '';
 
       const ver  = versionFromTag(tag);
       const icon = ver
@@ -356,7 +348,7 @@
             ${icon}
             <div class="release-head-text">
               <h3 class="release-title">${esc(title)}</h3>
-              <div class="muted small release-meta">${latestHtml}<span>${esc(metaText)}</span></div>
+              <div class="muted small release-meta"><span>${esc(metaText)}</span></div>
             </div>
           </header>
           <div class="prose" style="margin-top:12px">${mdToHtml(r.body||'')}</div>
@@ -391,12 +383,34 @@
         const pt = prev ? new Date(prev.published_at || prev.created_at || 0).getTime() : -Infinity;
         if (!prev || t > pt) latestByVer.set(v, r);
       }
-      // Render all releases; show "Latest" badge when this item is the latest for its version
-      list.innerHTML = items.map(r => {
-        const v = versionFromTag(r.tag_name || '');
-        const isLatest = v ? latestByVer.get(v) === r : false;
-        return tpl(r, isLatest);
-      }).join('');
+
+      // 1) Latest releases: one per major version (26, 18, ...) sorted by version (desc)
+      const versionNum = r => parseInt(versionFromTag(r.tag_name || ''), 10) || 0;
+      const latestReleases = Array.from(latestByVer.values())
+        .sort((a, b) => versionNum(b) - versionNum(a));
+
+      // 2) Previous releases: everything else, sorted by publish date (desc)
+      const timeOf = r => new Date(r.published_at || r.created_at || 0).getTime();
+      const previousReleases = items
+        .filter(r => {
+          const v = versionFromTag(r.tag_name || '');
+          return !(v && latestByVer.get(v) === r);
+        })
+        .sort((a, b) => timeOf(b) - timeOf(a));
+
+      // Render two groups with left-aligned headings
+      const group = (title, arr) => `
+        <div class="releases-group">
+          <h2 class="group-title">${title}</h2>
+          <div class="releases-list">
+            ${arr.map(tpl).join('')}
+          </div>
+        </div>`;
+
+      list.innerHTML = [
+        group('Latest Releases', latestReleases),
+        group('Previous Releases', previousReleases)
+      ].join('');
     })
     .catch(err => showError(String(err)));
   })();
