@@ -26,26 +26,16 @@
 
 /* Hero fills remaining space minus fixed nav */
 .gallery-hero{
-  flex:1; /* let main grow so footer stays at bottom */
-  min-height: calc(100dvh - var(--nav-offset-mobile));
+  flex:1;
+  min-height:calc(100vh - (env(safe-area-inset-top) + var(--nav-offset-mobile)));
   display:grid;
   place-items:center;
   place-content:center;
   padding:48px 16px 72px;
 }
-
-/* Prefer small/dynamic viewport units when supported (iOS Safari, etc.) */
-@supports (height: 100svh){
-  .gallery-hero{ min-height: calc(100svh - var(--nav-offset-mobile)); }
-}
-
-/* Desktop: subtract desktop nav height */
 @media (min-width:900px){
-  .gallery-hero{ min-height: calc(100dvh - var(--nav-offset-desktop)); }
-}
-@supports (height: 100svh){
-  @media (min-width:900px){
-    .gallery-hero{ min-height: calc(100svh - var(--nav-offset-desktop)); }
+  .gallery-hero{
+    min-height:calc(100vh - (env(safe-area-inset-top) + var(--nav-offset-desktop)));
   }
 }
 .gallery-stack{text-align:center;max-width:960px;margin:0 auto;}
