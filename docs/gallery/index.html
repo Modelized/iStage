@@ -25,16 +25,33 @@
 }
 
 /* Hero fills remaining space minus fixed nav */
+/* Hero fills the visual viewport; footer stays below the fold */
 .gallery-hero{
   flex:1;
-  min-height:100vh;               /* fill full viewport so footer starts below the fold */
+  min-height:100vh;                 /* fallback */
   display:grid;
   place-items:center;
   place-content:center;
-  padding:24px 16px 24px;         /* small breathing room without shifting the center much */
+  padding:24px 16px 24px;
+}
+/* Prefer dynamic viewport if supported (handles iOS Safari toolbars) */
+@supports (height: 1dvh){
+  .gallery-hero{ min-height:100dvh; }
+}
+/* As an additional guard on Safari tech preview / variants */
+@supports (height: 1svh){
+  .gallery-hero{ min-height:100svh; }
 }
 @media (min-width:900px){
-  .gallery-hero{ min-height:100vh; }
+  .gallery-hero{
+    min-height:100vh;               /* desktop fallback */
+  }
+  @supports (height: 1dvh){
+    .gallery-hero{ min-height:100dvh; }
+  }
+  @supports (height: 1svh){
+    .gallery-hero{ min-height:100svh; }
+  }
 }
 .gallery-stack{text-align:center;max-width:960px;margin:0 auto;}
 .gallery-stack > * + *{ margin-top:10px; } /* consistent vertical rhythm */
