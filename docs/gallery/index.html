@@ -123,9 +123,9 @@
 </nav>
 <main class="gallery-hero">
   <div class="gallery-stack">
-    <img class="gallery-icon reveal reveal-onload" src="../assets/img/iStage-icon.png" alt="iStage icon" width="96" height="96" decoding="async" fetchpriority="high">
-    <h1 class="gallery-title reveal reveal-onload" style="--reveal-delay:0s">Gallery</h1>
-    <p class="subtitle gallery-subtitle reveal reveal-onload" style="--reveal-delay:.08s">Coming soon.</p>
+    <img class="gallery-icon reveal-onload reveal-delay-0" src="../assets/img/iStage-icon.png" alt="iStage icon" width="96" height="96" decoding="async" fetchpriority="high">
+    <h1 class="gallery-title reveal-onload reveal-delay-1">Gallery</h1>
+    <p class="subtitle gallery-subtitle reveal-onload reveal-delay-2">Coming soon.</p>
   </div>
 </main>
 <footer class="footer">
@@ -134,35 +134,6 @@
     <a href="../legal/" class="footer-legal">Legal</a>
   </div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-  <script>
-  // Reveal on load/scroll (uses classes from style.css)
-  (function(){
-    // Flag that JS is present so .js rules apply
-    document.documentElement.classList.add('js');
-    const els = document.querySelectorAll('.reveal');
-    if(!els.length) return;
-
-    // If IntersectionObserver is missing, just show everything
-    if (!('IntersectionObserver' in window)){
-      els.forEach(el => el.classList.add('is-revealed'));
-      return;
-    }
-
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add('is-revealed');
-          // keep observing so it can reveal again if it re-enters after being reset elsewhere
-        }
-      });
-    }, {
-      threshold: 0,
-      rootMargin: '0px 0px -1% 0px'
-    });
-
-    els.forEach(el => io.observe(el));
-  })();
-  </script>
   <script>
     const nav = document.querySelector('.nav');
     const toggle = document.querySelector('.nav-toggle');
