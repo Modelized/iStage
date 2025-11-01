@@ -26,33 +26,36 @@
 
 /* Hero fills the viewport; keep footer just below the fold */
 .gallery-hero{
-  position: relative;
   flex:1;
-  height:100vh;                     /* fallback */
+  min-height:100vh;                 /* fallback */
+  display:grid;
+  grid-template-rows: 1fr auto;     /* center + reserved bottom space */
+  align-items:center;
+  justify-items:center;
   padding:24px 16px 24px;
 }
 /* Prefer dynamic viewport; add bottom safe inset so footer doesn't peek on full‑screen iPhones */
 @supports (height: 1dvh){
-  .gallery-hero{ height: calc(100dvh + env(safe-area-inset-bottom)); }
+  .gallery-hero{ min-height: calc(100dvh + env(safe-area-inset-bottom)); }
 }
 /* Some Safari variants need large viewport to avoid rounding issues; let it override if available */
 @supports (height: 1lvh){
-  .gallery-hero{ height: calc(100lvh + env(safe-area-inset-bottom)); }
+  .gallery-hero{ min-height: calc(100lvh + env(safe-area-inset-bottom)); }
 }
 /* Last resort for older Safari tech-preview small viewport unit */
 @supports (height: 1svh){
-  .gallery-hero{ height: calc(100svh + env(safe-area-inset-bottom)); }
+  .gallery-hero{ min-height: calc(100svh + env(safe-area-inset-bottom)); }
 }
 @media (min-width:900px){
-  .gallery-hero{ height:100vh; }
+  .gallery-hero{ min-height:100vh; }
   @supports (height: 1dvh){
-    .gallery-hero{ height: calc(100dvh + env(safe-area-inset-bottom)); }
+    .gallery-hero{ min-height: calc(100dvh + env(safe-area-inset-bottom)); }
   }
   @supports (height: 1lvh){
-    .gallery-hero{ height: calc(100lvh + env(safe-area-inset-bottom)); }
+    .gallery-hero{ min-height: calc(100lvh + env(safe-area-inset-bottom)); }
   }
   @supports (height: 1svh){
-    .gallery-hero{ height: calc(100svh + env(safe-area-inset-bottom)); }
+    .gallery-hero{ min-height: calc(100svh + env(safe-area-inset-bottom)); }
   }
 }
 .gallery-stack{text-align:center;max-width:960px;margin:0 auto;}
@@ -67,6 +70,19 @@
 /*.gallery-subtitle{margin-top:12px;font-size:clamp(16px,2vw,20px);color:#5e6572}*/
 .gallery-subtitle{margin-top:4px;font-size:clamp(16px,2vw,20px);}
 /* ---- Gallery page (scoped) ---- */
+/* Center shift: pull the hero stack slightly below true center (mobile > desktop) */
+.page-gallery{
+  --center-shift: 8vh;
+}
+@supports (height: 1dvh){
+  .page-gallery{ --center-shift: 8dvh; }
+}
+@media (min-width:900px){
+  .page-gallery{ --center-shift: 4vh; }
+  @supports (height: 1dvh){
+    .page-gallery{ --center-shift: 4dvh; }
+  }
+}
 :root{
   --surface-light:#f5f5f7;
   --surface-dark:#0f1116; /* dark surface behind cards */
@@ -94,26 +110,30 @@
   }
 }
 .gallery-spacer{
-  position:absolute;
-  left:0; right:0; bottom:0;
   height: clamp(64px, 8vh, 96px);
   height: calc(clamp(64px, 8vh, 96px) + env(safe-area-inset-bottom));
-  pointer-events:none;
+  width: 1px; /* minimal footprint */
 }
 /* Adjust vertical alignment for centering */
-.gallery-stack {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
+.gallery-stack{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:auto;
+  position:absolute;
+  top: calc(50% + var(--center-shift)); /* pull the block DOWN from the true center */
+  left:50%;
   transform: translate(-50%, -50%);
+  width: min(92%, 960px);
 }
-.page-gallery .btn {
-  margin-top: 180px; /* push the button lower */
+.page-gallery .btn{
+  margin-top: clamp(24px, 12vh, 160px);
+}
+@supports (height: 1dvh){
+  .page-gallery .btn{
+    margin-top: clamp(24px, 12dvh, 160px);
+  }
 }
   </style>
 </head>
