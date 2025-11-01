@@ -110,14 +110,8 @@
   height: 100%;
   transform: translateY(10%);
 }
-/* Responsive push for the button: scales with viewport height, caps for very short/tall screens */
-.page-gallery .btn{
-  margin-top: clamp(28px, 14vh, 180px);
-}
-@supports (height: 1dvh){
-  .page-gallery .btn{
-    margin-top: clamp(28px, 14dvh, 180px);
-  }
+.page-gallery .btn {
+  margin-top: 180px; /* push the button even lower */
 }
   </style>
 </head>
