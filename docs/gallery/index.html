@@ -17,14 +17,31 @@
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <style>
-    /* Gallery page — full-viewport center + reveal animation (page-local) */
-    .gallery-hero{min-height:100vh;display:grid;place-items:center;padding:72px 16px;}
-    .gallery-stack{text-align:center;max-width:960px;margin:0 auto;}
-    .gallery-title{font-size:clamp(28px,3.4vw,44px);font-weight:700;letter-spacing:-.01em;}
-    .gallery-subtitle{margin-top:12px;font-size:clamp(16px,2vw,20px);color:var(--text-muted,#a3a3a3);}
+/* Gallery page — full-viewport center */
+.gallery-hero{min-height:100vh;display:grid;place-items:center;padding:72px 16px;}
+.gallery-stack{text-align:center;max-width:960px;margin:0 auto;}
+.gallery-title{font-size:clamp(28px,3.4vw,44px);font-weight:700;letter-spacing:-.01em;}
+/*.gallery-subtitle{margin-top:12px;font-size:clamp(16px,2vw,20px);color:#5e6572}*/
+.gallery-subtitle{margin-top:12px;font-size:clamp(16px,2vw,20px);}
+/* ---- Gallery page (scoped) ---- */
+:root{
+  --surface-light:#f5f5f7;
+  --surface-dark:#0f1116; /* dark surface behind cards */
+}
+/* no backdrop under nav on this page */
+.page-gallery .nav-backdrop{ display:none !important; }
+/* subtitle contrast */
+.page-gallery .subtitle{ color:#5e6572; }
+@media (prefers-color-scheme: dark){
+  .page-gallery .subtitle{ color:#a7acb7; }
+}
+.page-gallery{ background:#fff; }
+@media (prefers-color-scheme: dark){
+  .page-gallery{ background:#000; color:#e8e9ec; }
+}
   </style>
 </head>
-<body>
+<body class="page-gallery">
 <nav class="nav" role="navigation" aria-label="Primary">
   <div class="nav-inner">
     <div class="container row">
@@ -60,8 +77,8 @@
 </nav>
 <main class="gallery-hero">
   <div class="gallery-stack">
-    <h1 class="gallery-title reveal" style="--d:0s">Gallery</h1>
-    <p class="gallery-subtitle reveal" style="--d:.08s">Coming soon.</p>
+    <h1 class="gallery-title reveal reveal-onload" style="--reveal-delay:0s">Gallery</h1>
+    <p class="subtitle gallery-subtitle reveal reveal-onload" style="--reveal-delay:.08s">Coming soon.</p>
   </div>
 </main>
 <footer class="footer">
@@ -71,22 +88,33 @@
   </div>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script>
-    // Reveal on load/scroll (page-local)
-    (function(){
-      const els = document.querySelectorAll('.reveal');
-      if(!els.length) return;
-      const show = el => el.classList.add('is-visible');
-      if ('IntersectionObserver' in window){
-        const io = new IntersectionObserver((entries)=>{
-          entries.forEach(e=>{
-            if (e.isIntersecting){ show(e.target); }
-          });
-        }, {threshold:0, rootMargin:'0px 0px -12% 0px'}); // trigger when a bit inside
-        els.forEach(el=>io.observe(el));
-      } else {
-        els.forEach(show);
-      }
-    })();
+  // Reveal on load/scroll (uses classes from style.css)
+  (function(){
+    // Flag that JS is present so .js rules apply
+    document.documentElement.classList.add('js');
+    const els = document.querySelectorAll('.reveal');
+    if(!els.length) return;
+
+    // If IntersectionObserver is missing, just show everything
+    if (!('IntersectionObserver' in window)){
+      els.forEach(el => el.classList.add('is-revealed'));
+      return;
+    }
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-revealed');
+          // keep observing so it can reveal again if it re-enters after being reset elsewhere
+        }
+      });
+    }, {
+      threshold: 0,
+      rootMargin: '0px 0px -6% 0px' // reveal shortly after the element appears
+    });
+
+    els.forEach(el => io.observe(el));
+  })();
   </script>
   <script>
     const nav = document.querySelector('.nav');
