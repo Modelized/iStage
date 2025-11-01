@@ -133,6 +133,28 @@
       border:0;
     }
   }
+  /* highlight the top item in "Latest Releases" with an inner glow */
+  .page-releases .card.is-highlight{
+    position: relative;
+  }
+  .page-releases .card.is-highlight::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    pointer-events:none;
+    box-shadow:
+      inset 0 0 0 2px #ff9f0a,
+      inset 0 0 22px rgba(255,159,10,.35);
+    transition: box-shadow .2s ease;
+  }
+  @media (prefers-color-scheme: light){
+    .page-releases .card.is-highlight::after{
+      box-shadow:
+        inset 0 0 0 2px #ff9f0a,
+        inset 0 0 18px rgba(255,159,10,.28);
+    }
+  }
   .release-foot{
     display:flex; justify-content:flex-end; align-items:center; gap:.6rem; margin-top:12px;
   }
@@ -327,7 +349,7 @@
       return m ? m[0] : '';
     };
 
-    const tpl = (r) => {
+    const tpl = (r, isHighlight = false) => {
       const title = r.name || r.tag_name || 'Untitled';
       const tag   = r.tag_name ? `${r.tag_name}` : '';
       const date  = r.published_at ? fmtDate(r.published_at) : '';
@@ -343,7 +365,7 @@
         : '';
 
       return `
-        <article class="card">
+        <article class="card ${isHighlight ? 'is-highlight' : ''}">
           <header class="release-head">
             ${icon}
             <div class="release-head-text">
@@ -400,10 +422,10 @@
 
       // Render two groups with left-aligned headings
       const group = (title, arr) => `
-        <div class="releases-group">
+        <div class="releases-group" data-group="${title}">
           <h2 class="group-title">${title}</h2>
           <div class="releases-list">
-            ${arr.map(tpl).join('')}
+            ${arr.map((r, i) => tpl(r, title === 'Latest Releases' && i === 0)).join('')}
           </div>
         </div>`;
 
