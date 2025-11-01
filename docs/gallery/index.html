@@ -26,36 +26,33 @@
 
 /* Hero fills the viewport; keep footer just below the fold */
 .gallery-hero{
+  position: relative;
   flex:1;
-  min-height:100vh;                 /* fallback */
-  display:grid;
-  grid-template-rows: 1fr auto;     /* center + reserved bottom space */
-  align-items:center;
-  justify-items:center;
+  height:100vh;                     /* fallback */
   padding:24px 16px 24px;
 }
 /* Prefer dynamic viewport; add bottom safe inset so footer doesn't peek on full‑screen iPhones */
 @supports (height: 1dvh){
-  .gallery-hero{ min-height: calc(100dvh + env(safe-area-inset-bottom)); }
+  .gallery-hero{ height: calc(100dvh + env(safe-area-inset-bottom)); }
 }
 /* Some Safari variants need large viewport to avoid rounding issues; let it override if available */
 @supports (height: 1lvh){
-  .gallery-hero{ min-height: calc(100lvh + env(safe-area-inset-bottom)); }
+  .gallery-hero{ height: calc(100lvh + env(safe-area-inset-bottom)); }
 }
 /* Last resort for older Safari tech-preview small viewport unit */
 @supports (height: 1svh){
-  .gallery-hero{ min-height: calc(100svh + env(safe-area-inset-bottom)); }
+  .gallery-hero{ height: calc(100svh + env(safe-area-inset-bottom)); }
 }
 @media (min-width:900px){
-  .gallery-hero{ min-height:100vh; }
+  .gallery-hero{ height:100vh; }
   @supports (height: 1dvh){
-    .gallery-hero{ min-height: calc(100dvh + env(safe-area-inset-bottom)); }
+    .gallery-hero{ height: calc(100dvh + env(safe-area-inset-bottom)); }
   }
   @supports (height: 1lvh){
-    .gallery-hero{ min-height: calc(100lvh + env(safe-area-inset-bottom)); }
+    .gallery-hero{ height: calc(100lvh + env(safe-area-inset-bottom)); }
   }
   @supports (height: 1svh){
-    .gallery-hero{ min-height: calc(100svh + env(safe-area-inset-bottom)); }
+    .gallery-hero{ height: calc(100svh + env(safe-area-inset-bottom)); }
   }
 }
 .gallery-stack{text-align:center;max-width:960px;margin:0 auto;}
@@ -97,11 +94,13 @@
   }
 }
 .gallery-spacer{
+  position:absolute;
+  left:0; right:0; bottom:0;
   height: clamp(64px, 8vh, 96px);
   height: calc(clamp(64px, 8vh, 96px) + env(safe-area-inset-bottom));
-  width: 1px; /* minimal footprint */
+  pointer-events:none;
 }
-/* Adjust vertical alignment for perfect centering */
+/* Adjust vertical alignment for centering */
 .gallery-stack {
   display: flex;
   flex-direction: column;
@@ -114,7 +113,7 @@
   transform: translate(-50%, -50%);
 }
 .page-gallery .btn {
-  margin-top: 180px; /* push the button even lower */
+  margin-top: 180px; /* push the button lower */
 }
   </style>
 </head>
