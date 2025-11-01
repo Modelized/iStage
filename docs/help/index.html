@@ -16,6 +16,20 @@
   <!-- Address bar color -->
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <style>
+    .prose{max-width:1100px;margin:0 auto;padding:0 12px}
+    .accordion .card{padding:0}
+    .acc-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px}
+    .acc-title{margin:0;font-size:clamp(18px, 2.2vw, 22px);font-weight:700}
+    .acc-toggle{display:grid;place-items:center;border:0;background:transparent;color:#a7acb7;width:34px;height:34px;border-radius:10px;cursor:pointer}
+    .acc-toggle:hover{background:rgba(255,255,255,.06)}
+    .chev{transition:transform .35s cubic-bezier(.22,1,.36,1)}
+    .acc-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+    .acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1)}
+    .acc-panel>div{overflow:hidden;padding:16px 18px;border-top:1px solid var(--nav-border)}
+    /* utilities */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
 </head>
 <body>
 <nav class="nav" role="navigation" aria-label="Primary">
@@ -51,7 +65,142 @@
     </div>
   </div>
 </nav>
-<main class='container prose'><h1>Help</h1></main>
+<main class="container">
+    <section class="section section--black" aria-label="Help center">
+      <div class="container">
+        <header class="copy" style="text-align:center">
+          <h1 class="title reveal-onload">Help</h1>
+          <p class="subtitle reveal-onload">Download & Setup, tips, and answers to common issues.</p>
+        </header>
+
+        <div class="accordion releases-list" style="margin-top:22px">
+          <!-- Download & Setup -->
+          <div class="acc-item card reveal-onload">
+            <div class="acc-header">
+              <h2 class="acc-title">Download &amp; Setup</h2>
+              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-setup">
+                <span class="sr-only">Toggle</span>
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+              </button>
+            </div>
+            <div class="acc-panel" id="acc-panel-setup" hidden>
+              <div>
+                <ol>
+                  <li>Get the latest public beta from the <a href="../releases/">Releases</a> page.</li>
+                  <li>Download the <code>.klck</code> preset file included in the release.</li>
+                  <li>Open <strong>KLCK</strong> on your Android device.</li>
+                  <li>Import the downloaded <code>.klck</code> file and apply it as your lock screen layout.</li>
+                </ol>
+                <p class="muted small">Note: Apple‑owned resources (SF Pro fonts, SF Symbols) are not included and must be prepared by the user.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Performance & Lag -->
+          <div class="acc-item card reveal-onload">
+            <div class="acc-header">
+              <h2 class="acc-title">Performance &amp; Lag</h2>
+              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-perf">
+                <span class="sr-only">Toggle</span>
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+              </button>
+            </div>
+            <div class="acc-panel" id="acc-panel-perf" hidden>
+              <div>
+                <ul>
+                  <li>Disable other live wallpapers/widgets temporarily to check conflicts.</li>
+                  <li>Reduce blur intensity in iStage settings if your device struggles with heavy blur.</li>
+                  <li>Turn off battery savers that throttle animations.</li>
+                  <li>Restart KLCK after big changes (force stop → reopen).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Import / Apply Issues -->
+          <div class="acc-item card reveal-onload">
+            <div class="acc-header">
+              <h2 class="acc-title">Import / Apply Issues</h2>
+              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-import">
+                <span class="sr-only">Toggle</span>
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+              </button>
+            </div>
+            <div class="acc-panel" id="acc-panel-import" hidden>
+              <div>
+                <ul>
+                  <li>Ensure KLCK is updated to the latest version.</li>
+                  <li>Confirm storage permission is granted to KLCK.</li>
+                  <li>If import fails, move the file to internal storage (e.g., <code>/Download</code>) and retry.</li>
+                  <li>If widgets look misaligned, set the device DPI and safe‑area to default in KLCK.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compatibility -->
+          <div class="acc-item card reveal-onload">
+            <div class="acc-header">
+              <h2 class="acc-title">Compatibility</h2>
+              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-compat">
+                <span class="sr-only">Toggle</span>
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+              </button>
+            </div>
+            <div class="acc-panel" id="acc-panel-compat" hidden>
+              <div>
+                <ul>
+                  <li>Designed for modern Android devices with KLCK support.</li>
+                  <li>Requires SF Pro fonts / SF Symbols prepared by the user for best visual match.</li>
+                  <li>Dynamic blur/animations are heavier on low‑end devices.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Known Limitations -->
+          <div class="acc-item card reveal-onload">
+            <div class="acc-header">
+              <h2 class="acc-title">Known Limitations</h2>
+              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-limits">
+                <span class="sr-only">Toggle</span>
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+              </button>
+            </div>
+            <div class="acc-panel" id="acc-panel-limits" hidden>
+              <div>
+                <ul>
+                  <li>Some KLCK blur behaviors may exceed intended bounds; alternatives are under review.</li>
+                  <li>Live Activity overlaps may occur with expanded widgets; fixes are planned in future updates.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Checklist -->
+          <div class="acc-item card reveal-onload">
+            <div class="acc-header">
+              <h2 class="acc-title">Quick Troubleshooting Checklist</h2>
+              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-check">
+                <span class="sr-only">Toggle</span>
+                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+              </button>
+            </div>
+            <div class="acc-panel" id="acc-panel-check" hidden>
+              <div>
+                <ol>
+                  <li>Latest KLCK installed and permissions granted.</li>
+                  <li>Preset imported from internal storage (not cloud sandbox).</li>
+                  <li>Battery saver / device optimizer disabled for KLCK.</li>
+                  <li>Device restarted if graphics glitches persist.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 <footer class="footer">
   <div class="container small muted footer-row">
     <span>© <span id="year"></span> iStage. All rights reserved.</span>
@@ -84,6 +233,39 @@
     const txt   = document.querySelector('.brand-text');
     function update(){ if(brand&&logo&&txt && logo.naturalWidth>0){ brand.classList.add('has-logo'); } }
     if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
+  </script>
+  <script>
+    (function(){
+      try{
+        var toggles = Array.prototype.slice.call(document.querySelectorAll('.acc-toggle'));
+        toggles.forEach(function(btn){
+          btn.addEventListener('click', function(){
+            var expanded = btn.getAttribute('aria-expanded') === 'true';
+            var panelId = btn.getAttribute('aria-controls');
+            var panel = document.getElementById(panelId);
+            btn.setAttribute('aria-expanded', (!expanded).toString());
+            if (panel){
+              if (expanded){
+                panel.setAttribute('hidden','');
+                panel.style.gridTemplateRows = '0fr';
+              }else{
+                panel.removeAttribute('hidden');
+                requestAnimationFrame(function(){
+                  panel.style.gridTemplateRows = '1fr';
+                });
+              }
+            }
+          });
+          // keyboard accessibility
+          btn.addEventListener('keydown', function(e){
+            if (e.key === 'Enter' || e.key === ' '){
+              e.preventDefault();
+              btn.click();
+            }
+          });
+        });
+      }catch(e){}
+    })();
   </script>
 </footer>
 </body>
