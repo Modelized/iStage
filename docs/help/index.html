@@ -16,22 +16,97 @@
   <!-- Address bar color -->
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+
   <style>
-    .prose{max-width:1100px;margin:0 auto;padding:0 12px}
-    .accordion .card{padding:0}
-    .acc-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px}
-    .acc-title{margin:0;font-size:clamp(18px, 2.2vw, 22px);font-weight:700}
-    .acc-toggle{display:grid;place-items:center;border:0;background:transparent;color:#a7acb7;width:34px;height:34px;border-radius:10px;cursor:pointer}
-    .acc-toggle:hover{background:rgba(255,255,255,.06)}
-    .chev{transition:transform .35s cubic-bezier(.22,1,.36,1)}
-    .acc-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
-    .acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1)}
-    .acc-panel>div{overflow:hidden;padding:16px 18px;border-top:1px solid var(--nav-border)}
-    /* utilities */
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  /* ---- Help page (scoped) ---- */
+  :root{
+    --surface-light:#f5f5f7;
+    --surface-dark:#0f1116;
+  }
+
+  /* no backdrop under nav on this page */
+  .page-help .nav-backdrop{ display:none !important; }
+
+  /* page surface */
+  .page-help{ background:#fff; }
+  @media (prefers-color-scheme: dark){
+    .page-help{ background:#000; color:#e8e9ec; }
+  }
+
+  /* subtitle contrast */
+  .page-help .subtitle{ color:#5e6572; }
+  @media (prefers-color-scheme: dark){
+    .page-help .subtitle{ color:#a7acb7; }
+  }
+
+  /* push first section clear of fixed nav (extra to avoid iOS clipping) */
+  .page-help .section--first{
+    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 12px);
+    margin-top:0;
+  }
+  @media (min-width:900px){
+    .page-help .section--first{
+      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 14px);
+    }
+  }
+
+  /* tighten heading stack */
+  .page-help .copy{ gap:6px }
+  .page-help .title{ margin:0 0 4px }
+
+  /* card surface matches site theme */
+  .page-help .card{
+    background:#f5f5f7;
+    color:#111317;
+    border:0;
+    border-radius:18px;
+    padding:0; /* accordion controls internal padding */
+  }
+  @media (prefers-color-scheme: dark){
+    .page-help .card{
+      background:#0f1116;
+      color:#e8e9ec;
+      border:0;
+    }
+  }
+
+  /* accordion layout */
+  .help-surface{ background:transparent; padding:16px 0 24px; }
+  .accordion{ display:grid; gap:16px; }
+
+  .acc-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px}
+  .acc-title{margin:0;font-weight:700;font-size:clamp(18px, 2.4vw, 22px)}
+  .acc-toggle{display:grid;place-items:center;border:0;background:transparent;color:#a7acb7;width:34px;height:34px;border-radius:10px;cursor:pointer}
+  .acc-toggle:hover{background:rgba(255,255,255,.06)}
+  .chev{transition:transform .35s cubic-bezier(.22,1,.36,1)}
+  .acc-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  .acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1)}
+  .acc-panel>div{overflow:hidden;padding:16px 18px;border-top:1px solid var(--nav-border)}
+
+  /* body text rhythm inside panels */
+  .prose{ line-height:1.65; }
+  .prose h1,.prose h2{ font-size:clamp(18px, 4vw, 20px); margin:16px 0 8px; font-weight:600; }
+  .prose h3{ font-size:clamp(16px, 4vw, 18px); margin:16px 0 6px; }
+  .prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
+  .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
+  .prose li{ margin:6px 0; }
+
+  /* footer theming */
+  .page-help .footer{
+    background:#f5f5f7;
+    color:#5e6572;
+  }
+  @media (prefers-color-scheme: dark){
+    .page-help .footer{
+      background:#0f1116;
+      color:#a7acb7;
+    }
+  }
+  .page-help main{ margin-bottom:0; padding-bottom:0 }
+  .page-help .footer{ margin:0 }
   </style>
 </head>
-<body>
+<body class="page-help">
 <nav class="nav" role="navigation" aria-label="Primary">
   <div class="nav-inner">
     <div class="container row">
@@ -65,17 +140,19 @@
     </div>
   </div>
 </nav>
-<main class="container">
-    <section class="section section--black" aria-label="Help center">
-      <div class="container">
-        <header class="copy" style="text-align:center">
-          <h1 class="title reveal-onload">Help</h1>
-          <p class="subtitle reveal-onload">Download & Setup, tips, and answers to common issues.</p>
-        </header>
 
-        <div class="accordion releases-list" style="margin-top:22px">
+<main>
+  <section class="section section--first">
+    <div class="container hero copy" style="text-align:center">
+      <h1 class="title reveal-onload" style="margin-bottom:4px">Help</h1>
+      <p class="subtitle small reveal-onload reveal-delay-1">Download &amp; Setup, tips, and answers to common issues.</p>
+    </div>
+
+    <div class="help-surface">
+      <div class="container">
+        <div class="accordion" id="help-accordion">
           <!-- Download & Setup -->
-          <div class="acc-item card reveal-onload">
+          <article class="card reveal-onload">
             <div class="acc-header">
               <h2 class="acc-title">Download &amp; Setup</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-setup">
@@ -84,7 +161,7 @@
               </button>
             </div>
             <div class="acc-panel" id="acc-panel-setup" hidden>
-              <div>
+              <div class="prose">
                 <ol>
                   <li>Get the latest public beta from the <a href="../releases/">Releases</a> page.</li>
                   <li>Download the <code>.klck</code> preset file included in the release.</li>
@@ -94,10 +171,10 @@
                 <p class="muted small">Note: Apple‑owned resources (SF Pro fonts, SF Symbols) are not included and must be prepared by the user.</p>
               </div>
             </div>
-          </div>
+          </article>
 
           <!-- Performance & Lag -->
-          <div class="acc-item card reveal-onload">
+          <article class="card reveal-onload">
             <div class="acc-header">
               <h2 class="acc-title">Performance &amp; Lag</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-perf">
@@ -106,7 +183,7 @@
               </button>
             </div>
             <div class="acc-panel" id="acc-panel-perf" hidden>
-              <div>
+              <div class="prose">
                 <ul>
                   <li>Disable other live wallpapers/widgets temporarily to check conflicts.</li>
                   <li>Reduce blur intensity in iStage settings if your device struggles with heavy blur.</li>
@@ -115,10 +192,10 @@
                 </ul>
               </div>
             </div>
-          </div>
+          </article>
 
           <!-- Import / Apply Issues -->
-          <div class="acc-item card reveal-onload">
+          <article class="card reveal-onload">
             <div class="acc-header">
               <h2 class="acc-title">Import / Apply Issues</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-import">
@@ -127,7 +204,7 @@
               </button>
             </div>
             <div class="acc-panel" id="acc-panel-import" hidden>
-              <div>
+              <div class="prose">
                 <ul>
                   <li>Ensure KLCK is updated to the latest version.</li>
                   <li>Confirm storage permission is granted to KLCK.</li>
@@ -136,10 +213,10 @@
                 </ul>
               </div>
             </div>
-          </div>
+          </article>
 
           <!-- Compatibility -->
-          <div class="acc-item card reveal-onload">
+          <article class="card reveal-onload">
             <div class="acc-header">
               <h2 class="acc-title">Compatibility</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-compat">
@@ -148,7 +225,7 @@
               </button>
             </div>
             <div class="acc-panel" id="acc-panel-compat" hidden>
-              <div>
+              <div class="prose">
                 <ul>
                   <li>Designed for modern Android devices with KLCK support.</li>
                   <li>Requires SF Pro fonts / SF Symbols prepared by the user for best visual match.</li>
@@ -156,10 +233,10 @@
                 </ul>
               </div>
             </div>
-          </div>
+          </article>
 
           <!-- Known Limitations -->
-          <div class="acc-item card reveal-onload">
+          <article class="card reveal-onload">
             <div class="acc-header">
               <h2 class="acc-title">Known Limitations</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-limits">
@@ -168,17 +245,17 @@
               </button>
             </div>
             <div class="acc-panel" id="acc-panel-limits" hidden>
-              <div>
+              <div class="prose">
                 <ul>
                   <li>Some KLCK blur behaviors may exceed intended bounds; alternatives are under review.</li>
                   <li>Live Activity overlaps may occur with expanded widgets; fixes are planned in future updates.</li>
                 </ul>
               </div>
             </div>
-          </div>
+          </article>
 
           <!-- Quick Checklist -->
-          <div class="acc-item card reveal-onload">
+          <article class="card reveal-onload">
             <div class="acc-header">
               <h2 class="acc-title">Quick Troubleshooting Checklist</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-check">
@@ -187,7 +264,7 @@
               </button>
             </div>
             <div class="acc-panel" id="acc-panel-check" hidden>
-              <div>
+              <div class="prose">
                 <ol>
                   <li>Latest KLCK installed and permissions granted.</li>
                   <li>Preset imported from internal storage (not cloud sandbox).</li>
@@ -196,16 +273,19 @@
                 </ol>
               </div>
             </div>
-          </div>
+          </article>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+</main>
+
 <footer class="footer">
   <div class="container small muted footer-row">
     <span>© <span id="year"></span> iStage. All rights reserved.</span>
     <a href="../legal/" class="footer-legal">Legal</a>
   </div>
+
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script>
     const nav = document.querySelector('.nav');
@@ -233,16 +313,14 @@
     const txt   = document.querySelector('.brand-text');
     function update(){ if(brand&&logo&&txt && logo.naturalWidth>0){ brand.classList.add('has-logo'); } }
     if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
-  </script>
-  <script>
     (function(){
       try{
-        var toggles = Array.prototype.slice.call(document.querySelectorAll('.acc-toggle'));
+        const toggles = Array.prototype.slice.call(document.querySelectorAll('.acc-toggle'));
         toggles.forEach(function(btn){
           btn.addEventListener('click', function(){
-            var expanded = btn.getAttribute('aria-expanded') === 'true';
-            var panelId = btn.getAttribute('aria-controls');
-            var panel = document.getElementById(panelId);
+            const expanded = btn.getAttribute('aria-expanded') === 'true';
+            const panelId = btn.getAttribute('aria-controls');
+            const panel = document.getElementById(panelId);
             btn.setAttribute('aria-expanded', (!expanded).toString());
             if (panel){
               if (expanded){
@@ -250,13 +328,10 @@
                 panel.style.gridTemplateRows = '0fr';
               }else{
                 panel.removeAttribute('hidden');
-                requestAnimationFrame(function(){
-                  panel.style.gridTemplateRows = '1fr';
-                });
+                requestAnimationFrame(function(){ panel.style.gridTemplateRows = '1fr'; });
               }
             }
           });
-          // keyboard accessibility
           btn.addEventListener('keydown', function(e){
             if (e.key === 'Enter' || e.key === ' '){
               e.preventDefault();
