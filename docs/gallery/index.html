@@ -24,31 +24,41 @@
   flex-direction:column;
 }
 
-/* Hero fills remaining space minus fixed nav */
+/* Hero fills the viewport; keep footer just below the fold */
 .gallery-hero{
-  flex:1; /* let main grow so footer stays at bottom */
-  min-height: calc(100dvh - var(--nav-offset-mobile));
+  flex:1;
+  min-height:100vh;                 /* fallback */
   display:grid;
   place-items:center;
   place-content:center;
-  padding:48px 16px 72px;
+  padding:24px 16px 24px;
 }
-
-/* Prefer small/dynamic viewport units when supported (iOS Safari, etc.) */
-@supports (height: 100svh){
-  .gallery-hero{ min-height: calc(100svh - var(--nav-offset-mobile)); }
+/* Prefer dynamic viewport; add bottom safe inset so footer doesn't peek on full‑screen iPhones */
+@supports (height: 1dvh){
+  .gallery-hero{ min-height: calc(100dvh + env(safe-area-inset-bottom)); }
 }
-
-/* Desktop: subtract desktop nav height */
+/* Some Safari variants need large viewport to avoid rounding issues; let it override if available */
+@supports (height: 1lvh){
+  .gallery-hero{ min-height: calc(100lvh + env(safe-area-inset-bottom)); }
+}
+/* Last resort for older Safari tech-preview small viewport unit */
+@supports (height: 1svh){
+  .gallery-hero{ min-height: calc(100svh + env(safe-area-inset-bottom)); }
+}
 @media (min-width:900px){
-  .gallery-hero{ min-height: calc(100dvh - var(--nav-offset-desktop)); }
-}
-@supports (height: 100svh){
-  @media (min-width:900px){
-    .gallery-hero{ min-height: calc(100svh - var(--nav-offset-desktop)); }
+  .gallery-hero{ min-height:100vh; }
+  @supports (height: 1dvh){
+    .gallery-hero{ min-height: calc(100dvh + env(safe-area-inset-bottom)); }
+  }
+  @supports (height: 1lvh){
+    .gallery-hero{ min-height: calc(100lvh + env(safe-area-inset-bottom)); }
+  }
+  @supports (height: 1svh){
+    .gallery-hero{ min-height: calc(100svh + env(safe-area-inset-bottom)); }
   }
 }
 .gallery-stack{text-align:center;max-width:960px;margin:0 auto;}
+.gallery-stack > * + *{ margin-top:10px; } /* consistent vertical rhythm */
 .gallery-title{font-size:clamp(28px,3.4vw,44px);font-weight:700;letter-spacing:-.01em;margin:0;}
 .gallery-icon{
   display:block;
@@ -83,6 +93,32 @@
   .page-gallery .footer{
     background:#0f1116;
     color:#a7acb7;
+  }
+}
+.gallery-home-btn{
+  display:inline-block;
+  margin-top:28px;
+  padding:10px 22px;
+  border-radius:14px;
+  font-weight:500;
+  text-decoration:none;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.08);
+  color:#fff;
+  transition:background .25s, transform .25s;
+}
+.gallery-home-btn:hover{
+  background:rgba(255,255,255,0.15);
+  transform:translateY(-1px);
+}
+@media (prefers-color-scheme: light){
+  .gallery-home-btn{
+    background:rgba(0,0,0,0.08);
+    color:#000;
+  }
+  .gallery-home-btn:hover{
+    background:rgba(0,0,0,0.15);
   }
 }
   </style>
@@ -126,6 +162,7 @@
     <img class="gallery-icon reveal-onload reveal-delay-0" src="../assets/img/iStage-icon.png" alt="iStage icon" width="96" height="96" decoding="async" fetchpriority="high">
     <h1 class="gallery-title reveal-onload reveal-delay-1">Gallery</h1>
     <p class="subtitle gallery-subtitle reveal-onload reveal-delay-2">Coming soon.</p>
+    <a href="../" class="gallery-home-btn reveal-onload reveal-delay-3">Back to Home</a>
   </div>
 </main>
 <footer class="footer">
