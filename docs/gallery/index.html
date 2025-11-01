@@ -95,32 +95,70 @@
     color:#a7acb7;
   }
 }
-.gallery-home-btn{
-  display:inline-block;
-  margin-top:28px;
-  padding:10px 22px;
-  border-radius:14px;
-  font-weight:500;
-  text-decoration:none;
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  background:rgba(255,255,255,0.08);
-  color:#fff;
-  transition:background .25s, transform .25s;
-}
-.gallery-home-btn:hover{
-  background:rgba(255,255,255,0.15);
-  transform:translateY(-1px);
-}
-@media (prefers-color-scheme: light){
-  .gallery-home-btn{
-    background:rgba(0,0,0,0.08);
-    color:#000;
+  /* ===== Glass primary button (iOS-like) ===== */
+  .glass-btn{
+    --btn-bg-dark: rgba(255,255,255,.10);
+    --btn-bg-dark-hover: rgba(255,255,255,.18);
+    --btn-bg-light: rgba(0,0,0,.06);
+    --btn-bg-light-hover: rgba(0,0,0,.12);
+    --btn-border: #ffffff33;
+    --btn-shadow: 0 8px 24px rgba(0,0,0,.28), inset 0 0 0 1px var(--btn-border);
+    --btn-radius: 16px;
+
+    display:inline-flex;
+    align-items:center;
+    gap:.6ch;
+    padding:12px 20px;
+    min-height:44px;                    /* comfortable touch target */
+    border-radius:var(--btn-radius);
+    text-decoration:none;
+    font-weight:600;
+    letter-spacing:.01em;
+
+    color:#fff;
+    background: var(--btn-bg-dark);
+    box-shadow: var(--btn-shadow);
+    backdrop-filter: saturate(160%) blur(18px);
+    -webkit-backdrop-filter: saturate(160%) blur(18px);
+    transition:
+      transform .25s cubic-bezier(.22,1,.36,1),
+      background .25s cubic-bezier(.22,1,.36,1),
+      box-shadow .25s cubic-bezier(.22,1,.36,1);
   }
-  .gallery-home-btn:hover{
-    background:rgba(0,0,0,0.15);
+  .glass-btn__icon{ transition: transform .25s cubic-bezier(.22,1,.36,1); }
+  .glass-btn:hover{
+    background: var(--btn-bg-dark-hover);
+    transform: translateY(-1px);
   }
-}
+  .glass-btn:hover .glass-btn__icon{ transform: translateX(2px); }
+  .glass-btn:active{
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(0,0,0,.24), inset 0 0 0 1px var(--btn-border);
+  }
+  .glass-btn:focus-visible{
+    outline: none;
+    box-shadow:
+      0 8px 24px rgba(0,0,0,.28),
+      inset 0 0 0 1px var(--btn-border),
+      0 0 0 3px rgba(0,113,227,.45); /* iOS blue focus ring */
+  }
+  @media (prefers-color-scheme: light){
+    .glass-btn{
+      color:#000;
+      background: var(--btn-bg-light);
+      box-shadow: 0 8px 24px rgba(0,0,0,.10), inset 0 0 0 1px #0000001f;
+    }
+    .glass-btn:hover{ background: var(--btn-bg-light-hover); }
+    .glass-btn:focus-visible{
+      box-shadow:
+        0 8px 24px rgba(0,0,0,.10),
+        inset 0 0 0 1px #0000001f,
+        0 0 0 3px rgba(0,113,227,.35);
+    }
+  }
+  @media (pointer:coarse){
+    .glass-btn{ padding:14px 22px; }
+  }
   </style>
 </head>
 <body class="page-gallery">
@@ -162,7 +200,12 @@
     <img class="gallery-icon reveal-onload reveal-delay-0" src="../assets/img/iStage-icon.png" alt="iStage icon" width="96" height="96" decoding="async" fetchpriority="high">
     <h1 class="gallery-title reveal-onload reveal-delay-1">Gallery</h1>
     <p class="subtitle gallery-subtitle reveal-onload reveal-delay-2">Coming soon.</p>
-    <a href="../" class="gallery-home-btn reveal-onload reveal-delay-3">Back to Home</a>
+    <a href="../" class="glass-btn reveal-onload reveal-delay-3">
+      <span class="glass-btn__label">Back to Home</span>
+      <svg class="glass-btn__icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M7 12h10M13 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
   </div>
 </main>
 <footer class="footer">
