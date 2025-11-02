@@ -88,19 +88,21 @@
   .accordion{ display:grid; gap:16px; }
 
   .acc-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px}
-  .acc-title{margin:0;font-weight:700;font-size:clamp(18px, 2.4vw, 22px)}
+  .acc-title{margin:0;font-weight:600;font-size:clamp(18px, 2.4vw, 22px)}
   .acc-toggle{
     display:grid;
     place-items:center;
     width:36px;
     height:36px;
     border-radius:10px;
-    border:0;
-    background: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent !important;
+    border: 0 !important;
     color: inherit;
     cursor:pointer;
-    outline: none;
-    box-shadow: none;
+    outline: none !important;
+    box-shadow: none !important;
     transition: transform .15s ease;
   }
   .acc-toggle:hover{ opacity:.85; }
@@ -120,6 +122,14 @@
   .prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
   .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
   .prose li{ margin:6px 0; }
+  .prose{ padding-inline: 6px; }
+  @media (min-width:900px){
+    .prose{ padding-inline: 10px; }
+  }
+  /* match Releases page weight & spacing */
+  .prose strong{ font-weight:600; }
+  .acc-panel .prose > *:first-child{ margin-top:0; }           /* remove extra gap above first heading ("Download") */
+  .prose ul + p{ margin-top:12px; }                             /* ensure space before Apple-owned resources paragraph */
 
   /* footer theming */
   .page-help .footer{
@@ -352,6 +362,17 @@
     const txt   = document.querySelector('.brand-text');
     function update(){ if(brand&&logo&&txt && logo.naturalWidth>0){ brand.classList.add('has-logo'); } }
     if (logo){ if (logo.complete) update(); logo.addEventListener('load', update); logo.addEventListener('error', ()=>brand&&brand.classList.remove('has-logo')); }
+    (function(){
+      try{
+        const mql = window.matchMedia('(prefers-color-scheme: dark)');
+        const apply = () => {
+          document.documentElement.style.setProperty('--nav-backdrop', mql.matches ? '#000' : '#fff');
+        };
+        apply();
+        if (mql.addEventListener) mql.addEventListener('change', apply);
+        else if (mql.addListener) mql.addListener(apply);
+      }catch(e){}
+    })();
     (function(){
       try{
         const toggles = Array.prototype.slice.call(document.querySelectorAll('.acc-toggle'));
