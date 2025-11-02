@@ -16,9 +16,8 @@
   <!-- Address bar color -->
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-
   <style>
-  /* ---- Help page (scoped) ---- */
+  /* ----- Help page (scoped) ----- */
   :root{
     --surface-light:#f5f5f7;
     --surface-dark:#0f1116;
@@ -64,6 +63,19 @@
   /* tighten heading stack */
   .page-help .copy{ gap:6px; margin-bottom:12px; }
   .page-help .title{ margin:0 0 4px }
+
+  /* Help hero image (match Releases styling) */
+  .help-hero{ display:flex; justify-content:center; margin:8px 0 18px }
+  .help-hero img{
+    width: clamp(180px, 48vw, 360px);
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+    background-color: transparent;
+    box-shadow: none;
+    filter: drop-shadow(0 8px 30px rgba(0,0,0,.12));
+    border-radius: 12px;
+  }
 
   /* card surface matches site theme */
   .page-help .card{
@@ -185,6 +197,9 @@
     <div class="container hero copy" style="text-align:center">
       <h1 class="title reveal-onload" style="margin-bottom:4px">Help</h1>
       <p class="subtitle small reveal-onload reveal-delay-1">Setup iStage, find tips, and get help with common issues.</p>
+      <div class="help-hero">
+        <img src="../assets/img/help-hero.png" alt="iStage lock screen preview" loading="lazy" onerror="this.style.display='none'">
+      </div>
     </div>
 
     <div class="help-surface">
