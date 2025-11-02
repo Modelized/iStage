@@ -69,7 +69,7 @@ Formerly iOS KLCK
 ## Download & Setup
 
 ### Download
-- Get the latest public beta release from the [Releases](../../releases) page.
+- Get the latest release from the [Releases](../../releases) page.
 - Download the `.klck` preset file included in the release.
 
 ### Setup
