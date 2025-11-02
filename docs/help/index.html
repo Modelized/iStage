@@ -23,8 +23,6 @@
     --surface-light:#f5f5f7;
     --surface-dark:#0f1116;
   }
-
-  /* a11y: keep text for screen readers without visual rendering */
   .sr-only{
     position:absolute !important;
     width:1px !important;
@@ -41,9 +39,9 @@
   .page-help .nav-backdrop{ display:none !important; }
 
   /* page surface */
-  .page-help{ background:#fff; }
+  .page-help{ background:#fff; font-synthesis-weight: none; }
   @media (prefers-color-scheme: dark){
-    .page-help{ background:#000; color:#e8e9ec; }
+    .page-help{ background:#000; color:#e8e9ec; font-synthesis-weight: none; }
   }
 
   /* subtitle contrast */
@@ -86,6 +84,7 @@
   /* accordion layout */
   .help-surface{ background:transparent; padding:22px 0 24px; }
   .accordion{ display:grid; gap:16px; }
+  .accordion .card{ animation-fill-mode: both; }
 
   .acc-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px}
   .acc-title{margin:0;font-weight:600;font-size:clamp(18px, 2.4vw, 22px)}
@@ -110,10 +109,10 @@
   .acc-toggle:focus-visible{ box-shadow: none; }
   .chev{transition:transform .35s cubic-bezier(.22,1,.36,1)}
   .acc-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
-  .acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1)}
+  .acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1);overflow:hidden}
   .acc-panel>div{overflow:hidden;padding:16px 18px;border-top:1px solid var(--nav-border)}
-  /* hide divider line when the panel is collapsed */
-  .acc-panel[hidden] > div{ border-top:0 !important; }
+  .acc-panel[hidden]{ visibility:hidden; pointer-events:none; grid-template-rows:0fr !important; }
+  .acc-panel[hidden] > div{ border-top:0 !important; padding-top:0; padding-bottom:0; }
 
   /* body text rhythm inside panels */
   .prose{ line-height:1.65; }
@@ -215,6 +214,7 @@
                   <li>Apply the preset as your lock screen layout.</li>
                 </ul>
                 
+                <h3>Notes</h3>
                 <p><strong>Apple‑owned resources are not included in this repository.</strong></p>
                 <p>Certain parts of the interface are designed to use <strong>SF Pro fonts</strong> and <strong>SF Symbols</strong>, and these must be prepared by the user separately.</p>
                 <p>Please check the font list needed to use the lock screen in <strong>globals(config/font)</strong> of the preset. (Installation methods or download links are <strong>not provided</strong> here.)</p>
@@ -398,6 +398,14 @@
               btn.click();
             }
           });
+        });
+      }catch(e){}
+    })();
+    (function(){
+      try{
+        const cards = document.querySelectorAll('.accordion .card.reveal-onload');
+        cards.forEach((el, i) => {
+          el.style.animationDelay = `${0.12 + 0.08*i}s`;
         });
       }catch(e){}
     })();
