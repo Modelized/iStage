@@ -215,9 +215,25 @@
         <li><a href="../help/">Help</a></li>
         <li><a href="../gallery/">Gallery</a></li>
       </ul>
+      <button class="nav-search-toggle" type="button" aria-label="Search" data-search-toggle>
+        <span class="nav-search-icon" aria-hidden="true"></span>
+      </button>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-sheet">
         <span class="nav-toggle-bar"></span>
       </button>
+    </div>
+    <div class="container search-shell" aria-hidden="true">
+      <div class="search-shell-content">
+        <form class="nav-search-form" data-search-form>
+          <input
+            type="search"
+            class="nav-search-input"
+            placeholder="Search iStage"
+            autocomplete="off"
+            data-search-input
+          >
+        </form>
+      </div>
     </div>
     <div class="container sheet" id="mobile-sheet" aria-hidden="true">
       <div class="sheet-content">

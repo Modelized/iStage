@@ -46,9 +46,9 @@ body{
   .nav-backdrop{height:calc(env(safe-area-inset-top) + 112px)}
 }
 .nav{
-  position:fixed; 
+  position:fixed;
   top:calc(env(safe-area-inset-top, 0px) + 12px);
-  left:0; right:0; 
+  left:0; right:0;
   z-index:1000;           /* above .nav-backdrop */
   padding:0 12px;
   pointer-events:none;
@@ -106,6 +106,45 @@ body{
 .nav-toggle-bar::before{top:-6px}.nav-toggle-bar::after{top:6px}
 .sheet{display:none}
 
+/* Search button */
+.nav-search-toggle{
+  width:36px;
+  height:36px;
+  border:none;
+  outline:none;
+  border-radius:14px;
+  background:transparent;
+  color:#e8e9ec;
+  display:grid;
+  place-items:center;
+}
+.nav-search-icon{
+  position:relative;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  border:2px solid currentColor;
+  display:block;
+}
+.nav-search-icon::after{
+  content:"";
+  position:absolute;
+  width:8px;
+  height:2px;
+  border-radius:2px;
+  background:currentColor;
+  right:-1px;
+  bottom:-1px;
+  transform:rotate(45deg);
+}
+.nav-search-toggle:focus,
+.nav-search-toggle:focus-visible{
+  outline:none;
+}
+.nav--search-open .nav-search-toggle{
+  background:rgba(255,255,255,.06);
+}
+
 /* Mobile nav only for portrait orientation on narrow viewports */
 @media (max-width:900px) and (orientation:portrait){
   .desktop{display:none}
@@ -128,6 +167,39 @@ body{
 .nav--open .nav-toggle-bar{background:transparent}
 .nav--open .nav-toggle-bar::before{transform:translateY(6px) rotate(45deg)}
 .nav--open .nav-toggle-bar::after{transform:translateY(-6px) rotate(-45deg)}
+
+/* Inline search row inside nav */
+.search-shell{
+  display:grid;
+  grid-template-rows:0fr;
+  transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1);
+}
+.search-shell-content{
+  overflow:hidden;
+  padding:8px 12px 12px;
+}
+.nav--search-open .search-shell{
+  grid-template-rows:1fr;
+}
+.nav-search-form{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.nav-search-input{
+  flex:1;
+  border-radius:12px;
+  border:1px solid var(--nav-border);
+  background:rgba(0,0,0,.6);
+  color:#e8e9ec;
+  padding:8px 10px;
+  font-size:.9rem;
+  line-height:1.2;
+  outline:none;
+}
+.nav-search-input::placeholder{
+  color:rgba(232,233,236,.6);
+}
 
 /* Sections */
 .section{padding:44px 0 32px}
