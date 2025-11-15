@@ -120,14 +120,14 @@ body{
 .mobile-menu{
   list-style:none;
   margin:0;
-  padding:16px 8px 8px;
+  padding:18px 4px 24px;
 }
 .mobile-menu a{
   display:block;
-  padding:12px 14px;
+  padding:10px 10px;
   font-size:1.25rem;
-  line-height:1.4;
-  font-weight:500;
+  line-height:1.35;
+  font-weight:600;
   color:#e8e9ec;
   text-decoration:none;
   border-radius:12px;
