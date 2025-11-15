@@ -277,6 +277,37 @@ a.btn:link,a.btn:visited{color:inherit}
 .footer a:hover{text-decoration:underline;}
 .footer-legal{margin-left:auto;}   /* push Legal to the right */
 
+/* ===== Mobile menu item enter animations ===== */
+.mobile-menu li{
+  opacity:0;
+  transform:translateY(-6px);
+}
+
+.nav--open .mobile-menu li{
+  animation: mobile-menu-in .45s cubic-bezier(.22,1,.36,1) forwards;
+  animation-delay: var(--menu-delay, 0s);
+}
+
+@keyframes mobile-menu-in{
+  from{
+    opacity:0;
+    transform:translateY(-6px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* Respect users who prefer reduced motion (mobile menu) */
+@media (prefers-reduced-motion: reduce){
+  .mobile-menu li{
+    opacity:1 !important;
+    transform:none !important;
+    animation:none !important;
+  }
+}
+
 /* ===== Reveal-on-scroll animations (opt‑in) ===== */
 /* Add class="reveal" on elements to animate.
    JS should add a "js" class to <html>. If JS is unavailable (local preview, etc.),
@@ -321,7 +352,7 @@ a.btn:link,a.btn:visited{color:inherit}
   animation-delay: var(--reveal-delay, 0s);
 }
 
-/* Helpful delay utilities for easy staggering */
+/* Delay utilities for easy staggering */
 .reveal-delay-0{ --reveal-delay: 0s; }
 .reveal-delay-1{ --reveal-delay: .12s; }
 .reveal-delay-2{ --reveal-delay: .24s; }
@@ -333,7 +364,7 @@ a.btn:link,a.btn:visited{color:inherit}
 .reveal--short{ --reveal-distance: 10px; }
 .reveal--long{  --reveal-distance: 28px; }
 
-/* Respect users who prefer reduced motion */
+/* Respect users who prefer reduced motion (reveal animations) */
 @media (prefers-reduced-motion: reduce){
   .reveal,
   .js .reveal,
