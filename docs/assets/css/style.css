@@ -137,6 +137,10 @@ body{
   .menu a:hover{background:rgba(255,255,255,.06)}
   .mobile-menu a:hover{background:rgba(255,255,255,.06)}
 }
+.menu a:active,
+.mobile-menu a:active{
+  background:rgba(255,255,255,.06);
+}
 .nav--open .sheet{grid-template-rows:1fr}
 .nav--open .nav-toggle-bar{background:transparent}
 .nav--open .nav-toggle-bar::before{transform:translateY(6px) rotate(45deg)}
