@@ -80,7 +80,11 @@ body{
   gap:12px;
 }
 .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#e8e9ec}
-.brand-logo{display:none; height:clamp(28px, 7vw, 36px); width:auto}
+.brand-logo{
+  display:none;
+  height:clamp(30px, 7.5vw, 36px);
+  width:auto;
+}
 .brand-text{display:inline}
 .brand.has-logo .brand-logo{display:block}
 .brand.has-logo .brand-text{display:none}
