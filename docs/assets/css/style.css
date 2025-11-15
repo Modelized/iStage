@@ -117,8 +117,20 @@ body{
   }
 }
 .sheet-content{overflow:hidden}
-.mobile-menu{list-style:none; margin:0; padding:10px}
-.mobile-menu a{display:block; padding:12px 14px; color:#e8e9ec; text-decoration:none; border-radius:12px}
+.mobile-menu{
+  list-style:none;
+  margin:0;
+  padding:18px 10px 10px;
+}
+.mobile-menu a{
+  display:block;
+  padding:14px 18px;
+  font-size:1.3rem;
+  line-height:1.5;
+  color:#e8e9ec;
+  text-decoration:none;
+  border-radius:12px;
+}
 /* Hover styles only on pointer/hover devices (desktop/trackpad), to avoid sticky hover on iOS */
 @media (hover:hover) and (pointer:fine){
   .menu a:hover{background:rgba(255,255,255,.06)}
