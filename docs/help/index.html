@@ -98,7 +98,7 @@
   .accordion{ display:grid; gap:16px; }
   .accordion .card{ animation-fill-mode: both; }
 
-  .acc-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px}
+  .acc-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px}
   .acc-title{margin:0;font-weight:600;font-size:clamp(18px, 2.4vw, 22px)}
   .acc-toggle{
     display:grid;
@@ -122,7 +122,7 @@
   .chev{transition:transform .35s cubic-bezier(.22,1,.36,1)}
   .acc-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
   .acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1);overflow:hidden}
-  .acc-panel>div{overflow:hidden;padding:16px 18px;border-top:1px solid var(--nav-border)}
+  .acc-panel>div{overflow:hidden;padding:14px 18px;border-top:1px solid var(--nav-border)}
   .acc-panel[hidden]{ visibility:hidden; pointer-events:none; grid-template-rows:0fr !important; }
   .acc-panel[hidden] > div{ border-top:0 !important; padding-top:0; padding-bottom:0; }
 
@@ -137,7 +137,6 @@
   @media (min-width:900px){
     .prose{ padding-inline: 10px; }
   }
-  /* match Releases page weight & spacing */
   .prose strong{ font-weight:600; }
   .acc-panel .prose > *:first-child{ margin-top:0; }           /* remove extra gap above first heading ("Download") */
   .prose ul + p{ margin-top:12px; }                             /* ensure space before Apple-owned resources paragraph */
