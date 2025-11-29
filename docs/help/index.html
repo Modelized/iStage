@@ -103,7 +103,7 @@
     align-items:center;
     justify-content:flex-start;
     gap:8px;
-    padding:14px 18px 14px 14px;
+    padding:14px 18px 14px 12px;
   }
   .acc-title{margin:0;font-weight:600;font-size:clamp(18px, 2.4vw, 22px)}
   .acc-toggle{
@@ -128,7 +128,7 @@
   .chev{
     transition:transform .35s cubic-bezier(.22,1,.36,1);
     transform-origin:center;
-    transform:rotate(90deg); /* closed */
+    transform:rotate(-90deg); /* closed */
   }
   .acc-toggle[aria-expanded="true"] .chev{
     transform:rotate(0deg);  /* open */
