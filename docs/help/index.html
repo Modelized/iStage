@@ -98,7 +98,13 @@
   .accordion{ display:grid; gap:16px; }
   .accordion .card{ animation-fill-mode: both; }
 
-  .acc-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px}
+  .acc-header{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:10px;
+    padding:14px 18px;
+  }
   .acc-title{margin:0;font-weight:600;font-size:clamp(18px, 2.4vw, 22px)}
   .acc-toggle{
     display:grid;
@@ -175,11 +181,11 @@
           <!-- Download & Setup -->
           <article class="card reveal-onload">
             <div class="acc-header">
-              <h2 class="acc-title">Download &amp; Setup</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-setup">
                 <span class="sr-only">Toggle</span>
                 <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
               </button>
+              <h2 class="acc-title">Download &amp; Setup</h2>
             </div>
             <div class="acc-panel" id="acc-panel-setup" hidden>
               <div class="prose">
@@ -207,11 +213,11 @@
           <!-- Performance & Responsiveness -->
           <article class="card reveal-onload">
             <div class="acc-header">
-              <h2 class="acc-title">Performance &amp; Responsiveness</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-perf">
                 <span class="sr-only">Toggle</span>
                 <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
               </button>
+              <h2 class="acc-title">Performance &amp; Responsiveness</h2>
             </div>
             <div class="acc-panel" id="acc-panel-perf" hidden>
               <div class="prose">
@@ -228,11 +234,11 @@
           <!-- Importing & Applying -->
           <article class="card reveal-onload">
             <div class="acc-header">
-              <h2 class="acc-title">Importing &amp; Applying</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-import">
                 <span class="sr-only">Toggle</span>
                 <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
               </button>
+              <h2 class="acc-title">Importing &amp; Applying</h2>
             </div>
             <div class="acc-panel" id="acc-panel-import" hidden>
               <div class="prose">
@@ -249,11 +255,11 @@
           <!-- Device Compatibility -->
           <article class="card reveal-onload">
             <div class="acc-header">
-              <h2 class="acc-title">Device Compatibility</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-compat">
                 <span class="sr-only">Toggle</span>
                 <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
               </button>
+              <h2 class="acc-title">Device Compatibility</h2>
             </div>
             <div class="acc-panel" id="acc-panel-compat" hidden>
               <div class="prose">
@@ -269,11 +275,11 @@
           <!-- Known Limitations -->
           <article class="card reveal-onload">
             <div class="acc-header">
-              <h2 class="acc-title">Known Limitations</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-limits">
                 <span class="sr-only">Toggle</span>
                 <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
               </button>
+              <h2 class="acc-title">Known Limitations</h2>
             </div>
             <div class="acc-panel" id="acc-panel-limits" hidden>
               <div class="prose">
@@ -288,11 +294,11 @@
           <!-- Troubleshooting -->
           <article class="card reveal-onload">
             <div class="acc-header">
-              <h2 class="acc-title">Troubleshooting</h2>
               <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-check">
                 <span class="sr-only">Toggle</span>
                 <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
               </button>
+              <h2 class="acc-title">Troubleshooting</h2>
             </div>
             <div class="acc-panel" id="acc-panel-check" hidden>
               <div class="prose">
@@ -309,7 +315,7 @@
       </div>
     </div>
   </section>
-</main>
+<!-- removed stray duplicate closing main tag -->
 
 </main>
 <div id="footer-slot"></div>
