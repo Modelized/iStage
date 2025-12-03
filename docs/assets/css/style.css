@@ -18,8 +18,8 @@ body{
   --radius:16px;
 
   /* Nav palette (fixed) */
-  --nav-backdrop:#000;     /* dark strip behind nav */
-  --nav-border: #5659644D;    /* nav outline */
+  --nav-backdrop:transparent;     /* no solid strip behind nav */
+  --nav-border:#ffffff33;    /* nav outline */
 
   /* Offsets for first section under the fixed nav */
   --nav-offset-mobile:96px;
@@ -60,11 +60,11 @@ body{
 .nav *{pointer-events:auto}
 .nav-inner{
   border:1px solid var(--nav-border);
-  border-radius:var(--radius);
-  background:rgba(15,17,22,.75);
-  backdrop-filter:saturate(160%) blur(12px);
-  -webkit-backdrop-filter:saturate(160%) blur(12px);
-  box-shadow:0 8px 30px rgba(0,0,0,.12);
+  border-radius:999px;
+  background:rgba(20,24,32,.52);
+  backdrop-filter:saturate(170%) blur(18px);
+  -webkit-backdrop-filter:saturate(170%) blur(18px);
+  box-shadow:0 14px 40px rgba(0,0,0,.28);
   position:relative;
   z-index:2;                               /* keep contents above backdrop */
   backface-visibility:hidden;
@@ -74,10 +74,10 @@ body{
 }
 .row{
   height:52px;                 /* slightly slimmer nav bar */
-  display:flex;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
   align-items:center;
-  justify-content:space-between;
-  gap:12px;
+  column-gap:16px;
 }
 .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#e8e9ec}
 .brand-logo{
@@ -95,6 +95,31 @@ body{
   margin:0;
   padding:0;
   font-size:.95rem;            /* slightly smaller label text */
+  justify-self:center;
+}
+.nav-right{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+.nav-legal{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.32);
+  background:rgba(255,255,255,.14);
+  color:#e8e9ec;
+  text-decoration:none;
+  font-size:.9rem;
+}
+
+.nav-legal:hover{
+  background:rgba(255,255,255,.18);
 }
 .menu a{
   color:#e8e9ec;
@@ -114,6 +139,7 @@ body{
 @media (max-width:900px) and (orientation:portrait){
   .desktop{display:none}
   .nav-toggle{display:grid}
+  .nav-legal{display:none}
   .sheet{
     display:grid;
     grid-template-rows:0fr;
