@@ -59,18 +59,31 @@ body{
 }
 .nav *{pointer-events:auto}
 .nav-inner{
-  border:1px solid var(--nav-border);
-  border-radius:999px;
-  background:rgba(20,24,32,.52);
-  backdrop-filter:saturate(170%) blur(18px);
-  -webkit-backdrop-filter:saturate(170%) blur(18px);
-  box-shadow:0 14px 40px rgba(0,0,0,.28);
   position:relative;
   z-index:2;                               /* keep contents above backdrop */
   backface-visibility:hidden;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   will-change: transform;
+}
+
+/* Desktop / landscape: centered frosted pill behind menu only */
+@media (min-width:900px), (max-width:900px) and (orientation:landscape){
+  .nav-inner::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    margin-inline:auto;
+    /* leave room for logo on the left and Legal button on the right */
+    width:min(720px, 100% - 160px);
+    border-radius:999px;
+    border:1px solid var(--nav-border);
+    background:rgba(20,24,32,.52);
+    backdrop-filter:saturate(170%) blur(18px);
+    -webkit-backdrop-filter:saturate(170%) blur(18px);
+    box-shadow:0 14px 40px rgba(0,0,0,.28);
+    z-index:-1;
+  }
 }
 .row{
   height:52px;                 /* slightly slimmer nav bar */
@@ -140,6 +153,14 @@ body{
   .desktop{display:none}
   .nav-toggle{display:grid}
   .nav-legal{display:none}
+  .nav-inner{
+    border:1px solid var(--nav-border);
+    border-radius:999px;
+    background:rgba(20,24,32,.52);
+    backdrop-filter:saturate(170%) blur(18px);
+    -webkit-backdrop-filter:saturate(170%) blur(18px);
+    box-shadow:0 14px 40px rgba(0,0,0,.28);
+  }
   .sheet{
     display:grid;
     grid-template-rows:0fr;
@@ -175,6 +196,14 @@ body{
 .nav--open .nav-toggle-bar{background:transparent}
 .nav--open .nav-toggle-bar::before{transform:translateY(6px) rotate(45deg)}
 .nav--open .nav-toggle-bar::after{transform:translateY(-6px) rotate(-45deg)}
+
+. 
+/* Active menu item (only desktop + mobile landscape) */
+@media (min-width:900px), (max-width:900px) and (orientation:landscape){
+  .menu a.is-current{
+    background:rgba(255,255,255,.16);
+  }
+}
 
 /* Sections */
 .section{padding:44px 0 32px}
