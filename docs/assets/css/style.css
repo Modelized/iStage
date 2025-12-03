@@ -57,7 +57,7 @@ body{
   top:calc(env(safe-area-inset-top, 0px) + 12px);
   left:0; right:0;
   z-index:1000;           /* above .nav-backdrop */
-  padding:0 16px;
+  padding:0;
   pointer-events:none;
   backface-visibility:hidden;
   will-change: transform;
@@ -104,6 +104,7 @@ body{
   grid-template-columns:auto 1fr auto;
   align-items:center;
   column-gap:16px;
+  padding:0 16px;
 }
 .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#e8e9ec}
 .brand-logo{
@@ -154,22 +155,30 @@ body{
 .nav-legal::after{
   content:"";
   position:absolute;
-  top:50%;
-  width:12px;
-  height:14px;
   box-sizing:border-box;
-  border-radius:2px;
-  border:1.4px solid currentColor;
 }
 
-/* left page */
+/* lens */
 .nav-legal::before{
-  transform:translate(-55%, -50%) skewX(-6deg);
+  top:50%;
+  left:50%;
+  width:14px;
+  height:14px;
+  border-radius:999px;
+  border:1.7px solid currentColor;
+  transform:translate(-55%, -55%);
 }
 
-/* right page */
+/* handle */
 .nav-legal::after{
-  transform:translate(55%, -50%) skewX(6deg);
+  top:50%;
+  left:50%;
+  width:8px;
+  height:1.7px;
+  border-radius:999px;
+  background:currentColor;
+  transform-origin:center;
+  transform:translate(30%, 40%) rotate(45deg);
 }
 
 .nav-legal:hover{
