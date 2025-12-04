@@ -59,19 +59,11 @@ body{
   z-index:1000;           /* above .nav-backdrop */
   padding:0;
   pointer-events:none;
-  backface-visibility:hidden;
-  will-change: transform;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
 }
 .nav *{pointer-events:auto}
 .nav-inner{
   position:relative;
   z-index:2;                               /* keep contents above backdrop */
-  backface-visibility:hidden;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  will-change: transform;
 }
 
 /* Desktop / landscape: centered frosted pill behind menu only */
@@ -161,6 +153,33 @@ body{
 }
 
 
+/* Draw magnifying glass even if there is no inline SVG */
+.nav-search::before,
+.nav-search::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+}
+
+/* Circle of the magnifying glass */
+.nav-search::before{
+  box-sizing:border-box;
+  width:14px;
+  height:14px;
+  border-radius:999px;
+  border:2px solid #fff;
+}
+
+/* Handle of the magnifying glass */
+.nav-search::after{
+  width:7px;
+  height:2px;
+  border-radius:999px;
+  background:#fff;
+  transform:translate(5px,5px) rotate(45deg);
+}
+
+
 .nav-search:hover{
   background:rgba(20,24,32,.64);
 }
@@ -216,6 +235,7 @@ body{
     align-items:center;
     justify-content:flex-end;
     gap:8px;
+    margin-left:auto;
   }
   .nav-search{
     order:1;
