@@ -169,27 +169,27 @@ body{
 
 /* circular lens */
 .nav-search::before{
-  width:16px;
-  height:16px;
+  width:14px;
+  height:14px;
   border-radius:50%;
-  border:1.8px solid currentColor;
+  border:2px solid currentColor;
   box-sizing:border-box;
   top:50%;
   left:50%;
-  margin-top:-10px;   /* roughly center the circle inside the 44px button */
-  margin-left:-10px;
+  margin-top:-9px;
+  margin-left:-9px;
 }
 
 /* handle */
 .nav-search::after{
-  width:9px;
+  width:7px;
   height:2px;
   border-radius:999px;
   background:currentColor;
   top:50%;
   left:50%;
-  margin-top:3px;     /* slide slightly down/right from the lens */
-  margin-left:5px;
+  margin-top:2px;
+  margin-left:3px;
   transform-origin:left center;
   transform:rotate(45deg);
 }
@@ -241,13 +241,15 @@ body{
     padding:0 16px;       /* symmetric left/right padding so logo and hamburger are equally inset */
   }
   .nav-search{
-    width:var(--nav-icon-size);
-    height:var(--nav-icon-size);
+    width:40px;
+    height:40px;
     border-radius:50%;
     padding:0;
   }
   .nav-search,
   .nav-toggle{
+    width:40px;
+    height:40px;
     border:none;
     background:transparent;
     box-shadow:none;
