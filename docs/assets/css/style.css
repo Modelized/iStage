@@ -188,7 +188,7 @@ body{
   background:currentColor;
   top:50%;
   left:50%;
-  margin-top:1px;
+  margin-top:0px;
   margin-left:1px;   /* pull the handle slightly inward so it overlaps the circle */
   transform-origin:left center;
   transform:rotate(45deg);
