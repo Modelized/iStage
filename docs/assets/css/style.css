@@ -18,7 +18,7 @@ body{
   --radius:16px;
   --nav-pill-height-mobile:56px;
   --nav-pill-height-desktop:44px;
-  --nav-icon-size:40px;
+  --nav-icon-size:var(--nav-pill-height-desktop);
 
   /* Nav palette (fixed) */
   --nav-backdrop:linear-gradient(to bottom, rgba(4,6,14,.9), rgba(4,6,14,0));     /* no solid strip behind nav */
@@ -144,6 +144,7 @@ body{
 }
 
 .nav-search-icon{
+  display:none;           /* we now draw the icon purely with CSS */
   width:18px;
   height:18px;
   stroke:currentColor;
@@ -157,7 +158,41 @@ body{
   stroke-linecap:round;
 }
 
+/* Draw the search icon purely with CSS so it never disappears */
+.nav-search::before,
+.nav-search::after{
+  content:"";
+  position:absolute;
+  display:block;
+  pointer-events:none;
+}
 
+/* circular lens */
+.nav-search::before{
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  border:1.8px solid currentColor;
+  box-sizing:border-box;
+  top:50%;
+  left:50%;
+  margin-top:-10px;   /* roughly center the circle inside the 44px button */
+  margin-left:-10px;
+}
+
+/* handle */
+.nav-search::after{
+  width:9px;
+  height:2px;
+  border-radius:999px;
+  background:currentColor;
+  top:50%;
+  left:50%;
+  margin-top:3px;     /* slide slightly down/right from the lens */
+  margin-left:5px;
+  transform-origin:left center;
+  transform:rotate(45deg);
+}
 
 
 .menu a{
