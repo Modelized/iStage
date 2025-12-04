@@ -82,6 +82,7 @@ body{
     margin-inline:auto;
     width:min(720px, 100% - 160px);
     height:var(--nav-pill-height-desktop);
+    box-sizing:border-box;
     border-radius:calc(var(--nav-pill-height-desktop) / 2);
     border:1px solid var(--nav-border);
     background:rgba(20,24,32,.52);
