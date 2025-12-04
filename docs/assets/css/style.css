@@ -18,6 +18,7 @@ body{
   --radius:16px;
   --nav-pill-height-mobile:56px;
   --nav-pill-height-desktop:44px;
+  --nav-icon-size:40px;
 
   /* Nav palette (fixed) */
   --nav-backdrop:linear-gradient(to bottom, rgba(4,6,14,.9), rgba(4,6,14,0));     /* no solid strip behind nav */
@@ -126,14 +127,11 @@ body{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:var(--nav-pill-height-desktop);
-  height:var(--nav-pill-height-desktop);
-  border-radius:999px;
-  border:1px solid var(--nav-border);
-  background:rgba(20,24,32,.52);
-  backdrop-filter:saturate(170%) blur(18px);
-  -webkit-backdrop-filter:saturate(170%) blur(18px);
-  box-shadow:0 14px 40px rgba(0,0,0,.28);
+  width:var(--nav-icon-size);
+  height:var(--nav-icon-size);
+  border-radius:50%;
+  border:none;
+  background:transparent;
   color:#e8e9ec;
   text-decoration:none;
 }
@@ -153,43 +151,15 @@ body{
 }
 
 
-/* Draw magnifying glass even if there is no inline SVG */
-.nav-search::before,
-.nav-search::after{
-  content:"";
-  position:absolute;
-  pointer-events:none;
-}
-
-/* Circle of the magnifying glass */
-.nav-search::before{
-  box-sizing:border-box;
-  width:14px;
-  height:14px;
-  border-radius:999px;
-  border:2px solid #fff;
-}
-
-/* Handle of the magnifying glass */
-.nav-search::after{
-  width:7px;
-  height:2px;
-  border-radius:999px;
-  background:#fff;
-  transform:translate(5px,5px) rotate(45deg);
-}
 
 
-.nav-search:hover{
-  background:rgba(20,24,32,.64);
-}
 .menu a{
   color:#e8e9ec;
   text-decoration:none;
   padding:6px 10px;            /* reduced vertical padding for a thinner pill */
   border-radius:12px;
 }
-.nav-toggle{display:none; width:36px; height:36px; border:none; outline:none; border-radius:50%; background:transparent !important; color:#e8e9ec; place-items:center; z-index:2}
+.nav-toggle{display:none; width:var(--nav-icon-size); height:var(--nav-icon-size); border:none; outline:none; border-radius:50%; background:transparent !important; color:#e8e9ec; place-items:center; z-index:2}
 .nav--open .nav-toggle{ background:rgba(255,255,255,.06) !important; }
 .nav-toggle:focus,.nav-toggle:focus-visible{outline:none}
 .nav-toggle-bar{display:block; width:18px; height:2px; background:currentColor; position:relative; border-radius:2px}
@@ -198,6 +168,9 @@ body{
 .sheet{display:none}
 
 /* Mobile nav only for portrait orientation on narrow viewports */
+.nav-search:active{
+  background:rgba(255,255,255,.06);
+}
 @media (max-width:900px) and (orientation:portrait){
   .desktop{display:none}
   .nav-toggle{display:grid}
@@ -220,8 +193,8 @@ body{
     padding:0 16px;       /* symmetric left/right padding so logo and hamburger are equally inset */
   }
   .nav-search{
-    width:var(--nav-pill-height-mobile);
-    height:var(--nav-pill-height-mobile);
+    width:var(--nav-icon-size);
+    height:var(--nav-icon-size);
     border-radius:50%;
     border:none;
     background:transparent;
@@ -265,6 +238,9 @@ body{
 @media (hover:hover) and (pointer:fine){
   .menu a:hover{background:rgba(255,255,255,.06)}
   .mobile-menu a:hover{background:rgba(255,255,255,.06)}
+  .nav-search:hover{
+    background:rgba(255,255,255,.06);
+  }
 }
 .menu a:active,
 .mobile-menu a:active{
