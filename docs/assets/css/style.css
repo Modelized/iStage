@@ -92,7 +92,7 @@ body{
   }
 }
 .row{
-  height:var(--nav-pill-height-mobile);                 /* slightly slimmer nav bar */
+  height:var(--nav-pill-height-mobile);
   display:flex;
   align-items:center;
   padding:0 16px;
@@ -113,7 +113,7 @@ body{
   list-style:none;
   margin:0 auto;
   padding:0;
-  font-size:.95rem;            /* slightly smaller label text */
+  font-size:.95rem;
 }
 .nav-right{
   display:flex;
@@ -144,7 +144,7 @@ body{
 }
 
 .nav-search-icon{
-  display:none;           /* we now draw the icon purely with CSS */
+  display:none;
   width:18px;
   height:18px;
   stroke:currentColor;
@@ -188,7 +188,7 @@ body{
   background:currentColor;
   top:50%;
   left:50%;
-  margin-top:0px;
+  margin-top:1px;
   margin-left:1px;   /* pull the handle slightly inward so it overlaps the circle */
   transform-origin:left center;
   transform:rotate(45deg);
@@ -268,7 +268,7 @@ body{
   }
   .nav-toggle{
     order:2;
-    margin-right:0;       /* ensure no extra right margin on the hamburger icon */
+    margin-right:0;
   }
 }
 .sheet-content{overflow:hidden}
