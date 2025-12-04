@@ -141,7 +141,6 @@ body{
   align-items:center;
   justify-content:center;
   text-decoration:none;
-  overflow:visible;
 }
 
 .nav-search-icon{
@@ -160,17 +159,8 @@ body{
 }
 
 /* Draw the search icon purely with CSS so it never disappears */
-.nav-search-glyph{
-  position:relative;
-  width:18px;
-  height:18px;
-  display:block;
-  transform:rotate(45deg);
-  transform-origin:center center;
-}
-
-.nav-search-glyph::before,
-.nav-search-glyph::after{
+.nav-search::before,
+.nav-search::after{
   content:"";
   position:absolute;
   display:block;
@@ -178,22 +168,30 @@ body{
 }
 
 /* circular lens */
-.nav-search-glyph::before{
-  inset:0;
+.nav-search::before{
+  width:14px;
+  height:14px;
   border-radius:50%;
   border:2px solid currentColor;
   box-sizing:border-box;
+  top:50%;
+  left:50%;
+  margin-top:-9px;
+  margin-left:-9px;
 }
 
-/* handle (drawn straight down before rotation) */
-.nav-search-glyph::after{
-  width:2px;
-  height:8px;
+/* handle */
+.nav-search::after{
+  width:9px;
+  height:2px;
   border-radius:999px;
   background:currentColor;
+  top:50%;
   left:50%;
-  bottom:0;
-  transform:translateX(-50%);
+  margin-top:1px;
+  margin-left:1px;   /* pull the handle slightly inward so it overlaps the circle */
+  transform-origin:left center;
+  transform:rotate(45deg);
 }
 
 
