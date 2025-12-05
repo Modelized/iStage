@@ -101,8 +101,6 @@ body{
   gap:16px;
   position:relative;
   z-index:3;                     /* ensure content stays above pill/backdrop on iPad overscroll */
-  -webkit-transform:translateZ(0);
-  transform:translateZ(0);       /* force its own compositing layer without changing layout */
 }
 .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#e8e9ec}
 .brand-logo{
