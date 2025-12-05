@@ -89,6 +89,8 @@ body{
     border-radius:calc(var(--nav-pill-height-desktop) / 2);
     border:1px solid var(--nav-border);
     background:rgba(20,24,32,.52);
+    backdrop-filter:saturate(170%) blur(18px);
+    -webkit-backdrop-filter:saturate(170%) blur(18px);
     box-shadow:0 14px 40px rgba(0,0,0,.28);
     z-index:-1;
   }
