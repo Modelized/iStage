@@ -42,6 +42,8 @@ body{
   position:fixed; top:0; left:0; right:0;
   height:120px;
   background:var(--nav-backdrop);
+  backdrop-filter:saturate(170%) blur(18px);
+  -webkit-backdrop-filter:saturate(170%) blur(18px);
   z-index:1;               /* keep behind the nav at all times */
   pointer-events:none;
 }
@@ -87,8 +89,6 @@ body{
     border-radius:calc(var(--nav-pill-height-desktop) / 2);
     border:1px solid var(--nav-border);
     background:rgba(20,24,32,.52);
-    backdrop-filter:saturate(170%) blur(18px);
-    -webkit-backdrop-filter:saturate(170%) blur(18px);
     box-shadow:0 14px 40px rgba(0,0,0,.28);
     z-index:-1;
   }
