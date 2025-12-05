@@ -65,6 +65,7 @@ body{
 .nav-inner{
   position:relative;
   z-index:2;                               /* keep contents above backdrop */
+  isolation:isolate;                       /* separate compositing context to avoid iPad overscroll glitch */
 }
 
 /* Desktop / landscape: centered frosted pill behind menu only */
@@ -98,6 +99,10 @@ body{
   align-items:center;
   padding:0 16px;
   gap:16px;
+  position:relative;
+  z-index:3;                     /* ensure content stays above pill/backdrop on iPad overscroll */
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);       /* force its own compositing layer without changing layout */
 }
 .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#e8e9ec}
 .brand-logo{
