@@ -65,6 +65,13 @@ body{
   transform: translateZ(0);
   will-change: transform;
 }
+/* iPadOS desktop-style Safari overscroll workaround: avoid transform on fixed nav so text doesn't disappear */
+@media (hover:none) and (pointer:coarse) and (min-width:900px){
+  .nav{
+    -webkit-transform:none;
+    transform:none;
+  }
+}
 .nav *{pointer-events:auto}
 .nav-inner{
   position:relative;
