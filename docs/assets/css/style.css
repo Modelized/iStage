@@ -60,6 +60,10 @@ body{
   z-index:1000;           /* above .nav-backdrop */
   padding:0;
   pointer-events:none;
+  backface-visibility:hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
 }
 .nav *{pointer-events:auto}
 .nav-inner{
