@@ -42,8 +42,6 @@ body{
   position:fixed; top:0; left:0; right:0;
   height:120px;
   background:var(--nav-backdrop);
-  backdrop-filter:saturate(170%) blur(18px);
-  -webkit-backdrop-filter:saturate(170%) blur(18px);
   z-index:1;               /* keep behind the nav at all times */
   pointer-events:none;
 }
