@@ -30,7 +30,7 @@ body{
 
   /* ===== Mobile “banner/card” layout tokens (portrait only) ===== */
   --banner-radius: calc(var(--nav-pill-height-mobile) / 2);
-  --banner-side-gap:16px;      /* 좌우 공백 */
+  --banner-side-gap:12px;      /* 좌우 공백 (요청: 12px) */
   --banner-vert-gap:14px;      /* 배너 간 간격 */
   --banner-top-gap:14px;       /* 메뉴바 아래 첫 배너 띄우는 간격 */
 
@@ -266,7 +266,7 @@ body{
   .desktop{display:none}
   .nav-toggle{display:grid}
   .nav-inner{
-    margin:0 16px;
+    margin:0 var(--banner-side-gap); /* 요청: 메뉴바 외곽도 12px */
     border:1px solid var(--nav-border);
     border-radius:calc(var(--nav-pill-height-mobile) / 2);
     background:rgba(20,24,32,.52);
@@ -449,9 +449,6 @@ body{
 
 /* ===== Mobile portrait: banner/card layout for main sections ===== */
 @media (max-width:900px) and (orientation:portrait){
-  /* base layer visible around banners */
-  body{ background:#000; }
-
   /* section becomes a “banner card” */
   .section--black,
   .section--white{
