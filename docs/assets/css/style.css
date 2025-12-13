@@ -113,7 +113,7 @@ body{
 
     border:1px solid var(--nav-border);
     border-radius:calc(var(--nav-pill-height-desktop) / 2);
-    background:rgba(20,24,32,.52);
+    background:rgba(20,24,32,.60);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
     box-shadow:0 0 28px -14px rgba(0,0,0,.24);
@@ -164,7 +164,7 @@ body{
   height:var(--nav-icon-size);
   border-radius:50%;
   border:1px solid var(--nav-border);
-  background:rgba(20,24,32,.52);
+  background:rgba(20,24,32,.60);
   backdrop-filter:saturate(170%) blur(18px);
   -webkit-backdrop-filter:saturate(170%) blur(18px);
   box-shadow:0 0 28px -14px rgba(0,0,0,.24);
@@ -269,7 +269,7 @@ body{
     margin:0 var(--banner-side-gap);
     border:1px solid var(--nav-border);
     border-radius:calc(var(--nav-pill-height-mobile) / 2);
-    background:rgba(20,24,32,.52);
+    background:rgba(20,24,32,.60);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
     box-shadow:0 0 28px -14px rgba(0,0,0,.24);
@@ -525,22 +525,42 @@ body{
     url("../img/hero-iStage-18-desktop.png")}
 }
 
-/* Buttons */
+/* Buttons (frosted glass) */
 a.btn,.btn{
   display:inline-flex; align-items:center; justify-content:center; gap:.4ch;
   padding:12px 18px; border-radius:999px; font-weight:500; line-height:1;
-  text-decoration:none !important; border:0; appearance:none; -webkit-appearance:none;
+  text-decoration:none !important; appearance:none; -webkit-appearance:none;
+
+  /* glass base */
+  border:1px solid rgba(255,255,255,.18);
+  backdrop-filter:saturate(170%) blur(18px);
+  -webkit-backdrop-filter:saturate(170%) blur(18px);
+  box-shadow:0 0 24px -14px rgba(0,0,0,.28);
+
+  transition:
+    background-color .18s linear,
+    border-color .18s linear,
+    filter .18s linear,
+    transform .12s ease;
 }
 a.btn:link,a.btn:visited{color:inherit}
-.btn-blue{background:var(--apple-blue); color:#fff !important}
-.btn-blue:hover{filter:brightness(1.05)}
-.btn-outline{
-  color:var(--apple-blue) !important;
-  border:2px solid currentColor !important;
-  background:transparent !important;
-  box-shadow:none !important;
+
+.btn-blue{
+  background:rgba(0,113,227,.76);
+  border-color:rgba(0,113,227,.56);
+  color:#fff !important;
 }
-.btn-outline:hover{background:color-mix(in oklab, var(--apple-blue), transparent 92%)}
+.btn-blue:hover{ background:rgba(0,113,227,.84); }
+.btn-blue:active{ background:rgba(0,113,227,.68); transform:translateY(0.5px); }
+
+.btn-outline{
+  background:rgba(120,120,120,.32);
+  border-color:rgba(255,255,255,.18) !important;
+  color:#fff !important;
+  box-shadow:0 0 24px -14px rgba(0,0,0,.22);
+}
+.btn-outline:hover{ background:rgba(120,120,120,.40); }
+.btn-outline:active{ background:rgba(255,255,255,.30); transform:translateY(0.5px); }
 
 /* Releases */
 .card{background:rgba(18,21,27,1); border:1px solid var(--nav-border); border-radius:18px; padding:18px; color:#e8e9ec}
