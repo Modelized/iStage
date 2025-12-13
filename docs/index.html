@@ -17,16 +17,42 @@
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <style>
+  /* ----- Main page (scoped) ----- */
+  :root{
+    --surface-light:#f5f5f7;
+    --surface-dark:#0f1116; /* dark surface behind cards */
+  }
+
+  .page-home{ background:#f5f5f7; color:#111317; }
+  @media (prefers-color-scheme: dark){
+    .page-home{ background:#000; color:#e8e9ec; }
+  }
+
+  /* footer theming */
+  .page-home .footer{
+    background:#f5f5f7;
+    color:#5e6572;
+  }
+  @media (prefers-color-scheme: dark){
+    .page-home .footer{
+      background:#000;
+      color:#a7acb7;
+    }
+  }
+  .page-home .footer-row a{ color:inherit; text-decoration:none; }
+
   /* Home-only tweak: extra top space for the first section on mobile */
   @media (width < 900px){
     #home-first{
       padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 16px);
     }
   }
+
   /* iStage 18 section gradient (light only) */
   .section--istage-18{
-    background: linear-gradient(180deg, #F5F5F7 0%, #FFDEAF 100%);
+    background: linear-gradient(180deg, #fff 0%, #ffdeaf 100%);
   }
+
   /* ===== Top announcement banner ===== */
   .top-event{
     /* Extra space below the announcement banner */
@@ -59,6 +85,7 @@
     margin: 6px auto 4px;
     padding: 0 12px;
   }
+
   /* Animated tri-color text (softly blends as it moves) */
   .text-aurora{
     --c1: 0,229,255;   /* #00E5FF */
@@ -118,125 +145,120 @@
 </head>
 <body class="page-home" data-base=".">
   <div id="nav-slot"></div>
-<main>
-  <section class="section top-event" aria-label="iStage announcement">
-    <div class="container">
-      <div class="event-visual">
-        <img src="assets/img/hero-iStage-series.png" alt="iStage series overview" loading="eager" decoding="async">
-      </div>
-      <p class="event-copy text-aurora reveal">
-        Introducing the next generation of iStage. Explore the all-new iStage 26 with dynamic, fluid Liquid Glass design, smoother motion, and pro-grade controls. Discover iStage 18 with a classic, familiar frosted design, finely tuned for a wider range of devices.
-      </p>
-    </div>
-  </section>
-  <!-- <section class="section section--black section--first" id="home-first"> -->
-  <section class="section section--black section--istage-26">
-    <div class="container">
-      <div class="hero hero-26">
-        <div class="copy">
-          <h1 class="title reveal">iStage 26</h1>
-          <p class="subtitle reveal">Refined Liquid Glass. Fluid animations.</p>
-          <div class="cta">
-            <a class="btn btn-blue reveal" href="iStage-26/">Learn more</a>
-            <a class="btn btn-outline reveal" href="releases/#v=26">Download</a>
-          </div>
+
+  <main>
+    <section class="section top-event" aria-label="iStage announcement">
+      <div class="container">
+        <div class="event-visual">
+          <img src="assets/img/hero-iStage-series.png" alt="iStage series overview" loading="eager" decoding="async">
         </div>
-        <div class="media media-26" role="img" aria-label="iStage 26 hero"></div>
+        <p class="event-copy text-aurora reveal">
+          Introducing the next generation of iStage. Explore the all-new iStage 26 with dynamic, fluid Liquid Glass design, smoother motion, and pro-grade controls. Discover iStage 18 with a classic, familiar frosted design, finely tuned for a wider range of devices.
+        </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section section--white section--istage-18">
-    <div class="container">
-      <div class="hero hero-18">
-        <div class="copy">
-          <h2 class="title reveal">iStage 18</h2>
-          <p class="subtitle reveal">Classic frosted aesthetic. Solid baseline.</p>
-          <div class="cta">
-            <a class="btn btn-blue reveal" href="iStage-18/">Learn more</a>
-            <a class="btn btn-outline reveal" href="releases/#v=18">Download</a>
+    <!-- <section class="section section--black section--first" id="home-first"> -->
+    <section class="section section--black section--istage-26">
+      <div class="container">
+        <div class="hero hero-26">
+          <div class="copy">
+            <h1 class="title reveal">iStage 26</h1>
+            <p class="subtitle reveal">Refined Liquid Glass. Fluid animations.</p>
+            <div class="cta">
+              <a class="btn btn-blue reveal" href="iStage-26/">Learn more</a>
+              <a class="btn btn-outline reveal" href="releases/#v=26">Download</a>
+            </div>
           </div>
+          <div class="media media-26" role="img" aria-label="iStage 26 hero"></div>
         </div>
-        <div class="media media-18" role="img" aria-label="iStage 18 hero"></div>
       </div>
-    </div>
-  </section>
-</main>
-<div id="footer-slot"></div>
-<script src="./assets/js/shell.js" defer></script>
-<script>
-(function(){
-  try{
-    var first = document.querySelector('section.section--first') || document.querySelector('section');
-    var isDark = first && first.classList.contains('section--black');
-    document.documentElement.style.setProperty('--nav-backdrop', isDark ? '#000' : '#fff');
-  }catch(e){}
-})();
-</script>
-<script>
-(function(){
-  try{
-    var nodes = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
-    if (!nodes.length) return;
+    </section>
 
-    var reduce   = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var supportIO = 'IntersectionObserver' in window;
+    <section class="section section--white section--istage-18">
+      <div class="container">
+        <div class="hero hero-18">
+          <div class="copy">
+            <h2 class="title reveal">iStage 18</h2>
+            <p class="subtitle reveal">Classic frosted aesthetic. Solid baseline.</p>
+            <div class="cta">
+              <a class="btn btn-blue reveal" href="iStage-18/">Learn more</a>
+              <a class="btn btn-outline reveal" href="releases/#v=18">Download</a>
+            </div>
+          </div>
+          <div class="media media-18" role="img" aria-label="iStage 18 hero"></div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-    function reveal(el){
-      if (!el.classList.contains('is-revealed')){
-        el.classList.add('is-revealed');
+  <div id="footer-slot"></div>
+
+  <script src="./assets/js/shell.js" defer></script>
+
+  <script>
+  (function(){
+    try{
+      var nodes = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+      if (!nodes.length) return;
+
+      var reduce   = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var supportIO = 'IntersectionObserver' in window;
+
+      function reveal(el){
+        if (!el.classList.contains('is-revealed')){
+          el.classList.add('is-revealed');
+        }
       }
-    }
 
-    /* If motion reduced or no IO support, show everything right away. */
-    if (reduce || !supportIO){
-      nodes.forEach(reveal);
-      return;
-    }
+      /* If motion reduced or no IO support, show everything right away. */
+      if (reduce || !supportIO){
+        nodes.forEach(reveal);
+        return;
+      }
 
-    /* Visible check (>= 1px intersection) */
-    function inView(el){
-      var r  = el.getBoundingClientRect();
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      var vw = window.innerWidth  || document.documentElement.clientWidth;
-      return (r.bottom > 0 && r.right > 0 && r.top < vh && r.left < vw);
-    }
+      /* Visible check (>= 1px intersection) */
+      function inView(el){
+        var r  = el.getBoundingClientRect();
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var vw = window.innerWidth  || document.documentElement.clientWidth;
+        return (r.bottom > 0 && r.right > 0 && r.top < vh && r.left < vw);
+      }
 
-    /* First paint: immediately reveal items already on screen */
-    requestAnimationFrame(function(){
-      nodes.forEach(function(el){ if (inView(el)) reveal(el); });
-    });
+      /* First paint: immediately reveal items already on screen */
+      requestAnimationFrame(function(){
+        nodes.forEach(function(el){ if (inView(el)) reveal(el); });
+      });
 
-    /* Observer: trigger as soon as element touches viewport */
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (entry.isIntersecting){
-          reveal(entry.target);
-          io.unobserve(entry.target);
+      /* Observer: trigger as soon as element touches viewport */
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            reveal(entry.target);
+            io.unobserve(entry.target);
+          }
+        });
+      }, {
+        root: null,
+        threshold: 0,
+        rootMargin: '0px 0px -1% 0px' /* 1% visible */
+      });
+
+      nodes.forEach(function(el, i){
+        el.style.setProperty('--reveal-index', i);
+        if (!el.classList.contains('is-revealed')){
+          io.observe(el);
         }
       });
-    }, {
-      root: null,
-      threshold: 0,
-      rootMargin: '0px 0px -1% 0px' /* 1% visible */
-    });
 
-    nodes.forEach(function(el, i){
-      el.style.setProperty('--reveal-index', i);
-      if (!el.classList.contains('is-revealed')){
-        io.observe(el);
-      }
-    });
-
-    /* Safety net on resize/orientation changes */
-    window.addEventListener('resize', function(){
-      nodes.forEach(function(el){
-        if (!el.classList.contains('is-revealed') && inView(el)) reveal(el);
+      /* Safety net on resize/orientation changes */
+      window.addEventListener('resize', function(){
+        nodes.forEach(function(el){
+          if (!el.classList.contains('is-revealed') && inView(el)) reveal(el);
+        });
       });
-    });
-  }catch(e){}
-})();
-</script>
-
+    }catch(e){}
+  })();
+  </script>
 </body>
 </html>
