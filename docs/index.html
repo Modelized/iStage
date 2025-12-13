@@ -14,7 +14,7 @@
   <link rel="mask-icon" href="/iStage/pinned-tab.svg" color="#0f1116">
 
   <!-- Address bar color -->
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <style>
   /* ----- Main page (scoped) ----- */
@@ -41,37 +41,11 @@
   }
   .page-home .footer-row a{ color:inherit; text-decoration:none; }
 
-  /* Home-only tweak: extra top space for the first section on mobile */
-  @media (width < 900px){
-    #home-first{
-      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 16px);
-    }
-  }
-
   /* iStage 18 section gradient (light only) */
   .section--istage-18{
     background: linear-gradient(180deg, #fff 0%, #ffdeaf 100%);
   }
 
-  /* ===== Top announcement banner ===== */
-  .top-event{
-    /* Extra space below the announcement banner */
-    padding: 24px 0 56px;
-    background:#000;
-  }
-  /* clear fixed nav on both breakpoints without changing section--first */
-  @media (width < 900px){
-    .top-event{
-      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile));
-      padding-bottom: 44px;
-    }
-  }
-  @media (min-width:900px){
-    .top-event{
-      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop));
-      padding-bottom: 56px;
-    }
-  }
   .event-visual img{
     display:block; height:auto;
     width: min(560px, 88%);
@@ -139,7 +113,6 @@
   @media (prefers-reduced-motion: reduce){
     .text-aurora{ animation: none; }
   }
-  /* ===== end banner styles ===== */
   </style>
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -147,7 +120,7 @@
   <div id="nav-slot"></div>
 
   <main>
-    <section class="section top-event" aria-label="iStage announcement">
+    <section class="section section--black section--first top-event" aria-label="iStage announcement">
       <div class="container">
         <div class="event-visual">
           <img src="assets/img/hero-iStage-series.png" alt="iStage series overview" loading="eager" decoding="async">
@@ -158,7 +131,6 @@
       </div>
     </section>
 
-    <!-- <section class="section section--black section--first" id="home-first"> -->
     <section class="section section--black section--istage-26">
       <div class="container">
         <div class="hero hero-26">
@@ -211,13 +183,11 @@
         }
       }
 
-      /* If motion reduced or no IO support, show everything right away. */
       if (reduce || !supportIO){
         nodes.forEach(reveal);
         return;
       }
 
-      /* Visible check (>= 1px intersection) */
       function inView(el){
         var r  = el.getBoundingClientRect();
         var vh = window.innerHeight || document.documentElement.clientHeight;
@@ -225,12 +195,10 @@
         return (r.bottom > 0 && r.right > 0 && r.top < vh && r.left < vw);
       }
 
-      /* First paint: immediately reveal items already on screen */
       requestAnimationFrame(function(){
         nodes.forEach(function(el){ if (inView(el)) reveal(el); });
       });
 
-      /* Observer: trigger as soon as element touches viewport */
       var io = new IntersectionObserver(function(entries){
         entries.forEach(function(entry){
           if (entry.isIntersecting){
@@ -241,7 +209,7 @@
       }, {
         root: null,
         threshold: 0,
-        rootMargin: '0px 0px -1% 0px' /* 1% visible */
+        rootMargin: '0px 0px -1% 0px'
       });
 
       nodes.forEach(function(el, i){
@@ -251,7 +219,6 @@
         }
       });
 
-      /* Safety net on resize/orientation changes */
       window.addEventListener('resize', function(){
         nodes.forEach(function(el){
           if (!el.classList.contains('is-revealed') && inView(el)) reveal(el);

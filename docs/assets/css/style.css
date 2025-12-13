@@ -30,9 +30,9 @@ body{
 
   /* ===== Mobile “banner/card” layout tokens (portrait only) ===== */
   --banner-radius: calc(var(--nav-pill-height-mobile) / 2);
-  --banner-side-gap:12px;      /* 좌우 공백 (요청: 12px) */
-  --banner-vert-gap:14px;      /* 배너 간 간격 */
-  --banner-top-gap:14px;       /* 메뉴바 아래 첫 배너 띄우는 간격 */
+  --banner-side-gap:12px;
+  --banner-vert-gap:14px;
+  --banner-top-gap:14px;
 
   /* Page background (base layer) */
   --page-bg:#ffffff;
@@ -116,7 +116,7 @@ body{
     background:rgba(20,24,32,.52);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
-    box-shadow:0 14px 40px rgba(0,0,0,.28);
+    box-shadow:0 0 32px rgba(0,0,0,.22);
   }
 }
 .row{
@@ -167,7 +167,7 @@ body{
   background:rgba(20,24,32,.52);
   backdrop-filter:saturate(170%) blur(18px);
   -webkit-backdrop-filter:saturate(170%) blur(18px);
-  box-shadow:0 14px 40px rgba(0,0,0,.28);
+  box-shadow:0 0 32px rgba(0,0,0,.22);
   color:#e8e9ec;
 }
 
@@ -266,13 +266,13 @@ body{
   .desktop{display:none}
   .nav-toggle{display:grid}
   .nav-inner{
-    margin:0 var(--banner-side-gap); /* 요청: 메뉴바 외곽도 12px */
+    margin:0 var(--banner-side-gap);
     border:1px solid var(--nav-border);
     border-radius:calc(var(--nav-pill-height-mobile) / 2);
     background:rgba(20,24,32,.52);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
-    box-shadow:0 14px 40px rgba(0,0,0,.28);
+    box-shadow:0 0 32px rgba(0,0,0,.22);
   }
   .sheet{
     display:grid;
@@ -354,7 +354,7 @@ body{
 }
 
 /* ===== Desktop/landscape menu highlight thumb (Apple-style) =====
-   JS drives these CSS variables on `.menu`:
+   JS drives these CSS variables on .menu:
      --menu-thumb-x: px (translateX)
      --menu-thumb-w: px (width)
      --menu-thumb-o: 0..1 (opacity)
@@ -464,10 +464,10 @@ body{
   /* first banner: sit below nav with a visible gap above it */
   .section--first{
     margin-top:calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + var(--banner-top-gap));
-    padding-top:44px; /* 기존처럼 섹션 내부 상단 패딩은 유지 */
+    padding-top:44px;
   }
 
-  /* kill full-bleed layer (this is what made banners touch screen edges / go behind nav) */
+  /* kill full-bleed layer */
   .section--black::before,
   .section--white::before{
     content:none;
