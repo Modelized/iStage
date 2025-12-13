@@ -26,8 +26,18 @@ body{
   --nav-pill-height-desktop:44px;
   --nav-icon-size:var(--nav-pill-height-desktop);
 
-  --nav-backdrop:linear-gradient(to bottom, rgba(4,6,14,.92), rgba(4,6,14,0));
+  /* Nav backdrop (black-only, softer top, no blue tint, no hard edge) */
+  --nav-backdrop:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.46) 0%,
+    rgba(0,0,0,.28) 55%,
+    rgba(0,0,0,0) 100%
+  );
   --nav-border:#ffffff33;
+
+  /* Backdrop height: keep it within nav range (no deep drop) */
+  --nav-backdrop-h-mobile:calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-mobile) + 18px);
+  --nav-backdrop-h-desktop:calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 18px);
 
   --nav-offset-mobile:calc(12px + var(--nav-pill-height-mobile) + var(--banner-vert-gap));
   --nav-offset-desktop:calc(12px + var(--nav-pill-height-desktop) + var(--banner-vert-gap));
@@ -55,16 +65,34 @@ body{
 .nav-backdrop{
   position:fixed;
   top:0; left:0; right:0;
-  height:calc(env(safe-area-inset-top, 0px) + 140px);
+  height:var(--nav-backdrop-h-mobile);
   background:var(--nav-backdrop);
   z-index:1;
   pointer-events:none;
+
+  /* default OFF: show only after scroll (JS will add class) */
+  opacity:0;
+  transition:opacity .22s ease;
+  will-change:opacity;
+
+  /* avoid faint band/seam on some Safari builds */
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
 }
+
 @media (min-width:900px){
   .nav-backdrop{
-    height:calc(env(safe-area-inset-top, 0px) + 120px);
+    height:var(--nav-backdrop-h-desktop);
   }
 }
+
+/* Mobile portrait: no nav backdrop (you said it's unnecessary) */
+@media (max-width:900px) and (orientation:portrait){
+  .nav-backdrop{display:none !important;}
+}
+
+/* JS will toggle this when page is scrolled */
+.nav-backdrop.is-visible{opacity:1}
 
 /* Nav */
 .nav{
@@ -100,6 +128,11 @@ body{
   gap:16px;
   position:relative;
   z-index:3;
+}
+
+/* Desktop only: pull logo/search slightly inward (~8px) */
+@media (min-width:900px){
+  .row{padding:0 24px;}
 }
 
 .brand{
@@ -477,17 +510,14 @@ body{
   content:"";
   display:block;
 
-  /* slightly larger than before */
   width:44px;
   height:26px;
   margin:18px auto 0;
 
-  /* chevron "material": translucent white + blur */
   background:rgba(255,255,255,.62);
   backdrop-filter:saturate(175%) blur(18px);
   -webkit-backdrop-filter:saturate(175%) blur(18px);
 
-  /* punch the chevron shape out of this box */
   -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 9.25L12 15.75L18.5 9.25' fill='none' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 9.25L12 15.75L18.5 9.25' fill='none' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   -webkit-mask-repeat:no-repeat;

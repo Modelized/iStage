@@ -43,14 +43,49 @@
          if (brand) brand.classList.remove('has-logo');
        });
      }
+
      initMenuThumb();
+     initNavBackdrop();
+   }
+
+   function initNavBackdrop(){
+     const backdrop = document.querySelector('.nav-backdrop');
+     if (!backdrop) return;
+
+     if (backdrop.dataset.backdropInit === '1') return;
+     backdrop.dataset.backdropInit = '1';
+
+     let last = null;
+     let ticking = false;
+
+     const compute = () => {
+       ticking = false;
+       const y = window.scrollY || window.pageYOffset || 0;
+       const visible = y > 4;
+
+       if (visible !== last){
+         backdrop.classList.toggle('is-visible', visible);
+         last = visible;
+       }
+     };
+
+     const onChange = () => {
+       if (ticking) return;
+       ticking = true;
+       requestAnimationFrame(compute);
+     };
+
+     compute();
+     window.addEventListener('scroll', onChange, { passive:true });
+     window.addEventListener('resize', onChange);
+     window.addEventListener('orientationchange', onChange);
+     window.addEventListener('pageshow', onChange);
    }
 
    function initMenuThumb(){
      const menu = document.querySelector('ul.menu');
      if (!menu) return;
 
-     // Prevent double-init
      if (menu.dataset.thumbInit === '1') return;
      menu.dataset.thumbInit = '1';
 
@@ -71,13 +106,11 @@
        return false;
      };
 
-     // Candidates for the moving thumb (exclude Legal)
      const links = allLinks.filter(a => !isExcluded(a));
      if (!links.length) return;
 
      const normPath = (p) => {
        if (!p) return '/';
-       // Keep GitHub Pages paths stable: strip trailing slashes (except root)
        const s = p.replace(/\/+/g, '/');
        return (s.length > 1) ? s.replace(/\/+$/, '') : s;
      };
@@ -85,10 +118,8 @@
      const currentPath = normPath(location.pathname);
      const onLegalPage = isLegalPath(currentPath);
 
-     // Clear any previous current state
      allLinks.forEach(a => a.classList.remove('is-current'));
 
-     // Find current link among candidates
      let current = null;
      for (const a of links){
        try{
@@ -97,17 +128,13 @@
            current = a;
            break;
          }
-       }catch{
-         // ignore
-       }
+       }catch{}
      }
 
-     // If we are on Legal page, do not mark any menu item current
      if (!onLegalPage && current){
        current.classList.add('is-current');
      }
 
-     // Thumb positioning
      const setThumbTo = (a, show = true) => {
        if (!a){
          menu.style.setProperty('--menu-thumb-o', '0');
@@ -116,17 +143,12 @@
 
        const mr = menu.getBoundingClientRect();
        const r  = a.getBoundingClientRect();
-
        const ms = getComputedStyle(menu);
 
-       // Wider thumb: pad is controlled by CSS var --menu-thumb-pad
        const padStr = ms.getPropertyValue('--menu-thumb-pad').trim();
        const padNum = parseFloat(padStr);
        const pad = Number.isFinite(padNum) ? padNum : 10;
 
-       // IMPORTANT: getBoundingClientRect().left is the border-box edge,
-       // but absolutely positioned pseudo-elements use the padding edge as containing block.
-       // So subtract borderLeftWidth to align coordinate systems.
        const borderLeftNum = parseFloat(ms.borderLeftWidth);
        const borderLeft = Number.isFinite(borderLeftNum) ? borderLeftNum : 0;
 
@@ -139,7 +161,6 @@
      };
 
      const setTargetText = (targetEl) => {
-       // Base state: slightly dimmed; highlighted item fully opaque
        for (const a of allLinks){
          a.style.color = 'rgba(232,233,236,.72)';
        }
@@ -159,14 +180,11 @@
        }
      };
 
-     // Initial state: show current page highlight (except Legal) without first-frame transition glitch
      menu.classList.add('thumb-init');
      snapToCurrent();
      requestAnimationFrame(() => menu.classList.remove('thumb-init'));
 
-     // Realign on resize / font load / layout changes
      const realign = () => {
-       // If hovering, keep the hover target; otherwise snap back to current
        if (menu.dataset.thumbHovering) return;
        snapToCurrent();
      };
@@ -180,13 +198,11 @@
        ro.observe(menu);
      }
 
-     // Hover-follow behavior (sticky snap to nearest item) — mouse + Apple Pencil hover
      let raf = 0;
      let target = menu.querySelector('a.is-current') || links[0];
      let leaveTimer = 0;
 
      const isHoverPointer = (e) => {
-       // Ignore touch so mobile portrait doesn't get "sticky" behavior.
        return e && (e.pointerType === 'mouse' || e.pointerType === 'pen');
      };
 
@@ -217,19 +233,16 @@
 
      const scheduleLeave = () => {
        cancelLeave();
-       // Small delay prevents jitter when the pointer grazes the menu boundary.
        leaveTimer = setTimeout(() => {
          delete menu.dataset.thumbHovering;
          snapToCurrent();
        }, 180);
      };
 
-     // Pointer Events: works for mouse + Apple Pencil hover on iPadOS
      menu.addEventListener('pointerenter', (e) => {
        if (!isHoverPointer(e)) return;
        cancelLeave();
        menu.dataset.thumbHovering = '1';
-       // If we're on Legal page, keep thumb hidden until the first move
        if (onLegalPage) menu.style.setProperty('--menu-thumb-o', '0');
      });
 
@@ -245,7 +258,6 @@
 
      menu.addEventListener('pointerleave', (e) => {
        if (!isHoverPointer(e)){
-         // If touch leaves, just snap silently.
          delete menu.dataset.thumbHovering;
          snapToCurrent();
          return;
@@ -253,7 +265,6 @@
        scheduleLeave();
      });
 
-     // Fallback for browsers without Pointer Events (just in case)
      if (!('PointerEvent' in window)){
        menu.addEventListener('mousemove', (e) => {
          menu.dataset.thumbHovering = '1';
