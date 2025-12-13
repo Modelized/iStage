@@ -1,80 +1,84 @@
 /* ========== iStage CSS ========== */
 
-/* ===== Base ===== */
+/* Base */
 *{box-sizing:border-box}
 html{
   margin:0;
   padding:0;
   overflow-x:hidden;
-  -webkit-text-size-adjust:100%;  /* prevent iOS from auto-zooming text on rotation */
+  -webkit-text-size-adjust:100%;
 }
 body{
   margin:0;
   padding:0;
   overflow-x:hidden;
+  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif;
+  line-height:1.6;
+  color:#111317;
+  background:var(--page-bg);
 }
+
 :root{
   --apple-blue:#0071e3;
   --radius:16px;
+
   --nav-pill-height-mobile:56px;
   --nav-pill-height-desktop:44px;
   --nav-icon-size:var(--nav-pill-height-desktop);
 
-  /* Nav palette (fixed) */
-  --nav-backdrop:linear-gradient(to bottom, rgba(4,6,14,.9), rgba(4,6,14,0));     /* no solid strip behind nav */
-  --nav-border:#ffffff33;    /* nav outline */
+  --nav-backdrop:linear-gradient(to bottom, rgba(4,6,14,.92), rgba(4,6,14,0));
+  --nav-border:#ffffff33;
 
-  /* Offsets for first section under the fixed nav */
   --nav-offset-mobile:calc(12px + var(--nav-pill-height-mobile) + var(--banner-vert-gap));
   --nav-offset-desktop:calc(12px + var(--nav-pill-height-desktop) + var(--banner-vert-gap));
 
-  /* ===== Mobile “banner/card” layout tokens (portrait only) ===== */
-  --banner-radius: calc(var(--nav-pill-height-mobile) / 2);
+  --banner-radius:calc(var(--nav-pill-height-mobile) / 2);
   --banner-side-gap:12px;
   --banner-vert-gap:14px;
   --banner-top-gap:14px;
 
-  /* Page background (base layer) */
   --page-bg:#ffffff;
 }
-body{
-  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif;
-  line-height:1.6; color:#111317; background:var(--page-bg);
-}
+
 .container{max-width:1100px;margin:0 auto;padding:0 12px}
 .muted{color:#5e6572}
 .small{font-size:.9rem}
 .no-scroll{overflow:hidden}
 
-/* Nav */
+/* Full-width containers for fixed nav + footer */
+.nav .container,
+.footer .container{
+  max-width:none;
+}
+
+/* Nav backdrop */
 .nav-backdrop{
-  position:fixed; top:0; left:0; right:0;
-  height:120px;
+  position:fixed;
+  top:0; left:0; right:0;
+  height:calc(env(safe-area-inset-top, 0px) + 140px);
   background:var(--nav-backdrop);
-  z-index:1;               /* keep behind the nav at all times */
+  z-index:1;
   pointer-events:none;
 }
 @media (min-width:900px){
   .nav-backdrop{
-    height:96px;
+    height:calc(env(safe-area-inset-top, 0px) + 120px);
   }
 }
-@supports (height: env(safe-area-inset-top)) {
-  .nav-backdrop{height:calc(env(safe-area-inset-top) + 112px)}
-}
+
+/* Nav */
 .nav{
   position:fixed;
   top:calc(env(safe-area-inset-top, 0px) + 12px);
   left:0; right:0;
-  z-index:1000;           /* above .nav-backdrop */
+  z-index:1000;
   padding:0;
   pointer-events:none;
   backface-visibility:hidden;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  will-change: transform;
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);
+  will-change:transform;
 }
-/* iPadOS desktop-style Safari overscroll workaround: avoid transform on fixed nav so text doesn't disappear */
 @media (hover:none) and (pointer:coarse) and (min-width:900px){
   .nav{
     -webkit-transform:none;
@@ -84,41 +88,10 @@ body{
 .nav *{pointer-events:auto}
 .nav-inner{
   position:relative;
-  z-index:2;                               /* keep contents above backdrop */
-  isolation:isolate;                       /* separate compositing context to avoid iPad overscroll glitch */
+  z-index:2;
+  isolation:isolate;
 }
 
-/* Desktop / landscape: centered frosted pill behind menu only */
-@media (min-width:900px), (max-width:900px) and (orientation:landscape){
-  .row{
-    height:var(--nav-pill-height-desktop);
-  }
-  /* Menu pill is now applied to .menu itself so it fits content width */
-  .nav-inner::before{ content:none; }
-
-  .menu{
-    height:var(--nav-pill-height-desktop);
-    align-items:center;
-    /* Padding chosen so outer pill margins match the thumb margins when the thumb is at the ends */
-    --menu-thumb-pad: 6px;
-    --menu-thumb-h: 32px;
-    /* pill side padding = thumb side pad + one-side vertical inset (so left/right margin matches top/bottom margin) */
-    --menu-pill-pad: calc(var(--menu-thumb-pad) + (var(--nav-pill-height-desktop) - var(--menu-thumb-h)) * 0.5);
-    padding:0 var(--menu-pill-pad);
-    box-sizing:border-box;
-    overflow:hidden;
-
-    /* default thumb bg */
-    --menu-thumb-bg: rgba(255,255,255,.16);
-
-    border:1px solid var(--nav-border);
-    border-radius:calc(var(--nav-pill-height-desktop) / 2);
-    background:rgba(20,24,32,.60);
-    backdrop-filter:saturate(170%) blur(18px);
-    -webkit-backdrop-filter:saturate(170%) blur(18px);
-    box-shadow:0 0 28px -14px rgba(0,0,0,.24);
-  }
-}
 .row{
   height:var(--nav-pill-height-mobile);
   display:flex;
@@ -126,9 +99,16 @@ body{
   padding:0 16px;
   gap:16px;
   position:relative;
-  z-index:3;                     /* ensure content stays above pill/backdrop on iPad overscroll */
+  z-index:3;
 }
-.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#e8e9ec}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:#e8e9ec;
+}
 .brand-logo{
   display:none;
   height:clamp(30px, 7.5vw, 36px);
@@ -137,6 +117,7 @@ body{
 .brand-text{display:inline}
 .brand.has-logo .brand-logo{display:block}
 .brand.has-logo .brand-text{display:none}
+
 .menu{
   display:flex;
   gap:14px;
@@ -146,11 +127,12 @@ body{
   font-size:.95rem;
   position:relative;
   isolation:isolate;
-  /* Defaults (desktop block above overrides/uses these) */
-  --menu-thumb-pad: 6px;
-  --menu-thumb-h: 32px;
-  --menu-thumb-bg: rgba(255,255,255,.16);
+
+  --menu-thumb-pad:6px;
+  --menu-thumb-h:32px;
+  --menu-thumb-bg:rgba(255,255,255,.16);
 }
+
 .nav-right{
   display:flex;
   align-items:center;
@@ -179,22 +161,7 @@ body{
   text-decoration:none;
 }
 
-.nav-search-icon{
-  display:none;
-  width:18px;
-  height:18px;
-  stroke:currentColor;
-  stroke-width:1.7px;
-  fill:none;
-}
-
-.nav-search-icon circle,
-.nav-search-icon line{
-  vector-effect:non-scaling-stroke;
-  stroke-linecap:round;
-}
-
-/* Draw the search icon purely with CSS so it never disappears */
+/* CSS-only search icon */
 .nav-search::before,
 .nav-search::after{
   content:"";
@@ -202,8 +169,6 @@ body{
   display:block;
   pointer-events:none;
 }
-
-/* circular lens */
 .nav-search::before{
   width:14px;
   height:14px;
@@ -215,8 +180,6 @@ body{
   margin-top:-9px;
   margin-left:-9px;
 }
-
-/* handle */
 .nav-search::after{
   width:9px;
   height:2px;
@@ -225,7 +188,7 @@ body{
   top:50%;
   left:50%;
   margin-top:1px;
-  margin-left:1px;   /* pull the handle slightly inward so it overlaps the circle */
+  margin-left:1px;
   transform-origin:left center;
   transform:rotate(45deg);
 }
@@ -234,16 +197,15 @@ body{
   color:rgba(232,233,236,.72);
   font-weight:500;
   text-decoration:none;
-  padding:6px 12px;            /* a bit wider so the thumb feels less "tight" */
+  padding:6px 12px;
   border-radius:12px;
   transition:color .18s linear;
 }
-
-/* Current/hovered item reads fully opaque */
-.menu a.is-current{ color:rgba(232,233,236,1); }
+.menu a.is-current{color:rgba(232,233,236,1)}
 @media (hover:hover) and (pointer:fine){
-  .menu a:hover{ color:rgba(232,233,236,1); }
+  .menu a:hover{color:rgba(232,233,236,1)}
 }
+
 .nav-toggle{
   display:none;
   outline:none;
@@ -251,116 +213,60 @@ body{
   place-items:center;
   z-index:2;
 }
-.nav--open .nav-toggle{ background:rgba(255,255,255,.06) !important; }
+.nav--open .nav-toggle{background:rgba(255,255,255,.06) !important}
 .nav-toggle:focus,.nav-toggle:focus-visible{outline:none}
-.nav-toggle-bar{display:block; width:18px; height:2px; background:currentColor; position:relative; border-radius:2px}
-.nav-toggle-bar::before,.nav-toggle-bar::after{content:""; position:absolute; left:0; width:18px; height:2px; background:currentColor; border-radius:2px; transition:transform .35s cubic-bezier(.22,1,.36,1), opacity .2s linear}
-.nav-toggle-bar::before{top:-6px}.nav-toggle-bar::after{top:6px}
+.nav-toggle-bar{
+  display:block;
+  width:18px;
+  height:2px;
+  background:currentColor;
+  position:relative;
+  border-radius:2px;
+}
+.nav-toggle-bar::before,
+.nav-toggle-bar::after{
+  content:"";
+  position:absolute;
+  left:0;
+  width:18px;
+  height:2px;
+  background:currentColor;
+  border-radius:2px;
+  transition:transform .35s cubic-bezier(.22,1,.36,1), opacity .2s linear;
+}
+.nav-toggle-bar::before{top:-6px}
+.nav-toggle-bar::after{top:6px}
 .sheet{display:none}
 
-/* Mobile nav only for portrait orientation on narrow viewports */
-.nav-search:active{
-  background:rgba(255,255,255,.06);
-}
-@media (max-width:900px) and (orientation:portrait){
-  .desktop{display:none}
-  .nav-toggle{display:grid}
-  .nav-inner{
-    margin:0 var(--banner-side-gap);
+.nav-search:active{background:rgba(255,255,255,.06)}
+
+/* Desktop / landscape: frosted menu pill + thumb highlight */
+@media (min-width:900px), (max-width:900px) and (orientation:landscape){
+  .row{height:var(--nav-pill-height-desktop)}
+  .nav-inner::before{content:none}
+
+  .menu{
+    height:var(--nav-pill-height-desktop);
+    align-items:center;
+
+    --menu-thumb-pad:6px;
+    --menu-thumb-h:32px;
+    --menu-pill-pad:calc(var(--menu-thumb-pad) + (var(--nav-pill-height-desktop) - var(--menu-thumb-h)) * 0.5);
+    padding:0 var(--menu-pill-pad);
+
+    box-sizing:border-box;
+    overflow:hidden;
+
     border:1px solid var(--nav-border);
-    border-radius:calc(var(--nav-pill-height-mobile) / 2);
+    border-radius:calc(var(--nav-pill-height-desktop) / 2);
     background:rgba(20,24,32,.60);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
     box-shadow:0 0 28px -14px rgba(0,0,0,.24);
   }
-  .sheet{
-    display:grid;
-    grid-template-rows:0fr;
-    transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1);
-  }
-  .row{
-    height:var(--nav-pill-height-mobile);
-    padding:0 16px;       /* symmetric left/right padding so logo and hamburger are equally inset */
-  }
-  .nav-search{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    padding:0;
-  }
-  .nav-search,
-  .nav-toggle{
-    width:40px;
-    height:40px;
-    border:none;
-    background:transparent;
-    box-shadow:none;
-    backdrop-filter:none;
-    -webkit-backdrop-filter:none;
-  }
-  .nav-right{
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    gap:4px;
-    margin-left:auto;
-  }
-  .nav-search{
-    order:1;
-  }
-  .nav-toggle{
-    order:2;
-    margin-right:0;
-  }
-}
-.sheet-content{overflow:hidden}
-.mobile-menu{
-  list-style:none;
-  margin:0;
-  padding:16px 4px 18px;
-}
-.mobile-menu a{
-  display:block;
-  padding:10px 12px;
-  font-size:1.25rem;
-  line-height:1.35;
-  font-weight:600;
-  color:#e8e9ec;
-  text-decoration:none;
-  border-radius:999px;
-}
-/* Hover styles only on pointer/hover devices (desktop/trackpad), to avoid sticky hover on iOS */
-@media (hover:hover) and (pointer:fine){
-  .menu a:hover{background:transparent}
-  .mobile-menu a:hover{background:rgba(255,255,255,.06)}
-  .nav-search:hover{
-    background:rgba(255,255,255,.06);
-  }
-}
-.menu a:active,
-.mobile-menu a:active{
-  background:rgba(255,255,255,.06);
-}
-.nav--open .sheet{grid-template-rows:1fr}
-.nav--open .nav-toggle-bar{background:transparent}
-.nav--open .nav-toggle-bar::before{transform:translateY(6px) rotate(45deg)}
-.nav--open .nav-toggle-bar::after{transform:translateY(-6px) rotate(-45deg)}
 
-/* Active menu item (only desktop + mobile landscape)
-   NOTE: background is handled by the moving thumb layer (JS sets --menu-thumb-* vars). */
-@media (min-width:900px), (max-width:900px) and (orientation:landscape){
-  .menu a.is-current{ background:transparent; }
-}
+  .menu a.is-current{background:transparent}
 
-/* ===== Desktop/landscape menu highlight thumb (Apple-style) =====
-   JS drives these CSS variables on .menu:
-     --menu-thumb-x: px (translateX)
-     --menu-thumb-w: px (width)
-     --menu-thumb-o: 0..1 (opacity)
-   The thumb returns to the current page item on mouseleave.
-*/
-@media (min-width:900px), (max-width:900px) and (orientation:landscape){
   .menu::before{
     content:"";
     position:absolute;
@@ -385,48 +291,121 @@ body{
     position:relative;
     z-index:1;
     background:transparent;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color:transparent;
   }
 
-  /* Desktop/landscape: old per-link press highlight OFF (prevents double-layer) */
-  .menu a:active{ background:transparent; }
+  .menu a:active{background:transparent}
 
-  /* Press feedback should appear on the thumb itself */
   @supports selector(.menu:has(a:active)){
     .menu:has(a:active){
       --menu-thumb-bg: rgba(255,255,255,.24);
     }
   }
 
-  /* JS can add .thumb-init to disable the first-frame transition (prevents "grow from left") */
-  .menu.thumb-init::before{ transition:none !important; }
+  .menu.thumb-init::before{transition:none !important}
 }
 
-/* Reduced motion: stop the thumb animation */
 @media (prefers-reduced-motion: reduce){
   @media (min-width:900px), (max-width:900px) and (orientation:landscape){
-    .menu::before{ transition:none !important; }
+    .menu::before{transition:none !important}
   }
 }
+
+/* Mobile portrait nav */
+@media (max-width:900px) and (orientation:portrait){
+  .desktop{display:none}
+  .nav-toggle{display:grid}
+
+  .nav-inner{
+    margin:0 var(--banner-side-gap);
+    border:1px solid var(--nav-border);
+    border-radius:calc(var(--nav-pill-height-mobile) / 2);
+    background:rgba(20,24,32,.60);
+    backdrop-filter:saturate(170%) blur(18px);
+    -webkit-backdrop-filter:saturate(170%) blur(18px);
+    box-shadow:0 0 28px -14px rgba(0,0,0,.24);
+  }
+
+  .sheet{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1);
+  }
+
+  .row{
+    height:var(--nav-pill-height-mobile);
+    padding:0 16px;
+  }
+
+  .nav-search,
+  .nav-toggle{
+    width:40px;
+    height:40px;
+    border:none;
+    background:transparent;
+    box-shadow:none;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+
+  .nav-right{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:4px;
+    margin-left:auto;
+  }
+  .nav-search{order:1}
+  .nav-toggle{order:2;margin-right:0}
+}
+
+.sheet-content{overflow:hidden}
+.mobile-menu{
+  list-style:none;
+  margin:0;
+  padding:16px 4px 18px;
+}
+.mobile-menu a{
+  display:block;
+  padding:10px 12px;
+  font-size:1.25rem;
+  line-height:1.35;
+  font-weight:600;
+  color:#e8e9ec;
+  text-decoration:none;
+  border-radius:999px;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .menu a:hover{background:transparent}
+  .mobile-menu a:hover{background:rgba(255,255,255,.06)}
+  .nav-search:hover{background:rgba(255,255,255,.06)}
+}
+
+.menu a:active,
+.mobile-menu a:active{
+  background:rgba(255,255,255,.06);
+}
+
+.nav--open .sheet{grid-template-rows:1fr}
+.nav--open .nav-toggle-bar{background:transparent}
+.nav--open .nav-toggle-bar::before{transform:translateY(6px) rotate(45deg)}
+.nav--open .nav-toggle-bar::after{transform:translateY(-6px) rotate(-45deg)}
 
 /* Sections */
 .section{padding:44px 0 32px}
 .section + .section{margin-top:12px}
+
 .section--first{
   margin-top:0;
-  padding-top:calc(env(safe-area-inset-top) + var(--nav-offset-mobile));
-}
-@media (min-width:900px){
-  .section--first{padding-top:calc(env(safe-area-inset-top) + var(--nav-offset-desktop))}
-}
-@media (max-width:900px) and (orientation:landscape){
-  .section--first{
-    padding-top:calc(env(safe-area-inset-top) + var(--nav-offset-desktop));
-  }
+  padding-top:44px;
 }
 
-.top-event{
-  padding-top:32px;
+/* Ensure the first card clears the floating nav (desktop + landscape) */
+@media (min-width:900px), (max-width:900px) and (orientation:landscape){
+  .section--first{
+    margin-top:calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 12px);
+  }
 }
 
 .section--black,
@@ -436,49 +415,38 @@ body{
 .section--black{background:#000; color:#e8e9ec}
 .section--white{background:#f5f5f7; color:#111317}
 
-/* Full-bleed backgrounds for black/white sections */
-.section--black::before,
-.section--white::before{
-  content:"";
-  position:absolute;
-  top:0;
-  bottom:0;
-  left:50%;
-  right:50%;
-  margin-left:calc(-50vw + 50%);
-  margin-right:calc(-50vw + 50%);
-  z-index:-1;
-}
-.section--black::before{background:#000}
-.section--white::before{background:#f5f5f7}
-
-/* ===== Mobile portrait: banner/card layout for main sections ===== */
-@media (max-width:900px) and (orientation:portrait){
-  /* section becomes a “banner card” */
+/* Card layout for desktop + landscape (page cards, nav/footer excluded) */
+@media (min-width:900px), (max-width:900px) and (orientation:landscape){
   .section--black,
   .section--white{
     margin-left:var(--banner-side-gap);
     margin-right:var(--banner-side-gap);
     border-radius:var(--banner-radius);
-    overflow:hidden; /* clip inner backgrounds to rounded corners */
+    overflow:hidden;
   }
 
-  /* spacing between banners */
-  .section + .section{ margin-top:var(--banner-vert-gap); }
+  .media{
+    border-radius:calc(var(--banner-radius) - 8px);
+  }
+}
 
-  /* first banner: sit below nav with a visible gap above it */
+/* Card layout for mobile portrait */
+@media (max-width:900px) and (orientation:portrait){
+  .section--black,
+  .section--white{
+    margin-left:var(--banner-side-gap);
+    margin-right:var(--banner-side-gap);
+    border-radius:var(--banner-radius);
+    overflow:hidden;
+  }
+
+  .section + .section{margin-top:var(--banner-vert-gap)}
+
   .section--first{
-    margin-top:calc(env(safe-area-inset-top) + var(--nav-offset-mobile));
-    padding-top:44px;
+    margin-top:calc(env(safe-area-inset-top, 0px) + var(--nav-offset-mobile));
+    padding-top:28px;
   }
 
-  /* kill full-bleed layer */
-  .section--black::before,
-  .section--white::before{
-    content:none;
-  }
-
-  /* match inner hero media rounding to the banner curve (optional, but keeps the feel consistent) */
   .media{
     border-radius:calc(var(--banner-radius) - 8px);
   }
@@ -486,26 +454,71 @@ body{
 
 /* Hero */
 .hero{display:flex; flex-direction:column; align-items:center; gap:16px}
-.copy{text-align:center; display:flex; flex-direction:column; align-items:center; gap:12px; padding:0 6px}
-.copy .title{margin:0; font-size:clamp(28px,4.6vw,56px); line-height:1.06; letter-spacing:-.01em}
+.copy{
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  padding:0 6px;
+}
+.copy .title{
+  margin:0;
+  font-size:clamp(28px,4.6vw,56px);
+  line-height:1.06;
+  letter-spacing:-.01em;
+}
 .copy .subtitle{margin:0; color:rgba(232,233,236,.88)}
 .section--white .copy .subtitle{color:#5e6572}
 .cta{display:flex; gap:12px; justify-content:center; margin-top:14px}
 
-/* Hero image block */
+/* Scroll cue: chevron only (no container, no outline, no shadow) */
+.section--first .copy::after{
+  content:"";
+  display:block;
+
+  /* slightly larger than before */
+  width:44px;
+  height:26px;
+  margin:18px auto 0;
+
+  /* chevron "material": translucent white + blur */
+  background:rgba(255,255,255,.62);
+  backdrop-filter:saturate(175%) blur(18px);
+  -webkit-backdrop-filter:saturate(175%) blur(18px);
+
+  /* punch the chevron shape out of this box */
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 9.25L12 15.75L18.5 9.25' fill='none' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 9.25L12 15.75L18.5 9.25' fill='none' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-position:center;
+  mask-position:center;
+  -webkit-mask-size:contain;
+  mask-size:contain;
+
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  pointer-events:none;
+}
+
+/* Disable any previous subtitle-attached cue if it exists elsewhere */
+.section--first .copy .subtitle::after{content:none !important}
+
+/* Hero media */
 .media{
   width:100%;
   background-position:center;
   background-repeat:no-repeat;
   background-size:cover;
   border-radius:12px;
-  aspect-ratio:1/1; /* mobile */
+  aspect-ratio:1/1;
 }
 @media (min-width:900px){
   .media{aspect-ratio:16/9; width:92%; margin:0 auto}
 }
 
-/* Image sources */
 .media-26{
   background-image:
     url("../img/hero-iStage-26-mobile.jpg"),
@@ -517,21 +530,32 @@ body{
     url("../img/hero-iStage-18-mobile.png");
 }
 @media (min-width:900px){
-  .media-26{background-image:
-    url("../img/hero-iStage-26-desktop.jpg"),
-    url("../img/hero-iStage-26-desktop.png")}
-  .media-18{background-image:
-    url("../img/hero-iStage-18-desktop.jpg"),
-    url("../img/hero-iStage-18-desktop.png")}
+  .media-26{
+    background-image:
+      url("../img/hero-iStage-26-desktop.jpg"),
+      url("../img/hero-iStage-26-desktop.png");
+  }
+  .media-18{
+    background-image:
+      url("../img/hero-iStage-18-desktop.jpg"),
+      url("../img/hero-iStage-18-desktop.png");
+  }
 }
 
-/* Buttons (frosted glass) */
+/* Buttons */
 a.btn,.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:.4ch;
-  padding:12px 18px; border-radius:999px; font-weight:500; line-height:1;
-  text-decoration:none !important; appearance:none; -webkit-appearance:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.4ch;
+  padding:12px 18px;
+  border-radius:999px;
+  font-weight:500;
+  line-height:1;
+  text-decoration:none !important;
+  appearance:none;
+  -webkit-appearance:none;
 
-  /* glass base */
   border:1px solid rgba(255,255,255,.18);
   backdrop-filter:saturate(170%) blur(18px);
   -webkit-backdrop-filter:saturate(170%) blur(18px);
@@ -550,8 +574,8 @@ a.btn:link,a.btn:visited{color:inherit}
   border-color:rgba(0,113,227,.56);
   color:#fff !important;
 }
-.btn-blue:hover{ background:rgba(0,113,227,.84); }
-.btn-blue:active{ background:rgba(0,113,227,.68); transform:translateY(0.5px); }
+.btn-blue:hover{background:rgba(0,113,227,.84)}
+.btn-blue:active{background:rgba(0,113,227,.68); transform:translateY(0.5px)}
 
 .btn-outline{
   background:rgba(120,120,120,.32);
@@ -559,23 +583,66 @@ a.btn:link,a.btn:visited{color:inherit}
   color:#fff !important;
   box-shadow:0 0 24px -14px rgba(0,0,0,.22);
 }
-.btn-outline:hover{ background:rgba(120,120,120,.40); }
-.btn-outline:active{ background:rgba(255,255,255,.30); transform:translateY(0.5px); }
+.btn-outline:hover{background:rgba(120,120,120,.40)}
+.btn-outline:active{background:rgba(255,255,255,.30); transform:translateY(0.5px)}
 
 /* Releases */
-.card{background:rgba(18,21,27,1); border:1px solid var(--nav-border); border-radius:18px; padding:18px; color:#e8e9ec}
+.card{
+  background:rgba(18,21,27,1);
+  border:1px solid var(--nav-border);
+  border-radius:18px;
+  padding:18px;
+  color:#e8e9ec;
+}
 .releases-list{display:grid; gap:16px}
 .release-head{display:flex; align-items:center; justify-content:space-between; gap:12px}
-.tag{font-size:.8rem; padding:.2rem .5rem; border:1px solid var(--nav-border); border-radius:999px; color:#a7acb7}
+.tag{
+  font-size:.8rem;
+  padding:.2rem .5rem;
+  border:1px solid var(--nav-border);
+  border-radius:999px;
+  color:#a7acb7;
+}
 
 /* Version tabs */
 .version-tabs-wrap{display:flex; justify-content:center; margin-bottom:18px}
 .version-tabs-shell{display:flex; align-items:center; gap:8px}
 .chev{width:32px; height:32px; padding:0}
-.version-tabs{position:relative; display:flex; gap:6px; align-items:center; padding:6px; border-radius:14px; border:1px solid var(--nav-border); background:rgba(15,17,22,.75); backdrop-filter:saturate(160%) blur(12px); -webkit-backdrop-filter:saturate(160%) blur(12px)}
+.version-tabs{
+  position:relative;
+  display:flex;
+  gap:6px;
+  align-items:center;
+  padding:6px;
+  border-radius:14px;
+  border:1px solid var(--nav-border);
+  background:rgba(15,17,22,.75);
+  backdrop-filter:saturate(160%) blur(12px);
+  -webkit-backdrop-filter:saturate(160%) blur(12px);
+}
 .version-tabs.viewported .tab[hidden]{display:none !important}
-.version-thumb{position:absolute; top:4px; bottom:4px; left:6px; width:0; border-radius:12px; background:rgba(255,255,255,.12); transition:transform .45s cubic-bezier(.22,1,.36,1), width .45s cubic-bezier(.22,1,.36,1); pointer-events:none}
-.tab{position:relative; z-index:1; border:0; background:transparent; color:#e8e9ec; padding:8px 10px; border-radius:10px; font-weight:600; cursor:pointer; white-space:nowrap}
+.version-thumb{
+  position:absolute;
+  top:4px; bottom:4px;
+  left:6px;
+  width:0;
+  border-radius:12px;
+  background:rgba(255,255,255,.12);
+  transition:transform .45s cubic-bezier(.22,1,.36,1), width .45s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;
+}
+.tab{
+  position:relative;
+  z-index:1;
+  border:0;
+  background:transparent;
+  color:#e8e9ec;
+  padding:8px 10px;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+}
 [aria-selected="true"].tab{color:#e8e9ec}
 
 /* Footer */
@@ -583,43 +650,29 @@ a.btn:link,a.btn:visited{color:inherit}
   border-top:0;
   margin-top:12px;
   padding:24px clamp(16px, 6vw, 28px);
-  background:#f5f5f7;          /* light mode */
+  background:#f5f5f7;
   color:#a7acb7;
 }
-/* layout */
 .footer-row{
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:12px;
 }
-.footer a{color:inherit; text-decoration:none;}
-.footer a:hover{text-decoration:underline;}
-.footer-legal{margin-left:auto;}   /* push Legal to the right */
+.footer a{color:inherit; text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.footer-legal{margin-left:auto}
 
-/* ===== Mobile menu item enter animations ===== */
-.mobile-menu li{
-  opacity:0;
-  transform:translateY(-6px);
-}
-
+/* Mobile menu enter animation */
+.mobile-menu li{opacity:0; transform:translateY(-6px)}
 .nav--open .mobile-menu li{
-  animation: mobile-menu-in .45s cubic-bezier(.22,1,.36,1) forwards;
-  animation-delay: var(--menu-delay, 0s);
+  animation:mobile-menu-in .45s cubic-bezier(.22,1,.36,1) forwards;
+  animation-delay:var(--menu-delay, 0s);
 }
-
 @keyframes mobile-menu-in{
-  from{
-    opacity:0;
-    transform:translateY(-6px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+  from{opacity:0; transform:translateY(-6px)}
+  to{opacity:1; transform:translateY(0)}
 }
-
-/* Respect users who prefer reduced motion (mobile menu) */
 @media (prefers-reduced-motion: reduce){
   .mobile-menu li{
     opacity:1 !important;
@@ -628,63 +681,35 @@ a.btn:link,a.btn:visited{color:inherit}
   }
 }
 
-/* ===== Reveal-on-scroll animations (opt-in) ===== */
-/* Add class="reveal" on elements to animate.
-   JS should add a "js" class to <html>. If JS is unavailable (local preview, etc.),
-   content remains visible by default.
-   Customizable CSS variables per-element:
-     --reveal-distance: 18px;     (translate offset)
-     --reveal-duration: .75s;     (animation/transition duration)
-     --reveal-delay: 0s;          (stagger delay)
-*/
-
-@keyframes fade-up {
-  from { opacity:0; transform: translateY(var(--reveal-distance, 18px)); }
-  to   { opacity:1; transform: translateY(0); }
+/* Reveal on scroll */
+@keyframes fade-up{
+  from{opacity:0; transform:translateY(var(--reveal-distance, 18px))}
+  to{opacity:1; transform:translateY(0)}
 }
-
-/* Fallback visible (no JS): reveal elements are shown by default */
-.reveal{
-  opacity:1;
-  transform:none;
-}
-
-/* When JS is active, hide until intersecting */
+.reveal{opacity:1; transform:none}
 .js .reveal{
   opacity:0;
-  transform: translateY(var(--reveal-distance, 18px));
-  will-change: opacity, transform;
+  transform:translateY(var(--reveal-distance, 18px));
+  will-change:opacity, transform;
   transition:
     opacity var(--reveal-duration, .75s) cubic-bezier(.22,1,.36,1),
     transform var(--reveal-duration, .75s) cubic-bezier(.22,1,.36,1);
-  transition-delay: var(--reveal-delay, 0s);
+  transition-delay:var(--reveal-delay, 0s);
 }
-
-/* Visible state (after reveal) */
-.js .reveal.is-revealed{
-  opacity:1;
-  transform:none;
-}
-
-/* Optional: run once on page load without JS */
+.js .reveal.is-revealed{opacity:1; transform:none}
 .reveal-onload{
-  animation: fade-up var(--reveal-duration, .75s) cubic-bezier(.22,1,.36,1) both;
-  animation-delay: var(--reveal-delay, 0s);
+  animation:fade-up var(--reveal-duration, .75s) cubic-bezier(.22,1,.36,1) both;
+  animation-delay:var(--reveal-delay, 0s);
 }
+.reveal-delay-0{--reveal-delay:0s}
+.reveal-delay-1{--reveal-delay:.12s}
+.reveal-delay-2{--reveal-delay:.24s}
+.reveal-delay-3{--reveal-delay:.36s}
+.reveal-delay-4{--reveal-delay:.48s}
+.reveal-delay-5{--reveal-delay:.60s}
+.reveal--short{--reveal-distance:10px}
+.reveal--long{--reveal-distance:28px}
 
-/* Delay utilities for easy staggering */
-.reveal-delay-0{ --reveal-delay: 0s; }
-.reveal-delay-1{ --reveal-delay: .12s; }
-.reveal-delay-2{ --reveal-delay: .24s; }
-.reveal-delay-3{ --reveal-delay: .36s; }
-.reveal-delay-4{ --reveal-delay: .48s; }
-.reveal-delay-5{ --reveal-delay: .60s; }
-
-/* Variant distances */
-.reveal--short{ --reveal-distance: 10px; }
-.reveal--long{  --reveal-distance: 28px; }
-
-/* Respect users who prefer reduced motion (reveal animations) */
 @media (prefers-reduced-motion: reduce){
   .reveal,
   .js .reveal,

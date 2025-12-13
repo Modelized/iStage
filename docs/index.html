@@ -6,6 +6,7 @@
   <title>iStage</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+
   <!-- Icons / PWA basics -->
   <link rel="icon" type="image/svg+xml" href="/iStage/favicon.svg">
   <link rel="icon" sizes="192x192" href="/iStage/android-chrome-192x192.png">
@@ -18,10 +19,9 @@
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 
   <style>
-  /* ----- Main page (scoped) ----- */
   :root{
     --surface-light:#f5f5f7;
-    --surface-dark:#0f1116; /* dark surface behind cards */
+    --surface-dark:#0f1116;
   }
 
   .page-home{ background:#f5f5f7; color:#111317; }
@@ -29,7 +29,6 @@
     .page-home{ background:#000; color:#e8e9ec; }
   }
 
-  /* footer theming */
   .page-home .footer{
     background:#f5f5f5;
     color:#5e6572;
@@ -42,9 +41,9 @@
   }
   .page-home .footer-row a{ color:inherit; text-decoration:none; }
 
-  /* ===== Section background image layer (fills the whole banner) ===== */
+  /* Section background image layer */
   .page-home .section{
-    position:relative; /* ensure layers anchor correctly */
+    position:relative;
   }
   .page-home .section-bg{
     position:absolute;
@@ -61,15 +60,15 @@
     display:block;
   }
 
-  /* content must be ABOVE bg + overlay */
+  /* Ensure content is above bg + overlay layers */
   .page-home .section > .container{
     position:relative;
     z-index:2;
   }
 
-  /* ===== Announcement gradient overlay (full-bleed, section-level) ===== */
+  /* Announcement gradient overlay (section-level) */
   .page-home .top-event{
-    overflow:hidden; /* mobile rounded corners에서도 깔끔하게 clip */
+    overflow:hidden;
   }
 
   .page-home .top-event .event-fade{
@@ -77,14 +76,10 @@
     left:0;
     right:0;
     bottom:0;
-
-    /* 텍스트 영역만 커버하도록: 아래쪽 일부만 */
     top:52%;
-
-    z-index:1; /* bg(0) 위, content(2) 아래 */
+    z-index:1;
     pointer-events:none;
 
-    /* solid layer + mask fade (universal, no radius fiddling) */
     background: rgba(0,0,0,.78);
 
     -webkit-mask-image: linear-gradient(
@@ -105,7 +100,6 @@
     mask-size:100% 100%;
   }
 
-  /* mask 미지원 fallback */
   @supports not ((-webkit-mask-image: linear-gradient(#000,#000)) or (mask-image: linear-gradient(#000,#000))){
     .page-home .top-event .event-fade{
       top:auto;
@@ -133,11 +127,11 @@
     padding: 0 12px;
   }
 
-  /* Animated tri-color text (softly blends as it moves) */
+  /* Animated tri-color text */
   .text-aurora{
-    --c1: 0,229,255;   /* #00E5FF */
-    --c2: 251,116,234; /* #FB74EA */
-    --c3: 238,189,75;  /* #EEBD4B */
+    --c1: 0,229,255;
+    --c2: 251,116,234;
+    --c3: 238,189,75;
 
     background-image:
       radial-gradient(60% 140% at 20% 30%, rgba(var(--c1), .98) 0, rgba(var(--c1), 0) 60%),
@@ -174,29 +168,35 @@
     .text-aurora{ animation: none; }
   }
   </style>
+
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="page-home" data-base=".">
+
+  <!-- Added: required for full-width gradient behind the floating nav -->
+  <div class="nav-backdrop" aria-hidden="true"></div>
+
   <div id="nav-slot"></div>
 
   <main>
     <section class="section section--black section--first top-event" aria-label="iStage announcement">
-      <!-- background image -->
       <div class="section-bg" aria-hidden="true">
         <img src="assets/img/bg-announcement.jpg" alt="" decoding="async" loading="eager">
       </div>
 
-      <!-- NEW: full-bleed fade overlay (bg 위, 텍스트 아래) -->
       <div class="event-fade" aria-hidden="true"></div>
 
       <div class="container">
-        <div class="event-visual">
-          <img src="assets/img/hero-iStage-series.png" alt="iStage series overview" loading="eager" decoding="async">
-        </div>
+        <!-- Added: wrap announcement copy with .copy so .section--first .copy::after can render the chevron -->
+        <div class="copy">
+          <div class="event-visual">
+            <img src="assets/img/hero-iStage-series.png" alt="iStage series overview" loading="eager" decoding="async">
+          </div>
 
-        <p class="event-copy text-aurora reveal">
-          Introducing the next generation of iStage. Explore the all-new iStage 26 with dynamic, fluid Liquid Glass design, smoother motion, and pro-grade controls. Discover iStage 18 with a classic, familiar frosted design, finely tuned for a wider range of devices.
-        </p>
+          <p class="event-copy text-aurora reveal">
+            Introducing the next generation of iStage. Explore the all-new iStage 26 with dynamic, fluid Liquid Glass design, smoother motion, and pro-grade controls. Discover iStage 18 with a classic, familiar frosted design, finely tuned for a wider range of devices.
+          </p>
+        </div>
       </div>
     </section>
 
