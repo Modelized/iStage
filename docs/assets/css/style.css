@@ -27,10 +27,19 @@ body{
   /* Offsets for first section under the fixed nav */
   --nav-offset-mobile:96px;
   --nav-offset-desktop:112px;
+
+  /* ===== Mobile “banner/card” layout tokens (portrait only) ===== */
+  --banner-radius: calc(var(--nav-pill-height-mobile) / 2);
+  --banner-side-gap:16px;      /* 좌우 공백 */
+  --banner-vert-gap:14px;      /* 배너 간 간격 */
+  --banner-top-gap:14px;       /* 메뉴바 아래 첫 배너 띄우는 간격 */
+
+  /* Page background (base layer) */
+  --page-bg:#ffffff;
 }
 body{
   font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif;
-  line-height:1.6; color:#111317; background:#fff;
+  line-height:1.6; color:#111317; background:var(--page-bg);
 }
 .container{max-width:1100px;margin:0 auto;padding:0 12px}
 .muted{color:#5e6572}
@@ -220,7 +229,6 @@ body{
   transform-origin:left center;
   transform:rotate(45deg);
 }
-
 
 .menu a{
   color:rgba(232,233,236,.72);
@@ -438,6 +446,41 @@ body{
 }
 .section--black::before{background:#000}
 .section--white::before{background:#f5f5f7}
+
+/* ===== Mobile portrait: banner/card layout for main sections ===== */
+@media (max-width:900px) and (orientation:portrait){
+  /* base layer visible around banners */
+  body{ background:#000; }
+
+  /* section becomes a “banner card” */
+  .section--black,
+  .section--white{
+    margin-left:var(--banner-side-gap);
+    margin-right:var(--banner-side-gap);
+    border-radius:var(--banner-radius);
+    overflow:hidden; /* clip inner backgrounds to rounded corners */
+  }
+
+  /* spacing between banners */
+  .section + .section{ margin-top:var(--banner-vert-gap); }
+
+  /* first banner: sit below nav with a visible gap above it */
+  .section--first{
+    margin-top:calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + var(--banner-top-gap));
+    padding-top:44px; /* 기존처럼 섹션 내부 상단 패딩은 유지 */
+  }
+
+  /* kill full-bleed layer (this is what made banners touch screen edges / go behind nav) */
+  .section--black::before,
+  .section--white::before{
+    content:none;
+  }
+
+  /* match inner hero media rounding to the banner curve (optional, but keeps the feel consistent) */
+  .media{
+    border-radius:calc(var(--banner-radius) - 8px);
+  }
+}
 
 /* Hero */
 .hero{display:flex; flex-direction:column; align-items:center; gap:16px}
