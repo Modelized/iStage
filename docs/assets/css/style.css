@@ -25,8 +25,8 @@ body{
   --nav-border:#ffffff33;    /* nav outline */
 
   /* Offsets for first section under the fixed nav */
-  --nav-offset-mobile:96px;
-  --nav-offset-desktop:112px;
+  --nav-offset-mobile:calc(12px + var(--nav-pill-height-mobile) + var(--banner-vert-gap));
+  --nav-offset-desktop:calc(12px + var(--nav-pill-height-desktop) + var(--banner-vert-gap));
 
   /* ===== Mobile “banner/card” layout tokens (portrait only) ===== */
   --banner-radius: calc(var(--nav-pill-height-mobile) / 2);
@@ -116,7 +116,7 @@ body{
     background:rgba(20,24,32,.52);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
-    box-shadow:0 0 32px rgba(0,0,0,.22);
+    box-shadow:0 0 28px -14px rgba(0,0,0,.24);
   }
 }
 .row{
@@ -167,7 +167,7 @@ body{
   background:rgba(20,24,32,.52);
   backdrop-filter:saturate(170%) blur(18px);
   -webkit-backdrop-filter:saturate(170%) blur(18px);
-  box-shadow:0 0 32px rgba(0,0,0,.22);
+  box-shadow:0 0 28px -14px rgba(0,0,0,.24);
   color:#e8e9ec;
 }
 
@@ -272,7 +272,7 @@ body{
     background:rgba(20,24,32,.52);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
-    box-shadow:0 0 32px rgba(0,0,0,.22);
+    box-shadow:0 0 28px -14px rgba(0,0,0,.24);
   }
   .sheet{
     display:grid;
@@ -424,6 +424,11 @@ body{
     padding-top:calc(env(safe-area-inset-top) + var(--nav-offset-desktop));
   }
 }
+
+.top-event{
+  padding-top:32px;
+}
+
 .section--black,
 .section--white{
   position:relative;
@@ -463,7 +468,7 @@ body{
 
   /* first banner: sit below nav with a visible gap above it */
   .section--first{
-    margin-top:calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + var(--banner-top-gap));
+    margin-top:calc(env(safe-area-inset-top) + var(--nav-offset-mobile));
     padding-top:44px;
   }
 
