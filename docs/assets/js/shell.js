@@ -1,92 +1,240 @@
  (function(){
-   const body = document.body;
-   const base = body.getAttribute('data-base');
+    const body = document.body;
+    const base = body.getAttribute('data-base');
 
-   function initNav(){
-     const nav    = document.querySelector('.nav');
-     const toggle = document.querySelector('.nav-toggle');
-     const sheet  = document.getElementById('mobile-sheet');
-     const bodyEl = document.body;
+    function initNav(){
+      const nav    = document.querySelector('.nav');
+      const toggle = document.querySelector('.nav-toggle');
+      const sheet  = document.getElementById('mobile-sheet');
+      const bodyEl = document.body;
 
-     if (toggle && sheet && nav){
-       toggle.addEventListener('click', () => {
-         const open = nav.classList.toggle('nav--open');
-         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-         sheet.setAttribute('aria-hidden',   open ? 'false' : 'true');
-         bodyEl.classList.toggle('no-scroll', open);
-       });
+      if (toggle && sheet && nav){
+        toggle.addEventListener('click', () => {
+          const open = nav.classList.toggle('nav--open');
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          sheet.setAttribute('aria-hidden',   open ? 'false' : 'true');
+          bodyEl.classList.toggle('no-scroll', open);
+        });
 
-       document.addEventListener('keydown', (e) => {
-         if (e.key === 'Escape' && nav.classList.contains('nav--open')){
-           nav.classList.remove('nav--open');
-           toggle.setAttribute('aria-expanded', 'false');
-           sheet.setAttribute('aria-hidden', 'true');
-           bodyEl.classList.remove('no-scroll');
-         }
-       });
-     }
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && nav.classList.contains('nav--open')){
+            nav.classList.remove('nav--open');
+            toggle.setAttribute('aria-expanded', 'false');
+            sheet.setAttribute('aria-hidden', 'true');
+            bodyEl.classList.remove('no-scroll');
+          }
+        });
+      }
 
-     const brand = document.querySelector('.brand');
-     const logo  = document.querySelector('.brand-logo');
-     const txt   = document.querySelector('.brand-text');
+      const brand = document.querySelector('.brand');
+      const logo  = document.querySelector('.brand-logo');
+      const txt   = document.querySelector('.brand-text');
 
-     function update(){
-       if (brand && logo && txt && logo.naturalWidth > 0){
-         brand.classList.add('has-logo');
-       }
-     }
+      function update(){
+        if (brand && logo && txt && logo.naturalWidth > 0){
+          brand.classList.add('has-logo');
+        }
+      }
 
-     if (logo){
-       if (logo.complete) update();
-       logo.addEventListener('load',  update);
-       logo.addEventListener('error', () => {
-         if (brand) brand.classList.remove('has-logo');
-       });
-     }
-   }
+      if (logo){
+        if (logo.complete) update();
+        logo.addEventListener('load',  update);
+        logo.addEventListener('error', () => {
+          if (brand) brand.classList.remove('has-logo');
+        });
+      }
+      initMenuThumb();
+    }
 
-   function initFooter(){
-     const yearSpan = document.getElementById('year');
-     if (yearSpan){
-       yearSpan.textContent = new Date().getFullYear();
-     }
-   }
+    function initMenuThumb(){
+      const menu = document.querySelector('ul.menu');
+      if (!menu) return;
 
-   function inject(selector, file, callback){
-     const slot = document.querySelector(selector);
-     if (!slot || !base) {
-       if (typeof callback === 'function') callback();
-       return;
-     }
+      // Prevent double-init
+      if (menu.dataset.thumbInit === '1') return;
+      menu.dataset.thumbInit = '1';
 
-     fetch(`${base}/assets/partials/${file}`)
-       .then((res) => res.text())
-       .then((html) => {
-         slot.innerHTML = html;
-         if (typeof callback === 'function') callback();
-       })
-       .catch((err) => {
-         console.error('Partial load failed:', file, err);
-         if (typeof callback === 'function') callback();
-       });
-   }
+      // Only run the hover-follow behavior on real hover pointers,
+      // but still allow initial "current page" thumb positioning everywhere.
+      const canHover = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
 
-   const hasSlots = document.getElementById('nav-slot') || document.getElementById('footer-slot');
+      const allLinks = [...menu.querySelectorAll('a')];
 
-   if (hasSlots && base){
-     if (document.getElementById('nav-slot')){
-       inject('#nav-slot', 'nav.html', initNav);
-     }else{
-       initNav();
-     }
+      const isLegalPath = (p) => {
+        const s = (p || '').toLowerCase();
+        return s.includes('/legal');
+      };
 
-     if (document.getElementById('footer-slot')){
-       inject('#footer-slot', 'footer.html', initFooter);
-     }else{
-       initFooter();
-     }
-   }else{
-     initNav();
-     initFooter();
-   }
- })();
+      const isExcluded = (a) => {
+        if (!a) return true;
+        if (a.dataset.noThumb === '1') return true;
+        const text = (a.textContent || '').trim().toLowerCase();
+        const href = (a.getAttribute('href') || '').toLowerCase();
+        if (text === 'legal') return true;
+        if (isLegalPath(href)) return true;
+        return false;
+      };
+
+      // Candidates for the moving thumb (exclude Legal)
+      const links = allLinks.filter(a => !isExcluded(a));
+      if (!links.length) return;
+
+      const normPath = (p) => {
+        if (!p) return '/';
+        // Keep GitHub Pages paths stable: strip trailing slashes (except root)
+        const s = p.replace(/\/+/g, '/');
+        return (s.length > 1) ? s.replace(/\/+$/, '') : s;
+      };
+
+      const currentPath = normPath(location.pathname);
+      const onLegalPage = isLegalPath(currentPath);
+
+      // Clear any previous current state
+      allLinks.forEach(a => a.classList.remove('is-current'));
+
+      // Find current link among candidates
+      let current = null;
+      for (const a of links){
+        try{
+          const url = new URL(a.getAttribute('href'), location.origin);
+          if (normPath(url.pathname) === currentPath){
+            current = a;
+            break;
+          }
+        }catch{
+          // ignore
+        }
+      }
+
+      // If we are on Legal page, do not mark any menu item current
+      if (!onLegalPage && current){
+        current.classList.add('is-current');
+      }
+
+      // Thumb positioning
+      const setThumbTo = (a, show = true) => {
+        if (!a){
+          menu.style.setProperty('--menu-thumb-o', '0');
+          return;
+        }
+        const mr = menu.getBoundingClientRect();
+        const r  = a.getBoundingClientRect();
+        const x  = (r.left - mr.left);
+        const w  = r.width;
+        menu.style.setProperty('--menu-thumb-x', `${x}px`);
+        menu.style.setProperty('--menu-thumb-w', `${w}px`);
+        menu.style.setProperty('--menu-thumb-o', show ? '1' : '0');
+      };
+
+      const snapToCurrent = () => {
+        const cur = menu.querySelector('a.is-current');
+        if (cur) setThumbTo(cur, true);
+        else setThumbTo(null, false);
+      };
+
+      // Initial state: show current page highlight (except Legal)
+      snapToCurrent();
+
+      // Realign on resize / font load / layout changes
+      const realign = () => {
+        // If hovering, keep the last target; otherwise snap back to current
+        if (!menu.dataset.thumbHovering) snapToCurrent();
+      };
+
+      window.addEventListener('resize', realign);
+      window.addEventListener('orientationchange', realign);
+      if (document.fonts?.ready) document.fonts.ready.then(realign);
+
+      if (typeof ResizeObserver !== 'undefined'){
+        const ro = new ResizeObserver(realign);
+        ro.observe(menu);
+      }
+
+      if (!canHover) return;
+
+      // Hover-follow behavior (sticky snap to nearest item)
+      let raf = 0;
+      let target = menu.querySelector('a.is-current') || links[0];
+
+      const nearestLinkByX = (clientX) => {
+        let best = links[0];
+        let bestD = Infinity;
+        for (const a of links){
+          const r = a.getBoundingClientRect();
+          const cx = (r.left + r.right) / 2;
+          const d = Math.abs(clientX - cx);
+          if (d < bestD){ bestD = d; best = a; }
+        }
+        return best;
+      };
+
+      const tick = () => {
+        raf = 0;
+        setThumbTo(target, true);
+      };
+
+      menu.addEventListener('mousemove', (e) => {
+        menu.dataset.thumbHovering = '1';
+        const next = nearestLinkByX(e.clientX);
+        if (next !== target) target = next;
+        if (!raf) raf = requestAnimationFrame(tick);
+      });
+
+      menu.addEventListener('mouseenter', () => {
+        menu.dataset.thumbHovering = '1';
+        // If we're on Legal page, keep thumb hidden until the first move
+        if (onLegalPage) menu.style.setProperty('--menu-thumb-o', '0');
+      });
+
+      menu.addEventListener('mouseleave', () => {
+        delete menu.dataset.thumbHovering;
+        // Return to current page highlight; if Legal, hide
+        snapToCurrent();
+      });
+    }
+
+    function initFooter(){
+      const yearSpan = document.getElementById('year');
+      if (yearSpan){
+        yearSpan.textContent = new Date().getFullYear();
+      }
+    }
+
+    function inject(selector, file, callback){
+      const slot = document.querySelector(selector);
+      if (!slot || !base) {
+        if (typeof callback === 'function') callback();
+        return;
+      }
+
+      fetch(`${base}/assets/partials/${file}`)
+        .then((res) => res.text())
+        .then((html) => {
+          slot.innerHTML = html;
+          if (typeof callback === 'function') callback();
+        })
+        .catch((err) => {
+          console.error('Partial load failed:', file, err);
+          if (typeof callback === 'function') callback();
+        });
+    }
+
+    const hasSlots = document.getElementById('nav-slot') || document.getElementById('footer-slot');
+
+    if (hasSlots && base){
+      if (document.getElementById('nav-slot')){
+        inject('#nav-slot', 'nav.html', initNav);
+      }else{
+        initNav();
+      }
+
+      if (document.getElementById('footer-slot')){
+        inject('#footer-slot', 'footer.html', initFooter);
+      }else{
+        initFooter();
+      }
+    }else{
+      initNav();
+      initFooter();
+    }
+  })();
