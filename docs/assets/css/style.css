@@ -93,7 +93,7 @@ body{
     /* Padding chosen so outer pill margins match the thumb margins when the thumb is at the ends */
     --menu-thumb-pad: 8px;
     --menu-thumb-h: 32px;
-    --menu-pill-pad: calc(var(--menu-thumb-pad) + (var(--nav-pill-height-desktop) - var(--menu-thumb-h)) * 0.5);
+    --menu-pill-pad: calc(var(--menu-thumb-pad) + (var(--nav-pill-height-desktop) - var(--menu-thumb-h)) * 0.5 + 8px);
     padding:0 var(--menu-pill-pad);
     box-sizing:border-box;
     overflow:hidden;
