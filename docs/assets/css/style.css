@@ -91,10 +91,12 @@ body{
     height:var(--nav-pill-height-desktop);
     align-items:center;
     /* Padding chosen so outer pill margins match the thumb margins when the thumb is at the ends */
-    --menu-thumb-pad: 10px;
+    --menu-thumb-pad: 8px;
     --menu-thumb-h: 32px;
     --menu-pill-pad: calc(var(--menu-thumb-pad) + (var(--nav-pill-height-desktop) - var(--menu-thumb-h)) * 0.5);
     padding:0 var(--menu-pill-pad);
+    box-sizing:border-box;
+    overflow:hidden;
 
     border:1px solid var(--nav-border);
     border-radius:calc(var(--nav-pill-height-desktop) / 2);
@@ -132,7 +134,7 @@ body{
   position:relative;
   isolation:isolate;
   /* Defaults (desktop block above overrides/uses these) */
-  --menu-thumb-pad: 10px;
+  --menu-thumb-pad: 8px;
   --menu-thumb-h: 32px;
 }
 .nav-right{
