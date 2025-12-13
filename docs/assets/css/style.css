@@ -129,6 +129,8 @@ body{
   margin:0 auto;
   padding:0;
   font-size:.95rem;
+  position:relative;
+  isolation:isolate;
 }
 .nav-right{
   display:flex;
@@ -304,7 +306,7 @@ body{
 }
 /* Hover styles only on pointer/hover devices (desktop/trackpad), to avoid sticky hover on iOS */
 @media (hover:hover) and (pointer:fine){
-  .menu a:hover{background:rgba(255,255,255,.06)}
+  .menu a:hover{background:transparent}
   .mobile-menu a:hover{background:rgba(255,255,255,.06)}
   .nav-search:hover{
     background:rgba(255,255,255,.06);
@@ -319,10 +321,53 @@ body{
 .nav--open .nav-toggle-bar::before{transform:translateY(6px) rotate(45deg)}
 .nav--open .nav-toggle-bar::after{transform:translateY(-6px) rotate(-45deg)}
 
-/* Active menu item (only desktop + mobile landscape) */
+/* Active menu item (only desktop + mobile landscape)
+   NOTE: background is handled by the moving thumb layer (JS sets --menu-thumb-* vars). */
 @media (min-width:900px), (max-width:900px) and (orientation:landscape){
-  .menu a.is-current{
-    background:rgba(255,255,255,.16);
+  .menu a.is-current{ background:transparent; }
+}
+
+/* ===== Desktop/landscape menu highlight thumb (Apple-style) =====
+   JS drives these CSS variables on `.menu`:
+     --menu-thumb-x: px (translateX)
+     --menu-thumb-w: px (width)
+     --menu-thumb-o: 0..1 (opacity)
+   The thumb returns to the current page item on mouseleave.
+*/
+@media (min-width:900px), (max-width:900px) and (orientation:landscape){
+  .menu::before{
+    content:"";
+    position:absolute;
+    top:50%;
+    left:0;
+    height:32px;
+    width:var(--menu-thumb-w, 0px);
+    transform:translateY(-50%) translateX(var(--menu-thumb-x, 0px));
+    border-radius:999px;
+    background:rgba(255,255,255,.14);
+    opacity:var(--menu-thumb-o, 0);
+    transition:
+      transform .45s cubic-bezier(.22,1,.36,1),
+      width .45s cubic-bezier(.22,1,.36,1),
+      opacity .18s linear;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .menu a{
+    position:relative;
+    z-index:1;
+    background:transparent;
+  }
+
+  /* Keep press feedback subtle without fighting the thumb */
+  .menu a:active{ background:rgba(255,255,255,.06); }
+}
+
+/* Reduced motion: stop the thumb animation */
+@media (prefers-reduced-motion: reduce){
+  @media (min-width:900px), (max-width:900px) and (orientation:landscape){
+    .menu::before{ transition:none !important; }
   }
 }
 
