@@ -84,24 +84,24 @@ body{
   .row{
     height:var(--nav-pill-height-desktop);
   }
-  .nav-inner::before{
-    content:"";
-    position:absolute;
-    top:50%;
-    left:0;
-    right:0;
-    transform:translateY(-50%);
-    margin-inline:auto;
-    width:min(720px, 100% - 160px);
+  /* Menu pill is now applied to .menu itself so it fits content width */
+  .nav-inner::before{ content:none; }
+
+  .menu{
     height:var(--nav-pill-height-desktop);
-    box-sizing:border-box;
-    border-radius:calc(var(--nav-pill-height-desktop) / 2);
+    align-items:center;
+    /* Padding chosen so outer pill margins match the thumb margins when the thumb is at the ends */
+    --menu-thumb-pad: 10px;
+    --menu-thumb-h: 32px;
+    --menu-pill-pad: calc(var(--menu-thumb-pad) + (var(--nav-pill-height-desktop) - var(--menu-thumb-h)) * 0.5);
+    padding:0 var(--menu-pill-pad);
+
     border:1px solid var(--nav-border);
+    border-radius:calc(var(--nav-pill-height-desktop) / 2);
     background:rgba(20,24,32,.52);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
     box-shadow:0 14px 40px rgba(0,0,0,.28);
-    z-index:-1;
   }
 }
 .row{
@@ -131,6 +131,9 @@ body{
   font-size:.95rem;
   position:relative;
   isolation:isolate;
+  /* Defaults (desktop block above overrides/uses these) */
+  --menu-thumb-pad: 10px;
+  --menu-thumb-h: 32px;
 }
 .nav-right{
   display:flex;
@@ -213,10 +216,18 @@ body{
 
 
 .menu a{
-  color:#e8e9ec;
+  color:rgba(232,233,236,.72);
+  font-weight:500;
   text-decoration:none;
-  padding:6px 10px;            /* reduced vertical padding for a thinner pill */
+  padding:6px 12px;            /* a bit wider so the thumb feels less "tight" */
   border-radius:12px;
+  transition:color .18s linear;
+}
+
+/* Current/hovered item reads fully opaque */
+.menu a.is-current{ color:rgba(232,233,236,1); }
+@media (hover:hover) and (pointer:fine){
+  .menu a:hover{ color:rgba(232,233,236,1); }
 }
 .nav-toggle{
   display:none;
@@ -340,11 +351,11 @@ body{
     position:absolute;
     top:50%;
     left:0;
-    height:32px;
+    height:var(--menu-thumb-h);
     width:var(--menu-thumb-w, 0px);
     transform:translateY(-50%) translateX(var(--menu-thumb-x, 0px));
-    border-radius:999px;
-    background:rgba(255,255,255,.14);
+    border-radius:calc(var(--menu-thumb-h) / 2);
+    background:rgba(255,255,255,.16);
     opacity:var(--menu-thumb-o, 0);
     transition:
       transform .45s cubic-bezier(.22,1,.36,1),
@@ -362,6 +373,9 @@ body{
 
   /* Keep press feedback subtle without fighting the thumb */
   .menu a:active{ background:rgba(255,255,255,.06); }
+
+  /* JS can add .thumb-init to disable the first-frame transition (prevents "grow from left") */
+  .menu.thumb-init::before{ transition:none !important; }
 }
 
 /* Reduced motion: stop the thumb animation */
