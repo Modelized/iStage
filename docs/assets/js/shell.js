@@ -58,6 +58,13 @@
      let last = null;
      let ticking = false;
 
+     // Only toggle logo state on light mode + remember: desktop or landscape
+     // (Actual logo swap is handled via CSS/nav markup. This only toggles a class.)
+     const mqLogoEligible = window.matchMedia(
+       '(prefers-color-scheme: light) and (min-width: 900px), ' +
+       '(prefers-color-scheme: light) and (max-width: 900px) and (orientation: landscape)'
+     );
+
      const compute = () => {
        ticking = false;
        const y = window.scrollY || window.pageYOffset || 0;
@@ -65,7 +72,20 @@
 
        if (visible !== last){
          backdrop.classList.toggle('is-visible', visible);
+
+         // Keep logo state in sync with backdrop visibility timing.
+         if (mqLogoEligible.matches){
+           document.body.classList.toggle('nav--scrolled', visible);
+         }else{
+           document.body.classList.remove('nav--scrolled');
+         }
+
          last = visible;
+       }else{
+         // If MQ changes without scroll state change, ensure we clean up.
+         if (!mqLogoEligible.matches){
+           document.body.classList.remove('nav--scrolled');
+         }
        }
      };
 
@@ -80,6 +100,13 @@
      window.addEventListener('resize', onChange);
      window.addEventListener('orientationchange', onChange);
      window.addEventListener('pageshow', onChange);
+
+     // React immediately to scheme/breakpoint changes
+     if (mqLogoEligible && mqLogoEligible.addEventListener){
+       mqLogoEligible.addEventListener('change', onChange);
+     }else if (mqLogoEligible && mqLogoEligible.addListener){
+       mqLogoEligible.addListener(onChange);
+     }
    }
 
    function initMenuThumb(){

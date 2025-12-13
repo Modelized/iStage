@@ -26,16 +26,25 @@ body{
   --nav-pill-height-desktop:44px;
   --nav-icon-size:var(--nav-pill-height-desktop);
 
-  /* Nav backdrop (black-only, softer top, no blue tint, no hard edge) */
+  /* Nav theme tokens (default: dark look) */
+  --nav-surface:rgba(20,24,32,.54);
+  --nav-border:#ffffff33;
+  --nav-text:rgba(232,233,236,1);
+  --nav-text-dim:rgba(232,233,236,.72);
+  --nav-press-bg:rgba(255,255,255,.06);
+
+  --menu-thumb-bg-default:rgba(255,255,255,.16);
+  --menu-thumb-bg-press:rgba(255,255,255,.24);
+
+  /* Nav backdrop gradient (shown only after scroll via JS class) */
   --nav-backdrop:linear-gradient(
     to bottom,
     rgba(0,0,0,.46) 0%,
     rgba(0,0,0,.28) 55%,
     rgba(0,0,0,0) 100%
   );
-  --nav-border:#ffffff33;
 
-  /* Backdrop height: keep it within nav range (no deep drop) */
+  /* Backdrop height: keep it within nav range */
   --nav-backdrop-h-mobile:calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-mobile) + 18px);
   --nav-backdrop-h-desktop:calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 18px);
 
@@ -48,6 +57,20 @@ body{
   --banner-top-gap:14px;
 
   --page-bg:#ffffff;
+}
+
+/* Light mode nav */
+@media (prefers-color-scheme: light){
+  :root{
+    --nav-surface:rgba(255,255,255,.78);
+    --nav-border:rgba(0,0,0,.14);
+    --nav-text:rgba(17,19,23,.92);
+    --nav-text-dim:rgba(17,19,23,.68);
+    --nav-press-bg:rgba(0,0,0,.06);
+
+    --menu-thumb-bg-default:rgba(0,0,0,.08);
+    --menu-thumb-bg-press:rgba(0,0,0,.12);
+  }
 }
 
 .container{max-width:1100px;margin:0 auto;padding:0 12px}
@@ -70,12 +93,10 @@ body{
   z-index:1;
   pointer-events:none;
 
-  /* default OFF: show only after scroll (JS will add class) */
   opacity:0;
   transition:opacity .22s ease;
   will-change:opacity;
 
-  /* avoid faint band/seam on some Safari builds */
   transform:translateZ(0);
   -webkit-transform:translateZ(0);
 }
@@ -86,12 +107,11 @@ body{
   }
 }
 
-/* Mobile portrait: no nav backdrop (you said it's unnecessary) */
+/* Mobile portrait: no nav backdrop */
 @media (max-width:900px) and (orientation:portrait){
   .nav-backdrop{display:none !important;}
 }
 
-/* JS will toggle this when page is scrolled */
 .nav-backdrop.is-visible{opacity:1}
 
 /* Nav */
@@ -130,7 +150,7 @@ body{
   z-index:3;
 }
 
-/* Desktop only: pull logo/search slightly inward (~8px) */
+/* Desktop spacing */
 @media (min-width:900px){
   .row{padding:0 24px;}
 }
@@ -140,7 +160,7 @@ body{
   align-items:center;
   gap:10px;
   text-decoration:none;
-  color:#e8e9ec;
+  color:var(--nav-text);
 }
 .brand-logo{
   display:none;
@@ -163,7 +183,7 @@ body{
 
   --menu-thumb-pad:6px;
   --menu-thumb-h:32px;
-  --menu-thumb-bg:rgba(255,255,255,.16);
+  --menu-thumb-bg:var(--menu-thumb-bg-default);
 }
 
 .nav-right{
@@ -179,11 +199,11 @@ body{
   height:var(--nav-icon-size);
   border-radius:50%;
   border:1px solid var(--nav-border);
-  background:rgba(20,24,32,.60);
+  background:var(--nav-surface);
   backdrop-filter:saturate(170%) blur(18px);
   -webkit-backdrop-filter:saturate(170%) blur(18px);
   box-shadow:0 0 28px -14px rgba(0,0,0,.24);
-  color:#e8e9ec;
+  color:var(--nav-text);
 }
 
 .nav-search{
@@ -227,16 +247,16 @@ body{
 }
 
 .menu a{
-  color:rgba(232,233,236,.72);
+  color:var(--nav-text-dim);
   font-weight:500;
   text-decoration:none;
   padding:6px 12px;
   border-radius:12px;
   transition:color .18s linear;
 }
-.menu a.is-current{color:rgba(232,233,236,1)}
+.menu a.is-current{color:var(--nav-text)}
 @media (hover:hover) and (pointer:fine){
-  .menu a:hover{color:rgba(232,233,236,1)}
+  .menu a:hover{color:var(--nav-text)}
 }
 
 .nav-toggle{
@@ -246,7 +266,7 @@ body{
   place-items:center;
   z-index:2;
 }
-.nav--open .nav-toggle{background:rgba(255,255,255,.06) !important}
+.nav--open .nav-toggle{background:var(--nav-press-bg) !important}
 .nav-toggle:focus,.nav-toggle:focus-visible{outline:none}
 .nav-toggle-bar{
   display:block;
@@ -271,7 +291,7 @@ body{
 .nav-toggle-bar::after{top:6px}
 .sheet{display:none}
 
-.nav-search:active{background:rgba(255,255,255,.06)}
+.nav-search:active{background:var(--nav-press-bg)}
 
 /* Desktop / landscape: frosted menu pill + thumb highlight */
 @media (min-width:900px), (max-width:900px) and (orientation:landscape){
@@ -292,7 +312,7 @@ body{
 
     border:1px solid var(--nav-border);
     border-radius:calc(var(--nav-pill-height-desktop) / 2);
-    background:rgba(20,24,32,.60);
+    background:var(--nav-surface);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
     box-shadow:0 0 28px -14px rgba(0,0,0,.24);
@@ -309,7 +329,7 @@ body{
     width:var(--menu-thumb-w, 0px);
     transform:translateY(-50%) translateX(var(--menu-thumb-x, 0px));
     border-radius:calc(var(--menu-thumb-h) / 2);
-    background:var(--menu-thumb-bg, rgba(255,255,255,.16));
+    background:var(--menu-thumb-bg, var(--menu-thumb-bg-default));
     opacity:var(--menu-thumb-o, 0);
     transition:
       transform .45s cubic-bezier(.22,1,.36,1),
@@ -327,11 +347,12 @@ body{
     -webkit-tap-highlight-color:transparent;
   }
 
-  .menu a:active{background:transparent}
+  /* Never paint an extra active background on desktop/landscape */
+  .menu a:active{background:transparent !important}
 
   @supports selector(.menu:has(a:active)){
     .menu:has(a:active){
-      --menu-thumb-bg: rgba(255,255,255,.24);
+      --menu-thumb-bg: var(--menu-thumb-bg-press);
     }
   }
 
@@ -353,7 +374,7 @@ body{
     margin:0 var(--banner-side-gap);
     border:1px solid var(--nav-border);
     border-radius:calc(var(--nav-pill-height-mobile) / 2);
-    background:rgba(20,24,32,.60);
+    background:var(--nav-surface);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
     box-shadow:0 0 28px -14px rgba(0,0,0,.24);
@@ -404,21 +425,24 @@ body{
   font-size:1.25rem;
   line-height:1.35;
   font-weight:600;
-  color:#e8e9ec;
+  color:var(--nav-text);
   text-decoration:none;
   border-radius:999px;
 }
 
 @media (hover:hover) and (pointer:fine){
   .menu a:hover{background:transparent}
-  .mobile-menu a:hover{background:rgba(255,255,255,.06)}
-  .nav-search:hover{background:rgba(255,255,255,.06)}
+  .mobile-menu a:hover{background:var(--nav-press-bg)}
+  .nav-search:hover{background:var(--nav-press-bg)}
 }
 
-.menu a:active,
+/* Press feedback only for mobile sheet items */
 .mobile-menu a:active{
-  background:rgba(255,255,255,.06);
+  background:var(--nav-press-bg);
 }
+
+/* Safety: ensure desktop/landscape menu never gets a fallback active background */
+.menu a:active{background:transparent !important}
 
 .nav--open .sheet{grid-template-rows:1fr}
 .nav--open .nav-toggle-bar{background:transparent}

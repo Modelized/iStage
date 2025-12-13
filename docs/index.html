@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>iStage</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 
-  <!-- Icons / PWA basics -->
+  <!-- Icons / PWA -->
   <link rel="icon" type="image/svg+xml" href="/iStage/favicon.svg">
   <link rel="icon" sizes="192x192" href="/iStage/android-chrome-192x192.png">
   <link rel="icon" sizes="512x512" href="/iStage/android-chrome-512x512.png">
@@ -41,10 +42,7 @@
   }
   .page-home .footer-row a{ color:inherit; text-decoration:none; }
 
-  /* Section background image layer */
-  .page-home .section{
-    position:relative;
-  }
+  .page-home .section{ position:relative; }
   .page-home .section-bg{
     position:absolute;
     inset:0;
@@ -60,16 +58,12 @@
     display:block;
   }
 
-  /* Ensure content is above bg + overlay layers */
   .page-home .section > .container{
     position:relative;
     z-index:2;
   }
 
-  /* Announcement gradient overlay (section-level) */
-  .page-home .top-event{
-    overflow:hidden;
-  }
+  .page-home .top-event{ overflow:hidden; }
 
   .page-home .top-event .event-fade{
     position:absolute;
@@ -114,7 +108,8 @@
   }
 
   .event-visual img{
-    display:block; height:auto;
+    display:block;
+    height:auto;
     width: min(560px, 88%);
     margin: 0 auto 12px;
   }
@@ -127,7 +122,6 @@
     padding: 0 12px;
   }
 
-  /* Animated tri-color text */
   .text-aurora{
     --c1: 0,229,255;
     --c2: 251,116,234;
@@ -171,9 +165,9 @@
 
   <script>document.documentElement.classList.add('js');</script>
 </head>
-<body class="page-home" data-base=".">
 
-  <!-- Added: required for full-width gradient behind the floating nav -->
+<body class="page-home" data-base=".">
+  <!-- Required: full-width gradient behind the floating nav -->
   <div class="nav-backdrop" aria-hidden="true"></div>
 
   <div id="nav-slot"></div>
@@ -187,7 +181,6 @@
       <div class="event-fade" aria-hidden="true"></div>
 
       <div class="container">
-        <!-- Added: wrap announcement copy with .copy so .section--first .copy::after can render the chevron -->
         <div class="copy">
           <div class="event-visual">
             <img src="assets/img/hero-iStage-series.png" alt="iStage series overview" loading="eager" decoding="async">
@@ -251,7 +244,7 @@
       var nodes = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
       if (!nodes.length) return;
 
-      var reduce   = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var reduce    = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var supportIO = 'IntersectionObserver' in window;
 
       function reveal(el){
