@@ -99,6 +99,9 @@ body{
     box-sizing:border-box;
     overflow:hidden;
 
+    /* default thumb bg */
+    --menu-thumb-bg: rgba(255,255,255,.16);
+
     border:1px solid var(--nav-border);
     border-radius:calc(var(--nav-pill-height-desktop) / 2);
     background:rgba(20,24,32,.52);
@@ -137,6 +140,7 @@ body{
   /* Defaults (desktop block above overrides/uses these) */
   --menu-thumb-pad: 6px;
   --menu-thumb-h: 32px;
+  --menu-thumb-bg: rgba(255,255,255,.16);
 }
 .nav-right{
   display:flex;
@@ -316,7 +320,7 @@ body{
   font-weight:600;
   color:#e8e9ec;
   text-decoration:none;
-  border-radius:12px;
+  border-radius:999px;
 }
 /* Hover styles only on pointer/hover devices (desktop/trackpad), to avoid sticky hover on iOS */
 @media (hover:hover) and (pointer:fine){
@@ -358,12 +362,13 @@ body{
     width:var(--menu-thumb-w, 0px);
     transform:translateY(-50%) translateX(var(--menu-thumb-x, 0px));
     border-radius:calc(var(--menu-thumb-h) / 2);
-    background:rgba(255,255,255,.16);
+    background:var(--menu-thumb-bg, rgba(255,255,255,.16));
     opacity:var(--menu-thumb-o, 0);
     transition:
       transform .45s cubic-bezier(.22,1,.36,1),
       width .45s cubic-bezier(.22,1,.36,1),
-      opacity .18s linear;
+      opacity .18s linear,
+      background-color .12s linear;
     pointer-events:none;
     z-index:0;
   }
@@ -372,10 +377,18 @@ body{
     position:relative;
     z-index:1;
     background:transparent;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  /* Keep press feedback subtle without fighting the thumb */
-  .menu a:active{ background:rgba(255,255,255,.06); }
+  /* Desktop/landscape: old per-link press highlight OFF (prevents double-layer) */
+  .menu a:active{ background:transparent; }
+
+  /* Press feedback should appear on the thumb itself */
+  @supports selector(.menu:has(a:active)){
+    .menu:has(a:active){
+      --menu-thumb-bg: rgba(255,255,255,.24);
+    }
+  }
 
   /* JS can add .thumb-init to disable the first-frame transition (prevents "grow from left") */
   .menu.thumb-init::before{ transition:none !important; }
@@ -550,11 +563,11 @@ a.btn:link,a.btn:visited{color:inherit}
   }
 }
 
-/* ===== Reveal-on-scroll animations (opt‑in) ===== */
+/* ===== Reveal-on-scroll animations (opt-in) ===== */
 /* Add class="reveal" on elements to animate.
    JS should add a "js" class to <html>. If JS is unavailable (local preview, etc.),
    content remains visible by default.
-   Customizable CSS variables per‑element:
+   Customizable CSS variables per-element:
      --reveal-distance: 18px;     (translate offset)
      --reveal-duration: .75s;     (animation/transition duration)
      --reveal-delay: 0s;          (stagger delay)
