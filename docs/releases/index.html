@@ -39,21 +39,20 @@
     --surface-light:#f5f5f7;
     --surface-dark:#0f1116; /* dark surface behind cards */
   }
-  /* no backdrop under nav on this page */
-  .page-releases .nav-backdrop{ display:none !important; }
-  /* subtitle contrast */
+
+  /* Subtitle contrast */
   .page-releases .subtitle{ color:#5e6572; }
   @media (prefers-color-scheme: dark){
     .page-releases .subtitle{ color:#a7acb7; }
   }
 
-  /* swap surface: background <-> cards */
+  /* Swap surface: background <-> cards */
   .page-releases{ background:#f5f5f7; }
   @media (prefers-color-scheme: dark){
     .page-releases{ background:#000; color:#e8e9ec; }
   }
 
-  /* tighten heading stack + reserve space for hero image */
+  /* Tighten heading stack + reserve space for hero image */
   .page-releases .copy{ gap:6px }
   .page-releases .title{ margin:0 0 4px }
   .releases-hero{ display:flex; justify-content:center; margin:8px 0 18px }
@@ -64,11 +63,11 @@
     object-fit: contain;
     background-color: transparent;
     box-shadow: none;
-    filter: drop-shadow(0 8px 30px rgba(0,0,0,.12)); /* shadow follows alpha */
-    border-radius: 12px;          /* optional rounding */
+    filter: drop-shadow(0 8px 30px rgba(0,0,0,.12));
+    border-radius: 12px;
   }
 
-  /* push first section clear of fixed nav (use 22/24 rule) */
+  /* Push first section clear of fixed nav */
   .page-releases .section--first{
     padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 22px);
     margin-top:0;
@@ -79,13 +78,13 @@
     }
   }
 
-  /* surface only for the list area (no grey behind the header) */
+  /* Surface only for the list area */
   .releases-surface{ background:transparent; padding:16px 0 24px; }
 
-  /* card + typography balance */
+  /* Card + typography balance */
   .releases-list{ display:grid; gap:16px; }
 
-  /* empty/loading states */
+  /* Empty/loading states */
   .empty{
     border:1px dashed var(--nav-border);
     border-radius:14px;
@@ -106,7 +105,7 @@
     font-size:clamp(20px, 4.6vw, 24px);
   }
 
-  /* ensure release titles are left-aligned */
+  /* Ensure release titles are left-aligned */
   .release-title{ text-align:left; }
   .release-title{
     margin:0 0 1px;
@@ -138,7 +137,7 @@
     grid-template-columns:auto 1fr;
     column-gap:12px;
     align-items:center;
-    padding:2px 0 0 2px; /* nudge to equalize icon top/left margin */
+    padding:2px 0 0 2px;
   }
   .release-icon{
     width:clamp(40px, 12vw, 56px);
@@ -151,27 +150,26 @@
     min-width:0;
     display:flex;
     flex-direction:column;
-    justify-content:center; /* vertically center next to the icon */
-    padding-left:4px;       /* move texts slightly to the right */
+    justify-content:center;
+    padding-left:4px;
   }
-  .release-actions{ display:flex; align-items:center; gap:.6rem; }
 
-  /* card surface follows theme; no outer surface */
+  /* Card radius: use banner-radius system */
   .page-releases .card{
     background:#fff;
     color:#111317;
     border:0;
-    border-radius:22px;
+    border-radius: var(--banner-radius);
+    overflow:hidden;
   }
   @media (prefers-color-scheme: dark){
     .page-releases .card{
       background:#0f1116;
       color:#e8e9ec;
-      border:0;
     }
   }
 
-  /* highlight the top item in "Latest Releases" with an inner glow */
+  /* Highlight the top item in "Latest Releases" with an inner glow */
   .page-releases .card.is-highlight{
     position: relative;
   }
@@ -181,31 +179,12 @@
     inset:0;
     border-radius:inherit;
     pointer-events:none;
-    box-shadow:
-      inset 0 0 20px rgba(255,159,10,.62);
+    box-shadow: inset 0 0 20px rgba(255,159,10,.62);
     transition: box-shadow .2s ease;
-  }
-
-  /* Orange action to match highlight (top card only)
-     NOTE: still targets .btn-outline on purpose (your orange download button),
-     but doesn't change it to blue. */
-  .page-releases .card.is-highlight .btn-outline{
-    background:#ff9f0a !important;
-    color:#000 !important;
-    border-color:#ff9f0a !important;
-  }
-  @media (prefers-color-scheme: dark){
-    .page-releases .card.is-highlight .btn-outline{
-      color:#111317 !important; /* slightly deeper text on dark for contrast */
-    }
-  }
-  .page-releases .card.is-highlight .btn-outline:hover{
-    filter:brightness(1.05);
   }
   @media (prefers-color-scheme: light){
     .page-releases .card.is-highlight::after{
-      box-shadow:
-        inset 0 0 16px rgba(255,159,10,.54);
+      box-shadow: inset 0 0 16px rgba(255,159,10,.54);
     }
   }
 
@@ -217,7 +196,20 @@
     margin-top:12px;
   }
 
-  /* footer theming */
+  /* Keep the highlight button orange */
+  .page-releases .card.is-highlight .btn-blue{
+    background: rgba(255,159,10,.76) !important;
+    border-color: rgba(255,159,10,.56) !important;
+    color:#111317 !important;
+  }
+  .page-releases .card.is-highlight .btn-blue:hover{
+    background: rgba(255,159,10,.84) !important;
+  }
+  .page-releases .card.is-highlight .btn-blue:active{
+    background: rgba(255,159,10,.68) !important;
+  }
+
+  /* Footer theming */
   .page-releases .footer{
     background:#f5f5f7;
     color:#5e6572;
@@ -232,226 +224,208 @@
   .page-releases main{ margin-bottom:0; padding-bottom:0 }
   .page-releases .footer{ margin:0 }
   </style>
+
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 
 <body class="page-releases" data-base="..">
-<div id="nav-slot"></div>
+  <!-- Home-style nav backdrop (becomes visible on scroll via body.nav--scrolled) -->
+  <div class="nav-backdrop" aria-hidden="true"></div>
 
-<main>
-  <section class="section section--first" id="releases">
-    <div class="container hero copy">
-      <h1 class="title reveal-onload" style="margin-bottom:4px">Releases</h1>
-      <p class="subtitle small reveal-onload reveal-delay-1">Latest changes and downloads.</p>
-      <div class="releases-hero">
-        <img src="../assets/img/releases-hero.png" alt="iStage lock screen preview" loading="lazy" onerror="this.style.display='none'">
+  <div id="nav-slot"></div>
+
+  <main>
+    <section class="section section--first" id="releases">
+      <div class="container hero copy">
+        <h1 class="title reveal-onload" style="margin-bottom:4px">Releases</h1>
+        <p class="subtitle small reveal-onload reveal-delay-1">Latest changes and downloads.</p>
+        <div class="releases-hero">
+          <img src="../assets/img/releases-hero.png" alt="iStage lock screen preview" loading="lazy" onerror="this.style.display='none'">
+        </div>
       </div>
-    </div>
 
-    <div class="releases-surface">
-      <div class="container">
-        <div class="releases-list" id="releases-list"></div>
+      <div class="releases-surface">
+        <div class="container">
+          <div class="releases-list" id="releases-list"></div>
+        </div>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
 
-<div id="footer-slot"></div>
+  <div id="footer-slot"></div>
 
-<script src="../assets/js/shell.js" defer></script>
+  <script src="../assets/js/shell.js" defer></script>
 
-<script>
+  <script>
+  /* ---- Releases renderer (GitHub API) ---- */
   (function(){
-    try{
-      const mql = window.matchMedia('(prefers-color-scheme: dark)');
-      const apply = () => {
-        document.documentElement.style.setProperty('--nav-backdrop', mql.matches ? '#000' : '#fff');
-      };
-      apply();
-      if (mql.addEventListener) mql.addEventListener('change', apply);
-      else if (mql.addListener) mql.addListener(apply);
-    }catch(e){}
-  })();
-</script>
+    const OWNER = 'Modelized';
+    const REPO  = 'iStage';
+    const list  = document.getElementById('releases-list');
 
-<script>
-/* ---- Releases renderer (GitHub API) ---- */
-(function(){
-  const OWNER = 'Modelized';
-  const REPO  = 'iStage';
-  const list  = document.getElementById('releases-list');
-  const groupHTML = (title, inner) => `
-    <div class="releases-group" data-group="${title}">
-      <h2 class="group-title">${title}</h2>
-      <div class="releases-list">${inner}</div>
-    </div>`;
-  if (list){
-    list.innerHTML = [
-      groupHTML('Latest Releases',  `<div class="empty small muted">Loading latest…</div>`),
-      groupHTML('Previous Releases',`<div class="empty small muted">Loading previous…</div>`)
-    ].join('');
-  }
-  if (!list) return;
-
-  const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-
-  const fmtDate = iso => {
-    try{
-      const d = new Date(iso);
-      return d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
-    }catch(_){ return iso || ''; }
-  };
-  const fmtSize = bytes => {
-    if (bytes == null) return '';
-    const units = ['B','KB','MB','GB'];
-    let i = 0, n = bytes;
-    while (n >= 1024 && i < units.length-1){ n/=1024; i++; }
-    return `${n.toFixed(n < 10 && i>0 ? 1 : 0)} ${units[i]}`;
-  };
-
-  // Strip images from markdown
-  const stripImages = (md='') =>
-    md.replace(/!\[[^\]]*]\([^)]*\)/g, '').replace(/<img[\s\S]*?>/gi, '');
-
-  // Minimal markdown → HTML (headings, lists, links, code, paragraphs)
-  const mdToHtml = (md='') => {
-    md = stripImages(md);
-
-    // code blocks ``` ```
-    md = md.replace(/```([\s\S]*?)```/g, (_, code) => `<pre><code>${esc(code)}</code></pre>`);
-
-    const lines = md.split(/\r?\n/);
-    const out = [];
-    let inList = false;
-
-    const flushList = () => { if (inList){ out.push('</ul>'); inList = false; } };
-
-    for (let raw of lines){
-      const line = raw.trimEnd();
-
-      // headings
-      if (/^###\s+/.test(line)){ flushList(); out.push(`<h3>${esc(line.replace(/^###\s+/, ''))}</h3>`); continue; }
-      if (/^##\s+/.test(line)){ flushList(); out.push(`<h2>${esc(line.replace(/^##\s+/, ''))}</h2>`); continue; }
-      if (/^#\s+/.test(line)){ flushList(); out.push(`<h1>${esc(line.replace(/^#\s+/, ''))}</h1>`); continue; }
-
-      // list items
-      if (/^\s*[-*]\s+/.test(line)){
-        if (!inList){ out.push('<ul>'); inList = true; }
-        out.push(`<li>${esc(line.replace(/^\s*[-*]\s+/, ''))}</li>`);
-        continue;
-      }
-
-      // blank line
-      if (!line.trim()){ flushList(); continue; }
-
-      flushList();
-
-      // inline: links, bold, italics, `code`
-      let html = esc(line)
-        .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-        .replace(/`([^`]+)`/g, '<code>$1</code>');
-
-      out.push(`<p>${html}</p>`);
-    }
-    flushList();
-    return out.join('');
-  };
-
-  const versionFromTag = (tag = '') => {
-    const m = String(tag).match(/\d+/);
-    return m ? m[0] : '';
-  };
-
-  const tpl = (r, isHighlight = false) => {
-    const title = r.name || r.tag_name || 'Untitled';
-    const tag   = r.tag_name ? `${r.tag_name}` : '';
-    const date  = r.published_at ? fmtDate(r.published_at) : '';
-    const asset = (r.assets||[]).find(a => /\.klck$/i.test(a.name)) || (r.assets||[])[0];
-    const size  = asset ? fmtSize(asset.size) : '';
-    const href  = asset ? asset.browser_download_url : r.html_url;
-
-    const metaText = [date, size].filter(Boolean).join(' • ');
-
-    const ver  = versionFromTag(tag);
-    const icon = ver
-      ? `<img class="release-icon" src="../assets/img/iStage-${ver}-icon.png" alt="iStage ${ver} icon" loading="lazy" onerror="this.style.display='none'">`
-      : '';
-
-    return `
-      <article class="card ${isHighlight ? 'is-highlight' : ''}">
-        <header class="release-head">
-          ${icon}
-          <div class="release-head-text">
-            <h3 class="release-title">${esc(title)}</h3>
-            <div class="muted small release-meta"><span>${esc(metaText)}</span></div>
-          </div>
-        </header>
-        <div class="prose" style="margin-top:12px">${mdToHtml(r.body||'')}</div>
-        <footer class="release-foot">
-          <a class="btn btn-outline" href="${href}" ${asset ? 'download' : ''}>Download</a>
-        </footer>
-      </article>
-    `;
-  };
-
-  const showError = (msg) => {
-    list.innerHTML = `
-      <div class="card" role="alert">
-        <strong>Failed to load releases.</strong><br/>
-        <span class="small muted">${msg}</span>
-      </div>`;
-  };
-
-  fetch(`https://api.github.com/repos/${OWNER}/${REPO}/releases`, {
-    headers: { 'Accept': 'application/vnd.github+json' }
-  })
-  .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
-  .then(items => {
-    if (!Array.isArray(items) || !items.length){ showError('No releases found.'); return; }
-
-    // Determine latest per major version (based on published_at / created_at)
-    const latestByVer = new Map();
-    for (const r of items){
-      const v = versionFromTag(r.tag_name || '');
-      if (!v) continue;
-      const prev = latestByVer.get(v);
-      const t = new Date(r.published_at || r.created_at || 0).getTime();
-      const pt = prev ? new Date(prev.published_at || prev.created_at || 0).getTime() : -Infinity;
-      if (!prev || t > pt) latestByVer.set(v, r);
-    }
-
-    // 1) Latest releases: one per major version (26, 18, ...) sorted by version (desc)
-    const versionNum = r => parseInt(versionFromTag(r.tag_name || ''), 10) || 0;
-    const latestReleases = Array.from(latestByVer.values())
-      .sort((a, b) => versionNum(b) - versionNum(a));
-
-    // 2) Previous releases: everything else, sorted by publish date (desc)
-    const timeOf = r => new Date(r.published_at || r.created_at || 0).getTime();
-    const previousReleases = items
-      .filter(r => {
-        const v = versionFromTag(r.tag_name || '');
-        return !(v && latestByVer.get(v) === r);
-      })
-      .sort((a, b) => timeOf(b) - timeOf(a));
-
-    const empty = (msg) => `<div class="empty"><p class="small muted">${esc(msg)}</p></div>`;
-    const group = (title, arr, emptyMsg) => `
+    const groupHTML = (title, inner) => `
       <div class="releases-group" data-group="${title}">
         <h2 class="group-title">${title}</h2>
-        <div class="releases-list">
-          ${arr.length ? arr.map((r, i) => tpl(r, title === 'Latest Releases' && i === 0)).join('') : empty(emptyMsg || 'No releases yet.')}
-        </div>
+        <div class="releases-list">${inner}</div>
       </div>`;
 
-    list.innerHTML = [
-      group('Latest Releases',  latestReleases,  'No releases yet.'),
-      group('Previous Releases', previousReleases, previousReleases.length ? '' : 'No previous releases yet.')
-    ].join('');
-  })
-  .catch(err => showError(String(err)));
-})();
-</script>
+    if (list){
+      list.innerHTML = [
+        groupHTML('Latest Releases',  `<div class="empty small muted">Loading latest…</div>`),
+        groupHTML('Previous Releases',`<div class="empty small muted">Loading previous…</div>`)
+      ].join('');
+    }
+    if (!list) return;
+
+    const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+    const fmtDate = iso => {
+      try{
+        const d = new Date(iso);
+        return d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+      }catch(_){ return iso || ''; }
+    };
+    const fmtSize = bytes => {
+      if (bytes == null) return '';
+      const units = ['B','KB','MB','GB'];
+      let i = 0, n = bytes;
+      while (n >= 1024 && i < units.length-1){ n/=1024; i++; }
+      return `${n.toFixed(n < 10 && i>0 ? 1 : 0)} ${units[i]}`;
+    };
+
+    const stripImages = (md='') =>
+      md.replace(/!\[[^\]]*]\([^)]*\)/g, '').replace(/<img[\s\S]*?>/gi, '');
+
+    const mdToHtml = (md='') => {
+      md = stripImages(md);
+      md = md.replace(/```([\s\S]*?)```/g, (_, code) => `<pre><code>${esc(code)}</code></pre>`);
+
+      const lines = md.split(/\r?\n/);
+      const out = [];
+      let inList = false;
+
+      const flushList = () => { if (inList){ out.push('</ul>'); inList = false; } };
+
+      for (let raw of lines){
+        const line = raw.trimEnd();
+
+        if (/^###\s+/.test(line)){ flushList(); out.push(`<h3>${esc(line.replace(/^###\s+/, ''))}</h3>`); continue; }
+        if (/^##\s+/.test(line)){ flushList(); out.push(`<h2>${esc(line.replace(/^##\s+/, ''))}</h2>`); continue; }
+        if (/^#\s+/.test(line)){ flushList(); out.push(`<h1>${esc(line.replace(/^#\s+/, ''))}</h1>`); continue; }
+
+        if (/^\s*[-*]\s+/.test(line)){
+          if (!inList){ out.push('<ul>'); inList = true; }
+          out.push(`<li>${esc(line.replace(/^\s*[-*]\s+/, ''))}</li>`);
+          continue;
+        }
+
+        if (!line.trim()){ flushList(); continue; }
+
+        flushList();
+
+        let html = esc(line)
+          .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+          .replace(/`([^`]+)`/g, '<code>$1</code>');
+
+        out.push(`<p>${html}</p>`);
+      }
+      flushList();
+      return out.join('');
+    };
+
+    const versionFromTag = (tag = '') => {
+      const m = String(tag).match(/\d+/);
+      return m ? m[0] : '';
+    };
+
+    const tpl = (r, isHighlight = false) => {
+      const title = r.name || r.tag_name || 'Untitled';
+      const tag   = r.tag_name ? `${r.tag_name}` : '';
+      const date  = r.published_at ? fmtDate(r.published_at) : '';
+      const asset = (r.assets||[]).find(a => /\.klck$/i.test(a.name)) || (r.assets||[])[0];
+      const size  = asset ? fmtSize(asset.size) : '';
+      const href  = asset ? asset.browser_download_url : r.html_url;
+
+      const metaText = [date, size].filter(Boolean).join(' • ');
+
+      const ver  = versionFromTag(tag);
+      const icon = ver
+        ? `<img class="release-icon" src="../assets/img/iStage-${ver}-icon.png" alt="iStage ${ver} icon" loading="lazy" onerror="this.style.display='none'">`
+        : '';
+
+      return `
+        <article class="card ${isHighlight ? 'is-highlight' : ''}">
+          <header class="release-head">
+            ${icon}
+            <div class="release-head-text">
+              <h3 class="release-title">${esc(title)}</h3>
+              <div class="muted small release-meta"><span>${esc(metaText)}</span></div>
+            </div>
+          </header>
+          <div class="prose" style="margin-top:12px">${mdToHtml(r.body||'')}</div>
+          <footer class="release-foot">
+            <a class="btn btn-blue" href="${href}" ${asset ? 'download' : ''}>Download</a>
+          </footer>
+        </article>
+      `;
+    };
+
+    const showError = (msg) => {
+      list.innerHTML = `
+        <div class="card" role="alert">
+          <strong>Failed to load releases.</strong><br/>
+          <span class="small muted">${msg}</span>
+        </div>`;
+    };
+
+    fetch(`https://api.github.com/repos/${OWNER}/${REPO}/releases`, {
+      headers: { 'Accept': 'application/vnd.github+json' }
+    })
+    .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
+    .then(items => {
+      if (!Array.isArray(items) || !items.length){ showError('No releases found.'); return; }
+
+      const latestByVer = new Map();
+      for (const r of items){
+        const v = versionFromTag(r.tag_name || '');
+        if (!v) continue;
+        const prev = latestByVer.get(v);
+        const t = new Date(r.published_at || r.created_at || 0).getTime();
+        const pt = prev ? new Date(prev.published_at || prev.created_at || 0).getTime() : -Infinity;
+        if (!prev || t > pt) latestByVer.set(v, r);
+      }
+
+      const versionNum = r => parseInt(versionFromTag(r.tag_name || ''), 10) || 0;
+      const latestReleases = Array.from(latestByVer.values())
+        .sort((a, b) => versionNum(b) - versionNum(a));
+
+      const timeOf = r => new Date(r.published_at || r.created_at || 0).getTime();
+      const previousReleases = items
+        .filter(r => {
+          const v = versionFromTag(r.tag_name || '');
+          return !(v && latestByVer.get(v) === r);
+        })
+        .sort((a, b) => timeOf(b) - timeOf(a));
+
+      const empty = (msg) => `<div class="empty"><p class="small muted">${esc(msg)}</p></div>`;
+      const group = (title, arr, emptyMsg) => `
+        <div class="releases-group" data-group="${title}">
+          <h2 class="group-title">${title}</h2>
+          <div class="releases-list">
+            ${arr.length ? arr.map((r, i) => tpl(r, title === 'Latest Releases' && i === 0)).join('') : empty(emptyMsg || 'No releases yet.')}
+          </div>
+        </div>`;
+
+      list.innerHTML = [
+        group('Latest Releases',  latestReleases,  'No releases yet.'),
+        group('Previous Releases', previousReleases, previousReleases.length ? '' : 'No previous releases yet.')
+      ].join('');
+    })
+    .catch(err => showError(String(err)));
+  })();
+  </script>
 
 </body>
 </html>

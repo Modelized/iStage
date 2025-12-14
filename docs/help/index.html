@@ -51,9 +51,6 @@
     border:0 !important;
   }
 
-  /* no backdrop under nav on this page */
-  .page-help .nav-backdrop{ display:none !important; }
-
   /* page surface (swap like main redesign) */
   .page-help{ background:#f5f5f7; font-synthesis-weight: none; }
   @media (prefers-color-scheme: dark){
@@ -105,7 +102,7 @@
   }
   @media (prefers-color-scheme: dark){
     .page-help .card{
-      background:#000;
+      background:#0f1116;
       color:#e8e9ec;
       border:0;
     }
@@ -185,212 +182,206 @@
   .page-help main{ margin-bottom:0; padding-bottom:0 }
   .page-help .footer{ margin:0 }
   </style>
+
+  <script>document.documentElement.classList.add('js');</script>
 </head>
+
 <body class="page-help" data-base="..">
-<div id="nav-slot"></div>
+  <div class="nav-backdrop" aria-hidden="true"></div>
 
-<main>
-  <section class="section section--first">
-    <div class="container hero copy" style="text-align:center">
-      <h1 class="title reveal-onload" style="margin-bottom:4px">Help</h1>
-      <p class="subtitle small reveal-onload reveal-delay-1">Setup iStage, find tips, and get help with common issues.</p>
-      <div class="help-hero">
-        <img src="../assets/img/help-hero.png" alt="iStage lock screen preview" loading="lazy" onerror="this.style.display='none'">
-      </div>
-    </div>
+  <div id="nav-slot"></div>
 
-    <div class="help-surface">
-      <div class="container">
-        <div class="accordion" id="help-accordion">
-          <!-- Download & Setup -->
-          <article class="card reveal-onload">
-            <div class="acc-header">
-              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-setup">
-                <span class="sr-only">Toggle</span>
-                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
-              </button>
-              <h2 class="acc-title">Download &amp; Setup</h2>
-            </div>
-            <div class="acc-panel" id="acc-panel-setup" hidden>
-              <div class="prose">
-                <h3>Download</h3>
-                <ul>
-                  <li>Get the latest release from the <a href="../releases/">Releases</a> page.</li>
-                  <li>Download the <code>.klck</code> preset file included in the release.</li>
-                </ul>
-
-                <h3>Setup</h3>
-                <ul>
-                  <li>Open <strong>KLCK</strong> on your Android device.</li>
-                  <li>Import the downloaded <code>.klck</code> preset file.</li>
-                  <li>Apply the preset as your lock screen layout.</li>
-                </ul>
-                
-                <h3>Notes</h3>
-                <p><strong>Apple-owned resources are not included in this repository.</strong></p>
-                <p>Certain parts of the interface are designed to use <strong>SF Pro fonts</strong> and <strong>SF Symbols</strong>, and these must be prepared by the user separately.</p>
-                <p>Please check the font list needed to use the lock screen in <strong>globals(config/font)</strong> of the preset. (Installation methods or download links are <strong>not provided</strong> here.)</p>
-              </div>
-            </div>
-          </article>
-
-          <!-- Performance & Responsiveness -->
-          <article class="card reveal-onload">
-            <div class="acc-header">
-              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-perf">
-                <span class="sr-only">Toggle</span>
-                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
-              </button>
-              <h2 class="acc-title">Performance &amp; Responsiveness</h2>
-            </div>
-            <div class="acc-panel" id="acc-panel-perf" hidden>
-              <div class="prose">
-                <ul>
-                  <li>Disable other live wallpapers/widgets temporarily to check conflicts.</li>
-                  <li>Reduce blur intensity in iStage settings if your device struggles with heavy blur.</li>
-                  <li>Turn off battery savers that throttle animations.</li>
-                  <li>Restart KLCK after big changes (force stop → reopen).</li>
-                </ul>
-              </div>
-            </div>
-          </article>
-
-          <!-- Importing & Applying -->
-          <article class="card reveal-onload">
-            <div class="acc-header">
-              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-import">
-                <span class="sr-only">Toggle</span>
-                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
-              </button>
-              <h2 class="acc-title">Importing &amp; Applying</h2>
-            </div>
-            <div class="acc-panel" id="acc-panel-import" hidden>
-              <div class="prose">
-                <ul>
-                  <li>Ensure KLCK is updated to the latest version.</li>
-                  <li>Confirm storage permission is granted to KLCK.</li>
-                  <li>If import fails, move the file to internal storage (e.g., <code>/Download</code>) and retry.</li>
-                  <li>If widgets look misaligned, set the device DPI and safe-area to default in KLCK.</li>
-                </ul>
-              </div>
-            </div>
-          </article>
-
-          <!-- Device Compatibility -->
-          <article class="card reveal-onload">
-            <div class="acc-header">
-              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-compat">
-                <span class="sr-only">Toggle</span>
-                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
-              </button>
-              <h2 class="acc-title">Device Compatibility</h2>
-            </div>
-            <div class="acc-panel" id="acc-panel-compat" hidden>
-              <div class="prose">
-                <ul>
-                  <li>Designed for modern Android devices with KLCK support.</li>
-                  <li>Requires SF Pro fonts / SF Symbols prepared by the user for best visual match.</li>
-                  <li>Dynamic blur/animations are heavier on low-end devices.</li>
-                </ul>
-              </div>
-            </div>
-          </article>
-
-          <!-- Known Limitations -->
-          <article class="card reveal-onload">
-            <div class="acc-header">
-              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-limits">
-                <span class="sr-only">Toggle</span>
-                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
-              </button>
-              <h2 class="acc-title">Known Limitations</h2>
-            </div>
-            <div class="acc-panel" id="acc-panel-limits" hidden>
-              <div class="prose">
-                <ul>
-                  <li>Some KLCK blur behaviors may exceed intended bounds; alternatives are under review.</li>
-                  <li>Live Activity overlaps may occur with expanded widgets; fixes are planned in future updates.</li>
-                </ul>
-              </div>
-            </div>
-          </article>
-
-          <!-- Troubleshooting -->
-          <article class="card reveal-onload">
-            <div class="acc-header">
-              <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-check">
-                <span class="sr-only">Toggle</span>
-                <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
-              </button>
-              <h2 class="acc-title">Troubleshooting</h2>
-            </div>
-            <div class="acc-panel" id="acc-panel-check" hidden>
-              <div class="prose">
-                <ol>
-                  <li>Latest KLCK installed and permissions granted.</li>
-                  <li>Preset imported from internal storage (not cloud sandbox).</li>
-                  <li>Battery saver / device optimizer disabled for KLCK.</li>
-                  <li>Device restarted if graphics glitches persist.</li>
-                </ol>
-              </div>
-            </div>
-          </article>
+  <main>
+    <section class="section section--first">
+      <div class="container hero copy" style="text-align:center">
+        <h1 class="title reveal-onload" style="margin-bottom:4px">Help</h1>
+        <p class="subtitle small reveal-onload reveal-delay-1">Setup iStage, find tips, and get help with common issues.</p>
+        <div class="help-hero">
+          <img src="../assets/img/help-hero.png" alt="iStage lock screen preview" loading="lazy" onerror="this.style.display='none'">
         </div>
       </div>
-    </div>
-  </section>
-</main>
 
-<div id="footer-slot"></div>
-<script src="../assets/js/shell.js" defer></script>
-<script>
-  (function(){
-    try{
-      const mql = window.matchMedia('(prefers-color-scheme: dark)');
-      const apply = () => {
-        document.documentElement.style.setProperty('--nav-backdrop', mql.matches ? '#000' : '#fff');
-      };
-      apply();
-      if (mql.addEventListener) mql.addEventListener('change', apply);
-      else if (mql.addListener) mql.addListener(apply);
-    }catch(e){}
-  })();
-  (function(){
-    try{
-      const toggles = Array.prototype.slice.call(document.querySelectorAll('.acc-toggle'));
-      toggles.forEach(function(btn){
-        btn.addEventListener('click', function(){
-          const expanded = btn.getAttribute('aria-expanded') === 'true';
-          const panelId = btn.getAttribute('aria-controls');
-          const panel = document.getElementById(panelId);
-          btn.setAttribute('aria-expanded', (!expanded).toString());
-          if (panel){
-            if (expanded){
-              panel.setAttribute('hidden','');
-              panel.style.gridTemplateRows = '0fr';
-            }else{
-              panel.removeAttribute('hidden');
-              requestAnimationFrame(function(){ panel.style.gridTemplateRows = '1fr'; });
+      <div class="help-surface">
+        <div class="container">
+          <div class="accordion" id="help-accordion">
+            <!-- Download & Setup -->
+            <article class="card reveal-onload">
+              <div class="acc-header">
+                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-setup">
+                  <span class="sr-only">Toggle</span>
+                  <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+                </button>
+                <h2 class="acc-title">Download &amp; Setup</h2>
+              </div>
+              <div class="acc-panel" id="acc-panel-setup" hidden>
+                <div class="prose">
+                  <h3>Download</h3>
+                  <ul>
+                    <li>Get the latest release from the <a href="../releases/">Releases</a> page.</li>
+                    <li>Download the <code>.klck</code> preset file included in the release.</li>
+                  </ul>
+
+                  <h3>Setup</h3>
+                  <ul>
+                    <li>Open <strong>KLCK</strong> on your Android device.</li>
+                    <li>Import the downloaded <code>.klck</code> preset file.</li>
+                    <li>Apply the preset as your lock screen layout.</li>
+                  </ul>
+                  
+                  <h3>Notes</h3>
+                  <p><strong>Apple-owned resources are not included in this repository.</strong></p>
+                  <p>Certain parts of the interface are designed to use <strong>SF Pro fonts</strong> and <strong>SF Symbols</strong>, and these must be prepared by the user separately.</p>
+                  <p>Please check the font list needed to use the lock screen in <strong>globals(config/font)</strong> of the preset. (Installation methods or download links are <strong>not provided</strong> here.)</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Performance & Responsiveness -->
+            <article class="card reveal-onload">
+              <div class="acc-header">
+                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-perf">
+                  <span class="sr-only">Toggle</span>
+                  <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+                </button>
+                <h2 class="acc-title">Performance &amp; Responsiveness</h2>
+              </div>
+              <div class="acc-panel" id="acc-panel-perf" hidden>
+                <div class="prose">
+                  <ul>
+                    <li>Disable other live wallpapers/widgets temporarily to check conflicts.</li>
+                    <li>Reduce blur intensity in iStage settings if your device struggles with heavy blur.</li>
+                    <li>Turn off battery savers that throttle animations.</li>
+                    <li>Restart KLCK after big changes (force stop → reopen).</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <!-- Importing & Applying -->
+            <article class="card reveal-onload">
+              <div class="acc-header">
+                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-import">
+                  <span class="sr-only">Toggle</span>
+                  <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+                </button>
+                <h2 class="acc-title">Importing &amp; Applying</h2>
+              </div>
+              <div class="acc-panel" id="acc-panel-import" hidden>
+                <div class="prose">
+                  <ul>
+                    <li>Ensure KLCK is updated to the latest version.</li>
+                    <li>Confirm storage permission is granted to KLCK.</li>
+                    <li>If import fails, move the file to internal storage (e.g., <code>/Download</code>) and retry.</li>
+                    <li>If widgets look misaligned, set the device DPI and safe-area to default in KLCK.</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <!-- Device Compatibility -->
+            <article class="card reveal-onload">
+              <div class="acc-header">
+                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-compat">
+                  <span class="sr-only">Toggle</span>
+                  <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+                </button>
+                <h2 class="acc-title">Device Compatibility</h2>
+              </div>
+              <div class="acc-panel" id="acc-panel-compat" hidden>
+                <div class="prose">
+                  <ul>
+                    <li>Designed for modern Android devices with KLCK support.</li>
+                    <li>Requires SF Pro fonts / SF Symbols prepared by the user for best visual match.</li>
+                    <li>Dynamic blur/animations are heavier on low-end devices.</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <!-- Known Limitations -->
+            <article class="card reveal-onload">
+              <div class="acc-header">
+                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-limits">
+                  <span class="sr-only">Toggle</span>
+                  <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+                </button>
+                <h2 class="acc-title">Known Limitations</h2>
+              </div>
+              <div class="acc-panel" id="acc-panel-limits" hidden>
+                <div class="prose">
+                  <ul>
+                    <li>Some KLCK blur behaviors may exceed intended bounds; alternatives are under review.</li>
+                    <li>Live Activity overlaps may occur with expanded widgets; fixes are planned in future updates.</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <!-- Troubleshooting -->
+            <article class="card reveal-onload">
+              <div class="acc-header">
+                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-check">
+                  <span class="sr-only">Toggle</span>
+                  <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z"/></svg>
+                </button>
+                <h2 class="acc-title">Troubleshooting</h2>
+              </div>
+              <div class="acc-panel" id="acc-panel-check" hidden>
+                <div class="prose">
+                  <ol>
+                    <li>Latest KLCK installed and permissions granted.</li>
+                    <li>Preset imported from internal storage (not cloud sandbox).</li>
+                    <li>Battery saver / device optimizer disabled for KLCK.</li>
+                    <li>Device restarted if graphics glitches persist.</li>
+                  </ol>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-slot"></div>
+  <script src="../assets/js/shell.js" defer></script>
+  <script>
+    (function(){
+      try{
+        const toggles = Array.prototype.slice.call(document.querySelectorAll('.acc-toggle'));
+        toggles.forEach(function(btn){
+          btn.addEventListener('click', function(){
+            const expanded = btn.getAttribute('aria-expanded') === 'true';
+            const panelId = btn.getAttribute('aria-controls');
+            const panel = document.getElementById(panelId);
+            btn.setAttribute('aria-expanded', (!expanded).toString());
+            if (panel){
+              if (expanded){
+                panel.setAttribute('hidden','');
+                panel.style.gridTemplateRows = '0fr';
+              }else{
+                panel.removeAttribute('hidden');
+                requestAnimationFrame(function(){ panel.style.gridTemplateRows = '1fr'; });
+              }
             }
-          }
+          });
+          btn.addEventListener('keydown', function(e){
+            if (e.key === 'Enter' || e.key === ' '){
+              e.preventDefault();
+              btn.click();
+            }
+          });
         });
-        btn.addEventListener('keydown', function(e){
-          if (e.key === 'Enter' || e.key === ' '){
-            e.preventDefault();
-            btn.click();
-          }
+      }catch(e){}
+    })();
+    (function(){
+      try{
+        const cards = document.querySelectorAll('.accordion .card.reveal-onload');
+        cards.forEach((el, i) => {
+          el.style.animationDelay = `${0.12 + 0.08*i}s`;
         });
-      });
-    }catch(e){}
-  })();
-  (function(){
-    try{
-      const cards = document.querySelectorAll('.accordion .card.reveal-onload');
-      cards.forEach((el, i) => {
-        el.style.animationDelay = `${0.12 + 0.08*i}s`;
-      });
-    }catch(e){}
-  })();
-</script>
+      }catch(e){}
+    })();
+  </script>
 </body>
 </html>

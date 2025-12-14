@@ -274,6 +274,21 @@ body{
 }
 .menu a.is-current{color:var(--nav-text)}
 .menu a.is-target{color:var(--nav-text)}
+
+/* Fix: prevent two fully-opaque labels (current + hovered) */
+@supports selector(.menu:has(a)){
+  .menu:has(a.is-target:not(.is-current)) a.is-current{
+    color:var(--nav-text-dim);
+  }
+}
+/* Fallback for browsers without :has */
+@supports not selector(.menu:has(a)){
+  @media (hover:hover) and (pointer:fine){
+    .menu:hover a.is-current{color:var(--nav-text-dim)}
+    .menu:hover a.is-current:hover{color:var(--nav-text)}
+  }
+}
+
 @media (hover:hover) and (pointer:fine){
   .menu a:hover{color:var(--nav-text)}
 }

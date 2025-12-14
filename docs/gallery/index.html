@@ -84,11 +84,9 @@
     height:auto;
     margin:0 auto 12px;
   }
-  /*.gallery-subtitle{margin-top:12px;font-size:clamp(16px,2vw,20px);color:#5e6572}*/
   .gallery-subtitle{margin-top:4px;font-size:clamp(16px,2vw,20px);}
-  
-  /* ---- Gallery page (scoped) ---- */
-  /* Center shift: pull the hero stack slightly below true center (mobile > desktop) */
+
+  /* Gallery page (scoped) */
   .page-gallery{
     --center-shift: 8vh;
   }
@@ -105,18 +103,14 @@
     --surface-light:#f5f5f7;
     --surface-dark:#0f1116; /* dark surface behind cards */
   }
-  /* no backdrop under nav on this page */
-  .page-gallery .nav-backdrop{ display:none !important; }
-  /* subtitle contrast */
-  .page-gallery .subtitle{ color:#5e6572; }
-  @media (prefers-color-scheme: dark){
-    .page-gallery .subtitle{ color:#a7acb7; }
-  }
+
+  /* Page surface */
   .page-gallery{ background:#f5f5f7; }
   @media (prefers-color-scheme: dark){
     .page-gallery{ background:#000; color:#e8e9ec; }
   }
-  /* footer theming */
+
+  /* Footer theming */
   .page-gallery .footer{
     background:#f5f5f7;
     color:#5e6572;
@@ -127,11 +121,13 @@
       color:#a7acb7;
     }
   }
+
   .gallery-spacer{
     height: clamp(64px, 8vh, 96px);
     height: calc(clamp(64px, 8vh, 96px) + env(safe-area-inset-bottom));
     width: 1px; /* minimal footprint */
   }
+
   /* Adjust vertical alignment for centering */
   .gallery-stack{
     display:flex;
@@ -140,7 +136,7 @@
     justify-content:center;
     height:auto;
     position:absolute;
-    top: calc(50% + var(--center-shift)); /* pull the block DOWN from the true center */
+    top: calc(50% + var(--center-shift));
     left:50%;
     transform: translate(-50%, -50%);
     width: min(92%, 960px);
@@ -154,19 +150,27 @@
     }
   }
   </style>
+
+  <script>document.documentElement.classList.add('js');</script>
 </head>
+
 <body class="page-gallery" data-base="..">
-<div id="nav-slot"></div>
-<main class="gallery-hero">
-  <div class="gallery-stack">
-    <img class="gallery-icon reveal-onload reveal-delay-0" src="../assets/img/iStage-icon.png" alt="iStage icon" width="96" height="96" decoding="async" fetchpriority="high">
-    <h1 class="gallery-title reveal-onload reveal-delay-1">iStage Gallery</h1>
-    <p class="subtitle gallery-subtitle reveal-onload reveal-delay-2">Coming soon.</p>
-    <a href="../" class="btn btn-blue reveal-onload reveal-delay-3">Back to Home</a>
-  </div>
-  <div class="gallery-spacer" aria-hidden="true"></div>
-</main>
-<div id="footer-slot"></div>
-<script src="../assets/js/shell.js" defer></script>
+  <div class="nav-backdrop" aria-hidden="true"></div>
+
+  <div id="nav-slot"></div>
+
+  <main class="gallery-hero">
+    <div class="gallery-stack">
+      <img class="gallery-icon reveal-onload reveal-delay-0" src="../assets/img/iStage-icon.png" alt="iStage icon" width="96" height="96" decoding="async" fetchpriority="high">
+      <h1 class="gallery-title reveal-onload reveal-delay-1">iStage Gallery</h1>
+      <p class="subtitle gallery-subtitle reveal-onload reveal-delay-2">Coming soon.</p>
+      <a href="../" class="btn btn-blue reveal-onload reveal-delay-3">Back to Home</a>
+    </div>
+    <div class="gallery-spacer" aria-hidden="true"></div>
+  </main>
+
+  <div id="footer-slot"></div>
+
+  <script src="../assets/js/shell.js" defer></script>
 </body>
 </html>
