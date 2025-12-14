@@ -4,9 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>iStage</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <!-- Icons / PWA basics -->
+  
+  <!-- Icons / PWA -->
   <link rel="icon" type="image/svg+xml" href="/iStage/favicon.svg">
   <link rel="icon" sizes="192x192" href="/iStage/android-chrome-192x192.png">
   <link rel="icon" sizes="512x512" href="/iStage/android-chrome-512x512.png">
@@ -16,6 +18,21 @@
   <!-- Address bar color -->
   <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  
+  <!-- Open Graph / Twitter thumbnail -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="iStage">
+  <meta property="og:title" content="Legal — iStage">
+  <meta property="og:description" content="Android. Reimagined.">
+  <meta property="og:url" content="https://modelized.github.io/iStage/legal/">
+  <meta property="og:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Legal — iStage">
+  <meta name="twitter:description" content="Android. Reimagined.">
+  <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
+  
   <style>
   /* ----- Legal page (scoped) ----- */
   :root{
@@ -29,7 +46,9 @@
   @media (prefers-color-scheme: dark){
     .page-legal .subtitle{ color:#a7acb7; }
   }
-  .page-legal{ background:#fff; }
+
+  /* swap surface: background <-> cards */
+  .page-legal{ background:#f5f5f7; }
   @media (prefers-color-scheme: dark){
     .page-legal{ background:#000; color:#e8e9ec; }
   }
@@ -38,14 +57,14 @@
   .page-legal .copy{ gap:6px }
   .page-legal .title{ margin:0 0 4px }
 
-  /* push first section clear of fixed nav (tiny extra to avoid clipping on iOS) */
+  /* push first section clear of fixed nav (use 22/24 rule) */
   .page-legal .section--first{
-    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 12px);
+    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 22px);
     margin-top:0;
   }
   @media (min-width:900px){
     .page-legal .section--first{
-      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 14px);
+      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 24px);
     }
   }
 
@@ -92,10 +111,10 @@
   }
   /* card surface follows theme; no outer surface */
   .page-legal .card{
-    background:#f5f5f7;
+    background:#fff;
     color:#111317;
     border:0;
-    border-radius:18px;
+    border-radius:22px;
   }
   @media (prefers-color-scheme: dark){
     .page-legal .card{
@@ -167,27 +186,27 @@
 
               <h2>2. License and Permitted Use</h2>
               <ul>
-                <li>Officially released Presets may be downloaded and used for personal, non‑commercial use only.</li>
+                <li>Officially released Presets may be downloaded and used for personal, non-commercial use only.</li>
                 <li>Redistribution—whether unmodified, modified, forked, or ported—requires the Author’s prior written consent.</li>
               </ul>
 
               <h2>3. Ownership and Intellectual Property</h2>
               <ul>
-                <li>All rights, title, and interest in the Project and Author‑created resources remain with the Author.</li>
+                <li>All rights, title, and interest in the Project and Author-created resources remain with the Author.</li>
                 <li>Reverse engineering, decompilation, extraction, or any other unauthorized reproduction or disclosure of the Project’s code, formulas, or assets is prohibited.</li>
               </ul>
 
-              <h2>4. Third‑Party Rights Notice</h2>
+              <h2>4. Third-Party Rights Notice</h2>
               <ul>
                 <li>“Apple”, “iOS”, “iPhone”, and related marks are trademarks of Apple Inc.</li>
                 <li>The Project is inspired by, but not affiliated with, endorsed by, or sponsored by Apple Inc.</li>
-                <li>The Project does not include any Apple‑owned assets (such as fonts, icons, or graphics). Users are solely responsible for acquiring any third‑party resources required for functionality.</li>
+                <li>The Project does not include any Apple-owned assets (such as fonts, icons, or graphics). Users are solely responsible for acquiring any third-party resources required for functionality.</li>
               </ul>
 
               <h2>5. Disclaimer of Warranty</h2>
               <ul>
                 <li>The Project is provided “AS IS” without warranty of any kind, express or implied.</li>
-                <li>The Author does not guarantee that the Preset is error‑free or that it will not affect battery life, performance, or device stability. You assume all risk arising from installation or use.</li>
+                <li>The Author does not guarantee that the Preset is error-free or that it will not affect battery life, performance, or device stability. You assume all risk arising from installation or use.</li>
               </ul>
 
               <h2>6. Limitation of Liability</h2>
@@ -218,20 +237,20 @@
             <div class="prose" style="margin-top:12px">
               <h2>1. Scope and Incorporation</h2>
               <ul>
-                <li>This Addendum governs any pre‑release build of iStage that the Author supplies for testing.</li>
+                <li>This Addendum governs any pre-release build of iStage that the Author supplies for testing.</li>
                 <li>The iStage Terms and Conditions (15 September 2025) remain fully in force. If a clause in this Addendum conflicts with the main Terms, this Addendum controls for the relevant Beta build.</li>
               </ul>
 
               <h2>2. Definition of “Beta Software”</h2>
               <ul>
-                <li>“Beta Software” means any build explicitly labelled Alpha, Closed Beta, Public Beta, Preview, Test, Early‑Access or a similar pre‑release designation.</li>
+                <li>“Beta Software” means any build explicitly labelled Alpha, Closed Beta, Public Beta, Preview, Test, Early-Access or a similar pre-release designation.</li>
                 <li>Alpha / Closed Beta builds are distributed to a limited group selected by the Author and are subject to stricter rules.</li>
                 <li>Public Beta / Preview builds are made available to a broader audience and follow the standard rules below unless otherwise stated.</li>
               </ul>
 
               <h2>3. License and Permitted Use</h2>
               <ul>
-                <li>The Author grants you a personal, non‑transferable, non‑commercial license to install and use the Beta Software for personal use.</li>
+                <li>The Author grants you a personal, non-transferable, non-commercial license to install and use the Beta Software for personal use.</li>
                 <li>You may not redistribute the Beta Software (in whole or in part) without the Author’s prior written approval.</li>
                 <li>All other license limits in the main Terms continue to apply.</li>
               </ul>

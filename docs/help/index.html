@@ -4,9 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>iStage</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <!-- Icons / PWA basics -->
+  
+  <!-- Icons / PWA -->
   <link rel="icon" type="image/svg+xml" href="/iStage/favicon.svg">
   <link rel="icon" sizes="192x192" href="/iStage/android-chrome-192x192.png">
   <link rel="icon" sizes="512x512" href="/iStage/android-chrome-512x512.png">
@@ -16,6 +18,21 @@
   <!-- Address bar color -->
   <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  
+  <!-- Open Graph / Twitter thumbnail -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="iStage">
+  <meta property="og:title" content="Help — iStage">
+  <meta property="og:description" content="Android. Reimagined.">
+  <meta property="og:url" content="https://modelized.github.io/iStage/help/">
+  <meta property="og:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Help — iStage">
+  <meta name="twitter:description" content="Android. Reimagined.">
+  <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
+  
   <style>
   /* ----- Help page (scoped) ----- */
   :root{
@@ -37,8 +54,8 @@
   /* no backdrop under nav on this page */
   .page-help .nav-backdrop{ display:none !important; }
 
-  /* page surface */
-  .page-help{ background:#fff; font-synthesis-weight: none; }
+  /* page surface (swap like main redesign) */
+  .page-help{ background:#f5f5f7; font-synthesis-weight: none; }
   @media (prefers-color-scheme: dark){
     .page-help{ background:#000; color:#e8e9ec; font-synthesis-weight: none; }
   }
@@ -49,14 +66,14 @@
     .page-help .subtitle{ color:#a7acb7; }
   }
 
-  /* push first section clear of fixed nav (extra to avoid iOS clipping) */
+  /* push first section clear of fixed nav (slightly more headroom) */
   .page-help .section--first{
-    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 12px);
+    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 22px);
     margin-top:0;
   }
   @media (min-width:900px){
     .page-help .section--first{
-      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 14px);
+      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 24px);
     }
   }
 
@@ -77,13 +94,14 @@
     border-radius: 12px;
   }
 
-  /* card surface matches site theme */
+  /* card surface: swap + same corner system as main (banner-radius) */
   .page-help .card{
-    background:#f5f5f7;
+    background:#fff;
     color:#111317;
     border:0;
-    border-radius:18px;
+    border-radius: var(--banner-radius);
     padding:0; /* accordion controls internal padding */
+    overflow:hidden; /* ensures radius clips panel border/content */
   }
   @media (prefers-color-scheme: dark){
     .page-help .card{
@@ -150,8 +168,8 @@
     .prose{ padding-inline: 10px; }
   }
   .prose strong{ font-weight:600; }
-  .acc-panel .prose > *:first-child{ margin-top:0; }           /* remove extra gap above first heading ("Download") */
-  .prose ul + p{ margin-top:12px; }                             /* ensure space before Apple-owned resources paragraph */
+  .acc-panel .prose > *:first-child{ margin-top:0; }
+  .prose ul + p{ margin-top:12px; }
 
   /* footer theming */
   .page-help .footer{
@@ -209,7 +227,7 @@
                 </ul>
                 
                 <h3>Notes</h3>
-                <p><strong>Apple‑owned resources are not included in this repository.</strong></p>
+                <p><strong>Apple-owned resources are not included in this repository.</strong></p>
                 <p>Certain parts of the interface are designed to use <strong>SF Pro fonts</strong> and <strong>SF Symbols</strong>, and these must be prepared by the user separately.</p>
                 <p>Please check the font list needed to use the lock screen in <strong>globals(config/font)</strong> of the preset. (Installation methods or download links are <strong>not provided</strong> here.)</p>
               </div>
@@ -252,7 +270,7 @@
                   <li>Ensure KLCK is updated to the latest version.</li>
                   <li>Confirm storage permission is granted to KLCK.</li>
                   <li>If import fails, move the file to internal storage (e.g., <code>/Download</code>) and retry.</li>
-                  <li>If widgets look misaligned, set the device DPI and safe‑area to default in KLCK.</li>
+                  <li>If widgets look misaligned, set the device DPI and safe-area to default in KLCK.</li>
                 </ul>
               </div>
             </div>
@@ -272,7 +290,7 @@
                 <ul>
                   <li>Designed for modern Android devices with KLCK support.</li>
                   <li>Requires SF Pro fonts / SF Symbols prepared by the user for best visual match.</li>
-                  <li>Dynamic blur/animations are heavier on low‑end devices.</li>
+                  <li>Dynamic blur/animations are heavier on low-end devices.</li>
                 </ul>
               </div>
             </div>
@@ -321,9 +339,8 @@
       </div>
     </div>
   </section>
-<!-- removed stray duplicate closing main tag -->
-
 </main>
+
 <div id="footer-slot"></div>
 <script src="../assets/js/shell.js" defer></script>
 <script>

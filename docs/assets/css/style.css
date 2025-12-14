@@ -540,7 +540,7 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:12px;
+  gap:clamp(10px, 1.6vw, 12px);
   padding:0 6px;
 }
 .copy .title{
@@ -551,7 +551,7 @@ body{
 }
 .copy .subtitle{margin:0; color:rgba(232,233,236,.88)}
 .section--white .copy .subtitle{color:#5e6572}
-.cta{display:flex; gap:12px; justify-content:center; margin-top:14px}
+.cta{display:flex; gap:12px; justify-content:center; margin-top:12px}
 
 /* Hero media */
 .media{
@@ -595,10 +595,11 @@ a.btn,.btn{
   align-items:center;
   justify-content:center;
   gap:.4ch;
-  padding:12px 18px;
+  padding: clamp(10px, 2.8vw, 12px) clamp(14px, 4.2vw, 18px);
   border-radius:999px;
   font-weight:500;
   line-height:1;
+  font-size: clamp(.88rem, 2.6vw, 1rem);
   text-decoration:none !important;
   appearance:none;
   -webkit-appearance:none;
@@ -628,10 +629,9 @@ a.btn:link,a.btn:visited{color:inherit}
   background:rgba(120,120,120,.32);
   border-color:rgba(255,255,255,.18) !important;
   color:#fff !important;
-  box-shadow:0 0 24px -14px rgba(0,0,0,.22);
 }
 .btn-outline:hover{background:rgba(120,120,120,.40)}
-.btn-outline:active{background:rgba(255,255,255,.30); transform:translateY(0.5px)}
+.btn-outline:active{background:rgba(120,120,120,.24); transform:translateY(0.5px)}
 
 /* Releases */
 .card{

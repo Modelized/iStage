@@ -4,9 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>iStage</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <!-- Icons / PWA basics -->
+  
+  <!-- Icons / PWA -->
   <link rel="icon" type="image/svg+xml" href="/iStage/favicon.svg">
   <link rel="icon" sizes="192x192" href="/iStage/android-chrome-192x192.png">
   <link rel="icon" sizes="512x512" href="/iStage/android-chrome-512x512.png">
@@ -16,6 +18,21 @@
   <!-- Address bar color -->
   <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  
+  <!-- Open Graph / Twitter thumbnail -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="iStage">
+  <meta property="og:title" content="Releases — iStage">
+  <meta property="og:description" content="Android. Reimagined.">
+  <meta property="og:url" content="https://modelized.github.io/iStage/releases/">
+  <meta property="og:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Releases — iStage">
+  <meta name="twitter:description" content="Android. Reimagined.">
+  <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
+  
   <style>
   /* ----- Releases page (scoped) ----- */
   :root{
@@ -29,7 +46,9 @@
   @media (prefers-color-scheme: dark){
     .page-releases .subtitle{ color:#a7acb7; }
   }
-  .page-releases{ background:#fff; }
+
+  /* swap surface: background <-> cards */
+  .page-releases{ background:#f5f5f7; }
   @media (prefers-color-scheme: dark){
     .page-releases{ background:#000; color:#e8e9ec; }
   }
@@ -49,14 +68,14 @@
     border-radius: 12px;          /* optional rounding */
   }
 
-  /* push first section clear of fixed nav (tiny extra to avoid clipping on iOS) */
+  /* push first section clear of fixed nav (use 22/24 rule) */
   .page-releases .section--first{
-    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 12px);
+    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 22px);
     margin-top:0;
   }
   @media (min-width:900px){
     .page-releases .section--first{
-      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 14px);
+      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 24px);
     }
   }
 
@@ -65,6 +84,7 @@
 
   /* card + typography balance */
   .releases-list{ display:grid; gap:16px; }
+
   /* empty/loading states */
   .empty{
     border:1px dashed var(--nav-border);
@@ -76,6 +96,7 @@
   @media (prefers-color-scheme: dark){
     .empty{ border-color: #56596466; }
   }
+
   .releases-group{ margin: 12px 0 24px; }
   .group-title{
     text-align:left;
@@ -84,6 +105,7 @@
     font-weight:600;
     font-size:clamp(20px, 4.6vw, 24px);
   }
+
   /* ensure release titles are left-aligned */
   .release-title{ text-align:left; }
   .release-title{
@@ -97,17 +119,20 @@
     align-items:center;
     gap:.6ch;
   }
+
   .prose{ line-height:1.65; }
   .prose h1,.prose h2{ font-size:clamp(18px, 4vw, 20px); margin:16px 0 8px; font-weight:600; }
   .prose h3{ font-size:clamp(16px, 4vw, 18px); margin:16px 0 6px; }
   .prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
   .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
   .prose li{ margin:6px 0; }
+
   /* Slightly increase horizontal padding for body text */
   .prose{ padding-inline: 6px; }
   @media (min-width:900px){
     .prose{ padding-inline: 10px; }
   }
+
   .release-head{
     display:grid;
     grid-template-columns:auto 1fr;
@@ -130,12 +155,13 @@
     padding-left:4px;       /* move texts slightly to the right */
   }
   .release-actions{ display:flex; align-items:center; gap:.6rem; }
+
   /* card surface follows theme; no outer surface */
   .page-releases .card{
-    background:#f5f5f7;
+    background:#fff;
     color:#111317;
     border:0;
-    border-radius:18px;
+    border-radius:22px;
   }
   @media (prefers-color-scheme: dark){
     .page-releases .card{
@@ -144,6 +170,7 @@
       border:0;
     }
   }
+
   /* highlight the top item in "Latest Releases" with an inner glow */
   .page-releases .card.is-highlight{
     position: relative;
@@ -158,7 +185,10 @@
       inset 0 0 20px rgba(255,159,10,.62);
     transition: box-shadow .2s ease;
   }
-  /* Orange action to match highlight (top card only) */
+
+  /* Orange action to match highlight (top card only)
+     NOTE: still targets .btn-outline on purpose (your orange download button),
+     but doesn't change it to blue. */
   .page-releases .card.is-highlight .btn-outline{
     background:#ff9f0a !important;
     color:#000 !important;
@@ -178,8 +208,13 @@
         inset 0 0 16px rgba(255,159,10,.54);
     }
   }
+
   .release-foot{
-    display:flex; justify-content:flex-end; align-items:center; gap:.6rem; margin-top:12px;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:.6rem;
+    margin-top:12px;
   }
 
   /* footer theming */
@@ -196,11 +231,12 @@
 
   .page-releases main{ margin-bottom:0; padding-bottom:0 }
   .page-releases .footer{ margin:0 }
-
   </style>
 </head>
+
 <body class="page-releases" data-base="..">
 <div id="nav-slot"></div>
+
 <main>
   <section class="section section--first" id="releases">
     <div class="container hero copy">
@@ -218,9 +254,11 @@
     </div>
   </section>
 </main>
-</main>
+
 <div id="footer-slot"></div>
+
 <script src="../assets/js/shell.js" defer></script>
+
 <script>
   (function(){
     try{
@@ -234,6 +272,7 @@
     }catch(e){}
   })();
 </script>
+
 <script>
 /* ---- Releases renderer (GitHub API) ---- */
 (function(){
@@ -370,6 +409,7 @@
   .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
   .then(items => {
     if (!Array.isArray(items) || !items.length){ showError('No releases found.'); return; }
+
     // Determine latest per major version (based on published_at / created_at)
     const latestByVer = new Map();
     for (const r of items){
@@ -403,6 +443,7 @@
           ${arr.length ? arr.map((r, i) => tpl(r, title === 'Latest Releases' && i === 0)).join('') : empty(emptyMsg || 'No releases yet.')}
         </div>
       </div>`;
+
     list.innerHTML = [
       group('Latest Releases',  latestReleases,  'No releases yet.'),
       group('Previous Releases', previousReleases, previousReleases.length ? '' : 'No previous releases yet.')
@@ -411,7 +452,6 @@
   .catch(err => showError(String(err)));
 })();
 </script>
-</body>
-</html>
+
 </body>
 </html>
