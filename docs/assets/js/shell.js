@@ -58,8 +58,7 @@
      let last = null;
      let ticking = false;
 
-     // Only toggle logo state on light mode + remember: desktop or landscape
-     // (Actual logo swap is handled via CSS/nav markup. This only toggles a class.)
+     // Apply nav scroll state only in light mode + desktop/landscape.
      const mqLogoEligible = window.matchMedia(
        '(prefers-color-scheme: light) and (min-width: 900px), ' +
        '(prefers-color-scheme: light) and (max-width: 900px) and (orientation: landscape)'
@@ -73,7 +72,6 @@
        if (visible !== last){
          backdrop.classList.toggle('is-visible', visible);
 
-         // Keep logo state in sync with backdrop visibility timing.
          if (mqLogoEligible.matches){
            document.body.classList.toggle('nav--scrolled', visible);
          }else{
@@ -82,7 +80,6 @@
 
          last = visible;
        }else{
-         // If MQ changes without scroll state change, ensure we clean up.
          if (!mqLogoEligible.matches){
            document.body.classList.remove('nav--scrolled');
          }
@@ -101,7 +98,7 @@
      window.addEventListener('orientationchange', onChange);
      window.addEventListener('pageshow', onChange);
 
-     // React immediately to scheme/breakpoint changes
+     // React immediately to scheme / breakpoint changes.
      if (mqLogoEligible && mqLogoEligible.addEventListener){
        mqLogoEligible.addEventListener('change', onChange);
      }else if (mqLogoEligible && mqLogoEligible.addListener){
@@ -187,23 +184,20 @@
        menu.style.setProperty('--menu-thumb-o', show ? '1' : '0');
      };
 
-     const setTargetText = (targetEl) => {
-       for (const a of allLinks){
-         a.style.color = 'rgba(232,233,236,.72)';
-       }
-       if (targetEl){
-         targetEl.style.color = 'rgba(232,233,236,1)';
-       }
+     // Do not force inline colors; use a class so CSS can theme per mode.
+     const setTargetClass = (targetEl) => {
+       for (const a of allLinks) a.classList.remove('is-target');
+       if (targetEl) targetEl.classList.add('is-target');
      };
 
      const snapToCurrent = () => {
        const cur = menu.querySelector('a.is-current');
        if (cur){
          setThumbTo(cur, true);
-         setTargetText(cur);
+         setTargetClass(cur);
        }else{
          setThumbTo(null, false);
-         setTargetText(null);
+         setTargetClass(null);
        }
      };
 
@@ -248,7 +242,7 @@
      const tick = () => {
        raf = 0;
        setThumbTo(target, true);
-       setTargetText(target);
+       setTargetClass(target);
      };
 
      const cancelLeave = () => {

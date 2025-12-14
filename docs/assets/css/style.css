@@ -36,7 +36,7 @@ body{
   --menu-thumb-bg-default:rgba(255,255,255,.16);
   --menu-thumb-bg-press:rgba(255,255,255,.24);
 
-  /* Nav backdrop gradient (shown only after scroll via JS class) */
+  /* Nav backdrop */
   --nav-backdrop:linear-gradient(
     to bottom,
     rgba(0,0,0,.46) 0%,
@@ -44,7 +44,6 @@ body{
     rgba(0,0,0,0) 100%
   );
 
-  /* Backdrop height: keep it within nav range */
   --nav-backdrop-h-mobile:calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-mobile) + 18px);
   --nav-backdrop-h-desktop:calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 18px);
 
@@ -150,7 +149,7 @@ body{
   z-index:3;
 }
 
-/* Desktop spacing */
+/* Desktop only: pull logo/search slightly inward */
 @media (min-width:900px){
   .row{padding:0 24px;}
 }
@@ -170,6 +169,21 @@ body{
 .brand-text{display:inline}
 .brand.has-logo .brand-logo{display:block}
 .brand.has-logo .brand-text{display:none}
+
+/* Light mode + desktop/landscape: black logo at top, white logo after scroll */
+@media (prefers-color-scheme: light) and (min-width:900px){
+  body:not(.nav--scrolled) .brand-logo{filter:invert(1)}
+  body.nav--scrolled .brand-logo{filter:none}
+}
+@media (prefers-color-scheme: light) and (max-width:900px) and (orientation:landscape){
+  body:not(.nav--scrolled) .brand-logo{filter:invert(1)}
+  body.nav--scrolled .brand-logo{filter:none}
+}
+
+/* Mobile (any orientation): keep the logo black in light mode */
+@media (prefers-color-scheme: light) and (max-width:900px){
+  body .brand-logo{filter:invert(1) !important;}
+}
 
 .menu{
   display:flex;
@@ -255,6 +269,7 @@ body{
   transition:color .18s linear;
 }
 .menu a.is-current{color:var(--nav-text)}
+.menu a.is-target{color:var(--nav-text)}
 @media (hover:hover) and (pointer:fine){
   .menu a:hover{color:var(--nav-text)}
 }
@@ -347,7 +362,6 @@ body{
     -webkit-tap-highlight-color:transparent;
   }
 
-  /* Never paint an extra active background on desktop/landscape */
   .menu a:active{background:transparent !important}
 
   @supports selector(.menu:has(a:active)){
@@ -436,12 +450,12 @@ body{
   .nav-search:hover{background:var(--nav-press-bg)}
 }
 
-/* Press feedback only for mobile sheet items */
+/* Press background should apply only to the mobile sheet links */
 .mobile-menu a:active{
   background:var(--nav-press-bg);
 }
 
-/* Safety: ensure desktop/landscape menu never gets a fallback active background */
+/* Cache / precedence safety */
 .menu a:active{background:transparent !important}
 
 .nav--open .sheet{grid-template-rows:1fr}
@@ -529,7 +543,7 @@ body{
 .section--white .copy .subtitle{color:#5e6572}
 .cta{display:flex; gap:12px; justify-content:center; margin-top:14px}
 
-/* Scroll cue: chevron only (no container, no outline, no shadow) */
+/* Scroll cue */
 .section--first .copy::after{
   content:"";
   display:block;
@@ -557,7 +571,6 @@ body{
   pointer-events:none;
 }
 
-/* Disable any previous subtitle-attached cue if it exists elsewhere */
 .section--first .copy .subtitle::after{content:none !important}
 
 /* Hero media */
