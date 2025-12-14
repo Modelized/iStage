@@ -58,31 +58,20 @@
      let last = null;
      let ticking = false;
 
-     // Apply nav scroll state only in light mode + desktop/landscape.
-     const mqLogoEligible = window.matchMedia(
-       '(prefers-color-scheme: light) and (min-width: 900px), ' +
-       '(prefers-color-scheme: light) and (max-width: 900px) and (orientation: landscape)'
-     );
-
      const compute = () => {
        ticking = false;
+
        const y = window.scrollY || window.pageYOffset || 0;
-       const visible = y > 4;
+       const scrolled = y > 4;
 
-       if (visible !== last){
-         backdrop.classList.toggle('is-visible', visible);
+       if (scrolled !== last){
+         backdrop.classList.toggle('is-visible', scrolled);
 
-         if (mqLogoEligible.matches){
-           document.body.classList.toggle('nav--scrolled', visible);
-         }else{
-           document.body.classList.remove('nav--scrolled');
-         }
+         // Global scroll-state hook.
+         // CSS can scope logo/shadow behavior via media queries and color-scheme.
+         document.body.classList.toggle('nav--scrolled', scrolled);
 
-         last = visible;
-       }else{
-         if (!mqLogoEligible.matches){
-           document.body.classList.remove('nav--scrolled');
-         }
+         last = scrolled;
        }
      };
 
@@ -97,13 +86,6 @@
      window.addEventListener('resize', onChange);
      window.addEventListener('orientationchange', onChange);
      window.addEventListener('pageshow', onChange);
-
-     // React immediately to scheme / breakpoint changes.
-     if (mqLogoEligible && mqLogoEligible.addEventListener){
-       mqLogoEligible.addEventListener('change', onChange);
-     }else if (mqLogoEligible && mqLogoEligible.addListener){
-       mqLogoEligible.addListener(onChange);
-     }
    }
 
    function initMenuThumb(){
@@ -184,7 +166,6 @@
        menu.style.setProperty('--menu-thumb-o', show ? '1' : '0');
      };
 
-     // Do not force inline colors; use a class so CSS can theme per mode.
      const setTargetClass = (targetEl) => {
        for (const a of allLinks) a.classList.remove('is-target');
        if (targetEl) targetEl.classList.add('is-target');

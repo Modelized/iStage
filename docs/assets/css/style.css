@@ -26,6 +26,10 @@ body{
   --nav-pill-height-desktop:44px;
   --nav-icon-size:var(--nav-pill-height-desktop);
 
+  /* Shared nav shadow tokens */
+  --nav-shadow:0 0 28px -14px rgba(0,0,0,.24);
+  --nav-shadow-mobile-scrolled:0 0 40px -12px rgba(0,0,0,.30);
+
   /* Nav theme tokens (default: dark look) */
   --nav-surface:rgba(20,24,32,.54);
   --nav-border:#ffffff33;
@@ -216,7 +220,7 @@ body{
   background:var(--nav-surface);
   backdrop-filter:saturate(170%) blur(18px);
   -webkit-backdrop-filter:saturate(170%) blur(18px);
-  box-shadow:0 0 28px -14px rgba(0,0,0,.24);
+  box-shadow:var(--nav-shadow);
   color:var(--nav-text);
 }
 
@@ -330,7 +334,7 @@ body{
     background:var(--nav-surface);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
-    box-shadow:0 0 28px -14px rgba(0,0,0,.24);
+    box-shadow:var(--nav-shadow);
   }
 
   .menu a.is-current{background:transparent}
@@ -391,7 +395,13 @@ body{
     background:var(--nav-surface);
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
-    box-shadow:0 0 28px -14px rgba(0,0,0,.24);
+    box-shadow:var(--nav-shadow);
+    transition:box-shadow .22s ease;
+  }
+
+  /* When scrolled, allow a slightly wider/stronger shadow for readability */
+  body.nav--scrolled .nav-inner{
+    box-shadow:var(--nav-shadow-mobile-scrolled);
   }
 
   .sheet{
@@ -542,36 +552,6 @@ body{
 .copy .subtitle{margin:0; color:rgba(232,233,236,.88)}
 .section--white .copy .subtitle{color:#5e6572}
 .cta{display:flex; gap:12px; justify-content:center; margin-top:14px}
-
-/* Scroll cue */
-.section--first .copy::after{
-  content:"";
-  display:block;
-
-  width:44px;
-  height:26px;
-  margin:18px auto 0;
-
-  background:rgba(255,255,255,.62);
-  backdrop-filter:saturate(175%) blur(18px);
-  -webkit-backdrop-filter:saturate(175%) blur(18px);
-
-  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 9.25L12 15.75L18.5 9.25' fill='none' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 9.25L12 15.75L18.5 9.25' fill='none' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  -webkit-mask-repeat:no-repeat;
-  mask-repeat:no-repeat;
-  -webkit-mask-position:center;
-  mask-position:center;
-  -webkit-mask-size:contain;
-  mask-size:contain;
-
-  border:0;
-  border-radius:0;
-  box-shadow:none;
-  pointer-events:none;
-}
-
-.section--first .copy .subtitle::after{content:none !important}
 
 /* Hero media */
 .media{

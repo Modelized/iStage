@@ -63,7 +63,16 @@
     z-index:2;
   }
 
-  .page-home .top-event{ overflow:hidden; }
+  .page-home .top-event{
+    overflow:hidden;
+    padding-bottom:26px;
+  }
+
+  @media (max-width:900px) and (orientation:portrait){
+    .page-home .top-event{
+      padding-bottom:20px;
+    }
+  }
 
   .page-home .top-event .event-fade{
     position:absolute;
@@ -111,16 +120,47 @@
     display:block;
     height:auto;
     width: min(560px, 88%);
-    margin: 0 auto 12px;
+    margin: 0 auto 8px;
   }
+
   .event-copy{
     text-align:center;
     font-weight:600;
     font-size: clamp(18px, 2.4vw, 22px);
     line-height:1.4;
-    margin: 6px auto 4px;
-    padding: 0 12px;
+    margin: 4px auto 2px;
+    padding: 0 8px;
   }
+
+  /* Home-only scroll cue */
+  .page-home .section--first .copy::after{
+    content:"";
+    display:block;
+
+    width:38px;
+    height:22px;
+    margin:12px auto 0;
+
+    background:rgba(255,255,255,.62);
+    backdrop-filter:saturate(175%) blur(18px);
+    -webkit-backdrop-filter:saturate(175%) blur(18px);
+
+    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 9.25L12 15.75L18.5 9.25' fill='none' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 9.25L12 15.75L18.5 9.25' fill='none' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    -webkit-mask-repeat:no-repeat;
+    mask-repeat:no-repeat;
+    -webkit-mask-position:center;
+    mask-position:center;
+    -webkit-mask-size:contain;
+    mask-size:contain;
+
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+    pointer-events:none;
+  }
+
+  .page-home .section--first .copy .subtitle::after{content:none !important;}
 
   .text-aurora{
     --c1: 0,229,255;
@@ -151,6 +191,7 @@
 
     filter: saturate(1.15) contrast(1.02);
   }
+
   @keyframes aurora-mix{
     0%{ background-position: 0% 30%, 100% 20%, 60% 80%, 40% 60%, 70% 40%, 50% 70%, 50% 50%; }
     25%{ background-position: 18% 65%, 78% 28%, 52% 38%, 58% 42%, 42% 62%, 68% 48%, 50% 50%; }
@@ -158,6 +199,7 @@
     75%{ background-position: 82% 44%, 40% 22%, 18% 86%, 30% 56%, 84% 34%, 30% 78%, 50% 50%; }
     100%{ background-position: 0% 30%, 100% 20%, 60% 80%, 40% 60%, 70% 40%, 50% 70%, 50% 50%; }
   }
+
   @media (prefers-reduced-motion: reduce){
     .text-aurora{ animation: none; }
   }
@@ -167,7 +209,6 @@
 </head>
 
 <body class="page-home" data-base=".">
-  <!-- Required: full-width gradient behind the floating nav -->
   <div class="nav-backdrop" aria-hidden="true"></div>
 
   <div id="nav-slot"></div>
