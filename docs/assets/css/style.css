@@ -184,8 +184,8 @@ body{
   body.nav--scrolled .brand-logo{filter:none}
 }
 
-/* Mobile (any orientation): keep the logo black in light mode */
-@media (prefers-color-scheme: light) and (max-width:900px){
+/* Mobile portrait: keep the logo black in light mode */
+@media (prefers-color-scheme: light) and (max-width:900px) and (orientation:portrait){
   body .brand-logo{filter:invert(1) !important;}
 }
 
