@@ -121,25 +121,69 @@
     padding:14px 18px 14px 10px;
   }
   .acc-title{margin:0;font-weight:600;font-size:clamp(18px, 2.2vw, 20px)}
+
+  /* --- chevron tap highlight (ONLY change) --- */
   .acc-toggle{
     display:grid;
     place-items:center;
-    width:36px;
-    height:36px;
-    border-radius:10px;
+
+    width:32px;
+    height:32px;
+    border-radius:999px;
+
     appearance: none;
     -webkit-appearance: none;
+
     background: transparent !important;
     border: 0 !important;
     color: inherit;
     cursor:pointer;
+
     outline: none !important;
     box-shadow: none !important;
+
+    padding:0;
+    margin:0;
+
+    position:relative;
+    overflow:hidden;
+
+    /* kill iOS/Safari default tap highlight */
+    -webkit-tap-highlight-color: transparent;
+
     transition: transform .15s ease;
   }
-  .acc-toggle:hover{ opacity:.85; }
+  /* custom circular highlight */
+  .acc-toggle::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    opacity:0;
+    transform:scale(.92);
+    transition: opacity .16s ease, transform .16s ease;
+    background: rgba(17,19,23,.10);
+  }
+  @media (prefers-color-scheme: dark){
+    .acc-toggle::before{
+      background: rgba(232,233,236,.14);
+    }
+  }
+
+  /* keep icon above highlight */
+  .acc-toggle .chev{ position:relative; z-index:1; }
+
+  .acc-toggle:hover{ opacity:.92; }
   .acc-toggle:active{ transform: scale(0.98); }
-  .acc-toggle:focus-visible{ box-shadow: none; }
+  .acc-toggle:active::before{ opacity:1; transform:scale(1); }
+
+  .acc-toggle:focus-visible::before{
+    opacity:.75;
+    transform:scale(1);
+  }
+  .acc-toggle:focus-visible{ box-shadow:none; }
+  /* --- end change --- */
+
   .chev{
     transition:transform .35s cubic-bezier(.22,1,.36,1);
     transform-origin:center;

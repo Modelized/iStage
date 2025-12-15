@@ -49,26 +49,27 @@
    }
 
    function initNavBackdrop(){
-     const backdrop = document.querySelector('.nav-backdrop');
-     if (!backdrop) return;
+     // Init once per page, regardless of .nav-backdrop presence.
+     if (document.body.dataset.backdropInit === '1') return;
+     document.body.dataset.backdropInit = '1';
 
-     if (backdrop.dataset.backdropInit === '1') return;
-     backdrop.dataset.backdropInit = '1';
-
+     let backdrop = document.querySelector('.nav-backdrop'); // optional
      let last = null;
      let ticking = false;
 
      const compute = () => {
        ticking = false;
 
+       // Keep the SAME condition as the backdrop visibility.
        const y = window.scrollY || window.pageYOffset || 0;
        const scrolled = y > 4;
 
        if (scrolled !== last){
-         backdrop.classList.toggle('is-visible', scrolled);
+         // Backdrop may not exist on some pages; don't bail.
+         if (!backdrop) backdrop = document.querySelector('.nav-backdrop');
+         if (backdrop) backdrop.classList.toggle('is-visible', scrolled);
 
-         // Global scroll-state hook.
-         // CSS can scope logo/shadow behavior via media queries and color-scheme.
+         // Global scroll-state hook (logo swap should key off this).
          document.body.classList.toggle('nav--scrolled', scrolled);
 
          last = scrolled;
