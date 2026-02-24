@@ -63,7 +63,7 @@
       }
     }
 
-    .compare-surface{ background:transparent; padding:18px 0 24px; }
+    .compare-surface{ background:transparent; padding:26px 0 24px; }
 
     .compare-grid{
       display:grid;
@@ -255,7 +255,6 @@
               </div>
               <div class="compare-body">
                 <div class="compare-section">
-                  <h3>Summary</h3>
                   <ul class="spec-list" id="spec-a"></ul>
                 </div>
               </div>
@@ -272,7 +271,6 @@
               </div>
               <div class="compare-body">
                 <div class="compare-section">
-                  <h3>Summary</h3>
                   <ul class="spec-list" id="spec-b"></ul>
                 </div>
               </div>
@@ -402,8 +400,19 @@
   fetch(DATA_URL, { cache: 'no-store' })
     .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
     .then(raw => {
+      // Support either:
+      // 1) { "26": {..}, "18": {..} }
+      // 2) { models: { "26": {..}, "18": {..} }, ... }
+      const src = (raw && typeof raw === 'object' && raw.models && typeof raw.models === 'object')
+        ? raw.models
+        : (raw || {});
+
       const MODELS = {};
-      for (const [k, v] of Object.entries(raw || {})){
+      for (const [k, v] of Object.entries(src)){
+        // Ignore non-model metadata keys (strings, numbers, arrays, null, etc.)
+        if (!v || typeof v !== 'object' || Array.isArray(v)) continue;
+        // Heuristic: a "model" should have at least one of these fields.
+        if (!('name' in v) && !('specs' in v) && !('img' in v)) continue;
         MODELS[String(k)] = normalizeModel(v);
       }
 
@@ -412,9 +421,9 @@
 
       const specKeys = buildSpecKeys(MODELS, keys);
 
-      // Default: first two models in JSON order
+      // Default: first two models in JSON order (if only one exists, duplicate)
       let a = keys[0];
-      let b = keys[1];
+      let b = keys[1] || keys[0];
 
       fillSelect(pickA, keys, MODELS);
       fillSelect(pickB, keys, MODELS);
