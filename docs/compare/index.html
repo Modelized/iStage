@@ -33,6 +33,199 @@
   <meta name="twitter:description" content="Android. Reimagined.">
   <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
 
+  <style>
+    /* ----- Compare page (scoped) ----- */
+    :root{
+      --surface-light:#f5f5f7;
+      --surface-dark:#0f1116;
+    }
+
+    .page-compare{ background:#f5f5f7; }
+    @media (prefers-color-scheme: dark){
+      .page-compare{ background:#000; color:#e8e9ec; }
+    }
+
+    .page-compare .subtitle{ color:#5e6572; }
+    @media (prefers-color-scheme: dark){
+      .page-compare .subtitle{ color:#a7acb7; }
+    }
+
+    .page-compare .copy{ gap:6px; }
+    .page-compare .title{ margin:0 0 4px; }
+
+    .page-compare .section--first{
+      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 22px);
+      margin-top:0;
+    }
+    @media (min-width:900px){
+      .page-compare .section--first{
+        padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 24px);
+      }
+    }
+
+    .compare-surface{ background:transparent; padding:18px 0 24px; }
+
+    .compare-grid{
+      display:grid;
+      gap:16px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width:900px){
+      .compare-grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .compare-card{
+      background:#fff;
+      color:#111317;
+      border:0;
+      border-radius: var(--banner-radius);
+      overflow:hidden;
+    }
+    @media (prefers-color-scheme: dark){
+      .compare-card{
+        background:#0f1116;
+        color:#e8e9ec;
+      }
+    }
+
+    .compare-head{
+      padding:18px 18px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .compare-picker{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding-bottom:10px;
+      border-bottom:1px solid var(--nav-border);
+    }
+
+    .compare-select-wrap{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .compare-select{
+      appearance:none;
+      -webkit-appearance:none;
+      border:0;
+      background:transparent;
+      color:inherit;
+      font: inherit;
+      font-weight:700;
+      font-size:clamp(18px, 4.8vw, 22px);
+      line-height:1.1;
+      padding:0 26px 0 0;
+      margin:0;
+      width:100%;
+      cursor:pointer;
+      min-width:0;
+      outline:none;
+    }
+
+    .compare-select-wrap::after{
+      content:"";
+      width:18px;
+      height:18px;
+      flex:0 0 auto;
+      position:absolute;
+      right:0;
+      top:50%;
+      transform:translateY(-50%);
+      opacity:.85;
+      background: currentColor;
+      -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z'/%3E%3C/svg%3E");
+      mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4Z'/%3E%3C/svg%3E");
+      -webkit-mask-repeat:no-repeat;
+      mask-repeat:no-repeat;
+      -webkit-mask-position:center;
+      mask-position:center;
+      -webkit-mask-size:contain;
+      mask-size:contain;
+      pointer-events:none;
+    }
+
+    .compare-hero{
+      display:flex;
+      justify-content:center;
+      padding-top:10px;
+    }
+
+    .compare-hero img{
+      width: clamp(160px, 56vw, 280px);
+      height:auto;
+      filter: drop-shadow(0 10px 36px rgba(0,0,0,.18));
+      border-radius: 14px;
+    }
+
+    .compare-body{
+      padding: 0 18px 18px;
+    }
+
+    .compare-section{
+      padding-top:12px;
+    }
+
+    .compare-section h3{
+      margin:0 0 10px;
+      font-weight:700;
+      font-size:clamp(16px, 3.8vw, 18px);
+    }
+
+    .spec-list{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      gap:10px;
+      grid-auto-rows:min-content;
+    }
+
+    .spec{
+      display:grid;
+      gap:4px;
+      grid-auto-rows:min-content;
+    }
+    .spec[data-sync]{ min-height: var(--spec-minh, auto); }
+
+    .spec .k{
+      font-weight:600;
+      opacity:.92;
+    }
+
+    .spec .v{
+      color:#5e6572;
+    }
+    .spec .v .line{ display:block; }
+    .spec .v .line + .line{ margin-top:4px; }
+
+    @media (prefers-color-scheme: dark){
+      .spec .v{ color:#a7acb7; }
+    }
+
+    .page-compare .footer{
+      background:#f5f5f7;
+      color:#5e6572;
+    }
+    @media (prefers-color-scheme: dark){
+      .page-compare .footer{
+        background:#000;
+        color:#a7acb7;
+      }
+    }
+
+    .page-compare main{ margin-bottom:0; padding-bottom:0 }
+    .page-compare .footer{ margin:0 }
+  </style>
+
   <script>document.documentElement.classList.add('js');</script>
 </head>
 
@@ -41,13 +234,255 @@
 
   <div id="nav-slot"></div>
 
-  <main class="section section--first">
-    <div class="container">
-      <!-- Content -->
-    </div>
+  <main>
+    <section class="section section--first" id="compare">
+      <div class="container hero copy">
+        <h1 class="title reveal-onload" style="margin-bottom:4px">Compare</h1>
+        <p class="subtitle small reveal-onload reveal-delay-1">See what's different across iStage versions.</p>
+      </div>
+
+      <div class="compare-surface">
+        <div class="container">
+          <div class="compare-grid" id="compare-grid">
+            <article class="compare-card" data-col="a">
+              <div class="compare-head">
+                <div class="compare-picker">
+                  <div class="compare-select-wrap">
+                    <select class="compare-select" id="pick-a" aria-label="Select model A"></select>
+                  </div>
+                </div>
+                <div class="compare-hero"><img id="img-a" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+              </div>
+              <div class="compare-body">
+                <div class="compare-section">
+                  <h3>Summary</h3>
+                  <ul class="spec-list" id="spec-a"></ul>
+                </div>
+              </div>
+            </article>
+
+            <article class="compare-card" data-col="b">
+              <div class="compare-head">
+                <div class="compare-picker">
+                  <div class="compare-select-wrap">
+                    <select class="compare-select" id="pick-b" aria-label="Select model B"></select>
+                  </div>
+                </div>
+                <div class="compare-hero"><img id="img-b" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+              </div>
+              <div class="compare-body">
+                <div class="compare-section">
+                  <h3>Summary</h3>
+                  <ul class="spec-list" id="spec-b"></ul>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <div id="footer-slot"></div>
   <script src="../assets/js/shell.js" defer></script>
+
+  <script>
+(function(){
+  const DATA_URL = '../assets/data/compare.json';
+
+  const pickA = document.getElementById('pick-a');
+  const pickB = document.getElementById('pick-b');
+  const imgA  = document.getElementById('img-a');
+  const imgB  = document.getElementById('img-b');
+  const specA = document.getElementById('spec-a');
+  const specB = document.getElementById('spec-b');
+
+  if (!pickA || !pickB || !imgA || !imgB || !specA || !specB) return;
+
+  const esc = (s='') => String(s).replace(/[&<>"']/g, m => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
+
+  const normalizeModel = (m = {}) => {
+    return {
+      name: typeof m.name === 'string' ? m.name : 'Untitled',
+      img:  typeof m.img  === 'string' ? m.img  : '',
+      specs: Array.isArray(m.specs) ? m.specs
+        .filter(x => x && (typeof x.k === 'string' || typeof x.v === 'string'))
+        .map(x => ({ k: String(x.k || ''), v: String(x.v || '') }))
+        : []
+    };
+  };
+
+  const buildSpecKeys = (models, keys) => {
+    const first = models[keys[0]];
+    const base = (first && Array.isArray(first.specs)) ? first.specs.map(s => String(s.k || '')) : [];
+    const uniq = [];
+    const seen = new Set();
+    for (const k of base){
+      const kk = String(k || '').trim();
+      if (!kk || seen.has(kk)) continue;
+      seen.add(kk);
+      uniq.push(kk);
+    }
+    return uniq;
+  };
+
+  const normalizeSpecsToKeys = (model, specKeys) => {
+    const map = new Map();
+    for (const s of (model.specs || [])){
+      const k = String(s.k || '').trim();
+      if (!k) continue;
+      map.set(k, String(s.v || ''));
+    }
+    return specKeys.map(k => ({ k, v: map.has(k) ? map.get(k) : '-' }));
+  };
+
+  const syncSpecHeights = () => {
+    try{
+      const aItems = Array.prototype.slice.call(specA.querySelectorAll('li.spec[data-sync="1"]'));
+      const bItems = Array.prototype.slice.call(specB.querySelectorAll('li.spec[data-sync="1"]'));
+      const n = Math.max(aItems.length, bItems.length);
+
+      for (let i = 0; i < n; i++){
+        const a = aItems[i];
+        const b = bItems[i];
+        if (a) a.style.minHeight = '';
+        if (b) b.style.minHeight = '';
+      }
+
+      for (let i = 0; i < n; i++){
+        const a = aItems[i];
+        const b = bItems[i];
+        if (!a && !b) continue;
+
+        const ah = a ? a.getBoundingClientRect().height : 0;
+        const bh = b ? b.getBoundingClientRect().height : 0;
+        const mh = Math.ceil(Math.max(ah, bh));
+
+        if (a) a.style.minHeight = mh + 'px';
+        if (b) b.style.minHeight = mh + 'px';
+      }
+    }catch(e){}
+  };
+
+  const renderSpecs = (ul, specs) => {
+    ul.innerHTML = specs.map((s, i) => {
+      const lines = String(s.v || '').split(/\r?\n/).map(t => t.trim()).filter(Boolean);
+      const vHtml = lines.length
+        ? lines.map(t => `<span class="line">${esc(t)}</span>`).join('')
+        : `<span class="line">-</span>`;
+
+      return `<li class="spec" data-sync="1" data-i="${i}">` +
+        `<div class="k">${esc(s.k)}</div>` +
+        `<div class="v">${vHtml}</div>` +
+      `</li>`;
+    }).join('');
+  };
+
+  const setImage = (imgEl, m) => {
+    const src = (m && typeof m.img === 'string') ? m.img : '';
+    imgEl.alt = (m && typeof m.name === 'string') ? m.name : '';
+
+    if (!src){
+      imgEl.removeAttribute('src');
+      imgEl.style.display = 'none';
+      return;
+    }
+
+    // Ensure it becomes visible again when a valid image is selected.
+    imgEl.style.display = '';
+    imgEl.src = src;
+  };
+
+  const fillSelect = (sel, keys, MODELS) => {
+    sel.innerHTML = keys.map(k => `<option value="${esc(k)}">${esc(MODELS[k].name)}</option>`).join('');
+  };
+
+  fetch(DATA_URL, { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
+    .then(raw => {
+      const MODELS = {};
+      for (const [k, v] of Object.entries(raw || {})){
+        MODELS[String(k)] = normalizeModel(v);
+      }
+
+      const keys = Object.keys(MODELS);
+      if (!keys.length) throw new Error('No models found in compare data.');
+
+      const specKeys = buildSpecKeys(MODELS, keys);
+
+      // Default: first two models in JSON order
+      let a = keys[0];
+      let b = keys[1];
+
+      fillSelect(pickA, keys, MODELS);
+      fillSelect(pickB, keys, MODELS);
+
+      const render = () => {
+        pickA.value = a;
+        pickB.value = b;
+
+        const ma = MODELS[a];
+        const mb = MODELS[b];
+
+        if (ma){
+          setImage(imgA, ma);
+          renderSpecs(specA, normalizeSpecsToKeys(ma, specKeys));
+        }
+        if (mb){
+          setImage(imgB, mb);
+          renderSpecs(specB, normalizeSpecsToKeys(mb, specKeys));
+        }
+
+        // Ensure both columns start each row at the same Y.
+        requestAnimationFrame(syncSpecHeights);
+      };
+
+      const setA = (next) => {
+        next = String(next);
+        if (!MODELS[next]) return;
+        if (next === b){
+          const prevA = a;
+          a = next;
+          b = prevA;
+        }else{
+          a = next;
+        }
+        render();
+      };
+
+      const setB = (next) => {
+        next = String(next);
+        if (!MODELS[next]) return;
+        if (next === a){
+          const prevB = b;
+          b = next;
+          a = prevB;
+        }else{
+          b = next;
+        }
+        render();
+      };
+
+      pickA.addEventListener('change', () => setA(pickA.value));
+      pickB.addEventListener('change', () => setB(pickB.value));
+
+      render();
+
+      window.addEventListener('resize', () => requestAnimationFrame(syncSpecHeights));
+      window.addEventListener('orientationchange', () => requestAnimationFrame(syncSpecHeights));
+    })
+    .catch(err => {
+      // If data fails to load, keep the page usable.
+      pickA.innerHTML = `<option value="error">Failed to load</option>`;
+      pickB.innerHTML = `<option value="error">Failed to load</option>`;
+      imgA.removeAttribute('src');
+      imgB.removeAttribute('src');
+      specA.innerHTML = `<li class="spec"><div class="k">Error</div><div class="v">${esc(String(err))}</div></li>`;
+      specB.innerHTML = `<li class="spec"><div class="k">Error</div><div class="v">${esc(String(err))}</div></li>`;
+    });
+})();
+</script>
 </body>
 </html>

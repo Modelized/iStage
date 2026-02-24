@@ -1,0 +1,105 @@
+{
+  "title": "Compare — iStage",
+  "models": [
+    {
+      "id": "26",
+      "name": "iStage 26",
+      "img": "../assets/img/compare-26.png"
+    },
+    {
+      "id": "18",
+      "name": "iStage 18",
+      "img": "../assets/img/compare-18.png"
+    }
+  ],
+  "rows": [
+    {
+      "key": "design_language",
+      "label": "Design Language",
+      "values": {
+        "26": "Liquid Glass",
+        "18": "Frosted Blur"
+      }
+    },
+    {
+      "key": "motion_profile",
+      "label": "Motion Profile",
+      "values": {
+        "26": "Fluid",
+        "18": "Stable"
+      }
+    },
+    {
+      "key": "personalization",
+      "label": "Personalization",
+      "values": {
+        "26": "Clock Font & Color Editor\n\nWidgets Editor\n\nShortcuts Editor\n\nWallpaper Gallery\n\nBattery Percentage Option",
+        "18": "Clock Font & Color Editor\n\nWidgets Editor\n\nShortcuts Editor\n\nWallpaper Gallery\n\nBattery Percentage Option"
+      }
+    },
+    {
+      "key": "dynamic_island",
+      "label": "Dynamic Island",
+      "values": {
+        "26": "Lock Indicator\n\nCharging Animation",
+        "18": "Lock Indicator\n\nCharging Animation"
+      }
+    },
+    {
+      "key": "live_activities",
+      "label": "Live Activities",
+      "values": {
+        "26": "F1 Grand Prix",
+        "18": "-"
+      }
+    },
+    {
+      "key": "notification_center",
+      "label": "Notification Center",
+      "values": {
+        "26": "Count & Stack & List Mode",
+        "18": "Count & Stack & List Mode"
+      }
+    },
+    {
+      "key": "music_player",
+      "label": "Music Player",
+      "values": {
+        "26": "Small & Full Screen Music Player",
+        "18": "Small & Full Screen Music Player"
+      }
+    },
+    {
+      "key": "transfer_preparation",
+      "label": "Transfer Preparation",
+      "values": {
+        "26": "Double Tap to show Preset Details",
+        "18": "Double Tap to show Preset Details"
+      }
+    },
+    {
+      "key": "extensions",
+      "label": "Extensions",
+      "values": {
+        "26": "Custom Carrier Label\n\nCustom Signal Bars\n\nCustom Network Icon\n\n-",
+        "18": "Custom Carrier Label\n\nCustom Signal Bars\n\nCustom Network Icon\n\nClock Reposition"
+      }
+    },
+    {
+      "key": "resource",
+      "label": "Resource",
+      "values": {
+        "26": "Heavy",
+        "18": "Normal"
+      }
+    },
+    {
+      "key": "performance",
+      "label": "Performance",
+      "values": {
+        "26": "May require a high-end device",
+        "18": "-"
+      }
+    }
+  ]
+}
