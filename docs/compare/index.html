@@ -63,7 +63,7 @@
       }
     }
 
-    .compare-surface{ background:transparent; padding:36px 0 24px; }
+    .compare-surface{ background:transparent; padding:32px 0 24px; }
 
     .compare-grid{
       display:grid;
@@ -451,11 +451,6 @@
   fetch(DATA_URL, { cache: 'no-store' })
     .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
     .then(raw => {
-      // Support any of:
-      // 1) { "26": {...}, "18": {...} }
-      // 2) { models: { "26": {...}, "18": {...} } }
-      // 3) { models: [ { id:"26", ... }, { id:"18", ... } ] }
-      // 4) [ { id:"26", ... }, { id:"18", ... } ]
       let src = raw;
       if (raw && typeof raw === 'object' && !Array.isArray(raw) && raw.models){
         src = raw.models;
@@ -484,19 +479,71 @@
       if (!keys.length) throw new Error('No models found in compare data.');
 
       let specKeys = buildSpecKeys(MODELS, keys);
-      // If the JSON uses a different shape and we ended up with no specs, fail loudly.
-      if (!specKeys.length){
-        const first = MODELS[keys[0]];
-        if (!first || !Array.isArray(first.specs) || !first.specs.length){
-          throw new Error('Compare data loaded, but no specs were found. Check compare.json structure (specs/features/rows).');
+
+      const rowsSrc = (
+        (raw && typeof raw === 'object' && !Array.isArray(raw) && Array.isArray(raw.rows)) ? raw.rows :
+        (raw && typeof raw === 'object' && !Array.isArray(raw) && Array.isArray(raw.specRows)) ? raw.specRows :
+        (raw && typeof raw === 'object' && !Array.isArray(raw) && Array.isArray(raw.items)) ? raw.items :
+        null
+      );
+
+      const rowToKey = (row) => {
+        if (!row || typeof row !== 'object') return '';
+        return String(row.k ?? row.key ?? row.title ?? row.name ?? '').trim();
+      };
+
+      const rowValueFor = (row, modelId, modelIndex) => {
+        if (!row || typeof row !== 'object') return '';
+
+        if (row.values && typeof row.values === 'object' && !Array.isArray(row.values)){
+          return row.values[modelId];
         }
-        specKeys = buildSpecKeys(MODELS, keys);
+
+        if (Array.isArray(row.values)){
+          return row.values[modelIndex];
+        }
+
+        if (row[modelId] != null){
+          return row[modelId];
+        }
+
+        if (row.v && typeof row.v === 'object' && !Array.isArray(row.v)){
+          return row.v[modelId];
+        }
+
+        if (modelIndex === 0 && row.a != null) return row.a;
+        if (modelIndex === 1 && row.b != null) return row.b;
+
+        return '';
+      };
+
+      if (!specKeys.length && Array.isArray(rowsSrc) && rowsSrc.length){
+        keys.forEach((id) => { MODELS[id].specs = []; });
+
+        specKeys = rowsSrc.map(rowToKey).filter(Boolean);
+
+        rowsSrc.forEach((row) => {
+          const k = rowToKey(row);
+          if (!k) return;
+
+          keys.forEach((id, idx) => {
+            const val = rowValueFor(row, id, idx);
+            MODELS[id].specs.push({ k, v: (val == null || String(val).trim() === '') ? '-' : String(val) });
+          });
+        });
       }
 
-      // Default: first two models in JSON order (if only one exists, duplicate)
+      if (!specKeys.length){
+        specKeys = ['—'];
+        keys.forEach((id) => {
+          if (!Array.isArray(MODELS[id].specs) || !MODELS[id].specs.length){
+            MODELS[id].specs = [{ k: '—', v: '-' }];
+          }
+        });
+      }
+
       let a = keys[0];
       let b = keys[1] || keys[0];
-      // If both ended up identical but we have 2+ models, pick the next distinct one.
       if (a === b && keys.length > 1) b = keys[1];
 
       fillSelect(pickA, keys, MODELS);
@@ -518,7 +565,6 @@
           renderSpecs(specB, normalizeSpecsToKeys(mb, specKeys));
         }
 
-        // Ensure both columns start each row at the same Y.
         requestAnimationFrame(syncSpecHeights);
       };
 
@@ -557,7 +603,6 @@
       window.addEventListener('orientationchange', () => requestAnimationFrame(syncSpecHeights));
     })
     .catch(err => {
-      // If data fails to load, keep the page usable.
       pickA.innerHTML = `<option value="error">Failed to load</option>`;
       pickB.innerHTML = `<option value="error">Failed to load</option>`;
       imgA.removeAttribute('src');
