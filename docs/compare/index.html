@@ -63,13 +63,14 @@
       }
     }
 
-    .compare-surface{ background:transparent; padding:32px 0 24px; }
+    .compare-surface{ background:transparent; padding:36px 0 24px; }
 
     .compare-grid{
       display:grid;
       gap:12px;
       grid-template-columns: minmax(0,1fr) minmax(0,1fr);
       align-items:start;
+      min-width: 0;
     }
     @media (min-width:900px){
       .compare-grid{ gap:16px; }
@@ -309,20 +310,51 @@
     const name = (typeof m.name === 'string' && m.name.trim()) ? m.name : 'Untitled';
     const img  = (typeof m.img === 'string') ? m.img : '';
 
+    const toText = (v) => {
+      if (v == null) return '';
+      if (Array.isArray(v)) return v.map(x => String(x == null ? '' : x)).join('\n');
+      if (typeof v === 'object'){
+        // common shapes: { lines:[...]} or { value:[...]} or { text:"..." }
+        if (Array.isArray(v.lines)) return v.lines.map(x => String(x == null ? '' : x)).join('\n');
+        if (Array.isArray(v.value)) return v.value.map(x => String(x == null ? '' : x)).join('\n');
+        if (typeof v.text === 'string') return v.text;
+      }
+      return String(v);
+    };
+
     let specs = [];
 
+    // 1) specs as array: [{k,v}] or [{key,value}]
     if (Array.isArray(m.specs)){
       specs = m.specs
-        .filter(x => x && (typeof x.k === 'string' || typeof x.v === 'string'))
-        .map(x => ({ k: String(x.k || '').trim(), v: String(x.v || '').trim() }))
+        .filter(x => x && typeof x === 'object')
+        .map(x => ({
+          k: String((x.k ?? x.key ?? '')).trim(),
+          v: toText(x.v ?? x.value ?? '')
+        }))
         .filter(x => x.k);
+
+    // 2) specs as object: { "Design": "..." } or { "Design": ["a","b"] }
     }else if (m.specs && typeof m.specs === 'object' && !Array.isArray(m.specs)){
       specs = Object.entries(m.specs)
-        .map(([k, v]) => ({ k: String(k || '').trim(), v: String(v == null ? '' : v).trim() }))
+        .map(([k, v]) => ({ k: String(k || '').trim(), v: toText(v).trim() }))
         .filter(x => x.k);
+
+    // 3) legacy: features object
     }else if (m.features && typeof m.features === 'object' && !Array.isArray(m.features)){
       specs = Object.entries(m.features)
-        .map(([k, v]) => ({ k: String(k || '').trim(), v: String(v == null ? '' : v).trim() }))
+        .map(([k, v]) => ({ k: String(k || '').trim(), v: toText(v).trim() }))
+        .filter(x => x.k);
+
+    // 4) alias: rows/items array
+    }else if (Array.isArray(m.rows) || Array.isArray(m.items)){
+      const arr = Array.isArray(m.rows) ? m.rows : m.items;
+      specs = arr
+        .filter(x => x && typeof x === 'object')
+        .map(x => ({
+          k: String((x.k ?? x.key ?? x.title ?? '')).trim(),
+          v: toText(x.v ?? x.value ?? x.text ?? '').trim()
+        }))
         .filter(x => x.k);
     }
 
@@ -419,28 +451,53 @@
   fetch(DATA_URL, { cache: 'no-store' })
     .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
     .then(raw => {
-      // Support either:
-      // 1) { "26": {..}, "18": {..} }
-      // 2) { models: { "26": {..}, "18": {..} }, ... }
-      const src = (raw && typeof raw === 'object' && raw.models && typeof raw.models === 'object')
-        ? raw.models
-        : (raw || {});
-
-      const MODELS = {};
-      for (const [k, v] of Object.entries(src)){
-        if (!v || typeof v !== 'object' || Array.isArray(v)) continue;
-        if (!('name' in v) && !('specs' in v) && !('img' in v) && !('features' in v)) continue;
-        MODELS[String(k)] = normalizeModel(v);
+      // Support any of:
+      // 1) { "26": {...}, "18": {...} }
+      // 2) { models: { "26": {...}, "18": {...} } }
+      // 3) { models: [ { id:"26", ... }, { id:"18", ... } ] }
+      // 4) [ { id:"26", ... }, { id:"18", ... } ]
+      let src = raw;
+      if (raw && typeof raw === 'object' && !Array.isArray(raw) && raw.models){
+        src = raw.models;
       }
 
-      const keys = Object.keys(MODELS);
+      const MODELS = {};
+      const keys = [];
+
+      if (Array.isArray(src)){
+        src.forEach((v, idx) => {
+          if (!v || typeof v !== 'object') return;
+          const id = String(v.id ?? v.key ?? v.slug ?? v.version ?? idx);
+          const nm = normalizeModel(v);
+          MODELS[id] = nm;
+          keys.push(id);
+        });
+      }else{
+        for (const [k, v] of Object.entries(src || {})){
+          if (!v || typeof v !== 'object' || Array.isArray(v)) continue;
+          const nm = normalizeModel(v);
+          MODELS[String(k)] = nm;
+          keys.push(String(k));
+        }
+      }
+
       if (!keys.length) throw new Error('No models found in compare data.');
 
-      const specKeys = buildSpecKeys(MODELS, keys);
+      let specKeys = buildSpecKeys(MODELS, keys);
+      // If the JSON uses a different shape and we ended up with no specs, fail loudly.
+      if (!specKeys.length){
+        const first = MODELS[keys[0]];
+        if (!first || !Array.isArray(first.specs) || !first.specs.length){
+          throw new Error('Compare data loaded, but no specs were found. Check compare.json structure (specs/features/rows).');
+        }
+        specKeys = buildSpecKeys(MODELS, keys);
+      }
 
       // Default: first two models in JSON order (if only one exists, duplicate)
       let a = keys[0];
       let b = keys[1] || keys[0];
+      // If both ended up identical but we have 2+ models, pick the next distinct one.
+      if (a === b && keys.length > 1) b = keys[1];
 
       fillSelect(pickA, keys, MODELS);
       fillSelect(pickB, keys, MODELS);
