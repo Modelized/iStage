@@ -63,15 +63,16 @@
       }
     }
 
-    .compare-surface{ background:transparent; padding:26px 0 24px; }
+    .compare-surface{ background:transparent; padding:32px 0 24px; }
 
     .compare-grid{
       display:grid;
-      gap:16px;
-      grid-template-columns: 1fr;
+      gap:12px;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+      align-items:start;
     }
     @media (min-width:900px){
-      .compare-grid{ grid-template-columns: 1fr 1fr; }
+      .compare-grid{ gap:16px; }
     }
 
     .compare-card{
@@ -160,10 +161,13 @@
     }
 
     .compare-hero img{
-      width: clamp(160px, 56vw, 280px);
+      width: clamp(120px, 34vw, 220px);
       height:auto;
       filter: drop-shadow(0 10px 36px rgba(0,0,0,.18));
       border-radius: 14px;
+    }
+    @media (min-width:900px){
+      .compare-hero img{ width: clamp(160px, 20vw, 260px); }
     }
 
     .compare-body{
@@ -302,28 +306,43 @@
   }[m]));
 
   const normalizeModel = (m = {}) => {
-    return {
-      name: typeof m.name === 'string' ? m.name : 'Untitled',
-      img:  typeof m.img  === 'string' ? m.img  : '',
-      specs: Array.isArray(m.specs) ? m.specs
+    const name = (typeof m.name === 'string' && m.name.trim()) ? m.name : 'Untitled';
+    const img  = (typeof m.img === 'string') ? m.img : '';
+
+    let specs = [];
+
+    if (Array.isArray(m.specs)){
+      specs = m.specs
         .filter(x => x && (typeof x.k === 'string' || typeof x.v === 'string'))
-        .map(x => ({ k: String(x.k || ''), v: String(x.v || '') }))
-        : []
-    };
+        .map(x => ({ k: String(x.k || '').trim(), v: String(x.v || '').trim() }))
+        .filter(x => x.k);
+    }else if (m.specs && typeof m.specs === 'object' && !Array.isArray(m.specs)){
+      specs = Object.entries(m.specs)
+        .map(([k, v]) => ({ k: String(k || '').trim(), v: String(v == null ? '' : v).trim() }))
+        .filter(x => x.k);
+    }else if (m.features && typeof m.features === 'object' && !Array.isArray(m.features)){
+      specs = Object.entries(m.features)
+        .map(([k, v]) => ({ k: String(k || '').trim(), v: String(v == null ? '' : v).trim() }))
+        .filter(x => x.k);
+    }
+
+    return { name, img, specs };
   };
 
   const buildSpecKeys = (models, keys) => {
-    const first = models[keys[0]];
-    const base = (first && Array.isArray(first.specs)) ? first.specs.map(s => String(s.k || '')) : [];
-    const uniq = [];
+    const out = [];
     const seen = new Set();
-    for (const k of base){
-      const kk = String(k || '').trim();
-      if (!kk || seen.has(kk)) continue;
-      seen.add(kk);
-      uniq.push(kk);
+    for (const id of keys){
+      const m = models[id];
+      if (!m || !Array.isArray(m.specs)) continue;
+      for (const s of m.specs){
+        const k = String(s.k || '').trim();
+        if (!k || seen.has(k)) continue;
+        seen.add(k);
+        out.push(k);
+      }
     }
-    return uniq;
+    return out;
   };
 
   const normalizeSpecsToKeys = (model, specKeys) => {
@@ -409,10 +428,8 @@
 
       const MODELS = {};
       for (const [k, v] of Object.entries(src)){
-        // Ignore non-model metadata keys (strings, numbers, arrays, null, etc.)
         if (!v || typeof v !== 'object' || Array.isArray(v)) continue;
-        // Heuristic: a "model" should have at least one of these fields.
-        if (!('name' in v) && !('specs' in v) && !('img' in v)) continue;
+        if (!('name' in v) && !('specs' in v) && !('img' in v) && !('features' in v)) continue;
         MODELS[String(k)] = normalizeModel(v);
       }
 
