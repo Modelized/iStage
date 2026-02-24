@@ -64,13 +64,34 @@
     pointer-events:none;
     overflow:hidden;
   }
-  .page-home .section-bg img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center;
-    display:block;
+  .page-home .section-bg{
+    background: radial-gradient(120% 140% at 50% 0%, rgba(255,255,255,.06) 0%, rgba(255,255,255,0) 55%),
+                linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,1) 78%);
   }
+
+  /* Section-specific subtle gradients (no images) */
+  .page-home .top-event .section-bg{
+    background:
+      radial-gradient(120% 140% at 50% 0%, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 58%),
+      radial-gradient(80% 90% at 25% 35%, rgba(0,229,255,.12) 0%, rgba(0,229,255,0) 62%),
+      radial-gradient(80% 90% at 75% 45%, rgba(251,116,234,.10) 0%, rgba(251,116,234,0) 62%),
+      linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,1) 78%);
+  }
+
+  .page-home .section--istage-26 .section-bg{
+    background:
+      radial-gradient(90% 110% at 22% 35%, rgba(0,229,255,.12) 0%, rgba(0,229,255,0) 62%),
+      radial-gradient(90% 110% at 78% 40%, rgba(155,120,255,.10) 0%, rgba(155,120,255,0) 62%),
+      linear-gradient(180deg, rgba(0,0,0,.65) 0%, rgba(0,0,0,1) 82%);
+  }
+
+  .page-home .section--istage-18 .section-bg{
+    background:
+      radial-gradient(100% 120% at 30% 40%, rgba(250,210,160,.28) 0%, rgba(250,210,160,0) 62%),
+      radial-gradient(100% 120% at 75% 35%, rgba(215,155,120,.22) 0%, rgba(215,155,120,0) 62%),
+      linear-gradient(180deg, rgba(245,245,247,1) 0%, rgba(245,245,247,1) 32%, rgba(232,233,237,1) 100%);
+  }
+
 
   .page-home .section > .container{
     position:relative;
@@ -229,9 +250,7 @@
 
   <main>
     <section class="section section--black section--first top-event" aria-label="iStage announcement">
-      <div class="section-bg" aria-hidden="true">
-        <img src="assets/img/bg-announcement.jpg" alt="" decoding="async" loading="eager">
-      </div>
+      <div class="section-bg" aria-hidden="true"></div>
 
       <div class="event-fade" aria-hidden="true"></div>
 
@@ -249,9 +268,7 @@
     </section>
 
     <section class="section section--black section--istage-26">
-      <div class="section-bg" aria-hidden="true">
-        <img src="assets/img/bg-iStage-26.jpg" alt="" decoding="async" loading="lazy">
-      </div>
+      <div class="section-bg" aria-hidden="true"></div>
 
       <div class="container">
         <div class="hero hero-26">
@@ -269,9 +286,7 @@
     </section>
 
     <section class="section section--white section--istage-18">
-      <div class="section-bg" aria-hidden="true">
-        <img src="assets/img/bg-iStage-18.jpg" alt="" decoding="async" loading="lazy">
-      </div>
+      <div class="section-bg" aria-hidden="true"></div>
 
       <div class="container">
         <div class="hero hero-18">
