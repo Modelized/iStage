@@ -66,14 +66,8 @@
     .compare-surface{ background:transparent; padding:32px 0 24px; }
 
     .compare-grid{
-      display:grid;
-      gap:12px;
-      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-      align-items:start;
-      min-width: 0;
-    }
-    @media (min-width:900px){
-      .compare-grid{ gap:16px; }
+      display:block;
+      min-width:0;
     }
 
     .compare-card{
@@ -84,17 +78,15 @@
       overflow:hidden;
     }
     @media (prefers-color-scheme: dark){
-      .compare-card{
-        background:#0f1116;
-        color:#e8e9ec;
-      }
+      .compare-card{ background:#0f1116; color:#e8e9ec; }
     }
 
     .compare-head{
       padding:18px 18px 14px;
-      display:flex;
-      flex-direction:column;
+      display:grid;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
       gap:12px;
+      align-items:start;
     }
 
     .compare-picker{
@@ -159,65 +151,57 @@
       display:flex;
       justify-content:center;
       padding-top:10px;
+      padding-bottom:6px;
     }
 
     .compare-hero img{
-      width: clamp(120px, 34vw, 220px);
+      width: clamp(110px, 30vw, 200px);
       height:auto;
       filter: drop-shadow(0 10px 36px rgba(0,0,0,.18));
       border-radius: 14px;
     }
     @media (min-width:900px){
-      .compare-hero img{ width: clamp(160px, 20vw, 260px); }
+      .compare-hero img{ width: clamp(150px, 18vw, 240px); }
     }
 
-    .compare-body{
-      padding: 0 18px 18px;
-    }
+    .compare-body{ padding: 0 18px 18px; }
 
-    .compare-section{
-      padding-top:12px;
-    }
-
-    .compare-section h3{
-      margin:0 0 10px;
-      font-weight:700;
-      font-size:clamp(16px, 3.8vw, 18px);
-    }
-
-    .spec-list{
+    .spec-table{
       list-style:none;
       padding:0;
       margin:0;
       display:grid;
-      gap:10px;
-      grid-auto-rows:min-content;
+      gap:14px;
     }
 
-    .spec{
+    .spec-row{
       display:grid;
-      gap:4px;
-      grid-auto-rows:min-content;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1fr);
+      gap:14px;
+      align-items:start;
     }
-    .spec[data-sync]{ min-height: var(--spec-minh, auto); }
 
-    .spec .k{
+    .spec-row .k{
       font-weight:600;
       opacity:.92;
     }
 
-    /* Spec label */
-    .compare-card[data-col="b"] .spec .k{ display:none; }
-    .compare-card[data-col="b"] .spec{ gap:0; }
-
-    .spec .v{
+    .spec-row .v{
       color:#5e6572;
+      min-width:0;
     }
-    .spec .v .line{ display:block; }
-    .spec .v .line + .line{ margin-top:4px; }
+    .spec-row .v .line{ display:block; }
+    .spec-row .v .line + .line{ margin-top:4px; }
 
     @media (prefers-color-scheme: dark){
-      .spec .v{ color:#a7acb7; }
+      .spec-row .v{ color:#a7acb7; }
+    }
+
+    @media (max-width:520px){
+      .spec-row{
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+        gap:12px;
+      }
     }
 
     .page-compare .footer{
@@ -253,35 +237,29 @@
       <div class="compare-surface">
         <div class="container">
           <div class="compare-grid" id="compare-grid">
-            <article class="compare-card" data-col="a">
+            <article class="compare-card" id="compare-card">
               <div class="compare-head">
-                <div class="compare-picker">
-                  <div class="compare-select-wrap">
-                    <select class="compare-select" id="pick-a" aria-label="Select model A"></select>
+                <div>
+                  <div class="compare-picker">
+                    <div class="compare-select-wrap">
+                      <select class="compare-select" id="pick-a" aria-label="Select model A"></select>
+                    </div>
                   </div>
+                  <div class="compare-hero"><img id="img-a" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                 </div>
-                <div class="compare-hero"><img id="img-a" alt="" loading="lazy" onerror="this.style.display='none'"></div>
-              </div>
-              <div class="compare-body">
-                <div class="compare-section">
-                  <ul class="spec-list" id="spec-a"></ul>
-                </div>
-              </div>
-            </article>
 
-            <article class="compare-card" data-col="b">
-              <div class="compare-head">
-                <div class="compare-picker">
-                  <div class="compare-select-wrap">
-                    <select class="compare-select" id="pick-b" aria-label="Select model B"></select>
+                <div>
+                  <div class="compare-picker">
+                    <div class="compare-select-wrap">
+                      <select class="compare-select" id="pick-b" aria-label="Select model B"></select>
+                    </div>
                   </div>
+                  <div class="compare-hero"><img id="img-b" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                 </div>
-                <div class="compare-hero"><img id="img-b" alt="" loading="lazy" onerror="this.style.display='none'"></div>
               </div>
+
               <div class="compare-body">
-                <div class="compare-section">
-                  <ul class="spec-list" id="spec-b"></ul>
-                </div>
+                <ul class="spec-table" id="spec-table"></ul>
               </div>
             </article>
           </div>
@@ -301,10 +279,9 @@
   const pickB = document.getElementById('pick-b');
   const imgA  = document.getElementById('img-a');
   const imgB  = document.getElementById('img-b');
-  const specA = document.getElementById('spec-a');
-  const specB = document.getElementById('spec-b');
+  const specTable = document.getElementById('spec-table');
 
-  if (!pickA || !pickB || !imgA || !imgB || !specA || !specB) return;
+  if (!pickA || !pickB || !imgA || !imgB || !specTable) return;
 
   const esc = (s='') => String(s).replace(/[&<>"']/g, m => ({
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
@@ -381,55 +358,48 @@
     return out;
   };
 
-  const normalizeSpecsToKeys = (model, specKeys) => {
+  const valueMapFor = (model) => {
     const map = new Map();
     for (const s of (model.specs || [])){
       const k = String(s.k || '').trim();
       if (!k) continue;
-      map.set(k, String(s.v || ''));
+      map.set(k, String(s.v ?? ''));
     }
-    return specKeys.map(k => ({ k, v: map.has(k) ? map.get(k) : '-' }));
+    return map;
   };
 
-  const syncSpecHeights = () => {
-    try{
-      const aItems = Array.prototype.slice.call(specA.querySelectorAll('li.spec[data-sync="1"]'));
-      const bItems = Array.prototype.slice.call(specB.querySelectorAll('li.spec[data-sync="1"]'));
-      const n = Math.max(aItems.length, bItems.length);
+  const renderTable = (aId, bId, MODELS, specKeys) => {
+    const ma = MODELS[aId];
+    const mb = MODELS[bId];
 
-      for (let i = 0; i < n; i++){
-        const a = aItems[i];
-        const b = bItems[i];
-        if (a) a.style.minHeight = '';
-        if (b) b.style.minHeight = '';
-      }
+    setImage(imgA, ma);
+    setImage(imgB, mb);
 
-      for (let i = 0; i < n; i++){
-        const a = aItems[i];
-        const b = bItems[i];
-        if (!a && !b) continue;
+    const amap = valueMapFor(ma || {});
+    const bmap = valueMapFor(mb || {});
 
-        const ah = a ? a.getBoundingClientRect().height : 0;
-        const bh = b ? b.getBoundingClientRect().height : 0;
-        const mh = Math.ceil(Math.max(ah, bh));
+    const toLines = (v) => {
+      const lines = String(v == null ? '' : v)
+        .split(/\r?\n/)
+        .map(t => t.trim())
+        .filter(Boolean);
+      return lines.length ? lines : ['-'];
+    };
 
-        if (a) a.style.minHeight = mh + 'px';
-        if (b) b.style.minHeight = mh + 'px';
-      }
-    }catch(e){}
-  };
+    specTable.innerHTML = specKeys.map((k) => {
+      const av = toLines(amap.has(k) ? amap.get(k) : '-');
+      const bv = toLines(bmap.has(k) ? bmap.get(k) : '-');
 
-  const renderSpecs = (ul, specs) => {
-    ul.innerHTML = specs.map((s, i) => {
-      const lines = String(s.v || '').split(/\r?\n/).map(t => t.trim()).filter(Boolean);
-      const vHtml = lines.length
-        ? lines.map(t => `<span class="line">${esc(t)}</span>`).join('')
-        : `<span class="line">-</span>`;
+      const aHtml = av.map(t => `<span class="line">${esc(t)}</span>`).join('');
+      const bHtml = bv.map(t => `<span class="line">${esc(t)}</span>`).join('');
 
-      return `<li class="spec" data-sync="1" data-i="${i}">` +
-        `<div class="k">${esc(s.k)}</div>` +
-        `<div class="v">${vHtml}</div>` +
-      `</li>`;
+      return `
+        <li class="spec-row">
+          <div class="k">${esc(k)}</div>
+          <div class="v">${aHtml}</div>
+          <div class="v">${bHtml}</div>
+        </li>
+      `;
     }).join('');
   };
 
@@ -556,20 +526,7 @@
       const render = () => {
         pickA.value = a;
         pickB.value = b;
-
-        const ma = MODELS[a];
-        const mb = MODELS[b];
-
-        if (ma){
-          setImage(imgA, ma);
-          renderSpecs(specA, normalizeSpecsToKeys(ma, specKeys));
-        }
-        if (mb){
-          setImage(imgB, mb);
-          renderSpecs(specB, normalizeSpecsToKeys(mb, specKeys));
-        }
-
-        requestAnimationFrame(syncSpecHeights);
+        renderTable(a, b, MODELS, specKeys);
       };
 
       const setA = (next) => {
@@ -603,16 +560,13 @@
 
       render();
 
-      window.addEventListener('resize', () => requestAnimationFrame(syncSpecHeights));
-      window.addEventListener('orientationchange', () => requestAnimationFrame(syncSpecHeights));
     })
     .catch(err => {
       pickA.innerHTML = `<option value="error">Failed to load</option>`;
       pickB.innerHTML = `<option value="error">Failed to load</option>`;
       imgA.removeAttribute('src');
       imgB.removeAttribute('src');
-      specA.innerHTML = `<li class="spec"><div class="k">Error</div><div class="v">${esc(String(err))}</div></li>`;
-      specB.innerHTML = `<li class="spec"><div class="k">Error</div><div class="v">${esc(String(err))}</div></li>`;
+      specTable.innerHTML = `<li class="spec-row"><div class="k">Error</div><div class="v"><span class="line">${esc(String(err))}</span></div><div class="v"><span class="line">${esc(String(err))}</span></div></li>`;
     });
 })();
 </script>
