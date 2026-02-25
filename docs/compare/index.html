@@ -63,7 +63,8 @@
       }
     }
 
-    .compare-surface{ background:transparent; padding:36px 0 24px; }
+    /* tighter top space above the compare card */
+    .compare-surface{ background:transparent; padding:28px 0 24px; }
 
     .compare-grid{
       display:block;
@@ -93,6 +94,38 @@
       align-items:start;
     }
 
+    /* gradient lives on the whole photo/version area (not inside version label) */
+    #compare-card-head{
+      position:relative;
+    }
+    #compare-card-head::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      pointer-events:none;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 0%,
+        rgba(10,11,12,.10) 60%,
+        rgba(10,11,12,.18) 100%
+      );
+    }
+    @media (prefers-color-scheme: dark){
+      #compare-card-head::before{
+        background: linear-gradient(
+          to bottom,
+          rgba(0,0,0,0) 0%,
+          rgba(10,11,12,.35) 60%,
+          rgba(10,11,12,.70) 100%
+        );
+      }
+    }
+    #compare-card-head > *{
+      position:relative;
+      z-index:1;
+    }
+
     .compare-picker{
       position:relative;
       display:flex;
@@ -104,28 +137,6 @@
       border-radius:14px;
       background: transparent;
       overflow:hidden;
-    }
-
-    .compare-picker::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0) 0%,
-        rgba(0,0,0,.06) 100%
-      );
-    }
-
-    @media (prefers-color-scheme: dark){
-      .compare-picker::before{
-        background: linear-gradient(
-          to bottom,
-          rgba(17,19,26,0) 0%,
-          rgba(17,19,26,1) 100%
-        );
-      }
     }
 
     .compare-select-wrap{
@@ -146,8 +157,8 @@
       font: inherit;
       font-weight:700;
       font-size:clamp(18px, 4.8vw, 22px);
-      line-height:1.2;
-      padding:0 26px 0 0;
+      line-height:1.25;
+      padding:0 26px 2px 0;
       margin:0;
       width:100%;
       cursor:pointer;
@@ -218,7 +229,7 @@
       font-weight:700;
       opacity:.92;
       letter-spacing:-.01em;
-      font-size:clamp(18px, 4vw, 20px);
+      font-size:clamp(19px, 4.3vw, 22px);
       padding-top:2px;
     }
 
