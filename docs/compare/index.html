@@ -487,27 +487,38 @@
     }).join('');
 
     requestAnimationFrame(() => {
-      equalizeSpecRowHeights();
-      requestAnimationFrame(equalizeSpecRowHeights);
+      equalizeSpecLineHeights();
+      requestAnimationFrame(equalizeSpecLineHeights);
     });
   };
 
-  const equalizeSpecRowHeights = () => {
+  const equalizeSpecLineHeights = () => {
     const items = specTable.querySelectorAll('.spec-item');
     if (!items.length) return;
 
     items.forEach((item) => {
-      const cells = item.querySelectorAll('.spec-v');
-      if (cells.length < 2) return;
+      const cols = item.querySelectorAll('.spec-v');
+      if (cols.length < 2) return;
 
-      cells.forEach((c) => { c.style.minHeight = ''; });
+      const aLines = cols[0].querySelectorAll('.line');
+      const bLines = cols[1].querySelectorAll('.line');
+      const n = Math.max(aLines.length, bLines.length);
 
-      const h0 = Math.ceil(cells[0].getBoundingClientRect().height);
-      const h1 = Math.ceil(cells[1].getBoundingClientRect().height);
-      const h = Math.max(h0, h1);
+      for (let i = 0; i < n; i++) {
+        const a = aLines[i];
+        const b = bLines[i];
+        if (!a || !b) continue;
 
-      cells[0].style.minHeight = h + 'px';
-      cells[1].style.minHeight = h + 'px';
+        a.style.minHeight = '';
+        b.style.minHeight = '';
+
+        const ha = Math.ceil(a.getBoundingClientRect().height);
+        const hb = Math.ceil(b.getBoundingClientRect().height);
+        const h = Math.max(ha, hb);
+
+        a.style.minHeight = h + 'px';
+        b.style.minHeight = h + 'px';
+      }
     });
   };
 
@@ -668,7 +679,7 @@
       let resizeT;
       window.addEventListener('resize', () => {
         clearTimeout(resizeT);
-        resizeT = setTimeout(equalizeSpecRowHeights, 80);
+        resizeT = setTimeout(equalizeSpecLineHeights, 80);
       }, { passive: true });
 
       render();
