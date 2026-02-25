@@ -98,9 +98,13 @@
       align-items:center;
       justify-content:space-between;
       gap:12px;
-      padding-top:12px;
-      padding-bottom:10px;
-      border-top:1px solid var(--nav-border);
+      padding:12px 14px;
+      border-top:0;
+      border-radius:14px;
+      background: rgba(0,0,0,.06);
+    }
+    @media (prefers-color-scheme: dark){
+      .compare-picker{ background: rgba(255,255,255,.04); }
     }
 
     .compare-select-wrap{
@@ -193,17 +197,23 @@
       font-weight:700;
       opacity:.92;
       letter-spacing:-.01em;
-      font-size:clamp(16px, 3.6vw, 18px);
+      font-size:clamp(18px, 4vw, 20px);
       padding-top:2px;
     }
 
     .spec-v{
       color:#5e6572;
       min-width:0;
+      line-height:1.55;
     }
 
-    .spec-v .line{ display:block; white-space:nowrap; }
-    .spec-v .line + .line{ margin-top:4px; }
+    .spec-v .line{
+      display:block;
+      white-space:normal;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+    .spec-v .line + .line{ margin-top:6px; }
 
     @media (prefers-color-scheme: dark){
       .spec-v{ color:#a7acb7; }
