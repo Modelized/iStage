@@ -485,6 +485,30 @@
         </li>
       `;
     }).join('');
+
+    requestAnimationFrame(() => {
+      equalizeSpecRowHeights();
+      requestAnimationFrame(equalizeSpecRowHeights);
+    });
+  };
+
+  const equalizeSpecRowHeights = () => {
+    const items = specTable.querySelectorAll('.spec-item');
+    if (!items.length) return;
+
+    items.forEach((item) => {
+      const cells = item.querySelectorAll('.spec-v');
+      if (cells.length < 2) return;
+
+      cells.forEach((c) => { c.style.minHeight = ''; });
+
+      const h0 = Math.ceil(cells[0].getBoundingClientRect().height);
+      const h1 = Math.ceil(cells[1].getBoundingClientRect().height);
+      const h = Math.max(h0, h1);
+
+      cells[0].style.minHeight = h + 'px';
+      cells[1].style.minHeight = h + 'px';
+    });
   };
 
   const setImage = (imgEl, m) => {
@@ -640,6 +664,12 @@
 
       pickA.addEventListener('change', () => setA(pickA.value));
       pickB.addEventListener('change', () => setB(pickB.value));
+
+      let resizeT;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeT);
+        resizeT = setTimeout(equalizeSpecRowHeights, 80);
+      }, { passive: true });
 
       render();
 
