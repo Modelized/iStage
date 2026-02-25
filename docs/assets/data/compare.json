@@ -14,8 +14,8 @@
   ],
   "rows": [
     {
-      "key": "design_language",
-      "label": "Design Language",
+      "key": "design_system",
+      "label": "Design System",
       "values": {
         "26": "Liquid Glass",
         "18": "Frosted Blur"
