@@ -63,7 +63,7 @@
       }
     }
 
-    .compare-surface{ background:transparent; padding:32px 0 24px; }
+    .compare-surface{ background:transparent; padding:36px 0 24px; }
 
     .compare-grid{
       display:block;
@@ -155,13 +155,13 @@
     }
 
     .compare-hero img{
-      width: clamp(110px, 30vw, 200px);
+      width: clamp(140px, 36vw, 240px);
       height:auto;
       filter: drop-shadow(0 10px 36px rgba(0,0,0,.18));
       border-radius: 14px;
     }
     @media (min-width:900px){
-      .compare-hero img{ width: clamp(150px, 18vw, 240px); }
+      .compare-hero img{ width: clamp(190px, 22vw, 320px); }
     }
 
     .compare-body{ padding: 0 18px 18px; }
@@ -171,36 +171,41 @@
       padding:0;
       margin:0;
       display:grid;
-      gap:14px;
+      gap:18px;
     }
 
-    .spec-row{
+    /* Apple-style: one label row, two value columns */
+    .spec-item{
       display:grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1fr);
-      gap:14px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap:18px;
+      row-gap:10px;
       align-items:start;
     }
 
-    .spec-row .k{
-      font-weight:600;
+    .spec-k{
+      grid-column:1 / -1;
+      font-weight:700;
       opacity:.92;
+      letter-spacing:-.01em;
     }
 
-    .spec-row .v{
+    .spec-v{
       color:#5e6572;
       min-width:0;
     }
-    .spec-row .v .line{ display:block; }
-    .spec-row .v .line + .line{ margin-top:4px; }
+
+    .spec-v .line{ display:block; }
+    .spec-v .line + .line{ margin-top:4px; }
 
     @media (prefers-color-scheme: dark){
-      .spec-row .v{ color:#a7acb7; }
+      .spec-v{ color:#a7acb7; }
     }
 
     @media (max-width:520px){
-      .spec-row{
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
-        gap:12px;
+      .spec-item{
+        column-gap:14px;
+        row-gap:10px;
       }
     }
 
@@ -295,7 +300,6 @@
       if (v == null) return '';
       if (Array.isArray(v)) return v.map(x => String(x == null ? '' : x)).join('\n');
       if (typeof v === 'object'){
-        // common shapes: { lines:[...]} or { value:[...]} or { text:"..." }
         if (Array.isArray(v.lines)) return v.lines.map(x => String(x == null ? '' : x)).join('\n');
         if (Array.isArray(v.value)) return v.value.map(x => String(x == null ? '' : x)).join('\n');
         if (typeof v.text === 'string') return v.text;
@@ -305,7 +309,6 @@
 
     let specs = [];
 
-    // 1) specs as array: [{k,v}] or [{key,value}]
     if (Array.isArray(m.specs)){
       specs = m.specs
         .filter(x => x && typeof x === 'object')
@@ -315,19 +318,16 @@
         }))
         .filter(x => x.k);
 
-    // 2) specs as object: { "Design": "..." } or { "Design": ["a","b"] }
     }else if (m.specs && typeof m.specs === 'object' && !Array.isArray(m.specs)){
       specs = Object.entries(m.specs)
         .map(([k, v]) => ({ k: String(k || '').trim(), v: toText(v).trim() }))
         .filter(x => x.k);
 
-    // 3) legacy: features object
     }else if (m.features && typeof m.features === 'object' && !Array.isArray(m.features)){
       specs = Object.entries(m.features)
         .map(([k, v]) => ({ k: String(k || '').trim(), v: toText(v).trim() }))
         .filter(x => x.k);
 
-    // 4) alias: rows/items array
     }else if (Array.isArray(m.rows) || Array.isArray(m.items)){
       const arr = Array.isArray(m.rows) ? m.rows : m.items;
       specs = arr
@@ -379,25 +379,35 @@
     const bmap = valueMapFor(mb || {});
 
     const toLines = (v) => {
-      const lines = String(v == null ? '' : v)
+      const raw = String(v == null ? '' : v);
+      const lines = raw
         .split(/\r?\n/)
-        .map(t => t.trim())
-        .filter(Boolean);
-      return lines.length ? lines : ['-'];
+        .map(t => t.trim());
+      const cleaned = lines.filter(t => t.length > 0);
+      return cleaned.length ? cleaned : ['-'];
+    };
+
+    const padLines = (aLines, bLines) => {
+      const n = Math.max(aLines.length, bLines.length);
+      while (aLines.length < n) aLines.push('');
+      while (bLines.length < n) bLines.push('');
+      return [aLines, bLines];
     };
 
     specTable.innerHTML = specKeys.map((k) => {
-      const av = toLines(amap.has(k) ? amap.get(k) : '-');
-      const bv = toLines(bmap.has(k) ? bmap.get(k) : '-');
+      let av = toLines(amap.has(k) ? amap.get(k) : '-');
+      let bv = toLines(bmap.has(k) ? bmap.get(k) : '-');
+      [av, bv] = padLines(av.slice(), bv.slice());
 
-      const aHtml = av.map(t => `<span class="line">${esc(t)}</span>`).join('');
-      const bHtml = bv.map(t => `<span class="line">${esc(t)}</span>`).join('');
+      const lineHtml = (t) => `<span class="line">${t ? esc(t) : '&nbsp;'}</span>`;
+      const aHtml = av.map(lineHtml).join('');
+      const bHtml = bv.map(lineHtml).join('');
 
       return `
-        <li class="spec-row">
-          <div class="k">${esc(k)}</div>
-          <div class="v">${aHtml}</div>
-          <div class="v">${bHtml}</div>
+        <li class="spec-item">
+          <div class="spec-k">${esc(k)}</div>
+          <div class="spec-v">${aHtml}</div>
+          <div class="spec-v">${bHtml}</div>
         </li>
       `;
     }).join('');
@@ -413,7 +423,6 @@
       return;
     }
 
-    // Ensure it becomes visible again when a valid image is selected.
     imgEl.style.display = '';
     imgEl.src = src;
   };
