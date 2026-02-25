@@ -80,9 +80,13 @@
     @media (prefers-color-scheme: dark){
       .compare-card{ background:#0f1116; color:#e8e9ec; }
     }
+    .compare-stack{
+      display:grid;
+      gap:16px;
+    }
 
     .compare-head{
-      padding:18px 18px 14px;
+      padding:18px 18px 16px;
       display:grid;
       grid-template-columns: minmax(0,1fr) minmax(0,1fr);
       gap:12px;
@@ -94,8 +98,9 @@
       align-items:center;
       justify-content:space-between;
       gap:12px;
+      padding-top:12px;
       padding-bottom:10px;
-      border-bottom:1px solid var(--nav-border);
+      border-top:1px solid var(--nav-border);
     }
 
     .compare-select-wrap{
@@ -155,16 +160,13 @@
     }
 
     .compare-hero img{
-      width: clamp(140px, 36vw, 240px);
+      width: clamp(150px, 40vw, 260px);
       height:auto;
       filter: drop-shadow(0 10px 36px rgba(0,0,0,.18));
       border-radius: 14px;
     }
-    @media (min-width:900px){
-      .compare-hero img{ width: clamp(190px, 22vw, 320px); }
-    }
 
-    .compare-body{ padding: 0 18px 18px; }
+    .compare-body{ padding: 18px; }
 
     .spec-table{
       list-style:none;
@@ -181,13 +183,18 @@
       column-gap:18px;
       row-gap:10px;
       align-items:start;
+      padding-bottom:18px;
+      border-bottom:1px solid var(--nav-border);
     }
+    .spec-item:last-child{ border-bottom:0; padding-bottom:0; }
 
     .spec-k{
       grid-column:1 / -1;
       font-weight:700;
       opacity:.92;
       letter-spacing:-.01em;
+      font-size:clamp(16px, 3.6vw, 18px);
+      padding-top:2px;
     }
 
     .spec-v{
@@ -195,7 +202,7 @@
       min-width:0;
     }
 
-    .spec-v .line{ display:block; }
+    .spec-v .line{ display:block; white-space:nowrap; }
     .spec-v .line + .line{ margin-top:4px; }
 
     @media (prefers-color-scheme: dark){
@@ -242,31 +249,35 @@
       <div class="compare-surface">
         <div class="container">
           <div class="compare-grid" id="compare-grid">
-            <article class="compare-card" id="compare-card">
-              <div class="compare-head">
-                <div>
-                  <div class="compare-picker">
-                    <div class="compare-select-wrap">
-                      <select class="compare-select" id="pick-a" aria-label="Select model A"></select>
+            <div class="compare-stack" id="compare-stack">
+              <article class="compare-card" id="compare-card-head">
+                <div class="compare-head">
+                  <div>
+                    <div class="compare-hero"><img id="img-a" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                    <div class="compare-picker">
+                      <div class="compare-select-wrap">
+                        <select class="compare-select" id="pick-a" aria-label="Select model A"></select>
+                      </div>
                     </div>
                   </div>
-                  <div class="compare-hero"><img id="img-a" alt="" loading="lazy" onerror="this.style.display='none'"></div>
-                </div>
 
-                <div>
-                  <div class="compare-picker">
-                    <div class="compare-select-wrap">
-                      <select class="compare-select" id="pick-b" aria-label="Select model B"></select>
+                  <div>
+                    <div class="compare-hero"><img id="img-b" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+                    <div class="compare-picker">
+                      <div class="compare-select-wrap">
+                        <select class="compare-select" id="pick-b" aria-label="Select model B"></select>
+                      </div>
                     </div>
                   </div>
-                  <div class="compare-hero"><img id="img-b" alt="" loading="lazy" onerror="this.style.display='none'"></div>
                 </div>
-              </div>
+              </article>
 
-              <div class="compare-body">
-                <ul class="spec-table" id="spec-table"></ul>
-              </div>
-            </article>
+              <article class="compare-card" id="compare-card-table">
+                <div class="compare-body">
+                  <ul class="spec-table" id="spec-table"></ul>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
       </div>
