@@ -206,6 +206,10 @@
       opacity:.92;
     }
 
+    /* Spec label */
+    .compare-card[data-col="b"] .spec .k{ display:none; }
+    .compare-card[data-col="b"] .spec{ gap:0; }
+
     .spec .v{
       color:#5e6572;
     }
@@ -329,7 +333,7 @@
       specs = m.specs
         .filter(x => x && typeof x === 'object')
         .map(x => ({
-          k: String((x.k ?? x.key ?? '')).trim(),
+          k: String((x.label ?? x.k ?? x.key ?? '')).trim(),
           v: toText(x.v ?? x.value ?? '')
         }))
         .filter(x => x.k);
@@ -352,7 +356,7 @@
       specs = arr
         .filter(x => x && typeof x === 'object')
         .map(x => ({
-          k: String((x.k ?? x.key ?? x.title ?? '')).trim(),
+          k: String((x.label ?? x.k ?? x.key ?? x.title ?? '')).trim(),
           v: toText(x.v ?? x.value ?? x.text ?? '').trim()
         }))
         .filter(x => x.k);
@@ -489,7 +493,7 @@
 
       const rowToKey = (row) => {
         if (!row || typeof row !== 'object') return '';
-        return String(row.k ?? row.key ?? row.title ?? row.name ?? '').trim();
+        return String(row.label ?? row.k ?? row.key ?? row.title ?? row.name ?? '').trim();
       };
 
       const rowValueFor = (row, modelId, modelIndex) => {
