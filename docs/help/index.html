@@ -35,10 +35,6 @@
   
   <style>
   /* ----- Help page (scoped) ----- */
-  :root{
-    --surface-light:#f5f5f7;
-    --surface-dark:#0f1116;
-  }
   .sr-only{
     position:absolute !important;
     width:1px !important;
@@ -122,7 +118,6 @@
   }
   .acc-title{margin:0;font-weight:600;font-size:clamp(18px, 2.2vw, 20px)}
 
-  /* --- chevron tap highlight (ONLY change) --- */
   .acc-toggle{
     display:grid;
     place-items:center;
@@ -182,7 +177,6 @@
     transform:scale(1);
   }
   .acc-toggle:focus-visible{ box-shadow:none; }
-  /* --- end change --- */
 
   .chev{
     transition:transform .35s cubic-bezier(.22,1,.36,1);
