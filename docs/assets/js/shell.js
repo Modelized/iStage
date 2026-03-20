@@ -1,4 +1,4 @@
- (function(){
+(function(){
    const body = document.body;
    const base = body.getAttribute('data-base');
 
@@ -28,10 +28,8 @@
 
      const brand = document.querySelector('.brand');
      const logo  = document.querySelector('.brand-logo');
-     const txt   = document.querySelector('.brand-text');
-
      function update(){
-       if (brand && logo && txt && logo.naturalWidth > 0){
+       if (brand && logo.naturalWidth > 0){
          brand.classList.add('has-logo');
        }
      }
