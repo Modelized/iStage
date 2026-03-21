@@ -137,8 +137,8 @@ body{
 }
 @media (hover:none) and (pointer:coarse) and (orientation:landscape){
   .nav{
-    padding-left:max(0px, calc(env(safe-area-inset-left, 0px) - var(--nav-inline-pad)));
-    padding-right:max(0px, calc(env(safe-area-inset-right, 0px) - var(--nav-inline-pad)));
+    padding-left:0;
+    padding-right:0;
   }
 }
 @media (hover:none) and (pointer:coarse) and (min-width:900px){
