@@ -24,10 +24,6 @@ body{
   --nav-pill-height-mobile:56px;
   --nav-pill-height-desktop:44px;
   --nav-icon-size:var(--nav-pill-height-desktop);
-  --nav-row-pad-mobile:16px;
-  --nav-row-pad-desktop:24px;
-  --safe-area-inline-start:env(safe-area-inset-left, 0px);
-  --safe-area-inline-end:env(safe-area-inset-right, 0px);
   --footer-inline-pad:clamp(16px, 6vw, 28px);
 
   /* Shared nav shadow tokens */
@@ -127,6 +123,8 @@ body{
   left:0; right:0;
   z-index:1000;
   padding:0;
+  padding-left:env(safe-area-inset-left, 0px);
+  padding-right:env(safe-area-inset-right, 0px);
   pointer-events:none;
   backface-visibility:hidden;
   -webkit-transform:translateZ(0);
@@ -150,9 +148,7 @@ body{
   height:var(--nav-pill-height-mobile);
   display:flex;
   align-items:center;
-  padding:0 var(--nav-row-pad-mobile);
-  padding-left:max(var(--nav-row-pad-mobile), calc(var(--safe-area-inline-start) + var(--nav-row-pad-mobile)));
-  padding-right:max(var(--nav-row-pad-mobile), calc(var(--safe-area-inline-end) + var(--nav-row-pad-mobile)));
+  padding:0 16px;
   gap:16px;
   position:relative;
   z-index:3;
@@ -160,10 +156,7 @@ body{
 
 /* Desktop only: pull logo/search slightly inward */
 @media (min-width:900px){
-  .row{
-    padding-left:max(var(--nav-row-pad-desktop), calc(var(--safe-area-inline-start) + var(--nav-row-pad-desktop)));
-    padding-right:max(var(--nav-row-pad-desktop), calc(var(--safe-area-inline-end) + var(--nav-row-pad-desktop)));
-  }
+  .row{padding:0 24px;}
 }
 
 .brand{
@@ -669,8 +662,8 @@ a.btn:link,a.btn:visited{color:inherit}
   border-top:0;
   margin-top:12px;
   padding:24px var(--footer-inline-pad);
-  padding-left:max(var(--footer-inline-pad), calc(var(--safe-area-inline-start) + var(--footer-inline-pad)));
-  padding-right:max(var(--footer-inline-pad), calc(var(--safe-area-inline-end) + var(--footer-inline-pad)));
+  padding-left:max(var(--footer-inline-pad), calc(env(safe-area-inset-left, 0px) + var(--footer-inline-pad)));
+  padding-right:max(var(--footer-inline-pad), calc(env(safe-area-inset-right, 0px) + var(--footer-inline-pad)));
   background:#f5f5f7;
   color:#a7acb7;
 }
