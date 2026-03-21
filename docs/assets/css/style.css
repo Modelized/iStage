@@ -331,7 +331,16 @@ body{
   .row{height:var(--nav-pill-height-desktop)}
   .nav-inner::before{content:none}
 
+  .brand,
+  .nav-right{
+    flex:0 0 auto;
+  }
+
   .menu{
+    flex:1 1 auto;
+    min-width:0;
+    margin:0;
+    justify-content:space-between;
     height:var(--nav-pill-height-desktop);
     align-items:center;
 
@@ -349,6 +358,10 @@ body{
     backdrop-filter:saturate(170%) blur(18px);
     -webkit-backdrop-filter:saturate(170%) blur(18px);
     box-shadow:var(--nav-shadow);
+  }
+
+  .menu li{
+    flex:0 0 auto;
   }
 
   .menu a.is-current{background:transparent}
@@ -378,6 +391,7 @@ body{
     z-index:1;
     background:transparent;
     -webkit-tap-highlight-color:transparent;
+    white-space:nowrap;
   }
 
   .menu a:active{background:transparent !important}
