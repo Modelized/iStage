@@ -1,5 +1,3 @@
-/* ========== iStage CSS ========== */
-
 /* Base */
 *{box-sizing:border-box}
 html{
@@ -740,5 +738,3 @@ a.btn:link,a.btn:visited{color:inherit}
     animation:none !important;
   }
 }
-
-/* ========== End ========== */
