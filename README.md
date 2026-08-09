@@ -93,5 +93,5 @@ This preset is a personal project.
 Redistribution or modification is not permitted.  
 For personal use only.  
 
-© 2025 Modelized (Jason Lee)  
-Contributors: Liquid Glass effect by u/\_Peace\_among\_us\_
+© 2026 Modelized (Jason Lee)  
+Contributors: Liquid Glass effect for iStage 26 by u/\_Peace\_among\_us\_
