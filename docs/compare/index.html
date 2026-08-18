@@ -56,16 +56,6 @@
       --hero-c:102 132 255;
     }
 
-    .page-compare .section--first{
-      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 22px);
-      margin-top:0;
-    }
-    @media (min-width:900px){
-      .page-compare .section--first{
-        padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 24px);
-      }
-    }
-
     .compare-surface{ background:transparent; padding:16px 0 24px; }
 
     .compare-grid{
@@ -313,14 +303,14 @@
   <script>document.documentElement.classList.add('js');</script>
 </head>
 
-<body class="page-compare" data-base="..">
+<body class="page-compare page-feature" data-base="..">
   <div class="nav-backdrop" aria-hidden="true"></div>
 
   <div id="nav-slot"></div>
 
   <main>
     <section class="section section--first" id="compare">
-      <div class="container">
+      <div class="page-hero-shell">
         <div class="page-hero-card">
           <div class="page-hero-media">
             <img src="../assets/img/hero-iStage-series.png" alt="iStage Series" loading="eager" decoding="async">
