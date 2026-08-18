@@ -65,11 +65,18 @@
   }
 
   /* Section-specific subtle gradients (no images) */
+  .page-home .top-event{
+    --identity-aqua:90,205,211;
+    --identity-rose:215,132,174;
+    --identity-champagne:226,177,111;
+  }
+
   .page-home .top-event .section-bg{
     background:
-      radial-gradient(120% 140% at 50% 0%, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 58%),
-      radial-gradient(80% 90% at 25% 35%, rgba(0,229,255,.12) 0%, rgba(0,229,255,0) 62%),
-      radial-gradient(80% 90% at 75% 45%, rgba(251,116,234,.10) 0%, rgba(251,116,234,0) 62%),
+      radial-gradient(120% 140% at 50% 0%, rgba(255,255,255,.07) 0%, rgba(255,255,255,0) 58%),
+      radial-gradient(82% 92% at 20% 34%, rgba(var(--identity-aqua),.14) 0%, rgba(var(--identity-aqua),0) 62%),
+      radial-gradient(82% 92% at 80% 36%, rgba(var(--identity-rose),.12) 0%, rgba(var(--identity-rose),0) 62%),
+      radial-gradient(76% 82% at 54% 82%, rgba(var(--identity-champagne),.10) 0%, rgba(var(--identity-champagne),0) 64%),
       linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,1) 78%);
   }
 
@@ -202,9 +209,9 @@
   .page-home .section--first .copy .subtitle::after{content:none !important;}
 
   .text-aurora{
-    --c1: 0,229,255;
-    --c2: 251,116,234;
-    --c3: 238,189,75;
+    --c1:var(--identity-aqua);
+    --c2:var(--identity-rose);
+    --c3:var(--identity-champagne);
 
     background-image:
       radial-gradient(60% 140% at 20% 30%, rgba(var(--c1), .98) 0, rgba(var(--c1), 0) 60%),
@@ -228,7 +235,7 @@
     animation: aurora-mix 24s cubic-bezier(.22,1,.36,1) infinite alternate;
     will-change: background-position;
 
-    filter: saturate(1.15) contrast(1.02);
+    filter:saturate(1.06) contrast(1.025);
   }
 
   @keyframes aurora-mix{
