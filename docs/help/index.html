@@ -41,10 +41,10 @@
     .page-help{ background:#000; color:#e8e9ec; font-synthesis-weight: none; }
   }
 
-  /* subtitle contrast */
-  .page-help .subtitle{ color:#5e6572; }
-  @media (prefers-color-scheme: dark){
-    .page-help .subtitle{ color:#a7acb7; }
+  .page-help .page-hero-card{
+    --hero-a:68 142 255;
+    --hero-b:70 216 184;
+    --hero-c:116 198 232;
   }
 
   /* push first section clear of fixed nav (slightly more headroom) */
@@ -56,23 +56,6 @@
     .page-help .section--first{
       padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 24px);
     }
-  }
-
-  /* tighten heading stack */
-  .page-help .copy{ gap:6px; margin-bottom:12px; }
-  .page-help .title{ margin:0 0 4px }
-
-  /* Help hero image (match Releases styling) */
-  .help-hero{ display:flex; justify-content:center; margin:8px 0 18px }
-  .help-hero img{
-    width: clamp(180px, 48vw, 360px);
-    height: auto;
-    aspect-ratio: auto;
-    object-fit: contain;
-    background-color: transparent;
-    box-shadow: none;
-    filter: drop-shadow(0 8px 30px rgba(0,0,0,.12));
-    border-radius: 12px;
   }
 
   /* card surface: swap + same corner system as main (banner-radius) */
@@ -93,7 +76,7 @@
   }
 
   /* accordion layout */
-  .help-surface{ background:transparent; padding:22px 0 24px; }
+  .help-surface{ background:transparent; padding:16px 0 24px; }
   .accordion{ display:grid; gap:16px; }
   .accordion .card{ animation-fill-mode: both; }
 
@@ -221,11 +204,15 @@
 
   <main>
     <section class="section section--first">
-      <div class="container hero copy" style="text-align:center">
-        <h1 class="title reveal-onload" style="margin-bottom:4px">Help</h1>
-        <p class="subtitle small reveal-onload reveal-delay-1">Setup iStage, find tips, and get help with common issues.</p>
-        <div class="help-hero">
-          <img src="../assets/img/help-hero.png" alt="iStage Series" loading="lazy" onerror="this.style.display='none'">
+      <div class="container">
+        <div class="page-hero-card">
+          <div class="page-hero-media">
+            <img src="../assets/img/help-hero.png" alt="iStage Series" loading="eager" decoding="async" onerror="this.style.display='none'">
+          </div>
+          <div class="page-hero-copy copy">
+            <h1 class="title reveal-onload">Help</h1>
+            <p class="subtitle reveal-onload reveal-delay-1">Setup iStage, find tips, and get help with common issues.</p>
+          </div>
         </div>
       </div>
 
