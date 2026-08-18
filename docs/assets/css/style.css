@@ -30,7 +30,8 @@ body{
   --nav-shadow-mobile-scrolled:0 0 40px -12px rgba(0,0,0,.30);
 
   /* Nav theme tokens (default: dark look) */
-  --nav-surface:rgba(20,24,32,.54);
+  --surface-dark:#111113;
+  --nav-surface:rgba(24,24,27,.54);
   --nav-border:#ffffff33;
   --nav-text:rgba(232,233,236,1);
   --nav-text-dim:rgba(232,233,236,.72);
@@ -644,7 +645,7 @@ a.btn:link,a.btn:visited{color:inherit}
 
 /* Releases */
 .card{
-  background:rgba(18,21,27,1);
+  background:var(--surface-dark);
   border:1px solid var(--nav-border);
   border-radius:18px;
   padding:18px;

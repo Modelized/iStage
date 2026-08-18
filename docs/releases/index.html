@@ -42,7 +42,10 @@
   }
 
   /* Swap surface: background <-> cards */
-  .page-releases{ background:#f5f5f7; }
+  .page-releases{
+    --release-highlight:235 166 48;
+    background:#f5f5f7;
+  }
   @media (prefers-color-scheme: dark){
     .page-releases{ background:#000; color:#e8e9ec; }
   }
@@ -81,7 +84,7 @@
 
   /* Empty/loading states */
   .empty{
-    border:1px dashed var(--nav-border);
+    border:1px solid var(--nav-border);
     border-radius:var(--banner-radius);
     padding:18px;
     text-align:center;
@@ -120,6 +123,13 @@
   .prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
   .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
   .prose li{ margin:6px 0; }
+  .prose .known-issues-title{ margin:24px 0 14px; }
+  .prose .known-issue-title{
+    margin:18px 0 4px;
+    font-size:clamp(16px, 4vw, 18px);
+    font-weight:600;
+  }
+  .prose .known-issue-detail{ margin:0 0 18px; }
 
   /* Slightly increase horizontal padding for body text */
   .prose{ padding-inline: 6px; }
@@ -159,12 +169,12 @@
   }
   @media (prefers-color-scheme: dark){
     .page-releases .card{
-      background:#0f1116;
+      background:var(--surface-dark);
       color:#e8e9ec;
     }
   }
 
-  /* Highlight the top item in "Latest Releases" with an inner glow */
+  /* Highlight the top item in "Latest Releases" with a restrained inner glow */
   .page-releases .card.is-highlight{
     position: relative;
   }
@@ -174,12 +184,12 @@
     inset:0;
     border-radius:inherit;
     pointer-events:none;
-    box-shadow: inset 0 0 20px rgba(255,159,10,.62);
+    box-shadow:inset 0 0 18px rgb(var(--release-highlight) / .54);
     transition: box-shadow .2s ease;
   }
   @media (prefers-color-scheme: light){
     .page-releases .card.is-highlight::after{
-      box-shadow: inset 0 0 16px rgba(255,159,10,.54);
+      box-shadow:inset 0 0 16px rgb(var(--release-highlight) / .46);
     }
   }
 
@@ -191,17 +201,17 @@
     margin-top:12px;
   }
 
-  /* Keep the highlight button orange */
+  /* Keep the highlight button aligned with the card glow */
   .page-releases .card.is-highlight .btn-blue{
-    background: rgba(255,159,10,.76) !important;
-    border-color: rgba(255,159,10,.56) !important;
+    background:rgb(var(--release-highlight) / .86) !important;
+    border-color:rgb(var(--release-highlight) / .62) !important;
     color:#111317 !important;
   }
   .page-releases .card.is-highlight .btn-blue:hover{
-    background: rgba(255,159,10,.84) !important;
+    background:rgb(var(--release-highlight) / .94) !important;
   }
   .page-releases .card.is-highlight .btn-blue:active{
-    background: rgba(255,159,10,.68) !important;
+    background:rgb(var(--release-highlight) / .78) !important;
   }
 
   /* Footer theming */
@@ -235,7 +245,7 @@
         <h1 class="title reveal-onload" style="margin-bottom:4px">Releases</h1>
         <p class="subtitle small reveal-onload reveal-delay-1">Latest changes and downloads.</p>
         <div class="releases-hero">
-          <img src="../assets/img/releases-hero.png" alt="iStage lock screen preview" loading="lazy" onerror="this.style.display='none'">
+          <img src="../assets/img/releases-hero.png" alt="iStage Series" loading="lazy" onerror="this.style.display='none'">
         </div>
       </div>
 
@@ -266,8 +276,8 @@
 
     if (list){
       list.innerHTML = [
-        groupHTML('Latest Releases',  `<div class="empty small muted">Loading latest…</div>`),
-        groupHTML('Previous Releases',`<div class="empty small muted">Loading previous…</div>`)
+        groupHTML('Latest Releases',  `<div class="empty small muted">Checking for latest updates...</div>`),
+        groupHTML('Previous Releases',`<div class="empty small muted">Checking for previous updates...</div>`)
       ].join('');
     }
     if (!list) return;
@@ -293,24 +303,53 @@
 
     const mdToHtml = (md='') => {
       md = stripImages(md);
+      md = md.replace(/\r\n?|[\u2028\u2029]/g, '\n');
       md = md.replace(/```([\s\S]*?)```/g, (_, code) => `<pre><code>${esc(code)}</code></pre>`);
 
-      const lines = md.split(/\r?\n/);
+      const lines = md.split('\n');
       const out = [];
       let inList = false;
+      let inKnownIssues = false;
+      let knownIssueDetailPending = false;
 
       const flushList = () => { if (inList){ out.push('</ul>'); inList = false; } };
 
       for (let raw of lines){
         const line = raw.trimEnd();
 
-        if (/^###\s+/.test(line)){ flushList(); out.push(`<h3>${esc(line.replace(/^###\s+/, ''))}</h3>`); continue; }
-        if (/^##\s+/.test(line)){ flushList(); out.push(`<h2>${esc(line.replace(/^##\s+/, ''))}</h2>`); continue; }
-        if (/^#\s+/.test(line)){ flushList(); out.push(`<h1>${esc(line.replace(/^#\s+/, ''))}</h1>`); continue; }
+        if (/^###\s+/.test(line)){
+          flushList();
+          inKnownIssues = false;
+          knownIssueDetailPending = false;
+          out.push(`<h3>${esc(line.replace(/^###\s+/, ''))}</h3>`);
+          continue;
+        }
+        if (/^##\s+/.test(line)){
+          flushList();
+          const title = line.replace(/^##\s+/, '').trim();
+          inKnownIssues = title.toLowerCase() === 'known issues';
+          knownIssueDetailPending = false;
+          out.push(`<h2${inKnownIssues ? ' class="known-issues-title"' : ''}>${esc(title)}</h2>`);
+          continue;
+        }
+        if (/^#\s+/.test(line)){
+          flushList();
+          inKnownIssues = false;
+          knownIssueDetailPending = false;
+          out.push(`<h1>${esc(line.replace(/^#\s+/, ''))}</h1>`);
+          continue;
+        }
 
         if (/^\s*[-*]\s+/.test(line)){
+          const item = line.replace(/^\s*[-*]\s+/, '');
+          if (inKnownIssues){
+            flushList();
+            out.push(`<h3 class="known-issue-title">${esc(item)}</h3>`);
+            knownIssueDetailPending = true;
+            continue;
+          }
           if (!inList){ out.push('<ul>'); inList = true; }
-          out.push(`<li>${esc(line.replace(/^\s*[-*]\s+/, ''))}</li>`);
+          out.push(`<li>${esc(item)}</li>`);
           continue;
         }
 
@@ -324,7 +363,9 @@
           .replace(/\*([^*]+)\*/g, '<em>$1</em>')
           .replace(/`([^`]+)`/g, '<code>$1</code>');
 
-        out.push(`<p>${html}</p>`);
+        const detailClass = inKnownIssues && knownIssueDetailPending ? ' class="known-issue-detail"' : '';
+        out.push(`<p${detailClass}>${html}</p>`);
+        knownIssueDetailPending = false;
       }
       flushList();
       return out.join('');
@@ -347,7 +388,7 @@
 
       const ver  = versionFromTag(tag);
       const icon = ver
-        ? `<img class="release-icon" src="../assets/img/iStage-${ver}-icon.png" alt="iStage ${ver} icon" loading="lazy" onerror="this.style.display='none'">`
+        ? `<img class="release-icon" src="../assets/img/iStage-${ver}-icon.png" alt="iStage ${ver} Icon" loading="lazy" onerror="this.style.display='none'">`
         : '';
 
       return `
@@ -367,12 +408,8 @@
       `;
     };
 
-    const showError = (msg) => {
-      list.innerHTML = `
-        <div class="card" role="alert">
-          <strong>Unable to load release data.</strong><br/>
-          <span class="small muted">${esc(String(msg))}</span>
-        </div>`;
+    const showState = (msg, role = 'status') => {
+      list.innerHTML = `<div class="empty small muted" role="${role}">${esc(msg)}</div>`;
     };
 
     fetch(`https://api.github.com/repos/${OWNER}/${REPO}/releases`, {
@@ -380,7 +417,7 @@
     })
     .then(r => r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`))
     .then(items => {
-      if (!Array.isArray(items) || !items.length){ showError('No releases found.'); return; }
+      if (!Array.isArray(items) || !items.length){ showState('No releases found.'); return; }
 
       const latestByVer = new Map();
       for (const r of items){
@@ -404,21 +441,23 @@
         })
         .sort((a, b) => timeOf(b) - timeOf(a));
 
+      if (!latestReleases.length){ showState('No releases.'); return; }
+
       const empty = (msg) => `<div class="empty"><p class="small muted">${esc(msg)}</p></div>`;
       const group = (title, arr, emptyMsg) => `
         <div class="releases-group" data-group="${title}">
           <h2 class="group-title">${title}</h2>
           <div class="releases-list">
-            ${arr.length ? arr.map((r, i) => tpl(r, title === 'Latest Releases' && i === 0)).join('') : empty(emptyMsg || 'No releases yet.')}
+            ${arr.length ? arr.map((r, i) => tpl(r, title === 'Latest Releases' && i === 0)).join('') : empty(emptyMsg || 'No releases.')}
           </div>
         </div>`;
 
       list.innerHTML = [
-        group('Latest Releases',  latestReleases,  'No releases yet.'),
-        group('Previous Releases', previousReleases, previousReleases.length ? '' : 'No previous releases yet.')
+        group('Latest Releases',  latestReleases,  'No releases.'),
+        group('Previous Releases', previousReleases, previousReleases.length ? '' : 'No previous releases.')
       ].join('');
     })
-    .catch(err => showError(String(err)));
+    .catch(() => showState('Unable to load.', 'alert'));
   })();
   </script>
 

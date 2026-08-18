@@ -70,6 +70,17 @@
       min-width:0;
     }
 
+    .compare-state{
+      border:1px solid var(--nav-border);
+      border-radius:var(--banner-radius);
+      padding:18px;
+      text-align:center;
+      margin:2px 0;
+    }
+    @media (prefers-color-scheme: dark){
+      .compare-state{ border-color:#56596466; }
+    }
+
     .compare-card{
       background:#fff;
       color:#111317;
@@ -78,7 +89,7 @@
       overflow:hidden;
     }
     @media (prefers-color-scheme: dark){
-      .compare-card{ background:#0f1116; color:#e8e9ec; }
+      .compare-card{ background:var(--surface-dark); color:#e8e9ec; }
     }
 
     .compare-stack{
@@ -360,9 +371,10 @@
   const pickB = document.getElementById('pick-b');
   const imgA  = document.getElementById('img-a');
   const imgB  = document.getElementById('img-b');
+  const compareGrid = document.getElementById('compare-grid');
   const specTable = document.getElementById('spec-table');
 
-  if (!pickA || !pickB || !imgA || !imgB || !specTable) return;
+  if (!pickA || !pickB || !imgA || !imgB || !compareGrid || !specTable) return;
 
   const esc = (s='') => String(s).replace(/[&<>"']/g, m => ({
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
@@ -687,17 +699,8 @@
       render();
 
     })
-    .catch(err => {
-      pickA.disabled = true;
-      pickB.disabled = true;
-      pickA.innerHTML = `<option value="error">Failed to load</option>`;
-      pickB.innerHTML = `<option value="error">Failed to load</option>`;
-      imgA.removeAttribute('src');
-      imgB.removeAttribute('src');
-      imgA.style.display = 'none';
-      imgB.style.display = 'none';
-      specTable.setAttribute('role', 'alert');
-      specTable.innerHTML = `<li class="spec-item"><div class="spec-k">Unable to load comparison data.</div><div class="spec-v"><span class="line">${esc(String(err))}</span></div><div class="spec-v"><span class="line">${esc(String(err))}</span></div></li>`;
+    .catch(() => {
+      compareGrid.innerHTML = `<div class="compare-state small muted" role="alert">Unable to load.</div>`;
     });
 })();
 </script>
