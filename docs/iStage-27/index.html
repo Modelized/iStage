@@ -22,14 +22,14 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="iStage">
   <meta property="og:title" content="iStage 27 — iStage">
-  <meta property="og:description" content="Glass act. Faster than ever.">
+  <meta property="og:description" content="Glass act.">
   <meta property="og:url" content="https://modelized.github.io/iStage/iStage-27/">
   <meta property="og:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="iStage 27 — iStage">
-  <meta name="twitter:description" content="Glass act. Faster than ever.">
+  <meta name="twitter:description" content="Glass act.">
   <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
 
   <style>
@@ -59,6 +59,7 @@
     --hero-a:188 133 82;
     --hero-b:229 218 204;
     --hero-c:105 118 148;
+    --i27-hero-image-scale:.94;
     min-height:clamp(520px, 62vw, 700px);
     background:linear-gradient(145deg, #0e0b09 0%, #080809 52%, #090a0d 100%);
   }
@@ -77,13 +78,14 @@
     object-fit:cover;
     object-position:center;
     filter:none;
-    transform:none;
+    transform:scale(var(--i27-hero-image-scale));
+    transform-origin:center;
     animation:i27-hero-media-in 1.25s cubic-bezier(.22,1,.36,1) both;
   }
 
   @keyframes i27-hero-media-in{
-    from{ opacity:0; transform:scale(1.055); }
-    to{ opacity:1; transform:scale(1); }
+    from{ opacity:0; transform:scale(calc(var(--i27-hero-image-scale) + .055)); }
+    to{ opacity:1; transform:scale(var(--i27-hero-image-scale)); }
   }
 
   .page-iStage-27 .i27-hero-card::after{
@@ -112,7 +114,7 @@
   .i27-hero-headline{
     max-width:690px;
     color:#f5f5f7;
-    font-size:clamp(34px, 5.2vw, 58px);
+    font-size:clamp(38px, 5.5vw, 64px);
     font-weight:700;
     line-height:1.06;
     letter-spacing:-.025em;
@@ -140,13 +142,13 @@
     padding:0 24px;
     color:#f5f5f7;
     font-size:clamp(28px, 4.6vw, 56px);
-    font-weight:700;
+    font-weight:600;
     line-height:1.06;
     letter-spacing:-.01em;
   }
 
   .highlight-rail{
-    --highlight-card-width:min(74vw, 860px);
+    --highlight-card-width:min(78vw, 1240px);
     display:flex;
     gap:clamp(14px, 2vw, 22px);
     margin:0;
@@ -193,8 +195,8 @@
 
   .highlight-copy h3{
     margin:0;
-    font-size:clamp(20px, 2.5vw, 28px);
-    font-weight:600;
+    font-size:clamp(18px, 1.65vw, 26px);
+    font-weight:500;
     line-height:1.24;
     letter-spacing:-.01em;
   }
@@ -229,29 +231,30 @@
     --play-merge-left:116px;
     --island-ease:cubic-bezier(.42,0,.18,1);
     --island-duration:1.2s;
+    --controls-dock-shift:0px;
     position:fixed;
     left:50%;
-    top:calc(100vh - max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px)) - var(--control-half));
-    top:calc(100dvh - max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px)) - var(--control-half));
-    bottom:auto;
+    top:auto;
+    bottom:max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px));
     z-index:900;
     display:block;
     width:var(--controls-frame-width);
     height:56px;
     opacity:0;
     pointer-events:none;
-    transform:translate(-50%, calc(-50% + 180px));
+    translate:0 var(--controls-dock-shift);
+    transform:translate(-50%, 180px);
     transform-origin:center;
     transition-property:opacity, transform;
-    transition-duration:.24s, .72s;
+    transition-duration:.22s, .66s;
     transition-timing-function:linear, cubic-bezier(.16,1,.3,1);
-    transition-delay:.64s, .58s;
+    transition-delay:.58s, .52s;
   }
 
   .highlight-controls.is-mounted{
     opacity:1;
     pointer-events:auto;
-    transform:translate(-50%, -50%) scale(1);
+    transform:translate(-50%, 0) scale(1);
     transition-delay:0s, 0s;
   }
 
@@ -263,30 +266,24 @@
   @keyframes highlight-controls-rise{
     0%{
       opacity:0;
-      transform:translate(-50%, calc(-50% + 180px));
+      transform:translate(-50%, 180px);
       animation-timing-function:cubic-bezier(.48,0,.2,1);
     }
     7%{ opacity:1; }
-    34%{
+    30%{
       opacity:1;
-      transform:translate(-50%, calc(-50% - 46px));
+      transform:translate(-50%, -46px);
       animation-timing-function:cubic-bezier(.34,.02,.2,1);
     }
-    58%{
+    54%{
       opacity:1;
-      transform:translate(-50%, calc(-50% + 3px));
+      transform:translate(-50%, 3px);
       animation-timing-function:cubic-bezier(.32,.04,.2,1);
     }
     100%{
       opacity:1;
-      transform:translate(-50%, -50%) scale(1);
+      transform:translate(-50%, 0) scale(1);
     }
-  }
-
-  .highlight-controls.is-docked{
-    position:absolute;
-    top:var(--controls-dock-top);
-    bottom:auto;
   }
 
   .progress-pill,
@@ -306,12 +303,23 @@
     position:absolute;
     inset:0;
     z-index:0;
-    border:1px solid rgba(255,255,255,.10);
     border-radius:inherit;
     background:rgba(37,37,40,.78);
     box-shadow:0 12px 38px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.07);
     backdrop-filter:saturate(150%) blur(22px);
     -webkit-backdrop-filter:saturate(150%) blur(22px);
+    pointer-events:none;
+  }
+
+  .progress-pill::after,
+  .play-toggle::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:3;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:inherit;
+    box-sizing:border-box;
     pointer-events:none;
   }
 
@@ -322,6 +330,8 @@
     z-index:3;
     width:30px;
     height:80px;
+    box-sizing:border-box;
+    border:1px solid rgba(255,255,255,.10);
     border-radius:999px;
     opacity:0;
     background:rgb(42,42,45);
@@ -350,21 +360,21 @@
       transform:translate(-50%, -50%) scale(1.3);
       animation-timing-function:cubic-bezier(.44,0,.2,1);
     }
-    34%{
+    30%{
       width:39px;
       height:45px;
       opacity:1;
       transform:translate(-50%, -50%) scale(1.3);
       animation-timing-function:cubic-bezier(.34,.02,.2,1);
     }
-    48%{
+    44%{
       width:40px;
       height:30px;
       opacity:1;
       transform:translate(-50%, -50%) scale(1.3);
       animation-timing-function:cubic-bezier(.32,.04,.2,1);
     }
-    52%{
+    48%{
       width:35px;
       height:32px;
       opacity:0;
@@ -379,11 +389,21 @@
   }
 
   .highlight-controls.is-introducing .progress-pill::before{
-    animation:highlight-pill-surface var(--island-duration) linear both;
+    animation:highlight-pill-surface var(--island-duration) var(--island-ease) both;
   }
 
   .highlight-controls.is-introducing .play-toggle::before{
-    animation:highlight-play-surface var(--island-duration) linear both;
+    animation:highlight-play-surface var(--island-duration) var(--island-ease) both;
+  }
+
+  .highlight-controls.is-introducing .progress-pill::after,
+  .highlight-controls.is-introducing .play-toggle::after{
+    animation:highlight-control-outline var(--island-duration) var(--island-ease) both;
+  }
+
+  @keyframes highlight-control-outline{
+    0%, 48%{ opacity:0; }
+    62%, 100%{ opacity:1; }
   }
 
   @keyframes highlight-pill-surface{
@@ -401,9 +421,9 @@
   }
 
   @keyframes highlight-play-surface{
-    0%, 50%{ opacity:0; transform:scaleY(.74); }
-    62%{ opacity:1; transform:scaleY(.86); }
-    84%{ opacity:1; transform:scaleY(1.025); }
+    0%, 50%{ opacity:0; transform:scaleY(.74); animation-timing-function:cubic-bezier(.42,0,.2,1); }
+    62%{ opacity:1; transform:scaleY(.86); animation-timing-function:cubic-bezier(.34,.02,.2,1); }
+    84%{ opacity:1; transform:scaleY(1.025); animation-timing-function:cubic-bezier(.34,.02,.2,1); }
     100%{ opacity:1; transform:scaleY(1); }
   }
 
@@ -431,7 +451,7 @@
   }
 
   .highlight-controls.is-introducing .progress-pill{
-    animation:highlight-pill-split var(--island-duration) linear both;
+    animation:highlight-pill-split var(--island-duration) var(--island-ease) both;
     transition:none;
   }
 
@@ -467,7 +487,7 @@
 
   .highlight-controls.is-introducing .progress-dots{
     overflow:hidden;
-    animation:highlight-dots-center-unfold var(--island-duration) linear both;
+    animation:highlight-dots-center-unfold var(--island-duration) var(--island-ease) both;
   }
 
   @keyframes highlight-dots-center-unfold{
@@ -572,7 +592,7 @@
   }
 
   .highlight-controls.is-introducing .play-toggle{
-    animation:highlight-play-split var(--island-duration) linear both;
+    animation:highlight-play-split var(--island-duration) var(--island-ease) both;
     transition:none;
   }
 
@@ -594,7 +614,7 @@
   }
 
   .highlight-controls.is-introducing .play-icon{
-    animation:highlight-play-icon-arrive var(--island-duration) linear both;
+    animation:highlight-play-icon-arrive var(--island-duration) var(--island-ease) both;
   }
 
   @keyframes highlight-play-icon-arrive{
@@ -644,7 +664,7 @@
   .play-toggle:focus-visible{ outline:2px solid rgb(var(--accent-blue)); outline-offset:3px; }
 
   @media (max-width:900px) and (orientation:portrait){
-    .page-iStage-27 .i27-hero-card{ display:block; min-height:clamp(560px, 148vw, 720px); }
+    .page-iStage-27 .i27-hero-card{ --i27-hero-image-scale:.9; display:block; min-height:clamp(540px, 138vw, 660px); }
     .page-iStage-27 .i27-hero-media{ position:absolute; inset:0; height:auto; }
     .page-iStage-27 .i27-hero-copy{ position:absolute; inset:auto 24px 94px; padding:0; }
     .i27-hero-headline{ max-width:8.8em; }
@@ -652,26 +672,26 @@
     .i27-highlights{ padding-top:82px; }
     .i27-highlights-heading{ margin-bottom:30px; padding:0 24px; }
     .highlight-rail{ --highlight-card-width:82vw; gap:14px; }
-    .highlight-card{ height:clamp(520px, 142vw, 650px); }
-    .highlight-copy{ padding:38px 24px 0; }
-    .highlight-copy h3{ font-size:clamp(18px, 5vw, 23px); }
+    .highlight-card{ height:clamp(460px, 120vw, 560px); }
+    .highlight-copy{ padding:34px 24px 0; }
+    .highlight-copy h3{ font-size:clamp(16px, 4.4vw, 18px); line-height:1.22; }
     .highlight-media-placeholder{ left:20px; right:20px; height:58%; }
     .progress-pill,
     .play-toggle{ height:56px; }
     .progress-dots{ --progress-dot-gap:13px; }
     .highlight-controls{
-      --controls-frame-width:272px;
+      --controls-frame-width:288px;
       --control-half:28px;
       --collapsed-control-size:56px;
-      --pill-expanded-width:200px;
-      --pill-prep-width:160px;
+      --pill-expanded-width:216px;
+      --pill-prep-width:176px;
       --pill-prep-left:56px;
       --progress-active-width:40px;
       --dots-collapsed-width:40px;
       --dots-expanded-width:166px;
-      --play-final-left:216px;
-      --play-origin-left:88px;
-      --play-merge-left:108px;
+      --play-final-left:232px;
+      --play-origin-left:96px;
+      --play-merge-left:116px;
       height:56px;
     }
     .is-mounted .progress-pill{ width:var(--pill-expanded-width); }
@@ -682,7 +702,7 @@
   @media (max-width:900px) and (orientation:landscape){
     .page-iStage-27 .i27-hero-card{ min-height:clamp(340px, 78vh, 500px); }
     .page-iStage-27 .i27-hero-copy{ right:42%; }
-    .i27-hero-headline{ font-size:clamp(30px, 6vw, 42px); }
+    .i27-hero-headline{ font-size:clamp(34px, 6.5vw, 48px); }
     .highlight-card{ height:clamp(370px, 78vh, 540px); }
   }
 
@@ -695,6 +715,8 @@
     .progress-dots,
     .play-toggle,
     .play-toggle::before,
+    .progress-pill::after,
+    .play-toggle::after,
     .progress-dot{ animation:none !important; transition:none !important; }
     .highlight-copy{ opacity:1 !important; transform:none !important; }
   }
@@ -721,7 +743,7 @@
           <div class="page-hero-copy copy i27-hero-copy">
             <h1 class="i27-hero-lockup" id="i27-title">
               <span class="i27-hero-product reveal-onload">iStage 27</span>
-              <span class="i27-hero-headline reveal-onload reveal-delay-1">Glass act.<br>Faster than ever.</span>
+              <span class="i27-hero-headline reveal-onload reveal-delay-1">Glass act.</span>
             </h1>
           </div>
 
@@ -737,31 +759,31 @@
 
       <div class="highlight-rail reveal reveal--short" id="highlight-rail" aria-label="iStage 27 highlights" tabindex="0">
         <article class="highlight-card" data-card="0" tabindex="0" aria-label="Highlight 1 of 7">
-          <div class="highlight-copy"><h3>Refined Liquid Glass brings cleaner depth, sharper contrast, and more natural refraction.</h3></div>
+          <div class="highlight-copy"><h3>A lighter Liquid Glass design with refined clarity and subtle depth.</h3></div>
           <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
         </article>
         <article class="highlight-card" data-card="1" tabindex="0" aria-label="Highlight 2 of 7">
-          <div class="highlight-copy"><h3>Better performance and fluid motion make every unlock, swipe, and transition feel instantly responsive.</h3></div>
+          <div class="highlight-copy"><h3>A refreshed setup experience that delivers a clean Setup Summary when you finish.</h3></div>
           <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
         </article>
         <article class="highlight-card" data-card="2" tabindex="0" aria-label="Highlight 3 of 7">
-          <div class="highlight-copy"><h3>Redesigned editors make the clock, widgets, shortcuts, and wallpaper more personal than ever.</h3></div>
+          <div class="highlight-copy"><h3>Expanded personalization with redesigned editors and a revamped wallpaper gallery.</h3></div>
           <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
         </article>
         <article class="highlight-card" data-card="3" tabindex="0" aria-label="Highlight 4 of 7">
-          <div class="highlight-copy"><h3>Dynamic Island presents lock and charging states with motion that feels alive.</h3></div>
+          <div class="highlight-copy"><h3>Dynamic Island seamlessly presents system states, such as lock and charging.</h3></div>
           <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
         </article>
         <article class="highlight-card" data-card="4" tabindex="0" aria-label="Highlight 5 of 7">
-          <div class="highlight-copy"><h3>Live Activities bring more of the match — from Formula 1 to football — to your Lock Screen.</h3></div>
+          <div class="highlight-copy"><h3>Stay updated on F1 races and live match scores right from your Lock Screen.</h3></div>
           <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
         </article>
         <article class="highlight-card" data-card="5" tabindex="0" aria-label="Highlight 6 of 7">
-          <div class="highlight-copy"><h3>Notification Center lets you move naturally between Count, Stack, and List views.</h3></div>
+          <div class="highlight-copy"><h3>Notification Center lets you easily switch between Count, Stack, and List views.</h3></div>
           <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
         </article>
         <article class="highlight-card" data-card="6" tabindex="0" aria-label="Highlight 7 of 7">
-          <div class="highlight-copy"><h3>Compact and full-screen music players adapt their color and blur to every album.</h3></div>
+          <div class="highlight-copy"><h3>Switch between a minimal compact player and a rich, vibrant full-screen view for your music.</h3></div>
           <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
         </article>
       </div>
@@ -815,13 +837,18 @@
     let currentIndex = 0;
     let isPlaying = false;
     let hasStarted = false;
+    let userInterrupted = false;
+    let autoplayFinished = false;
+    let resumeOnReturn = false;
     let playbackTimer = 0;
     let scrollAnimationFrame = 0;
     let programmaticScroll = false;
     let scrollTicking = false;
     let pageTicking = false;
-    let controlsDocked = false;
     let controlsMounted = false;
+    let dockAnimationFrame = 0;
+    let renderedDockShift = 0;
+    let targetDockShift = 0;
     let controlsIntroTimer = 0;
     let autoplayStartTimer = 0;
     let pointerGesture = null;
@@ -853,6 +880,7 @@
       playbackTimer = window.setTimeout(function(){
         if (currentIndex === cards.length - 1){
           dots[currentIndex].classList.add('is-complete');
+          autoplayFinished = true;
           pausePlayback();
           return;
         }
@@ -862,6 +890,7 @@
 
     function play(){
       dots.forEach(function(dot){ dot.classList.remove('is-complete'); });
+      autoplayFinished = false;
       isPlaying = true;
       hasStarted = true;
       updateControls();
@@ -990,6 +1019,8 @@
 
     function stopForUser(){
       cancelRailAnimation();
+      userInterrupted = true;
+      resumeOnReturn = false;
       pausePlayback();
     }
 
@@ -1003,28 +1034,43 @@
       }, 1240);
     }
 
+    function renderDockShift(){
+      dockAnimationFrame = 0;
+      const difference = targetDockShift - renderedDockShift;
+      if (Math.abs(difference) < .08){
+        renderedDockShift = targetDockShift;
+      }else{
+        renderedDockShift += difference * .24;
+      }
+      controls.style.setProperty('--controls-dock-shift', renderedDockShift.toFixed(3) + 'px');
+      if (Math.abs(targetDockShift - renderedDockShift) >= .08){
+        dockAnimationFrame = window.requestAnimationFrame(renderDockShift);
+      }
+    }
+
+    function setDockShift(nextShift){
+      targetDockShift = Math.min(0, nextShift);
+      if (!dockAnimationFrame) dockAnimationFrame = window.requestAnimationFrame(renderDockShift);
+    }
+
     function updateControlPosition(){
       pageTicking = false;
       const sectionBox = section.getBoundingClientRect();
       const anchorBox = controlsAnchor.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const visualViewport = window.visualViewport;
+      const viewportHeight = visualViewport ? visualViewport.height : (window.innerHeight || document.documentElement.clientHeight);
       const controlHeight = controls.offsetHeight || 56;
-      const fixedCenter = viewportHeight - 24 - controlHeight / 2;
       const inRange = sectionBox.top < viewportHeight * .62 && sectionBox.bottom > 36;
       const anchorCenter = anchorBox.top + anchorBox.height / 2;
       const entering = inRange && !controlsMounted;
+      const controlsBox = controls.getBoundingClientRect();
+      const fixedCenter = controlsBox.top + controlHeight / 2 - renderedDockShift;
 
-      if (!inRange){
-        controlsDocked = false;
-      }else if (controlsDocked){
-        controlsDocked = anchorCenter <= fixedCenter + 12;
-      }else{
-        controlsDocked = anchorCenter <= fixedCenter - 2;
-      }
+      setDockShift(inRange && controlsMounted && !controls.classList.contains('is-introducing')
+        ? anchorCenter - fixedCenter
+        : 0);
 
       controls.classList.toggle('is-mounted', inRange);
-      controls.classList.toggle('is-docked', controlsDocked);
-      controls.style.setProperty('--controls-dock-top', (controlsAnchor.offsetTop + controlsAnchor.offsetHeight / 2) + 'px');
 
       if (entering){
         beginControlsIntro();
@@ -1033,6 +1079,11 @@
           autoplayStartTimer = window.setTimeout(function(){
             if (!hasStarted && controls.classList.contains('is-mounted')) play();
           }, 1260);
+        }else if (resumeOnReturn && !userInterrupted && !autoplayFinished){
+          window.clearTimeout(autoplayStartTimer);
+          autoplayStartTimer = window.setTimeout(function(){
+            if (controls.classList.contains('is-mounted') && !userInterrupted && !autoplayFinished) play();
+          }, 80);
         }
       }
 
@@ -1044,7 +1095,10 @@
 
       controlsMounted = inRange;
 
-      if (!inRange && isPlaying) pausePlayback();
+      if (!inRange && isPlaying){
+        resumeOnReturn = !userInterrupted && !autoplayFinished;
+        pausePlayback();
+      }
     }
 
     function requestControlPosition(){
@@ -1056,24 +1110,31 @@
     cards.forEach(function(card, index){
       card.addEventListener('click', function(){
         if (index === currentIndex) return;
-        pausePlayback();
+        stopForUser();
         goTo(index, 'manual');
       });
       card.addEventListener('keydown', function(event){
         if (event.key !== 'Enter' && event.key !== ' ') return;
         event.preventDefault();
-        pausePlayback();
+        stopForUser();
         goTo(index, 'manual');
       });
     });
 
     dots.forEach(function(dot, index){
-      dot.addEventListener('click', function(){ pausePlayback(); goTo(index, 'manual'); });
+      dot.addEventListener('click', function(){ stopForUser(); goTo(index, 'manual'); });
     });
 
     playToggle.addEventListener('click', function(){
-      if (isPlaying) pausePlayback();
-      else play();
+      if (isPlaying){
+        userInterrupted = true;
+        resumeOnReturn = false;
+        pausePlayback();
+      }else{
+        userInterrupted = false;
+        resumeOnReturn = false;
+        play();
+      }
     });
 
     rail.addEventListener('scroll', onRailScroll, {passive:true});
@@ -1097,13 +1158,17 @@
     rail.addEventListener('keydown', function(event){
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
       event.preventDefault();
-      pausePlayback();
+      stopForUser();
       goTo(currentIndex + (event.key === 'ArrowRight' ? 1 : -1), 'manual');
     });
 
     window.addEventListener('scroll', requestControlPosition, {passive:true});
     window.addEventListener('resize', function(){ requestControlPosition(); updateCardText(); });
     window.addEventListener('orientationchange', requestControlPosition);
+    if (window.visualViewport){
+      window.visualViewport.addEventListener('resize', requestControlPosition, {passive:true});
+      window.visualViewport.addEventListener('scroll', requestControlPosition, {passive:true});
+    }
 
     updateControls();
     updateCardText();
