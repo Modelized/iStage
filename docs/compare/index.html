@@ -50,8 +50,11 @@
       .page-compare .subtitle{ color:#a7acb7; }
     }
 
-    .page-compare .copy{ gap:6px; }
-    .page-compare .title{ margin:0 0 4px; }
+    .page-compare .page-hero-card{
+      --hero-a:53 211 208;
+      --hero-b:225 106 143;
+      --hero-c:102 132 255;
+    }
 
     .page-compare .section--first{
       padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 22px);
@@ -63,7 +66,7 @@
       }
     }
 
-    .compare-surface{ background:transparent; padding:28px 0 24px; }
+    .compare-surface{ background:transparent; padding:16px 0 24px; }
 
     .compare-grid{
       display:block;
@@ -317,9 +320,16 @@
 
   <main>
     <section class="section section--first" id="compare">
-      <div class="container hero copy">
-        <h1 class="title reveal-onload" style="margin-bottom:4px">Compare</h1>
-        <p class="subtitle small reveal-onload reveal-delay-1">See what's different across iStage versions.</p>
+      <div class="container">
+        <div class="page-hero-card">
+          <div class="page-hero-media">
+            <img src="../assets/img/hero-iStage-series.png" alt="iStage Series" loading="eager" decoding="async">
+          </div>
+          <div class="page-hero-copy copy">
+            <h1 class="title reveal-onload">Compare</h1>
+            <p class="subtitle reveal-onload reveal-delay-1">See what's different across iStage versions.</p>
+          </div>
+        </div>
       </div>
 
       <div class="compare-surface">
