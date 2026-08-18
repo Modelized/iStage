@@ -572,6 +572,12 @@ body{
 .cta{display:flex; gap:12px; justify-content:center; margin-top:12px}
 
 /* Shared feature-page hero card */
+.page-feature .section--first{
+  padding-top:0;
+}
+.page-hero-shell{
+  margin:0 var(--banner-side-gap);
+}
 .page-hero-card{
   --hero-a:90 205 211;
   --hero-b:215 132 174;
@@ -600,10 +606,38 @@ body{
 .page-hero-card::after{
   content:"";
   position:absolute;
-  inset:38% 0 0;
-  z-index:-1;
-  background:linear-gradient(180deg, transparent 0%, rgba(5,6,8,.34) 42%, rgba(5,6,8,.90) 100%);
+  inset:52% 0 0;
+  z-index:1;
+  background:rgba(0,0,0,.78);
+  -webkit-mask-image:linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,.35) 28%,
+    rgba(0,0,0,1) 100%
+  );
+  mask-image:linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,.35) 28%,
+    rgba(0,0,0,1) 100%
+  );
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-size:100% 100%;
+  mask-size:100% 100%;
   pointer-events:none;
+}
+@supports not ((-webkit-mask-image:linear-gradient(#000,#000)) or (mask-image:linear-gradient(#000,#000))){
+  .page-hero-card::after{
+    inset:auto 0 0;
+    height:48%;
+    background:linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,.28) 35%,
+      rgba(0,0,0,.78) 100%
+    );
+  }
 }
 .page-hero-media{
   position:absolute;
@@ -640,22 +674,46 @@ body{
   font-size:clamp(14px, 2vw, 18px);
   line-height:1.45;
 }
+.page-hero-card--text-only{
+  min-height:clamp(260px, 32vw, 360px);
+}
+.page-hero-card--text-only::after{
+  content:none;
+}
 @keyframes page-hero-ambient{
   from{ transform:scale(1.04) translate3d(-1.5%, -1%, 0); }
   to{ transform:scale(1.08) translate3d(1.5%, 1%, 0); }
 }
 @media (max-width:900px) and (orientation:portrait){
-  .page-hero-card{ min-height:clamp(430px, 128vw, 560px); }
-  .page-hero-media{ padding:0 4px 104px; }
+  .page-hero-card{
+    display:grid;
+    grid-template-rows:auto auto;
+    min-height:0;
+  }
+  .page-hero-media{
+    position:relative;
+    inset:auto;
+    height:clamp(300px, 84vw, 390px);
+    padding:0 4px;
+    place-items:center;
+  }
   .page-hero-media img{
-    width:min(118%, 500px);
+    width:min(108%, 460px);
     max-width:none;
-    max-height:82%;
+    max-height:100%;
   }
   .page-hero-copy.copy{
-    left:24px;
-    right:24px;
-    bottom:26px;
+    position:relative;
+    inset:auto;
+    padding:0 24px 26px;
+  }
+  .page-hero-card--text-only{
+    display:flex;
+    min-height:clamp(240px, 70vw, 320px);
+  }
+  .page-hero-card--text-only .page-hero-copy.copy{
+    width:100%;
+    margin-top:auto;
   }
 }
 @media (max-width:900px) and (orientation:landscape){

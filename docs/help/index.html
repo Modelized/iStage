@@ -47,17 +47,6 @@
     --hero-c:116 198 232;
   }
 
-  /* push first section clear of fixed nav (slightly more headroom) */
-  .page-help .section--first{
-    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 22px);
-    margin-top:0;
-  }
-  @media (min-width:900px){
-    .page-help .section--first{
-      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 24px);
-    }
-  }
-
   /* card surface: swap + same corner system as main (banner-radius) */
   .page-help .card{
     background:#fff;
@@ -197,14 +186,14 @@
   <script>document.documentElement.classList.add('js');</script>
 </head>
 
-<body class="page-help" data-base="..">
+<body class="page-help page-feature" data-base="..">
   <div class="nav-backdrop" aria-hidden="true"></div>
 
   <div id="nav-slot"></div>
 
   <main>
     <section class="section section--first">
-      <div class="container">
+      <div class="page-hero-shell">
         <div class="page-hero-card">
           <div class="page-hero-media">
             <img src="../assets/img/help-hero.png" alt="iStage Series" loading="eager" decoding="async" onerror="this.style.display='none'">

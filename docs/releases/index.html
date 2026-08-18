@@ -56,17 +56,6 @@
     --hero-c:193 135 93;
   }
 
-  /* Push first section clear of fixed nav */
-  .page-releases .section--first{
-    padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-mobile) + 22px);
-    margin-top:0;
-  }
-  @media (min-width:900px){
-    .page-releases .section--first{
-      padding-top: calc(env(safe-area-inset-top) + var(--nav-offset-desktop) + 24px);
-    }
-  }
-
   /* Surface only for the list area */
   .releases-surface{ background:transparent; padding:16px 0 24px; }
 
@@ -224,7 +213,7 @@
   <script>document.documentElement.classList.add('js');</script>
 </head>
 
-<body class="page-releases" data-base="..">
+<body class="page-releases page-feature" data-base="..">
   <!-- Home-style nav backdrop (becomes visible on scroll via body.nav--scrolled) -->
   <div class="nav-backdrop" aria-hidden="true"></div>
 
@@ -232,7 +221,7 @@
 
   <main>
     <section class="section section--first" id="releases">
-      <div class="container">
+      <div class="page-hero-shell">
         <div class="page-hero-card">
           <div class="page-hero-media">
             <img src="../assets/img/releases-hero.png" alt="iStage Series" loading="eager" decoding="async" onerror="this.style.display='none'">
