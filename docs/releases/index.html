@@ -370,8 +370,8 @@
     const showError = (msg) => {
       list.innerHTML = `
         <div class="card" role="alert">
-          <strong>Failed to load releases.</strong><br/>
-          <span class="small muted">${msg}</span>
+          <strong>Unable to load release data.</strong><br/>
+          <span class="small muted">${esc(String(msg))}</span>
         </div>`;
     };
 

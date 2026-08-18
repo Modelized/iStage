@@ -172,10 +172,15 @@
       outline:none;
     }
 
+    .compare-select:disabled{
+      cursor:default;
+      opacity:.65;
+    }
+
     .compare-select-wrap::after{
       content:"";
-      width:28px;
-      height:28px;
+      width:22px;
+      height:22px;
       flex:0 0 auto;
       position:absolute;
       right:0;
@@ -683,11 +688,16 @@
 
     })
     .catch(err => {
+      pickA.disabled = true;
+      pickB.disabled = true;
       pickA.innerHTML = `<option value="error">Failed to load</option>`;
       pickB.innerHTML = `<option value="error">Failed to load</option>`;
       imgA.removeAttribute('src');
       imgB.removeAttribute('src');
-      specTable.innerHTML = `<li class="spec-row"><div class="k">Error</div><div class="v"><span class="line">${esc(String(err))}</span></div><div class="v"><span class="line">${esc(String(err))}</span></div></li>`;
+      imgA.style.display = 'none';
+      imgB.style.display = 'none';
+      specTable.setAttribute('role', 'alert');
+      specTable.innerHTML = `<li class="spec-item"><div class="spec-k">Unable to load comparison data.</div><div class="spec-v"><span class="line">${esc(String(err))}</span></div><div class="spec-v"><span class="line">${esc(String(err))}</span></div></li>`;
     });
 })();
 </script>
