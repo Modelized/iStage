@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>iStage</title>
-  
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  
+
   <!-- Icons / PWA -->
   <link rel="icon" type="image/svg+xml" href="/iStage/favicon.svg">
   <link rel="icon" sizes="192x192" href="/iStage/android-chrome-192x192.png">
@@ -15,39 +15,1119 @@
   <link rel="apple-touch-icon" href="/iStage/apple-touch-icon.png">
   <link rel="mask-icon" href="/iStage/pinned-tab.svg" color="#0f1116">
 
-  <!-- Address bar color -->
-  <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-  
+  <!-- iStage introduction pages always use the dark appearance. -->
+  <meta name="theme-color" content="#000000">
+
   <!-- Open Graph / Twitter thumbnail -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="iStage">
   <meta property="og:title" content="iStage 27 — iStage">
-  <meta property="og:description" content="Android. Reimagined.">
+  <meta property="og:description" content="Glass act. Faster than ever.">
   <meta property="og:url" content="https://modelized.github.io/iStage/iStage-27/">
   <meta property="og:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="iStage 27 — iStage">
-  <meta name="twitter:description" content="Android. Reimagined.">
+  <meta name="twitter:description" content="Glass act. Faster than ever.">
   <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
+
+  <style>
+  /* ----- iStage 27 introduction page (always dark) ----- */
+  html{ background:#000; color-scheme:dark; }
+
+  .page-iStage-27{
+    --nav-surface:rgba(24,24,27,.54);
+    --nav-border:#ffffff33;
+    --nav-text:rgba(232,233,236,1);
+    --nav-text-dim:rgba(232,233,236,.72);
+    --nav-press-bg:rgba(255,255,255,.06);
+    --menu-thumb-bg-default:rgba(255,255,255,.16);
+    --menu-thumb-bg-press:rgba(255,255,255,.24);
+    --page-bg:#000;
+    min-width:0;
+    background:#000;
+    color:#f5f5f7;
+  }
+
+  .page-iStage-27 .brand-logo{ filter:none !important; }
+  .page-iStage-27 main{ overflow:clip; }
+  .page-iStage-27 .footer{ margin:0; background:#000; color:#a7acb7; }
+
+  /* Hero: shared feature-card structure, iStage 27-specific composition. */
+  .page-iStage-27 .i27-hero-card{
+    --hero-a:188 133 82;
+    --hero-b:229 218 204;
+    --hero-c:105 118 148;
+    min-height:clamp(520px, 62vw, 700px);
+    background:linear-gradient(145deg, #0e0b09 0%, #080809 52%, #090a0d 100%);
+  }
+
+  .page-iStage-27 .i27-hero-card::before{ animation-duration:13s; }
+
+  .i27-hero-media picture,
+  .i27-hero-media img{ display:block; width:100%; height:100%; }
+
+  .page-iStage-27 .i27-hero-media img{
+    top:0;
+    left:0;
+    width:100%;
+    max-width:none;
+    max-height:none;
+    object-fit:cover;
+    object-position:center;
+    filter:none;
+    transform:none;
+    animation:i27-hero-media-in 1.25s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  @keyframes i27-hero-media-in{
+    from{ opacity:0; transform:scale(1.055); }
+    to{ opacity:1; transform:scale(1); }
+  }
+
+  .page-iStage-27 .i27-hero-card::after{
+    inset:24% 0 0;
+    background:linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.05) 22%, rgba(0,0,0,.52) 61%, rgba(0,0,0,.94) 100%);
+  }
+
+  .page-iStage-27 .i27-hero-copy{ right:min(42%, 390px); gap:5px; }
+
+  .i27-hero-lockup{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin:0;
+    letter-spacing:-.03em;
+  }
+
+  .i27-hero-product{
+    color:rgba(245,245,247,.78);
+    font-size:clamp(14px, 2vw, 18px);
+    font-weight:400;
+    line-height:1.45;
+    letter-spacing:-.01em;
+  }
+
+  .i27-hero-headline{
+    max-width:690px;
+    color:#f5f5f7;
+    font-size:clamp(34px, 5.2vw, 58px);
+    font-weight:700;
+    line-height:1.06;
+    letter-spacing:-.025em;
+  }
+
+  .i27-hero-action{
+    position:absolute;
+    right:clamp(24px, 4vw, 44px);
+    bottom:clamp(24px, 4vw, 38px);
+    z-index:3;
+  }
+
+  .i27-hero-action .btn{ min-width:112px; }
+
+  /* Highlights */
+  .i27-highlights{
+    position:relative;
+    padding:clamp(78px, 10vw, 132px) 0 0;
+    background:#000;
+  }
+
+  .i27-highlights-heading{
+    width:min(1100px, 100%);
+    margin:0 auto clamp(30px, 5vw, 56px);
+    padding:0 24px;
+    color:#f5f5f7;
+    font-size:clamp(28px, 4.6vw, 56px);
+    font-weight:700;
+    line-height:1.06;
+    letter-spacing:-.01em;
+  }
+
+  .highlight-rail{
+    --highlight-card-width:min(74vw, 860px);
+    display:flex;
+    gap:clamp(14px, 2vw, 22px);
+    margin:0;
+    padding:4px max(18px, calc((100vw - var(--highlight-card-width)) / 2)) 20px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    overscroll-behavior-x:contain;
+    scroll-padding-inline:max(18px, calc((100vw - var(--highlight-card-width)) / 2));
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .highlight-rail::-webkit-scrollbar{ display:none; }
+  .highlight-rail.is-animating{ scroll-snap-type:none; }
+
+  .highlight-card{
+    position:relative;
+    flex:0 0 var(--highlight-card-width);
+    height:clamp(520px, 58vw, 680px);
+    overflow:hidden;
+    scroll-snap-align:center;
+    border:0;
+    border-radius:var(--banner-radius);
+    background:var(--surface-dark);
+    color:#f5f5f7;
+    cursor:pointer;
+    isolation:isolate;
+  }
+
+  .highlight-card:focus-visible{ outline:2px solid rgb(var(--accent-blue)); outline-offset:4px; }
+
+  .highlight-copy{
+    position:relative;
+    z-index:2;
+    max-width:760px;
+    margin:0 auto;
+    padding:clamp(34px, 5vw, 62px) clamp(26px, 6vw, 72px) 0;
+    text-align:center;
+    opacity:var(--copy-opacity, 1);
+    transform:translate3d(var(--copy-shift, 0px), 0, 0);
+    will-change:transform, opacity;
+  }
+
+  .highlight-copy h3{
+    margin:0;
+    font-size:clamp(20px, 2.5vw, 28px);
+    font-weight:600;
+    line-height:1.24;
+    letter-spacing:-.01em;
+  }
+
+  .highlight-media-placeholder{
+    position:absolute;
+    left:clamp(26px, 5vw, 58px);
+    right:clamp(26px, 5vw, 58px);
+    bottom:0;
+    height:57%;
+    overflow:hidden;
+    border-radius:clamp(22px, 3vw, 34px) clamp(22px, 3vw, 34px) 0 0;
+    background:linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.018));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+  }
+
+  .highlight-controls-anchor{ position:relative; height:clamp(150px, 18vw, 190px); }
+
+  /* A rising intro blob compresses, then hands off to the two controls. */
+  .highlight-controls{
+    --controls-frame-width:288px;
+    --control-half:28px;
+    --collapsed-control-size:56px;
+    --pill-expanded-width:216px;
+    --pill-prep-width:176px;
+    --pill-prep-left:56px;
+    --progress-active-width:46px;
+    --dots-collapsed-width:46px;
+    --dots-expanded-width:172px;
+    --play-final-left:232px;
+    --play-origin-left:96px;
+    --play-merge-left:116px;
+    --island-ease:cubic-bezier(.42,0,.18,1);
+    --island-duration:1.2s;
+    position:fixed;
+    left:50%;
+    top:calc(100vh - max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px)) - var(--control-half));
+    top:calc(100dvh - max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px)) - var(--control-half));
+    bottom:auto;
+    z-index:900;
+    display:block;
+    width:var(--controls-frame-width);
+    height:56px;
+    opacity:0;
+    pointer-events:none;
+    transform:translate(-50%, calc(-50% + 180px));
+    transform-origin:center;
+    transition-property:opacity, transform;
+    transition-duration:.24s, .72s;
+    transition-timing-function:linear, cubic-bezier(.16,1,.3,1);
+    transition-delay:.64s, .58s;
+  }
+
+  .highlight-controls.is-mounted{
+    opacity:1;
+    pointer-events:auto;
+    transform:translate(-50%, -50%) scale(1);
+    transition-delay:0s, 0s;
+  }
+
+  .highlight-controls.is-introducing{
+    animation:highlight-controls-rise var(--island-duration) var(--island-ease) both;
+    transition:none;
+  }
+
+  @keyframes highlight-controls-rise{
+    0%{
+      opacity:0;
+      transform:translate(-50%, calc(-50% + 180px));
+      animation-timing-function:cubic-bezier(.48,0,.2,1);
+    }
+    7%{ opacity:1; }
+    34%{
+      opacity:1;
+      transform:translate(-50%, calc(-50% - 46px));
+      animation-timing-function:cubic-bezier(.34,.02,.2,1);
+    }
+    58%{
+      opacity:1;
+      transform:translate(-50%, calc(-50% + 3px));
+      animation-timing-function:cubic-bezier(.32,.04,.2,1);
+    }
+    100%{
+      opacity:1;
+      transform:translate(-50%, -50%) scale(1);
+    }
+  }
+
+  .highlight-controls.is-docked{
+    position:absolute;
+    top:var(--controls-dock-top);
+    bottom:auto;
+  }
+
+  .progress-pill,
+  .play-toggle{
+    height:56px;
+    border:0;
+    background:transparent;
+    color:#f5f5f7;
+    box-shadow:none;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+
+  .progress-pill::before,
+  .play-toggle::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:inherit;
+    background:rgba(37,37,40,.78);
+    box-shadow:0 12px 38px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.07);
+    backdrop-filter:saturate(150%) blur(22px);
+    -webkit-backdrop-filter:saturate(150%) blur(22px);
+    pointer-events:none;
+  }
+
+  .highlight-intro-blob{
+    position:absolute;
+    top:50%;
+    left:50%;
+    z-index:3;
+    width:30px;
+    height:80px;
+    border-radius:999px;
+    opacity:0;
+    background:rgb(42,42,45);
+    box-shadow:0 12px 38px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.05);
+    pointer-events:none;
+    transform:translate(-50%, -50%) scale(1.3);
+    transform-origin:center;
+  }
+
+  .highlight-controls.is-introducing .highlight-intro-blob{
+    animation:highlight-intro-blob var(--island-duration) var(--island-ease) both;
+  }
+
+  @keyframes highlight-intro-blob{
+    0%{
+      width:30px;
+      height:80px;
+      opacity:0;
+      transform:translate(-50%, -50%) scale(1.3);
+      animation-timing-function:cubic-bezier(.48,0,.2,1);
+    }
+    7%{
+      width:30px;
+      height:80px;
+      opacity:1;
+      transform:translate(-50%, -50%) scale(1.3);
+      animation-timing-function:cubic-bezier(.44,0,.2,1);
+    }
+    34%{
+      width:39px;
+      height:45px;
+      opacity:1;
+      transform:translate(-50%, -50%) scale(1.3);
+      animation-timing-function:cubic-bezier(.34,.02,.2,1);
+    }
+    48%{
+      width:40px;
+      height:30px;
+      opacity:1;
+      transform:translate(-50%, -50%) scale(1.3);
+      animation-timing-function:cubic-bezier(.32,.04,.2,1);
+    }
+    52%{
+      width:35px;
+      height:32px;
+      opacity:0;
+      transform:translate(-50%, -50%) scale(1.3);
+    }
+    100%{
+      width:35px;
+      height:32px;
+      opacity:0;
+      transform:translate(-50%, -50%) scale(1.3);
+    }
+  }
+
+  .highlight-controls.is-introducing .progress-pill::before{
+    animation:highlight-pill-surface var(--island-duration) linear both;
+  }
+
+  .highlight-controls.is-introducing .play-toggle::before{
+    animation:highlight-play-surface var(--island-duration) linear both;
+  }
+
+  @keyframes highlight-pill-surface{
+    0%, 50%{
+      opacity:0;
+      transform:scaleX(.24) scaleY(.74);
+      animation-timing-function:cubic-bezier(.42,0,.2,1);
+    }
+    80%{
+      opacity:1;
+      transform:scaleX(1.12) scaleY(1);
+      animation-timing-function:cubic-bezier(.34,.02,.2,1);
+    }
+    100%{ opacity:1; transform:scale(1); }
+  }
+
+  @keyframes highlight-play-surface{
+    0%, 50%{ opacity:0; transform:scaleY(.74); }
+    62%{ opacity:1; transform:scaleY(.86); }
+    84%{ opacity:1; transform:scaleY(1.025); }
+    100%{ opacity:1; transform:scaleY(1); }
+  }
+
+  .progress-pill{
+    position:absolute;
+    top:50%;
+    left:0;
+    display:flex;
+    width:var(--collapsed-control-size);
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    border-radius:999px;
+    z-index:1;
+    transform:translate(calc((var(--controls-frame-width) - var(--collapsed-control-size)) / 2), -50%);
+    transition:
+      width .78s cubic-bezier(.16,1,.3,1),
+      transform .78s cubic-bezier(.16,1,.3,1);
+  }
+
+  .is-mounted .progress-pill{
+    width:var(--pill-expanded-width);
+    transform:translate(0, -50%);
+    transition-delay:.1s;
+  }
+
+  .highlight-controls.is-introducing .progress-pill{
+    animation:highlight-pill-split var(--island-duration) linear both;
+    transition:none;
+  }
+
+  @keyframes highlight-pill-split{
+    0%, 50%{
+      width:var(--pill-prep-width);
+      transform:translate(var(--pill-prep-left), -50%);
+      animation-timing-function:cubic-bezier(.42,0,.2,1);
+    }
+    80%{
+      width:calc(var(--pill-expanded-width) + 4px);
+      transform:translate(-2px, -50%);
+      animation-timing-function:cubic-bezier(.34,.02,.2,1);
+    }
+    100%{
+      width:var(--pill-expanded-width);
+      transform:translate(0, -50%);
+    }
+  }
+
+  .progress-dots{
+    --progress-dot-gap:13px;
+    display:flex;
+    width:var(--dots-expanded-width);
+    align-items:center;
+    justify-content:flex-start;
+    gap:0;
+    opacity:1;
+    position:relative;
+    z-index:1;
+    transform:none;
+  }
+
+  .highlight-controls.is-introducing .progress-dots{
+    overflow:hidden;
+    animation:highlight-dots-center-unfold var(--island-duration) linear both;
+  }
+
+  @keyframes highlight-dots-center-unfold{
+    0%, 58%{
+      width:var(--dots-collapsed-width);
+      opacity:0;
+      animation-timing-function:cubic-bezier(.3,0,.18,1);
+    }
+    82%{
+      width:calc(var(--dots-expanded-width) + 4px);
+      opacity:1;
+      animation-timing-function:cubic-bezier(.34,.02,.2,1);
+    }
+    100%{ width:var(--dots-expanded-width); opacity:1; }
+  }
+
+  .highlight-controls:not(.is-mounted) .progress-dots{
+    opacity:0;
+    transform:scale(.74);
+    transition:opacity .12s linear, transform .22s ease;
+  }
+
+  .progress-dot{
+    --dot-gap:var(--progress-dot-gap);
+    --dot-delay:.64s;
+    position:relative;
+    width:8px;
+    height:8px;
+    flex:0 0 auto;
+    overflow:hidden;
+    padding:0;
+    border:0;
+    margin:0 0 0 var(--dot-gap);
+    border-radius:999px;
+    opacity:1;
+    background:rgba(245,245,247,.48);
+    cursor:pointer;
+    transform:scale(1);
+    transition:width .42s cubic-bezier(.16,1,.3,1), background-color .2s linear;
+  }
+
+  .progress-dot:first-child{ --dot-gap:0px; }
+  .progress-dot:nth-child(1){ --dot-delay:.64s; }
+  .progress-dot:nth-child(2){ --dot-delay:.664s; }
+  .progress-dot:nth-child(3){ --dot-delay:.688s; }
+  .progress-dot:nth-child(4){ --dot-delay:.712s; }
+  .progress-dot:nth-child(5){ --dot-delay:.736s; }
+  .progress-dot:nth-child(6){ --dot-delay:.76s; }
+  .progress-dot:nth-child(7){ --dot-delay:.784s; }
+
+  .highlight-controls.is-introducing .progress-dot{
+    animation:highlight-dot-arrive .1s cubic-bezier(.18,.78,.18,1) var(--dot-delay) both;
+    transition:none;
+  }
+
+  @keyframes highlight-dot-arrive{
+    from{ opacity:0; transform:scale(.2); }
+    to{ opacity:1; transform:scale(1); }
+  }
+
+  .progress-dot.is-active{ width:var(--progress-active-width); background:rgba(245,245,247,.22); }
+
+  .progress-dot::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:#f5f5f7;
+    transform:scaleX(0);
+    transform-origin:left center;
+  }
+
+  .highlight-controls.is-playing.is-progressing .progress-dot.is-active::after{ animation:highlight-progress 5s linear forwards; }
+  .progress-dot.is-complete::after{ transform:scaleX(1); }
+  @keyframes highlight-progress{ to{ transform:scaleX(1); } }
+
+  .play-toggle{
+    position:absolute;
+    top:50%;
+    left:var(--play-final-left);
+    width:var(--collapsed-control-size);
+    min-width:var(--collapsed-control-size);
+    padding:0;
+    overflow:hidden;
+    border-radius:999px;
+    z-index:0;
+    opacity:0;
+    cursor:pointer;
+    transform-origin:center center;
+    transform:translate(calc(var(--play-merge-left) - var(--play-final-left)), -50%);
+    transition:
+      opacity .1s linear .58s,
+      transform .68s cubic-bezier(.16,1,.3,1);
+  }
+
+  .is-mounted .play-toggle{
+    width:var(--collapsed-control-size);
+    min-width:var(--collapsed-control-size);
+    opacity:1;
+    transform:translate(0, -50%) scale(1);
+    transition-delay:.16s, .16s;
+  }
+
+  .highlight-controls.is-introducing .play-toggle{
+    animation:highlight-play-split var(--island-duration) linear both;
+    transition:none;
+  }
+
+  @keyframes highlight-play-split{
+    0%, 50%{
+      opacity:1;
+      transform:translate(calc(var(--play-origin-left) - var(--play-final-left)), -50%);
+      animation-timing-function:cubic-bezier(.42,0,.2,1);
+    }
+    80%{
+      opacity:1;
+      transform:translate(5px, -50%);
+      animation-timing-function:cubic-bezier(.34,.02,.2,1);
+    }
+    100%{
+      opacity:1;
+      transform:translate(0, -50%) scale(1);
+    }
+  }
+
+  .highlight-controls.is-introducing .play-icon{
+    animation:highlight-play-icon-arrive var(--island-duration) linear both;
+  }
+
+  @keyframes highlight-play-icon-arrive{
+    0%, 70%{ opacity:0; transform:scale(.72); }
+    88%{ opacity:1; transform:scale(1.035); }
+    100%{ opacity:1; transform:scale(1); }
+  }
+
+  .play-icon{
+    position:absolute;
+    inset:0;
+    display:grid;
+    place-items:center;
+    z-index:1;
+    pointer-events:none;
+  }
+
+  .play-icon svg{
+    grid-area:1 / 1;
+    width:24px;
+    height:24px;
+    overflow:visible;
+    transition:opacity .2s linear, transform .42s cubic-bezier(.16,1,.3,1);
+  }
+
+  .play-icon-play{
+    opacity:1;
+    transform:translateX(1px) scale(1) rotate(0deg);
+  }
+
+  .play-icon-pause{
+    opacity:0;
+    transform:scale(.68) rotate(-18deg);
+  }
+
+  .highlight-controls.is-playing .play-icon-play{
+    opacity:0;
+    transform:translateX(1px) scale(.68) rotate(18deg);
+  }
+
+  .highlight-controls.is-playing .play-icon-pause{
+    opacity:1;
+    transform:scale(1) rotate(0deg);
+  }
+
+  .progress-dot:focus-visible,
+  .play-toggle:focus-visible{ outline:2px solid rgb(var(--accent-blue)); outline-offset:3px; }
+
+  @media (max-width:900px) and (orientation:portrait){
+    .page-iStage-27 .i27-hero-card{ display:block; min-height:clamp(560px, 148vw, 720px); }
+    .page-iStage-27 .i27-hero-media{ position:absolute; inset:0; height:auto; }
+    .page-iStage-27 .i27-hero-copy{ position:absolute; inset:auto 24px 94px; padding:0; }
+    .i27-hero-headline{ max-width:8.8em; }
+    .i27-hero-action{ right:auto; left:24px; bottom:25px; }
+    .i27-highlights{ padding-top:82px; }
+    .i27-highlights-heading{ margin-bottom:30px; padding:0 24px; }
+    .highlight-rail{ --highlight-card-width:82vw; gap:14px; }
+    .highlight-card{ height:clamp(520px, 142vw, 650px); }
+    .highlight-copy{ padding:38px 24px 0; }
+    .highlight-copy h3{ font-size:clamp(18px, 5vw, 23px); }
+    .highlight-media-placeholder{ left:20px; right:20px; height:58%; }
+    .progress-pill,
+    .play-toggle{ height:56px; }
+    .progress-dots{ --progress-dot-gap:13px; }
+    .highlight-controls{
+      --controls-frame-width:272px;
+      --control-half:28px;
+      --collapsed-control-size:56px;
+      --pill-expanded-width:200px;
+      --pill-prep-width:160px;
+      --pill-prep-left:56px;
+      --progress-active-width:40px;
+      --dots-collapsed-width:40px;
+      --dots-expanded-width:166px;
+      --play-final-left:216px;
+      --play-origin-left:88px;
+      --play-merge-left:108px;
+      height:56px;
+    }
+    .is-mounted .progress-pill{ width:var(--pill-expanded-width); }
+    .is-mounted .play-toggle{ width:var(--collapsed-control-size); min-width:var(--collapsed-control-size); }
+    .progress-dots{ gap:0; }
+  }
+
+  @media (max-width:900px) and (orientation:landscape){
+    .page-iStage-27 .i27-hero-card{ min-height:clamp(340px, 78vh, 500px); }
+    .page-iStage-27 .i27-hero-copy{ right:42%; }
+    .i27-hero-headline{ font-size:clamp(30px, 6vw, 42px); }
+    .highlight-card{ height:clamp(370px, 78vh, 540px); }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .page-iStage-27 .i27-hero-media img,
+    .highlight-controls,
+    .highlight-intro-blob,
+    .progress-pill,
+    .progress-pill::before,
+    .progress-dots,
+    .play-toggle,
+    .play-toggle::before,
+    .progress-dot{ animation:none !important; transition:none !important; }
+    .highlight-copy{ opacity:1 !important; transform:none !important; }
+  }
+  </style>
 
   <script>document.documentElement.classList.add('js');</script>
 </head>
 
-<body class="page-iStage-27" data-base="..">
+<body class="page-iStage-27 page-feature" data-base="..">
   <div class="nav-backdrop" aria-hidden="true"></div>
-
   <div id="nav-slot"></div>
 
-  <main class="section section--first">
-    <div class="container">
-      <!-- Content -->
-    </div>
+  <main>
+    <section class="section section--first" id="overview" aria-labelledby="i27-title">
+      <div class="page-hero-shell">
+        <div class="page-hero-card i27-hero-card">
+          <div class="page-hero-media i27-hero-media">
+            <picture>
+              <source media="(max-width: 900px) and (orientation: portrait)" srcset="../assets/img/hero-iStage-27-mobile.png">
+              <img src="../assets/img/hero-iStage-27-desktop.png" alt="iStage 27 lock screen" loading="eager" decoding="async">
+            </picture>
+          </div>
+
+          <div class="page-hero-copy copy i27-hero-copy">
+            <h1 class="i27-hero-lockup" id="i27-title">
+              <span class="i27-hero-product reveal-onload">iStage 27</span>
+              <span class="i27-hero-headline reveal-onload reveal-delay-1">Glass act.<br>Faster than ever.</span>
+            </h1>
+          </div>
+
+          <div class="i27-hero-action reveal-onload reveal-delay-2">
+            <a class="btn btn-blue" href="../releases/#v=27">Download</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="i27-highlights" id="highlights" aria-labelledby="highlights-title">
+      <h2 class="i27-highlights-heading reveal reveal--long" id="highlights-title">Explore the highlights of iStage 27.</h2>
+
+      <div class="highlight-rail reveal reveal--short" id="highlight-rail" aria-label="iStage 27 highlights" tabindex="0">
+        <article class="highlight-card" data-card="0" tabindex="0" aria-label="Highlight 1 of 7">
+          <div class="highlight-copy"><h3>Refined Liquid Glass brings cleaner depth, sharper contrast, and more natural refraction.</h3></div>
+          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+        </article>
+        <article class="highlight-card" data-card="1" tabindex="0" aria-label="Highlight 2 of 7">
+          <div class="highlight-copy"><h3>Better performance and fluid motion make every unlock, swipe, and transition feel instantly responsive.</h3></div>
+          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+        </article>
+        <article class="highlight-card" data-card="2" tabindex="0" aria-label="Highlight 3 of 7">
+          <div class="highlight-copy"><h3>Redesigned editors make the clock, widgets, shortcuts, and wallpaper more personal than ever.</h3></div>
+          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+        </article>
+        <article class="highlight-card" data-card="3" tabindex="0" aria-label="Highlight 4 of 7">
+          <div class="highlight-copy"><h3>Dynamic Island presents lock and charging states with motion that feels alive.</h3></div>
+          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+        </article>
+        <article class="highlight-card" data-card="4" tabindex="0" aria-label="Highlight 5 of 7">
+          <div class="highlight-copy"><h3>Live Activities bring more of the match — from Formula 1 to football — to your Lock Screen.</h3></div>
+          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+        </article>
+        <article class="highlight-card" data-card="5" tabindex="0" aria-label="Highlight 6 of 7">
+          <div class="highlight-copy"><h3>Notification Center lets you move naturally between Count, Stack, and List views.</h3></div>
+          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+        </article>
+        <article class="highlight-card" data-card="6" tabindex="0" aria-label="Highlight 7 of 7">
+          <div class="highlight-copy"><h3>Compact and full-screen music players adapt their color and blur to every album.</h3></div>
+          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+        </article>
+      </div>
+
+      <div class="highlight-controls-anchor" id="highlight-controls-anchor" aria-hidden="true"></div>
+
+      <div class="highlight-controls" id="highlight-controls" aria-label="Highlight playback controls">
+        <span class="highlight-intro-blob" aria-hidden="true"></span>
+        <div class="progress-pill">
+          <div class="progress-dots" role="group" aria-label="Choose a highlight">
+            <button class="progress-dot is-active" type="button" data-index="0" aria-label="Show highlight 1" aria-current="true"></button>
+            <button class="progress-dot" type="button" data-index="1" aria-label="Show highlight 2"></button>
+            <button class="progress-dot" type="button" data-index="2" aria-label="Show highlight 3"></button>
+            <button class="progress-dot" type="button" data-index="3" aria-label="Show highlight 4"></button>
+            <button class="progress-dot" type="button" data-index="4" aria-label="Show highlight 5"></button>
+            <button class="progress-dot" type="button" data-index="5" aria-label="Show highlight 6"></button>
+            <button class="progress-dot" type="button" data-index="6" aria-label="Show highlight 7"></button>
+          </div>
+        </div>
+        <button class="play-toggle" id="highlight-play-toggle" type="button" aria-label="Pause highlights">
+          <span class="play-icon" aria-hidden="true">
+            <svg class="play-icon-play" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M8.2 5.4c-.9-.6-2.1.1-2.1 1.2v10.8c0 1.1 1.2 1.8 2.1 1.2l8.7-5.4c.9-.5.9-1.8 0-2.4L8.2 5.4Z"/>
+            </svg>
+            <svg class="play-icon-pause" viewBox="0 0 24 24">
+              <rect x="6" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
+              <rect x="13.5" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </section>
   </main>
 
   <div id="footer-slot"></div>
   <script src="../assets/js/shell.js" defer></script>
+
+  <script>
+  (function(){
+    const rail = document.getElementById('highlight-rail');
+    const section = document.getElementById('highlights');
+    const controls = document.getElementById('highlight-controls');
+    const controlsAnchor = document.getElementById('highlight-controls-anchor');
+    const playToggle = document.getElementById('highlight-play-toggle');
+    const cards = rail ? Array.from(rail.querySelectorAll('.highlight-card')) : [];
+    const dots = controls ? Array.from(controls.querySelectorAll('.progress-dot')) : [];
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!rail || !section || !controls || !controlsAnchor || !playToggle || !cards.length) return;
+
+    let currentIndex = 0;
+    let isPlaying = false;
+    let hasStarted = false;
+    let playbackTimer = 0;
+    let scrollAnimationFrame = 0;
+    let programmaticScroll = false;
+    let scrollTicking = false;
+    let pageTicking = false;
+    let controlsDocked = false;
+    let controlsMounted = false;
+    let controlsIntroTimer = 0;
+    let autoplayStartTimer = 0;
+    let pointerGesture = null;
+
+    function clearPlaybackTimer(){
+      if (playbackTimer){ window.clearTimeout(playbackTimer); playbackTimer = 0; }
+    }
+
+    function restartProgressAnimation(){
+      controls.classList.remove('is-progressing');
+      void controls.offsetWidth;
+      if (isPlaying) controls.classList.add('is-progressing');
+    }
+
+    function updateControls(){
+      dots.forEach(function(dot, index){
+        const active = index === currentIndex;
+        dot.classList.toggle('is-active', active);
+        dot.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+      controls.classList.toggle('is-playing', isPlaying);
+      if (!isPlaying) controls.classList.remove('is-progressing');
+      playToggle.setAttribute('aria-label', isPlaying ? 'Pause highlights' : 'Play highlights');
+    }
+
+    function scheduleNext(){
+      clearPlaybackTimer();
+      if (!isPlaying) return;
+      playbackTimer = window.setTimeout(function(){
+        if (currentIndex === cards.length - 1){
+          dots[currentIndex].classList.add('is-complete');
+          pausePlayback();
+          return;
+        }
+        goTo(currentIndex + 1, 'auto');
+      }, 5000);
+    }
+
+    function play(){
+      dots.forEach(function(dot){ dot.classList.remove('is-complete'); });
+      isPlaying = true;
+      hasStarted = true;
+      updateControls();
+      if (currentIndex === cards.length - 1){
+        goTo(0, 'auto');
+        return;
+      }
+      restartProgressAnimation();
+      scheduleNext();
+    }
+
+    function pausePlayback(){
+      if (!isPlaying) return;
+      isPlaying = false;
+      clearPlaybackTimer();
+      updateControls();
+    }
+
+    function cancelRailAnimation(){
+      if (scrollAnimationFrame){
+        window.cancelAnimationFrame(scrollAnimationFrame);
+        scrollAnimationFrame = 0;
+      }
+      rail.classList.remove('is-animating');
+      programmaticScroll = false;
+    }
+
+    function animateRailTo(targetLeft, duration, onComplete){
+      cancelRailAnimation();
+      const maxLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
+      const destination = Math.max(0, Math.min(maxLeft, targetLeft));
+      const startLeft = rail.scrollLeft;
+      const distance = destination - startLeft;
+
+      if (reduceMotion || Math.abs(distance) < 1){
+        rail.scrollLeft = destination;
+        programmaticScroll = false;
+        if (typeof onComplete === 'function') onComplete();
+        return;
+      }
+
+      programmaticScroll = true;
+      rail.classList.add('is-animating');
+      const startedAt = performance.now();
+      const easeInOutCubic = function(value){
+        return value < .5
+          ? 4 * value * value * value
+          : 1 - Math.pow(-2 * value + 2, 3) / 2;
+      };
+
+      const step = function(now){
+        const progress = Math.min(1, (now - startedAt) / duration);
+        rail.scrollLeft = startLeft + distance * easeInOutCubic(progress);
+        if (progress < 1){
+          scrollAnimationFrame = window.requestAnimationFrame(step);
+          return;
+        }
+        scrollAnimationFrame = 0;
+        rail.scrollLeft = destination;
+        rail.classList.remove('is-animating');
+        programmaticScroll = false;
+        if (typeof onComplete === 'function') onComplete();
+      };
+
+      scrollAnimationFrame = window.requestAnimationFrame(step);
+    }
+
+    function goTo(index, source){
+      const nextIndex = Math.max(0, Math.min(cards.length - 1, index));
+      if (source === 'manual'){
+        dots.forEach(function(dot){ dot.classList.remove('is-complete'); });
+      }
+      currentIndex = nextIndex;
+      const targetLeft = cards[nextIndex].offsetLeft - (rail.clientWidth - cards[nextIndex].offsetWidth) / 2;
+      const duration = source === 'auto' ? 1350 : 1100;
+
+      if (source === 'auto') controls.classList.remove('is-progressing');
+      updateControls();
+
+      animateRailTo(targetLeft, duration, function(){
+        if (!isPlaying) return;
+        restartProgressAnimation();
+        scheduleNext();
+      });
+    }
+
+    function nearestCardIndex(){
+      const railBox = rail.getBoundingClientRect();
+      const center = railBox.left + railBox.width / 2;
+      let nearest = 0;
+      let nearestDistance = Infinity;
+      cards.forEach(function(card, index){
+        const box = card.getBoundingClientRect();
+        const distance = Math.abs((box.left + box.width / 2) - center);
+        if (distance < nearestDistance){ nearestDistance = distance; nearest = index; }
+      });
+      return nearest;
+    }
+
+    function updateCardText(){
+      const railBox = rail.getBoundingClientRect();
+      const center = railBox.left + railBox.width / 2;
+      cards.forEach(function(card){
+        const box = card.getBoundingClientRect();
+        const delta = (box.left + box.width / 2) - center;
+        const ratio = Math.max(-1, Math.min(1, delta / Math.max(box.width * .78, 1)));
+        const copy = card.querySelector('.highlight-copy');
+        if (!copy) return;
+        copy.style.setProperty('--copy-shift', (ratio * 42).toFixed(2) + 'px');
+        copy.style.setProperty('--copy-opacity', String(Math.max(.16, 1 - Math.abs(ratio) * .86)));
+      });
+    }
+
+    function onRailScroll(){
+      if (scrollTicking) return;
+      scrollTicking = true;
+      window.requestAnimationFrame(function(){
+        scrollTicking = false;
+        if (!programmaticScroll){
+          const next = nearestCardIndex();
+          if (next !== currentIndex){ currentIndex = next; updateControls(); }
+        }
+        updateCardText();
+      });
+    }
+
+    function stopForUser(){
+      cancelRailAnimation();
+      pausePlayback();
+    }
+
+    function beginControlsIntro(){
+      window.clearTimeout(controlsIntroTimer);
+      controls.classList.remove('is-introducing');
+      void controls.offsetWidth;
+      controls.classList.add('is-introducing');
+      controlsIntroTimer = window.setTimeout(function(){
+        controls.classList.remove('is-introducing');
+      }, 1240);
+    }
+
+    function updateControlPosition(){
+      pageTicking = false;
+      const sectionBox = section.getBoundingClientRect();
+      const anchorBox = controlsAnchor.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const controlHeight = controls.offsetHeight || 56;
+      const fixedCenter = viewportHeight - 24 - controlHeight / 2;
+      const inRange = sectionBox.top < viewportHeight * .62 && sectionBox.bottom > 36;
+      const anchorCenter = anchorBox.top + anchorBox.height / 2;
+      const entering = inRange && !controlsMounted;
+
+      if (!inRange){
+        controlsDocked = false;
+      }else if (controlsDocked){
+        controlsDocked = anchorCenter <= fixedCenter + 12;
+      }else{
+        controlsDocked = anchorCenter <= fixedCenter - 2;
+      }
+
+      controls.classList.toggle('is-mounted', inRange);
+      controls.classList.toggle('is-docked', controlsDocked);
+      controls.style.setProperty('--controls-dock-top', (controlsAnchor.offsetTop + controlsAnchor.offsetHeight / 2) + 'px');
+
+      if (entering){
+        beginControlsIntro();
+        if (!hasStarted && !reduceMotion){
+          window.clearTimeout(autoplayStartTimer);
+          autoplayStartTimer = window.setTimeout(function(){
+            if (!hasStarted && controls.classList.contains('is-mounted')) play();
+          }, 1260);
+        }
+      }
+
+      if (!inRange){
+        window.clearTimeout(controlsIntroTimer);
+        window.clearTimeout(autoplayStartTimer);
+        controls.classList.remove('is-introducing');
+      }
+
+      controlsMounted = inRange;
+
+      if (!inRange && isPlaying) pausePlayback();
+    }
+
+    function requestControlPosition(){
+      if (pageTicking) return;
+      pageTicking = true;
+      window.requestAnimationFrame(updateControlPosition);
+    }
+
+    cards.forEach(function(card, index){
+      card.addEventListener('click', function(){
+        if (index === currentIndex) return;
+        pausePlayback();
+        goTo(index, 'manual');
+      });
+      card.addEventListener('keydown', function(event){
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        pausePlayback();
+        goTo(index, 'manual');
+      });
+    });
+
+    dots.forEach(function(dot, index){
+      dot.addEventListener('click', function(){ pausePlayback(); goTo(index, 'manual'); });
+    });
+
+    playToggle.addEventListener('click', function(){
+      if (isPlaying) pausePlayback();
+      else play();
+    });
+
+    rail.addEventListener('scroll', onRailScroll, {passive:true});
+    rail.addEventListener('pointerdown', function(event){
+      pointerGesture = { id:event.pointerId, x:event.clientX, y:event.clientY, decided:false };
+    }, {passive:true});
+    rail.addEventListener('pointermove', function(event){
+      if (!pointerGesture || pointerGesture.id !== event.pointerId || pointerGesture.decided) return;
+      const deltaX = Math.abs(event.clientX - pointerGesture.x);
+      const deltaY = Math.abs(event.clientY - pointerGesture.y);
+      if (Math.max(deltaX, deltaY) < 10) return;
+      pointerGesture.decided = true;
+      if (deltaX > deltaY * 1.1) stopForUser();
+    }, {passive:true});
+    rail.addEventListener('pointerup', function(){ pointerGesture = null; }, {passive:true});
+    rail.addEventListener('pointercancel', function(){ pointerGesture = null; }, {passive:true});
+    rail.addEventListener('wheel', function(event){
+      const horizontalIntent = event.shiftKey || Math.abs(event.deltaX) > Math.max(4, Math.abs(event.deltaY) * .85);
+      if (horizontalIntent) stopForUser();
+    }, {passive:true});
+    rail.addEventListener('keydown', function(event){
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      pausePlayback();
+      goTo(currentIndex + (event.key === 'ArrowRight' ? 1 : -1), 'manual');
+    });
+
+    window.addEventListener('scroll', requestControlPosition, {passive:true});
+    window.addEventListener('resize', function(){ requestControlPosition(); updateCardText(); });
+    window.addEventListener('orientationchange', requestControlPosition);
+
+    updateControls();
+    updateCardText();
+    updateControlPosition();
+  })();
+
+  /* Shared reveal-on-scroll behavior, matching the home page. */
+  (function(){
+    const nodes = Array.from(document.querySelectorAll('.reveal'));
+    if (!nodes.length) return;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)){
+      nodes.forEach(function(node){ node.classList.add('is-revealed'); });
+      return;
+    }
+    const observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-revealed');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold:0, rootMargin:'0px 0px -1% 0px' });
+    nodes.forEach(function(node){ observer.observe(node); });
+  })();
+  </script>
 </body>
 </html>
