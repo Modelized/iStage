@@ -583,10 +583,10 @@ body{
   .media{aspect-ratio:16/9; width:92%; margin:0 auto}
 }
 
-.media-26{
+.media-27{
   background-image:
-    url("../img/hero-iStage-26-mobile.jpg"),
-    url("../img/hero-iStage-26-mobile.png");
+    url("../img/hero-iStage-27-mobile.jpg"),
+    url("../img/hero-iStage-27-mobile.png");
 }
 .media-18{
   background-image:
@@ -594,10 +594,10 @@ body{
     url("../img/hero-iStage-18-mobile.png");
 }
 @media (min-width:900px){
-  .media-26{
+  .media-27{
     background-image:
-      url("../img/hero-iStage-26-desktop.jpg"),
-      url("../img/hero-iStage-26-desktop.png");
+      url("../img/hero-iStage-27-desktop.jpg"),
+      url("../img/hero-iStage-27-desktop.png");
   }
   .media-18{
     background-image:
