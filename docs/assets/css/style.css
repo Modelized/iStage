@@ -620,26 +620,18 @@ body{
 .page-hero-media{
   position:absolute;
   inset:0;
-  display:grid;
-  place-items:start center;
-  padding:8px 18px 90px;
 }
 .page-hero-media img{
   display:block;
+  position:absolute;
+  top:50%;
+  left:50%;
   width:clamp(340px, 64%, 650px);
   max-width:100%;
   max-height:88%;
   object-fit:contain;
   filter:drop-shadow(0 18px 42px rgba(0,0,0,.26));
-}
-@media (min-width:901px){
-  .page-hero-media{
-    place-items:center;
-    padding:clamp(24px, 3vw, 36px) 18px;
-  }
-  .page-hero-media img{
-    max-height:100%;
-  }
+  transform:translate(-50%, -50%);
 }
 .page-hero-copy.copy{
   position:absolute;
@@ -664,9 +656,6 @@ body{
 .page-hero-card--text-only{
   min-height:clamp(260px, 32vw, 360px);
 }
-.page-hero-card--text-only::after{
-  content:none;
-}
 @keyframes page-hero-ambient{
   from{ transform:scale(1.04) translate3d(-1.5%, -1%, 0); }
   to{ transform:scale(1.08) translate3d(1.5%, 1%, 0); }
@@ -681,8 +670,6 @@ body{
     position:relative;
     inset:auto;
     height:clamp(300px, 84vw, 390px);
-    padding:0 4px;
-    place-items:center;
   }
   .page-hero-media img{
     width:min(108%, 460px);
@@ -705,7 +692,6 @@ body{
 }
 @media (max-width:900px) and (orientation:landscape){
   .page-hero-card{ min-height:clamp(300px, 72vh, 420px); }
-  .page-hero-media{ padding:0 12px 64px; }
   .page-hero-media img{
     width:min(58vw, 460px);
     max-height:90%;
