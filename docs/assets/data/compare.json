@@ -2,6 +2,11 @@
   "title": "Compare — iStage",
   "models": [
     {
+      "id": "27",
+      "name": "iStage 27",
+      "img": "../assets/img/compare-27.png"
+    },
+    {
       "id": "26",
       "name": "iStage 26",
       "img": "../assets/img/compare-26.png"
@@ -17,6 +22,7 @@
       "key": "design_system",
       "label": "Design System",
       "values": {
+        "27": "Refined Liquid Glass",
         "26": "Liquid Glass",
         "18": "Frosted Blur"
       }
@@ -25,6 +31,7 @@
       "key": "motion_profile",
       "label": "Motion Profile",
       "values": {
+        "27": "Fluid",
         "26": "Fluid",
         "18": "Stable"
       }
@@ -33,6 +40,7 @@
       "key": "personalization",
       "label": "Personalization",
       "values": {
+        "27": "Revamped Clock Font & Color Editor\n\nWidgets Editor\n\nShortcuts Editor\n\nRevamped Wallpaper Gallery\n\nBattery Percentage Option",
         "26": "Revamped Clock Font & Color Editor\n\nWidgets Editor\n\nShortcuts Editor\n\nRevamped Wallpaper Gallery\n\nBattery Percentage Option",
         "18": "Clock Font & Color Editor\n\nWidgets Editor\n\nShortcuts Editor\n\nWallpaper Gallery\n\nBattery Percentage Option"
       }
@@ -41,6 +49,7 @@
       "key": "dynamic_island",
       "label": "Dynamic Island",
       "values": {
+        "27": "Lock Indicator\n\nCharging Animation",
         "26": "Lock Indicator\n\nCharging Animation",
         "18": "Lock Indicator\n\nCharging Animation"
       }
@@ -49,6 +58,7 @@
       "key": "live_activities",
       "label": "Live Activities",
       "values": {
+        "27": "F1 Grand Prix & Football Table",
         "26": "F1 Grand Prix",
         "18": "-"
       }
@@ -57,6 +67,7 @@
       "key": "notification_center",
       "label": "Notification Center",
       "values": {
+        "27": "Count & Stack & List Mode",
         "26": "Count & Stack & List Mode",
         "18": "Count & Stack & List Mode"
       }
@@ -65,6 +76,7 @@
       "key": "music_player",
       "label": "Music Player",
       "values": {
+        "27": "Small & Full Screen Music Player",
         "26": "Small & Full Screen Music Player",
         "18": "Small & Full Screen Music Player"
       }
@@ -73,6 +85,7 @@
       "key": "transfer_preparation",
       "label": "Transfer Preparation",
       "values": {
+        "27": "Double Tap to show Preset Details",
         "26": "Double Tap to show Preset Details",
         "18": "Double Tap to show Preset Details"
       }
@@ -81,6 +94,7 @@
       "key": "extensions",
       "label": "Extensions",
       "values": {
+        "27": "Custom Carrier Label\n\nCustom Signal Bars\n\nCustom Network Icon\n\n-",
         "26": "Custom Carrier Label\n\nCustom Signal Bars\n\nCustom Network Icon\n\n-",
         "18": "Custom Carrier Label\n\nCustom Signal Bars\n\nCustom Network Icon\n\nClock Reposition"
       }
@@ -89,6 +103,7 @@
       "key": "resource",
       "label": "Resource",
       "values": {
+        "27": "Heavy",
         "26": "Heavy",
         "18": "Normal"
       }
@@ -97,6 +112,7 @@
       "key": "performance",
       "label": "Performance",
       "values": {
+        "27": "May require a high-end device",
         "26": "May require a high-end device",
         "18": "-"
       }
