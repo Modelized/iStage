@@ -7,9 +7,6 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="preload" as="image" href="../assets/img/iStage-27-design.png" fetchpriority="high">
-  <link rel="preload" as="image" href="../assets/img/iStage-27-dynamic-island.png" fetchpriority="high">
-  <link rel="preload" as="image" href="../assets/img/iStage-27-live-activities.png" fetchpriority="high">
 
   <!-- Icons / PWA -->
   <link rel="icon" type="image/svg+xml" href="/iStage/favicon.svg">
@@ -249,7 +246,12 @@
   .highlight-media--zoom-top.is-zoomed img,
   .highlight-media--zoom-bottom.is-zoomed img{ transform:scale(2.9); }
 
-  .highlight-controls-anchor{ position:relative; height:clamp(150px, 18vw, 190px); }
+  .highlight-stage{
+    --controls-anchor-height:clamp(150px, 18vw, 190px);
+    position:relative;
+  }
+
+  .highlight-controls-anchor{ position:relative; height:var(--controls-anchor-height); }
 
   /* Refined Liquid Glass */
   .i27-design{
@@ -367,6 +369,17 @@
     letter-spacing:-.025em;
   }
 
+  .i27-compare{
+    display:grid;
+    min-height:clamp(260px, 34vw, 380px);
+    margin-top:12px;
+    place-items:center;
+    background:#111113;
+  }
+
+  .i27-compare .container{ width:100%; }
+  .i27-compare .copy .subtitle{ color:rgba(232,233,236,.72); }
+
   /* A rising intro blob compresses, then hands off to the two controls. */
   .highlight-controls{
     --controls-frame-width:288px;
@@ -382,7 +395,6 @@
     --island-ease:cubic-bezier(.42,0,.18,1);
     --island-duration:1.3s;
     --island-rise-duration:1.2s;
-    --controls-dock-shift:0px;
     position:fixed;
     left:50%;
     top:auto;
@@ -393,7 +405,6 @@
     height:56px;
     opacity:0;
     pointer-events:none;
-    translate:0 var(--controls-dock-shift);
     transform:translate(-50%, 180px);
     transform-origin:center;
     transition-property:opacity, transform;
@@ -407,6 +418,22 @@
     pointer-events:auto;
     transform:translate(-50%, 0) scale(1);
     transition-delay:0s, 0s;
+  }
+
+  .highlight-controls.is-docked{
+    position:absolute;
+    top:auto;
+    bottom:calc((var(--controls-anchor-height) - 56px) / 2);
+  }
+
+  .highlight-controls-fixed-guide{
+    position:fixed;
+    right:0;
+    bottom:max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px));
+    width:1px;
+    height:56px;
+    visibility:hidden;
+    pointer-events:none;
   }
 
   .highlight-controls.is-introducing{
@@ -900,6 +927,7 @@
       font-size:clamp(16px, 4.5vw, 18px);
       line-height:1.4;
     }
+    .i27-compare{ min-height:300px; margin-top:var(--banner-vert-gap); }
     .progress-pill,
     .play-toggle{ height:56px; }
     .progress-dots{ --progress-dot-gap:13px; }
@@ -981,52 +1009,81 @@
     <section class="i27-highlights" id="highlights" aria-labelledby="highlights-title">
       <h2 class="i27-highlights-heading reveal reveal--long" id="highlights-title">Explore the highlights of iStage 27.</h2>
 
+      <div class="highlight-stage" id="highlight-stage">
       <div class="highlight-rail reveal reveal--short" id="highlight-rail" aria-label="iStage 27 highlights" tabindex="0">
         <article class="highlight-card" data-card="0" tabindex="0" aria-label="Highlight 1 of 7">
           <div class="highlight-copy"><h3>A lighter Liquid Glass design with refined clarity and subtle depth.</h3></div>
           <div class="highlight-media highlight-media--zoom-top">
-            <img src="../assets/img/iStage-27-design.png" alt="iStage 27 Liquid Glass design" width="2160" height="2160" loading="eager" decoding="async" fetchpriority="high">
+            <img src="../assets/img/iStage-27-design.png" alt="iStage 27 Liquid Glass design" width="2160" height="2160" loading="eager" decoding="async">
           </div>
         </article>
         <article class="highlight-card" data-card="1" tabindex="0" aria-label="Highlight 2 of 7">
           <div class="highlight-copy"><h3>A refreshed setup experience that delivers a clean Setup Summary when you finish.</h3></div>
           <div class="highlight-media">
-            <img src="../assets/img/iStage-27-setup.png" alt="iStage 27 setup summary" loading="eager" decoding="async" fetchpriority="low">
+            <img src="../assets/img/iStage-27-setup.png" alt="iStage 27 setup summary" width="2160" height="2160" loading="eager" decoding="async">
           </div>
         </article>
         <article class="highlight-card" data-card="2" tabindex="0" aria-label="Highlight 3 of 7">
           <div class="highlight-copy"><h3>Expanded personalization with redesigned editors and a revamped wallpaper gallery.</h3></div>
           <div class="highlight-media">
-            <img src="../assets/img/iStage-27-personalization.png" alt="iStage 27 personalization editors and wallpaper gallery" loading="eager" decoding="async" fetchpriority="low">
+            <img src="../assets/img/iStage-27-personalization.png" alt="iStage 27 personalization editors and wallpaper gallery" width="2160" height="2160" loading="eager" decoding="async">
           </div>
         </article>
         <article class="highlight-card" data-card="3" tabindex="0" aria-label="Highlight 4 of 7">
           <div class="highlight-copy"><h3>Dynamic Island seamlessly presents system states, such as lock and charging.</h3></div>
           <div class="highlight-media highlight-media--zoom-top">
-            <img src="../assets/img/iStage-27-dynamic-island.png" alt="Dynamic Island lock and charging states in iStage 27" width="2160" height="2160" loading="eager" decoding="async" fetchpriority="high">
+            <img src="../assets/img/iStage-27-dynamic-island.png" alt="Dynamic Island lock and charging states in iStage 27" width="2160" height="2160" loading="eager" decoding="async">
           </div>
         </article>
         <article class="highlight-card" data-card="4" tabindex="0" aria-label="Highlight 5 of 7">
           <div class="highlight-copy"><h3>Stay updated on F1 races and live match scores right from your Lock Screen.</h3></div>
           <div class="highlight-media highlight-media--zoom-bottom">
-            <img src="../assets/img/iStage-27-live-activities.png" alt="F1 races and live match scores on the iStage 27 Lock Screen" width="2160" height="2160" loading="eager" decoding="async" fetchpriority="high">
+            <img src="../assets/img/iStage-27-live-activities.png" alt="F1 races and live match scores on the iStage 27 Lock Screen" width="2160" height="2160" loading="eager" decoding="async">
           </div>
         </article>
         <article class="highlight-card" data-card="5" tabindex="0" aria-label="Highlight 6 of 7">
           <div class="highlight-copy"><h3>Notification Center lets you easily switch between Count, Stack, and List views.</h3></div>
           <div class="highlight-media">
-            <img src="../assets/img/iStage-27-notification-center.png" alt="Count, Stack, and List views in iStage 27 Notification Center" loading="eager" decoding="async" fetchpriority="low">
+            <img src="../assets/img/iStage-27-notification-center.png" alt="Count, Stack, and List views in iStage 27 Notification Center" width="2160" height="2160" loading="eager" decoding="async">
           </div>
         </article>
         <article class="highlight-card" data-card="6" tabindex="0" aria-label="Highlight 7 of 7">
           <div class="highlight-copy"><h3>Switch between a minimal compact player and a rich, vibrant full-screen view for your music.</h3></div>
           <div class="highlight-media">
-            <img src="../assets/img/iStage-27-music-player.png" alt="Compact and full-screen music players in iStage 27" loading="eager" decoding="async" fetchpriority="low">
+            <img src="../assets/img/iStage-27-music-player.png" alt="Compact and full-screen music players in iStage 27" width="2160" height="2160" loading="eager" decoding="async">
           </div>
         </article>
       </div>
 
       <div class="highlight-controls-anchor" id="highlight-controls-anchor" aria-hidden="true"></div>
+      <span class="highlight-controls-fixed-guide" id="highlight-controls-fixed-guide" aria-hidden="true"></span>
+
+      <div class="highlight-controls" id="highlight-controls" aria-label="Highlight playback controls">
+        <span class="highlight-intro-blob" aria-hidden="true"></span>
+        <div class="progress-pill">
+          <div class="progress-dots" role="group" aria-label="Choose a highlight">
+            <button class="progress-dot is-active" type="button" data-index="0" aria-label="Show highlight 1" aria-current="true"></button>
+            <button class="progress-dot" type="button" data-index="1" aria-label="Show highlight 2"></button>
+            <button class="progress-dot" type="button" data-index="2" aria-label="Show highlight 3"></button>
+            <button class="progress-dot" type="button" data-index="3" aria-label="Show highlight 4"></button>
+            <button class="progress-dot" type="button" data-index="4" aria-label="Show highlight 5"></button>
+            <button class="progress-dot" type="button" data-index="5" aria-label="Show highlight 6"></button>
+            <button class="progress-dot" type="button" data-index="6" aria-label="Show highlight 7"></button>
+          </div>
+        </div>
+        <button class="play-toggle" id="highlight-play-toggle" type="button" aria-label="Pause highlights">
+          <span class="play-icon" aria-hidden="true">
+            <svg class="play-icon-play" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M8.2 5.4c-.9-.6-2.1.1-2.1 1.2v10.8c0 1.1 1.2 1.8 2.1 1.2l8.7-5.4c.9-.5.9-1.8 0-2.4L8.2 5.4Z"/>
+            </svg>
+            <svg class="play-icon-pause" viewBox="0 0 24 24">
+              <rect x="6" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
+              <rect x="13.5" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+      </div>
     </section>
 
     <section class="i27-design" id="design" aria-labelledby="design-title">
@@ -1059,33 +1116,21 @@
         <p class="i27-design-description reveal reveal--long">Engineered to be more responsive, refined Liquid Glass delivers a faster, smoother experience across the entire system. It flows naturally with your touch, and gives the Lock Screen an elegant depth effect.</p>
       </div>
     </section>
-  </main>
 
-  <div class="highlight-controls" id="highlight-controls" aria-label="Highlight playback controls">
-    <span class="highlight-intro-blob" aria-hidden="true"></span>
-    <div class="progress-pill">
-      <div class="progress-dots" role="group" aria-label="Choose a highlight">
-        <button class="progress-dot is-active" type="button" data-index="0" aria-label="Show highlight 1" aria-current="true"></button>
-        <button class="progress-dot" type="button" data-index="1" aria-label="Show highlight 2"></button>
-        <button class="progress-dot" type="button" data-index="2" aria-label="Show highlight 3"></button>
-        <button class="progress-dot" type="button" data-index="3" aria-label="Show highlight 4"></button>
-        <button class="progress-dot" type="button" data-index="4" aria-label="Show highlight 5"></button>
-        <button class="progress-dot" type="button" data-index="5" aria-label="Show highlight 6"></button>
-        <button class="progress-dot" type="button" data-index="6" aria-label="Show highlight 7"></button>
+    <section class="section section--black i27-compare" aria-label="Compare iStage versions">
+      <div class="container">
+        <div class="hero">
+          <div class="copy">
+            <h2 class="title reveal">Compare</h2>
+            <p class="subtitle reveal">See what's different across iStage versions.</p>
+            <div class="cta">
+              <a class="btn btn-blue reveal" href="../compare/">Compare now</a>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <button class="play-toggle" id="highlight-play-toggle" type="button" aria-label="Pause highlights">
-      <span class="play-icon" aria-hidden="true">
-        <svg class="play-icon-play" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M8.2 5.4c-.9-.6-2.1.1-2.1 1.2v10.8c0 1.1 1.2 1.8 2.1 1.2l8.7-5.4c.9-.5.9-1.8 0-2.4L8.2 5.4Z"/>
-        </svg>
-        <svg class="play-icon-pause" viewBox="0 0 24 24">
-          <rect x="6" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
-          <rect x="13.5" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
-        </svg>
-      </span>
-    </button>
-  </div>
+    </section>
+  </main>
 
   <div id="footer-slot"></div>
   <script src="../assets/js/shell.js" defer></script>
@@ -1093,16 +1138,17 @@
   <script>
   (function(){
     const rail = document.getElementById('highlight-rail');
-    const section = document.getElementById('highlights');
+    const stage = document.getElementById('highlight-stage');
     const controls = document.getElementById('highlight-controls');
     const controlsAnchor = document.getElementById('highlight-controls-anchor');
+    const controlsFixedGuide = document.getElementById('highlight-controls-fixed-guide');
     const playToggle = document.getElementById('highlight-play-toggle');
     const progressPill = controls ? controls.querySelector('.progress-pill') : null;
     const cards = rail ? Array.from(rail.querySelectorAll('.highlight-card')) : [];
     const dots = controls ? Array.from(controls.querySelectorAll('.progress-dot')) : [];
     const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (!rail || !section || !controls || !controlsAnchor || !playToggle || !cards.length) return;
+    if (!rail || !stage || !controls || !controlsAnchor || !controlsFixedGuide || !playToggle || !cards.length) return;
 
     let currentIndex = 0;
     let isPlaying = false;
@@ -1323,34 +1369,28 @@
       });
     }
 
-    function setDockShift(nextShift){
-      const dockShift = Math.min(0, nextShift);
-      controls.style.setProperty('--controls-dock-shift', dockShift.toFixed(3) + 'px');
-    }
-
     function updateControlPosition(){
       pageTicking = false;
-      const sectionBox = section.getBoundingClientRect();
+      const railBox = rail.getBoundingClientRect();
       const anchorBox = controlsAnchor.getBoundingClientRect();
+      const fixedGuideBox = controlsFixedGuide.getBoundingClientRect();
       const visualViewport = window.visualViewport;
       const viewportHeight = visualViewport ? visualViewport.height : (window.innerHeight || document.documentElement.clientHeight);
       const viewportTop = visualViewport ? visualViewport.offsetTop : 0;
       const viewportBottom = viewportTop + viewportHeight;
-      const controlHeight = controls.offsetHeight || 56;
       const anchorCenter = anchorBox.top + anchorBox.height / 2;
+      const fixedCenter = fixedGuideBox.top + fixedGuideBox.height / 2;
       const previousRegion = controlsRegion;
       const aboveThreshold = viewportBottom + (previousRegion === 'above' ? -4 : 12);
-      const belowThreshold = viewportTop + (previousRegion === 'below' ? 4 : -8);
+      const dockThreshold = fixedCenter + (previousRegion === 'below' ? 8 : -4);
       let nextRegion = 'inside';
 
-      if (sectionBox.top >= aboveThreshold) nextRegion = 'above';
-      else if (sectionBox.bottom <= belowThreshold) nextRegion = 'below';
+      if (railBox.top >= aboveThreshold) nextRegion = 'above';
+      else if (anchorCenter <= dockThreshold) nextRegion = 'below';
 
       const enteringFromAbove = nextRegion === 'inside' && previousRegion === 'above';
       const returningFromBelow = nextRegion === 'inside' && previousRegion === 'below';
       const shouldMount = nextRegion !== 'above';
-      const computedBottom = parseFloat(window.getComputedStyle(controls).bottom) || 24;
-      const fixedCenter = viewportBottom - computedBottom - controlHeight / 2;
 
       if (nextRegion === 'above'){
         window.clearTimeout(controlsIntroTimer);
@@ -1360,7 +1400,7 @@
         finishControlsIntro();
       }
 
-      setDockShift(shouldMount ? anchorCenter - fixedCenter : 0);
+      controls.classList.toggle('is-docked', nextRegion === 'below');
       controls.classList.toggle('is-mounted', shouldMount);
 
       if (enteringFromAbove){
@@ -1467,33 +1507,11 @@
     updateControlPosition();
   })();
 
-  /* Zoom selected highlight artwork once, the first time each card enters view. */
+  /* Zoom selected highlight artwork once, after the same eager image load used by every card. */
   (function(){
     const mediaNodes = Array.from(document.querySelectorAll('.highlight-media--zoom-top, .highlight-media--zoom-bottom'));
     if (!mediaNodes.length) return;
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const imageReady = new WeakMap();
-
-    function prepareImage(image){
-      if (!image) return Promise.resolve();
-      if (imageReady.has(image)) return imageReady.get(image);
-
-      let ready;
-      if (typeof image.decode === 'function'){
-        ready = image.decode().catch(function(){});
-      }else if (image.complete){
-        ready = Promise.resolve();
-      }else{
-        ready = new Promise(function(resolve){
-          image.addEventListener('load', resolve, { once:true });
-          image.addEventListener('error', resolve, { once:true });
-        });
-      }
-      imageReady.set(image, ready);
-      return ready;
-    }
-
-    mediaNodes.forEach(function(media){ prepareImage(media.querySelector('img')); });
 
     function zoomOnce(media){
       if (media.classList.contains('is-zoomed')) return;
@@ -1507,7 +1525,12 @@
           });
         }, 160);
       };
-      prepareImage(image).then(reveal);
+      if (!image || image.complete){
+        reveal();
+        return;
+      }
+      image.addEventListener('load', reveal, { once:true });
+      image.addEventListener('error', reveal, { once:true });
     }
 
     if (reduce || !('IntersectionObserver' in window)){
