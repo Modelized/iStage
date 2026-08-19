@@ -66,10 +66,11 @@
 
   @media (min-width:901px){
     .page-iStage-27 .i27-hero-card{
-      height:calc(100vh - var(--banner-side-gap) - var(--banner-side-gap));
-      height:calc(100svh - var(--banner-side-gap) - var(--banner-side-gap));
-      min-height:calc(100vh - var(--banner-side-gap) - var(--banner-side-gap));
-      min-height:calc(100svh - var(--banner-side-gap) - var(--banner-side-gap));
+      --i27-hero-top-space:calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 12px);
+      height:calc(100vh - var(--i27-hero-top-space) - var(--banner-side-gap));
+      height:calc(100svh - var(--i27-hero-top-space) - var(--banner-side-gap));
+      min-height:calc(100vh - var(--i27-hero-top-space) - var(--banner-side-gap));
+      min-height:calc(100svh - var(--i27-hero-top-space) - var(--banner-side-gap));
     }
   }
 
