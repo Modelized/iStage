@@ -66,10 +66,11 @@
 
   @media (min-width:901px){
     .page-iStage-27 .i27-hero-card{
-      height:100vh;
-      height:100svh;
-      min-height:100vh;
-      min-height:100svh;
+      --i27-hero-top-space:calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 12px);
+      height:calc(100vh - var(--i27-hero-top-space) - var(--banner-side-gap));
+      height:calc(100svh - var(--i27-hero-top-space) - var(--banner-side-gap));
+      min-height:calc(100vh - var(--i27-hero-top-space) - var(--banner-side-gap));
+      min-height:calc(100svh - var(--i27-hero-top-space) - var(--banner-side-gap));
     }
   }
 
@@ -210,16 +211,54 @@
     letter-spacing:-.01em;
   }
 
-  .highlight-media-placeholder{
+  .highlight-media{
     position:absolute;
-    left:clamp(26px, 5vw, 58px);
-    right:clamp(26px, 5vw, 58px);
+    top:clamp(104px, 12vw, 138px);
+    left:0;
+    right:0;
     bottom:0;
-    height:57%;
+    z-index:0;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
     overflow:hidden;
-    border-radius:clamp(22px, 3vw, 34px) clamp(22px, 3vw, 34px) 0 0;
-    background:linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.018));
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+    pointer-events:none;
+  }
+
+  .highlight-media img{
+    display:block;
+    width:auto;
+    height:100%;
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+    object-position:center bottom;
+    transform:scale(1);
+    transform-origin:center center;
+    transition:transform 1.35s cubic-bezier(.16,1,.3,1);
+    will-change:transform;
+  }
+
+  .highlight-media--zoom-top img{ transform-origin:50% 12%; }
+  .highlight-media--zoom-bottom img{ transform-origin:50% 88%; }
+  .highlight-media--zoom-top.is-zoomed img,
+  .highlight-media--zoom-bottom.is-zoomed img{ transform:scale(1.18); }
+
+  .highlight-card--fade-top::after{
+    content:"";
+    position:absolute;
+    inset:0 0 auto;
+    z-index:1;
+    height:48%;
+    background:linear-gradient(
+      to bottom,
+      #111113 0%,
+      #111113 40%,
+      rgba(17,17,19,.96) 58%,
+      rgba(17,17,19,.66) 76%,
+      rgba(17,17,19,0) 100%
+    );
+    pointer-events:none;
   }
 
   .highlight-controls-anchor{ position:relative; height:clamp(150px, 18vw, 190px); }
@@ -706,7 +745,7 @@
     .highlight-card{ height:clamp(460px, 120vw, 560px); }
     .highlight-copy{ padding:34px 24px 0; }
     .highlight-copy h3{ font-size:clamp(16px, 4.4vw, 18px); line-height:1.22; }
-    .highlight-media-placeholder{ left:20px; right:20px; height:58%; }
+    .highlight-media{ top:112px; }
     .progress-pill,
     .play-toggle{ height:56px; }
     .progress-dots{ --progress-dot-gap:13px; }
@@ -748,6 +787,7 @@
     .play-toggle::after,
     .progress-dot{ animation:none !important; transition:none !important; }
     .highlight-copy{ opacity:1 !important; transform:none !important; }
+    .highlight-media img{ transition:none !important; }
   }
   </style>
 
@@ -789,31 +829,45 @@
       <div class="highlight-rail reveal reveal--short" id="highlight-rail" aria-label="iStage 27 highlights" tabindex="0">
         <article class="highlight-card" data-card="0" tabindex="0" aria-label="Highlight 1 of 7">
           <div class="highlight-copy"><h3>A lighter Liquid Glass design with refined clarity and subtle depth.</h3></div>
-          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+          <div class="highlight-media highlight-media--zoom-top">
+            <img src="../assets/img/iStage-27-design.png" alt="iStage 27 Liquid Glass design" loading="lazy" decoding="async">
+          </div>
         </article>
         <article class="highlight-card" data-card="1" tabindex="0" aria-label="Highlight 2 of 7">
           <div class="highlight-copy"><h3>A refreshed setup experience that delivers a clean Setup Summary when you finish.</h3></div>
-          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+          <div class="highlight-media">
+            <img src="../assets/img/iStage-27-setup.png" alt="iStage 27 setup summary" loading="lazy" decoding="async">
+          </div>
         </article>
         <article class="highlight-card" data-card="2" tabindex="0" aria-label="Highlight 3 of 7">
           <div class="highlight-copy"><h3>Expanded personalization with redesigned editors and a revamped wallpaper gallery.</h3></div>
-          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+          <div class="highlight-media">
+            <img src="../assets/img/iStage-27-personalization.png" alt="iStage 27 personalization editors and wallpaper gallery" loading="lazy" decoding="async">
+          </div>
         </article>
         <article class="highlight-card" data-card="3" tabindex="0" aria-label="Highlight 4 of 7">
           <div class="highlight-copy"><h3>Dynamic Island seamlessly presents system states, such as lock and charging.</h3></div>
-          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+          <div class="highlight-media highlight-media--zoom-top">
+            <img src="../assets/img/iStage-27-dynamic-island.png" alt="Dynamic Island lock and charging states in iStage 27" loading="lazy" decoding="async">
+          </div>
         </article>
-        <article class="highlight-card" data-card="4" tabindex="0" aria-label="Highlight 5 of 7">
+        <article class="highlight-card highlight-card--fade-top" data-card="4" tabindex="0" aria-label="Highlight 5 of 7">
           <div class="highlight-copy"><h3>Stay updated on F1 races and live match scores right from your Lock Screen.</h3></div>
-          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+          <div class="highlight-media highlight-media--zoom-bottom">
+            <img src="../assets/img/iStage-27-live-activities.png" alt="F1 races and live match scores on the iStage 27 Lock Screen" loading="lazy" decoding="async">
+          </div>
         </article>
         <article class="highlight-card" data-card="5" tabindex="0" aria-label="Highlight 6 of 7">
           <div class="highlight-copy"><h3>Notification Center lets you easily switch between Count, Stack, and List views.</h3></div>
-          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+          <div class="highlight-media">
+            <img src="../assets/img/iStage-27-notification-center.png" alt="Count, Stack, and List views in iStage 27 Notification Center" loading="lazy" decoding="async">
+          </div>
         </article>
         <article class="highlight-card" data-card="6" tabindex="0" aria-label="Highlight 7 of 7">
           <div class="highlight-copy"><h3>Switch between a minimal compact player and a rich, vibrant full-screen view for your music.</h3></div>
-          <div class="highlight-media-placeholder" role="img" aria-label="Image coming soon"></div>
+          <div class="highlight-media">
+            <img src="../assets/img/iStage-27-music-player.png" alt="Compact and full-screen music players in iStage 27" loading="lazy" decoding="async">
+          </div>
         </article>
       </div>
 
@@ -1225,6 +1279,40 @@
     updateControls();
     updateCardText();
     updateControlPosition();
+  })();
+
+  /* Zoom selected highlight artwork once, the first time each card enters view. */
+  (function(){
+    const mediaNodes = Array.from(document.querySelectorAll('.highlight-media--zoom-top, .highlight-media--zoom-bottom'));
+    if (!mediaNodes.length) return;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function zoomOnce(media){
+      if (media.classList.contains('is-zoomed')) return;
+      const image = media.querySelector('img');
+      const reveal = function(){
+        window.requestAnimationFrame(function(){
+          window.requestAnimationFrame(function(){ media.classList.add('is-zoomed'); });
+        });
+      };
+      if (!image || image.complete) reveal();
+      else image.addEventListener('load', reveal, { once:true });
+    }
+
+    if (reduce || !('IntersectionObserver' in window)){
+      mediaNodes.forEach(zoomOnce);
+      return;
+    }
+
+    const observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        zoomOnce(entry.target);
+      });
+    }, { threshold:.24, rootMargin:'0px -2% -8% 0px' });
+
+    mediaNodes.forEach(function(media){ observer.observe(media); });
   })();
 
   /* Shared reveal-on-scroll behavior, matching the home page. */
