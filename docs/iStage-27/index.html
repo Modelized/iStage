@@ -51,7 +51,7 @@
   }
 
   .page-iStage-27 .brand-logo{ filter:none !important; }
-  .page-iStage-27 main{ overflow:clip; }
+  .page-iStage-27 main{ overflow-x:clip; overflow-y:visible; }
   .page-iStage-27 .footer{ margin:0; background:#000; color:#a7acb7; }
 
   /* Hero: shared feature-card structure, iStage 27-specific composition. */
@@ -59,7 +59,7 @@
     --hero-a:188 133 82;
     --hero-b:229 218 204;
     --hero-c:105 118 148;
-    --i27-hero-image-scale:.94;
+    --i27-hero-image-scale:.88;
     min-height:clamp(520px, 62vw, 700px);
     background:linear-gradient(145deg, #0e0b09 0%, #080809 52%, #090a0d 100%);
   }
@@ -131,15 +131,16 @@
 
   /* Highlights */
   .i27-highlights{
+    --highlight-card-width:min(78vw, 1240px);
     position:relative;
-    padding:clamp(78px, 10vw, 132px) 0 0;
+    padding:clamp(56px, 7vw, 92px) 0 0;
     background:#000;
   }
 
   .i27-highlights-heading{
-    width:min(1100px, 100%);
+    width:var(--highlight-card-width);
     margin:0 auto clamp(30px, 5vw, 56px);
-    padding:0 24px;
+    padding:0;
     color:#f5f5f7;
     font-size:clamp(28px, 4.6vw, 56px);
     font-weight:600;
@@ -148,7 +149,6 @@
   }
 
   .highlight-rail{
-    --highlight-card-width:min(78vw, 1240px);
     display:flex;
     gap:clamp(14px, 2vw, 22px);
     margin:0;
@@ -221,16 +221,15 @@
     --control-half:28px;
     --collapsed-control-size:56px;
     --pill-expanded-width:216px;
-    --pill-prep-width:176px;
-    --pill-prep-left:56px;
+    --pill-merge-left:116px;
     --progress-active-width:46px;
     --dots-collapsed-width:46px;
     --dots-expanded-width:172px;
     --play-final-left:232px;
-    --play-origin-left:96px;
     --play-merge-left:116px;
     --island-ease:cubic-bezier(.42,0,.18,1);
-    --island-duration:1.2s;
+    --island-duration:1.3s;
+    --island-rise-duration:1.2s;
     --controls-dock-shift:0px;
     position:fixed;
     left:50%;
@@ -259,7 +258,15 @@
   }
 
   .highlight-controls.is-introducing{
-    animation:highlight-controls-rise var(--island-duration) var(--island-ease) both;
+    animation:highlight-controls-rise var(--island-rise-duration) var(--island-ease) both;
+    transition:none;
+  }
+
+  /* Keep the final animated frame and the mounted geometry on the same frame. */
+  .highlight-controls.is-intro-settling,
+  .highlight-controls.is-intro-settling .progress-pill,
+  .highlight-controls.is-intro-settling .progress-dots,
+  .highlight-controls.is-intro-settling .play-toggle{
     transition:none;
   }
 
@@ -342,7 +349,7 @@
   }
 
   .highlight-controls.is-introducing .highlight-intro-blob{
-    animation:highlight-intro-blob var(--island-duration) var(--island-ease) both;
+    animation:highlight-intro-blob var(--island-rise-duration) var(--island-ease) both;
   }
 
   @keyframes highlight-intro-blob{
@@ -360,77 +367,57 @@
       transform:translate(-50%, -50%) scale(1.3);
       animation-timing-function:cubic-bezier(.44,0,.2,1);
     }
-    30%{
+    24%{
       width:39px;
       height:45px;
       opacity:1;
       transform:translate(-50%, -50%) scale(1.3);
       animation-timing-function:cubic-bezier(.34,.02,.2,1);
     }
-    44%{
+    30%{
       width:40px;
       height:30px;
       opacity:1;
       transform:translate(-50%, -50%) scale(1.3);
       animation-timing-function:cubic-bezier(.32,.04,.2,1);
     }
-    48%{
+    38%{
       width:35px;
       height:32px;
       opacity:0;
       transform:translate(-50%, -50%) scale(1.3);
     }
     100%{
-      width:35px;
-      height:32px;
+      width:30px;
+      height:80px;
       opacity:0;
       transform:translate(-50%, -50%) scale(1.3);
     }
   }
 
-  .highlight-controls.is-introducing .progress-pill::before{
-    animation:highlight-pill-surface var(--island-duration) var(--island-ease) both;
-  }
-
-  .highlight-controls.is-introducing .play-toggle::before{
-    animation:highlight-play-surface var(--island-duration) var(--island-ease) both;
-  }
-
+  .highlight-controls.is-introducing .progress-pill::before,
+  .highlight-controls.is-introducing .play-toggle::before,
   .highlight-controls.is-introducing .progress-pill::after,
   .highlight-controls.is-introducing .play-toggle::after{
-    animation:highlight-control-outline var(--island-duration) var(--island-ease) both;
+    animation:highlight-control-surface var(--island-duration) var(--island-ease) both;
   }
 
-  @keyframes highlight-control-outline{
-    0%, 48%{ opacity:0; }
-    62%, 100%{ opacity:1; }
-  }
-
-  @keyframes highlight-pill-surface{
-    0%, 50%{
+  @keyframes highlight-control-surface{
+    0%, 27%{
       opacity:0;
-      transform:scaleX(.24) scaleY(.74);
       animation-timing-function:cubic-bezier(.42,0,.2,1);
     }
-    80%{
+    40%{
       opacity:1;
-      transform:scaleX(1.12) scaleY(1);
       animation-timing-function:cubic-bezier(.34,.02,.2,1);
     }
-    100%{ opacity:1; transform:scale(1); }
-  }
-
-  @keyframes highlight-play-surface{
-    0%, 50%{ opacity:0; transform:scaleY(.74); animation-timing-function:cubic-bezier(.42,0,.2,1); }
-    62%{ opacity:1; transform:scaleY(.86); animation-timing-function:cubic-bezier(.34,.02,.2,1); }
-    84%{ opacity:1; transform:scaleY(1.025); animation-timing-function:cubic-bezier(.34,.02,.2,1); }
-    100%{ opacity:1; transform:scaleY(1); }
+    100%{ opacity:1; }
   }
 
   .progress-pill{
     position:absolute;
     top:50%;
-    left:0;
+    left:var(--pill-merge-left);
     display:flex;
     width:var(--collapsed-control-size);
     align-items:center;
@@ -438,15 +425,18 @@
     overflow:hidden;
     border-radius:999px;
     z-index:1;
-    transform:translate(calc((var(--controls-frame-width) - var(--collapsed-control-size)) / 2), -50%);
+    transform:translateY(-50%);
     transition:
       width .78s cubic-bezier(.16,1,.3,1),
-      transform .78s cubic-bezier(.16,1,.3,1);
+      height .78s cubic-bezier(.16,1,.3,1),
+      left .78s cubic-bezier(.16,1,.3,1);
   }
 
   .is-mounted .progress-pill{
+    left:0;
     width:var(--pill-expanded-width);
-    transform:translate(0, -50%);
+    height:var(--collapsed-control-size);
+    transform:translateY(-50%);
     transition-delay:.1s;
   }
 
@@ -456,19 +446,25 @@
   }
 
   @keyframes highlight-pill-split{
-    0%, 50%{
-      width:var(--pill-prep-width);
-      transform:translate(var(--pill-prep-left), -50%);
+    0%, 27%{
+      left:var(--pill-merge-left);
+      width:var(--collapsed-control-size);
+      height:41.44px;
+      transform:translateY(-50%);
       animation-timing-function:cubic-bezier(.42,0,.2,1);
     }
-    80%{
-      width:calc(var(--pill-expanded-width) + 4px);
-      transform:translate(-2px, -50%);
-      animation-timing-function:cubic-bezier(.34,.02,.2,1);
+    64%{
+      left:6px;
+      width:calc(var(--pill-expanded-width) - 12px);
+      height:49.28px;
+      transform:translateY(-50%);
+      animation-timing-function:cubic-bezier(.18,1.12,.22,1);
     }
-    100%{
+    92%, 100%{
+      left:0;
       width:var(--pill-expanded-width);
-      transform:translate(0, -50%);
+      height:var(--collapsed-control-size);
+      transform:translateY(-50%);
     }
   }
 
@@ -482,26 +478,26 @@
     opacity:1;
     position:relative;
     z-index:1;
+    overflow:hidden;
     transform:none;
   }
 
   .highlight-controls.is-introducing .progress-dots{
-    overflow:hidden;
     animation:highlight-dots-center-unfold var(--island-duration) var(--island-ease) both;
   }
 
   @keyframes highlight-dots-center-unfold{
-    0%, 58%{
+    0%, 27%{
       width:var(--dots-collapsed-width);
       opacity:0;
       animation-timing-function:cubic-bezier(.3,0,.18,1);
     }
-    82%{
-      width:calc(var(--dots-expanded-width) + 4px);
+    64%{
+      width:calc(var(--dots-expanded-width) - 12px);
       opacity:1;
-      animation-timing-function:cubic-bezier(.34,.02,.2,1);
+      animation-timing-function:cubic-bezier(.18,1.12,.22,1);
     }
-    100%{ width:var(--dots-expanded-width); opacity:1; }
+    92%, 100%{ width:var(--dots-expanded-width); opacity:1; }
   }
 
   .highlight-controls:not(.is-mounted) .progress-dots{
@@ -530,13 +526,13 @@
   }
 
   .progress-dot:first-child{ --dot-gap:0px; }
-  .progress-dot:nth-child(1){ --dot-delay:.64s; }
-  .progress-dot:nth-child(2){ --dot-delay:.664s; }
-  .progress-dot:nth-child(3){ --dot-delay:.688s; }
-  .progress-dot:nth-child(4){ --dot-delay:.712s; }
-  .progress-dot:nth-child(5){ --dot-delay:.736s; }
-  .progress-dot:nth-child(6){ --dot-delay:.76s; }
-  .progress-dot:nth-child(7){ --dot-delay:.784s; }
+  .progress-dot:nth-child(1){ --dot-delay:.44s; }
+  .progress-dot:nth-child(2){ --dot-delay:.50s; }
+  .progress-dot:nth-child(3){ --dot-delay:.56s; }
+  .progress-dot:nth-child(4){ --dot-delay:.62s; }
+  .progress-dot:nth-child(5){ --dot-delay:.68s; }
+  .progress-dot:nth-child(6){ --dot-delay:.74s; }
+  .progress-dot:nth-child(7){ --dot-delay:.80s; }
 
   .highlight-controls.is-introducing .progress-dot{
     animation:highlight-dot-arrive .1s cubic-bezier(.18,.78,.18,1) var(--dot-delay) both;
@@ -556,18 +552,19 @@
     inset:0;
     border-radius:inherit;
     background:#f5f5f7;
-    transform:scaleX(0);
-    transform-origin:left center;
+    transform:translateX(-100%);
+    transform-origin:center;
+    will-change:transform;
   }
 
   .highlight-controls.is-playing.is-progressing .progress-dot.is-active::after{ animation:highlight-progress 5s linear forwards; }
-  .progress-dot.is-complete::after{ transform:scaleX(1); }
-  @keyframes highlight-progress{ to{ transform:scaleX(1); } }
+  .progress-dot.is-complete::after{ transform:translateX(0); }
+  @keyframes highlight-progress{ to{ transform:translateX(0); } }
 
   .play-toggle{
     position:absolute;
     top:50%;
-    left:var(--play-final-left);
+    left:var(--play-merge-left);
     width:var(--collapsed-control-size);
     min-width:var(--collapsed-control-size);
     padding:0;
@@ -577,18 +574,21 @@
     opacity:0;
     cursor:pointer;
     transform-origin:center center;
-    transform:translate(calc(var(--play-merge-left) - var(--play-final-left)), -50%);
+    transform:translateY(-50%);
     transition:
       opacity .1s linear .58s,
-      transform .68s cubic-bezier(.16,1,.3,1);
+      height .68s cubic-bezier(.16,1,.3,1),
+      left .68s cubic-bezier(.16,1,.3,1);
   }
 
   .is-mounted .play-toggle{
+    left:var(--play-final-left);
     width:var(--collapsed-control-size);
     min-width:var(--collapsed-control-size);
+    height:var(--collapsed-control-size);
     opacity:1;
-    transform:translate(0, -50%) scale(1);
-    transition-delay:.16s, .16s;
+    transform:translateY(-50%);
+    transition-delay:.16s, .16s, .16s;
   }
 
   .highlight-controls.is-introducing .play-toggle{
@@ -597,19 +597,25 @@
   }
 
   @keyframes highlight-play-split{
-    0%, 50%{
+    0%, 27%{
+      left:var(--play-merge-left);
+      height:41.44px;
       opacity:1;
-      transform:translate(calc(var(--play-origin-left) - var(--play-final-left)), -50%);
+      transform:translateY(-50%);
       animation-timing-function:cubic-bezier(.42,0,.2,1);
     }
-    80%{
+    64%{
+      left:calc(var(--play-final-left) + 8px);
+      height:49.28px;
       opacity:1;
-      transform:translate(5px, -50%);
-      animation-timing-function:cubic-bezier(.34,.02,.2,1);
+      transform:translateY(-50%);
+      animation-timing-function:cubic-bezier(.18,1.12,.22,1);
     }
-    100%{
+    92%, 100%{
+      left:var(--play-final-left);
+      height:var(--collapsed-control-size);
       opacity:1;
-      transform:translate(0, -50%) scale(1);
+      transform:translateY(-50%);
     }
   }
 
@@ -618,9 +624,9 @@
   }
 
   @keyframes highlight-play-icon-arrive{
-    0%, 70%{ opacity:0; transform:scale(.72); }
-    88%{ opacity:1; transform:scale(1.035); }
-    100%{ opacity:1; transform:scale(1); }
+    0%, 36%{ opacity:0; transform:scale(.72); }
+    68%{ opacity:1; transform:scale(1.035); }
+    92%, 100%{ opacity:1; transform:scale(1); }
   }
 
   .play-icon{
@@ -630,6 +636,8 @@
     place-items:center;
     z-index:1;
     pointer-events:none;
+    opacity:1;
+    transform:scale(1);
   }
 
   .play-icon svg{
@@ -664,14 +672,14 @@
   .play-toggle:focus-visible{ outline:2px solid rgb(var(--accent-blue)); outline-offset:3px; }
 
   @media (max-width:900px) and (orientation:portrait){
-    .page-iStage-27 .i27-hero-card{ --i27-hero-image-scale:.9; display:block; min-height:clamp(540px, 138vw, 660px); }
+    .page-iStage-27 .i27-hero-card{ --i27-hero-image-scale:.84; display:block; min-height:clamp(540px, 138vw, 660px); }
     .page-iStage-27 .i27-hero-media{ position:absolute; inset:0; height:auto; }
     .page-iStage-27 .i27-hero-copy{ position:absolute; inset:auto 24px 94px; padding:0; }
     .i27-hero-headline{ max-width:8.8em; }
     .i27-hero-action{ right:auto; left:24px; bottom:25px; }
-    .i27-highlights{ padding-top:82px; }
-    .i27-highlights-heading{ margin-bottom:30px; padding:0 24px; }
-    .highlight-rail{ --highlight-card-width:82vw; gap:14px; }
+    .i27-highlights{ --highlight-card-width:82vw; padding-top:56px; }
+    .i27-highlights-heading{ margin-bottom:30px; padding:0; }
+    .highlight-rail{ gap:14px; }
     .highlight-card{ height:clamp(460px, 120vw, 560px); }
     .highlight-copy{ padding:34px 24px 0; }
     .highlight-copy h3{ font-size:clamp(16px, 4.4vw, 18px); line-height:1.22; }
@@ -684,13 +692,11 @@
       --control-half:28px;
       --collapsed-control-size:56px;
       --pill-expanded-width:216px;
-      --pill-prep-width:176px;
-      --pill-prep-left:56px;
+      --pill-merge-left:116px;
       --progress-active-width:40px;
       --dots-collapsed-width:40px;
       --dots-expanded-width:166px;
       --play-final-left:232px;
-      --play-origin-left:96px;
       --play-merge-left:116px;
       height:56px;
     }
@@ -789,34 +795,34 @@
       </div>
 
       <div class="highlight-controls-anchor" id="highlight-controls-anchor" aria-hidden="true"></div>
-
-      <div class="highlight-controls" id="highlight-controls" aria-label="Highlight playback controls">
-        <span class="highlight-intro-blob" aria-hidden="true"></span>
-        <div class="progress-pill">
-          <div class="progress-dots" role="group" aria-label="Choose a highlight">
-            <button class="progress-dot is-active" type="button" data-index="0" aria-label="Show highlight 1" aria-current="true"></button>
-            <button class="progress-dot" type="button" data-index="1" aria-label="Show highlight 2"></button>
-            <button class="progress-dot" type="button" data-index="2" aria-label="Show highlight 3"></button>
-            <button class="progress-dot" type="button" data-index="3" aria-label="Show highlight 4"></button>
-            <button class="progress-dot" type="button" data-index="4" aria-label="Show highlight 5"></button>
-            <button class="progress-dot" type="button" data-index="5" aria-label="Show highlight 6"></button>
-            <button class="progress-dot" type="button" data-index="6" aria-label="Show highlight 7"></button>
-          </div>
-        </div>
-        <button class="play-toggle" id="highlight-play-toggle" type="button" aria-label="Pause highlights">
-          <span class="play-icon" aria-hidden="true">
-            <svg class="play-icon-play" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M8.2 5.4c-.9-.6-2.1.1-2.1 1.2v10.8c0 1.1 1.2 1.8 2.1 1.2l8.7-5.4c.9-.5.9-1.8 0-2.4L8.2 5.4Z"/>
-            </svg>
-            <svg class="play-icon-pause" viewBox="0 0 24 24">
-              <rect x="6" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
-              <rect x="13.5" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
-            </svg>
-          </span>
-        </button>
-      </div>
     </section>
   </main>
+
+  <div class="highlight-controls" id="highlight-controls" aria-label="Highlight playback controls">
+    <span class="highlight-intro-blob" aria-hidden="true"></span>
+    <div class="progress-pill">
+      <div class="progress-dots" role="group" aria-label="Choose a highlight">
+        <button class="progress-dot is-active" type="button" data-index="0" aria-label="Show highlight 1" aria-current="true"></button>
+        <button class="progress-dot" type="button" data-index="1" aria-label="Show highlight 2"></button>
+        <button class="progress-dot" type="button" data-index="2" aria-label="Show highlight 3"></button>
+        <button class="progress-dot" type="button" data-index="3" aria-label="Show highlight 4"></button>
+        <button class="progress-dot" type="button" data-index="4" aria-label="Show highlight 5"></button>
+        <button class="progress-dot" type="button" data-index="5" aria-label="Show highlight 6"></button>
+        <button class="progress-dot" type="button" data-index="6" aria-label="Show highlight 7"></button>
+      </div>
+    </div>
+    <button class="play-toggle" id="highlight-play-toggle" type="button" aria-label="Pause highlights">
+      <span class="play-icon" aria-hidden="true">
+        <svg class="play-icon-play" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M8.2 5.4c-.9-.6-2.1.1-2.1 1.2v10.8c0 1.1 1.2 1.8 2.1 1.2l8.7-5.4c.9-.5.9-1.8 0-2.4L8.2 5.4Z"/>
+        </svg>
+        <svg class="play-icon-pause" viewBox="0 0 24 24">
+          <rect x="6" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
+          <rect x="13.5" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
+        </svg>
+      </span>
+    </button>
+  </div>
 
   <div id="footer-slot"></div>
   <script src="../assets/js/shell.js" defer></script>
@@ -828,6 +834,7 @@
     const controls = document.getElementById('highlight-controls');
     const controlsAnchor = document.getElementById('highlight-controls-anchor');
     const playToggle = document.getElementById('highlight-play-toggle');
+    const progressPill = controls ? controls.querySelector('.progress-pill') : null;
     const cards = rail ? Array.from(rail.querySelectorAll('.highlight-card')) : [];
     const dots = controls ? Array.from(controls.querySelectorAll('.progress-dot')) : [];
     const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -852,6 +859,10 @@
     let controlsIntroTimer = 0;
     let autoplayStartTimer = 0;
     let pointerGesture = null;
+
+    function clearCompletedDots(){
+      dots.forEach(function(dot){ dot.classList.remove('is-complete'); });
+    }
 
     function clearPlaybackTimer(){
       if (playbackTimer){ window.clearTimeout(playbackTimer); playbackTimer = 0; }
@@ -889,7 +900,7 @@
     }
 
     function play(){
-      dots.forEach(function(dot){ dot.classList.remove('is-complete'); });
+      clearCompletedDots();
       autoplayFinished = false;
       isPlaying = true;
       hasStarted = true;
@@ -961,7 +972,7 @@
     function goTo(index, source){
       const nextIndex = Math.max(0, Math.min(cards.length - 1, index));
       if (source === 'manual'){
-        dots.forEach(function(dot){ dot.classList.remove('is-complete'); });
+        clearCompletedDots();
       }
       currentIndex = nextIndex;
       const targetLeft = cards[nextIndex].offsetLeft - (rail.clientWidth - cards[nextIndex].offsetWidth) / 2;
@@ -1010,6 +1021,7 @@
       window.requestAnimationFrame(function(){
         scrollTicking = false;
         if (!programmaticScroll){
+          clearCompletedDots();
           const next = nearestCardIndex();
           if (next !== currentIndex){ currentIndex = next; updateControls(); }
         }
@@ -1019,19 +1031,36 @@
 
     function stopForUser(){
       cancelRailAnimation();
+      clearCompletedDots();
       userInterrupted = true;
       resumeOnReturn = false;
       pausePlayback();
     }
 
+    function finishControlsIntro(){
+      if (!controls.classList.contains('is-introducing')) return;
+      window.clearTimeout(controlsIntroTimer);
+      controls.classList.add('is-intro-settling');
+      controls.classList.remove('is-introducing');
+      void controls.offsetWidth;
+    }
+
     function beginControlsIntro(){
       window.clearTimeout(controlsIntroTimer);
+      controls.classList.add('is-intro-settling');
       controls.classList.remove('is-introducing');
       void controls.offsetWidth;
       controls.classList.add('is-introducing');
-      controlsIntroTimer = window.setTimeout(function(){
-        controls.classList.remove('is-introducing');
-      }, 1240);
+      window.requestAnimationFrame(function(){
+        controls.classList.remove('is-intro-settling');
+      });
+      controlsIntroTimer = window.setTimeout(finishControlsIntro, 1800);
+    }
+
+    if (progressPill){
+      progressPill.addEventListener('animationend', function(event){
+        if (event.animationName === 'highlight-pill-split') finishControlsIntro();
+      });
     }
 
     function renderDockShift(){
@@ -1078,7 +1107,7 @@
           window.clearTimeout(autoplayStartTimer);
           autoplayStartTimer = window.setTimeout(function(){
             if (!hasStarted && controls.classList.contains('is-mounted')) play();
-          }, 1260);
+          }, 1360);
         }else if (resumeOnReturn && !userInterrupted && !autoplayFinished){
           window.clearTimeout(autoplayStartTimer);
           autoplayStartTimer = window.setTimeout(function(){
@@ -1090,7 +1119,7 @@
       if (!inRange){
         window.clearTimeout(controlsIntroTimer);
         window.clearTimeout(autoplayStartTimer);
-        controls.classList.remove('is-introducing');
+        controls.classList.remove('is-introducing', 'is-intro-settling');
       }
 
       controlsMounted = inRange;
