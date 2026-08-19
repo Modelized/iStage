@@ -243,29 +243,9 @@
   }
 
   .highlight-media--zoom-top img{ transform-origin:50% 9.45%; }
-  .highlight-media.highlight-media--zoom-bottom{ overflow:visible; }
   .highlight-media.highlight-media--zoom-bottom img{ transform-origin:50% 90.55%; }
   .highlight-media--zoom-top.is-zoomed img,
   .highlight-media--zoom-bottom.is-zoomed img{ transform:scale(2.9); }
-
-  .highlight-card--fade-top::after{
-    --fade-solid-stop:62%;
-    content:"";
-    position:absolute;
-    inset:0 0 auto;
-    z-index:1;
-    height:42%;
-    opacity:0;
-    background:linear-gradient(
-      to bottom,
-      #111113 var(--fade-solid-stop),
-      rgba(17,17,19,0) 100%
-    );
-    transition:opacity .7s cubic-bezier(.16,1,.3,1);
-    pointer-events:none;
-  }
-
-  .highlight-card--fade-top.is-media-zoomed::after{ opacity:1; }
 
   .highlight-controls-anchor{ position:relative; height:clamp(150px, 18vw, 190px); }
 
@@ -762,10 +742,6 @@
     }
     .highlight-media--zoom-top.is-zoomed img,
     .highlight-media--zoom-bottom.is-zoomed img{ transform:scale(1.92); }
-    .highlight-card--fade-top::after{
-      --fade-solid-stop:75%;
-      height:36%;
-    }
     .progress-pill,
     .play-toggle{ height:56px; }
     .progress-dots{ --progress-dot-gap:13px; }
@@ -808,7 +784,6 @@
     .progress-dot{ animation:none !important; transition:none !important; }
     .highlight-copy{ opacity:1 !important; transform:none !important; }
     .highlight-media img{ transition:none !important; }
-    .highlight-card--fade-top::after{ transition:none !important; }
   }
   </style>
 
@@ -872,7 +847,7 @@
             <img src="../assets/img/iStage-27-dynamic-island.png" alt="Dynamic Island lock and charging states in iStage 27" loading="eager" decoding="async" fetchpriority="low">
           </div>
         </article>
-        <article class="highlight-card highlight-card--fade-top" data-card="4" tabindex="0" aria-label="Highlight 5 of 7">
+        <article class="highlight-card" data-card="4" tabindex="0" aria-label="Highlight 5 of 7">
           <div class="highlight-copy"><h3>Stay updated on F1 races and live match scores right from your Lock Screen.</h3></div>
           <div class="highlight-media highlight-media--zoom-bottom">
             <img src="../assets/img/iStage-27-live-activities.png" alt="F1 races and live match scores on the iStage 27 Lock Screen" loading="eager" decoding="async" fetchpriority="low">
@@ -1311,13 +1286,11 @@
     function zoomOnce(media){
       if (media.classList.contains('is-zoomed')) return;
       const image = media.querySelector('img');
-      const card = media.closest('.highlight-card');
       const reveal = function(){
         window.setTimeout(function(){
           window.requestAnimationFrame(function(){
             window.requestAnimationFrame(function(){
               media.classList.add('is-zoomed');
-              if (card) card.classList.add('is-media-zoomed');
             });
           });
         }, 160);
