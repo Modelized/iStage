@@ -66,12 +66,10 @@
 
   @media (min-width:901px){
     .page-iStage-27 .i27-hero-card{
-      --i27-hero-top-space:calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 12px);
-      --i27-hero-bottom-space:calc(var(--banner-side-gap) + 32px);
-      height:calc(100vh - var(--i27-hero-top-space) - var(--i27-hero-bottom-space));
-      height:calc(100svh - var(--i27-hero-top-space) - var(--i27-hero-bottom-space));
-      min-height:calc(100vh - var(--i27-hero-top-space) - var(--i27-hero-bottom-space));
-      min-height:calc(100svh - var(--i27-hero-top-space) - var(--i27-hero-bottom-space));
+      height:calc(100vh - var(--banner-side-gap) - var(--banner-side-gap));
+      height:calc(100svh - var(--banner-side-gap) - var(--banner-side-gap));
+      min-height:calc(100vh - var(--banner-side-gap) - var(--banner-side-gap));
+      min-height:calc(100svh - var(--banner-side-gap) - var(--banner-side-gap));
     }
   }
 
@@ -370,14 +368,49 @@
   }
 
   .i27-compare{
+    --compare-aqua:90 205 211;
+    --compare-rose:215 132 174;
+    --compare-champagne:226 177 111;
     display:grid;
-    min-height:clamp(260px, 34vw, 380px);
+    min-height:clamp(420px, 44vw, 560px);
     margin-top:12px;
     place-items:center;
-    background:#111113;
+    isolation:isolate;
+    background:#000;
   }
 
-  .i27-compare .container{ width:100%; }
+  .i27-compare .section-bg{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    background:
+      radial-gradient(82% 110% at 18% 48%, rgb(var(--compare-aqua) / .17) 0%, rgb(var(--compare-aqua) / 0) 64%),
+      radial-gradient(78% 108% at 80% 34%, rgb(var(--compare-rose) / .14) 0%, rgb(var(--compare-rose) / 0) 62%),
+      radial-gradient(70% 92% at 52% 100%, rgb(var(--compare-champagne) / .11) 0%, rgb(var(--compare-champagne) / 0) 66%);
+    pointer-events:none;
+  }
+
+  .i27-compare .container{ position:relative; z-index:1; width:100%; }
+  .i27-compare .hero{
+    display:grid;
+    grid-template-columns:minmax(280px, .95fr) minmax(340px, 1.05fr);
+    align-items:center;
+    gap:clamp(36px, 6vw, 88px);
+    width:min(82vw, 1120px);
+    min-height:clamp(340px, 38vw, 470px);
+    margin:0 auto;
+  }
+
+  .i27-compare-media{ display:grid; place-items:center; min-width:0; }
+  .i27-compare-media img{
+    display:block;
+    width:min(100%, 430px);
+    height:auto;
+    filter:drop-shadow(0 24px 46px rgba(0,0,0,.34));
+  }
+
+  .i27-compare .copy{ align-items:center; text-align:center; }
   .i27-compare .copy .subtitle{ color:rgba(232,233,236,.72); }
 
   /* A rising intro blob compresses, then hands off to the two controls. */
@@ -927,7 +960,21 @@
       font-size:clamp(16px, 4.5vw, 18px);
       line-height:1.4;
     }
-    .i27-compare{ min-height:300px; margin-top:var(--banner-vert-gap); }
+    .i27-compare{
+      min-height:0;
+      margin-top:var(--banner-vert-gap);
+      padding-bottom:0;
+    }
+    .i27-compare .hero{
+      grid-template-columns:1fr;
+      grid-template-areas:"copy" "media";
+      gap:30px;
+      width:82vw;
+      min-height:0;
+    }
+    .i27-compare .copy{ grid-area:copy; }
+    .i27-compare-media{ grid-area:media; }
+    .i27-compare-media img{ width:min(76vw, 330px); }
     .progress-pill,
     .play-toggle{ height:56px; }
     .progress-dots{ --progress-dot-gap:13px; }
@@ -1118,8 +1165,13 @@
     </section>
 
     <section class="section section--black i27-compare" aria-label="Compare iStage versions">
+      <div class="section-bg" aria-hidden="true"></div>
+
       <div class="container">
         <div class="hero">
+          <div class="i27-compare-media reveal reveal--long">
+            <img src="../assets/img/hero-iStage-series.png" alt="iStage versions shown together" width="2160" height="2160" loading="eager" decoding="async">
+          </div>
           <div class="copy">
             <h2 class="title reveal">Compare</h2>
             <p class="subtitle reveal">See what's different across iStage versions.</p>
@@ -1162,6 +1214,7 @@
     let scrollTicking = false;
     let pageTicking = false;
     let controlsRegion = 'above';
+    let playbackRegion = 'above';
     let controlsIntroTimer = 0;
     let autoplayStartTimer = 0;
     let pointerGesture = null;
@@ -1372,6 +1425,7 @@
     function updateControlPosition(){
       pageTicking = false;
       const railBox = rail.getBoundingClientRect();
+      const stageBox = stage.getBoundingClientRect();
       const anchorBox = controlsAnchor.getBoundingClientRect();
       const fixedGuideBox = controlsFixedGuide.getBoundingClientRect();
       const visualViewport = window.visualViewport;
@@ -1383,21 +1437,23 @@
       const previousRegion = controlsRegion;
       const aboveThreshold = viewportBottom + (previousRegion === 'above' ? -4 : 12);
       const dockThreshold = fixedCenter + (previousRegion === 'below' ? 8 : -4);
+      const belowExitThreshold = viewportTop + (playbackRegion === 'below' ? 8 : -8);
       let nextRegion = 'inside';
 
       if (railBox.top >= aboveThreshold) nextRegion = 'above';
       else if (anchorCenter <= dockThreshold) nextRegion = 'below';
 
-      const enteringFromAbove = nextRegion === 'inside' && previousRegion === 'above';
-      const returningFromBelow = nextRegion === 'inside' && previousRegion === 'below';
+      const nextPlaybackRegion = nextRegion === 'above'
+        ? 'above'
+        : (stageBox.bottom <= belowExitThreshold ? 'below' : 'inside');
+      const enteringFromAbove = nextRegion !== 'above' && previousRegion === 'above';
+      const returningFromBelow = nextPlaybackRegion === 'inside' && playbackRegion === 'below';
       const shouldMount = nextRegion !== 'above';
 
       if (nextRegion === 'above'){
         window.clearTimeout(controlsIntroTimer);
         window.clearTimeout(autoplayStartTimer);
         controls.classList.remove('is-introducing', 'is-intro-settling');
-      }else if (nextRegion === 'below' && controls.classList.contains('is-introducing')){
-        finishControlsIntro();
       }
 
       controls.classList.toggle('is-docked', nextRegion === 'below');
@@ -1405,29 +1461,35 @@
 
       if (enteringFromAbove){
         beginControlsIntro();
-        if (!hasStarted && !reduceMotion){
+        if (!hasStarted && !reduceMotion && nextPlaybackRegion === 'inside'){
           window.clearTimeout(autoplayStartTimer);
           autoplayStartTimer = window.setTimeout(function(){
-            if (!hasStarted && controls.classList.contains('is-mounted')) play();
+            if (!hasStarted && controls.classList.contains('is-mounted') && playbackRegion === 'inside') play();
           }, 1360);
-        }else if (resumeOnReturn && !userInterrupted && !autoplayFinished){
+        }else if (resumeOnReturn && !userInterrupted && !autoplayFinished && nextPlaybackRegion === 'inside'){
           window.clearTimeout(autoplayStartTimer);
           autoplayStartTimer = window.setTimeout(function(){
-            if (controls.classList.contains('is-mounted') && !userInterrupted && !autoplayFinished) play();
+            if (controls.classList.contains('is-mounted') && playbackRegion === 'inside' && !userInterrupted && !autoplayFinished) play();
           }, 1360);
         }
       }
 
-      if (returningFromBelow && resumeOnReturn && !userInterrupted && !autoplayFinished){
+      controlsRegion = nextRegion;
+      playbackRegion = nextPlaybackRegion;
+
+      if (returningFromBelow && !hasStarted && !reduceMotion){
         window.clearTimeout(autoplayStartTimer);
         autoplayStartTimer = window.setTimeout(function(){
-          if (controls.classList.contains('is-mounted') && !userInterrupted && !autoplayFinished) play();
+          if (!hasStarted && playbackRegion === 'inside') play();
+        }, 80);
+      }else if (returningFromBelow && resumeOnReturn && !userInterrupted && !autoplayFinished){
+        window.clearTimeout(autoplayStartTimer);
+        autoplayStartTimer = window.setTimeout(function(){
+          if (controls.classList.contains('is-mounted') && playbackRegion === 'inside' && !userInterrupted && !autoplayFinished) play();
         }, 80);
       }
 
-      controlsRegion = nextRegion;
-
-      if (nextRegion !== 'inside' && isPlaying){
+      if (nextPlaybackRegion !== 'inside' && isPlaying){
         resumeOnReturn = !userInterrupted && !autoplayFinished;
         pausePlayback();
       }
