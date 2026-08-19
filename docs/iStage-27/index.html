@@ -243,6 +243,7 @@
   }
 
   .highlight-media--zoom-top img{ transform-origin:50% 9.45%; }
+  .highlight-media.highlight-media--zoom-bottom{ overflow:visible; }
   .highlight-media.highlight-media--zoom-bottom img{ transform-origin:50% 90.55%; }
   .highlight-media--zoom-top.is-zoomed img,
   .highlight-media--zoom-bottom.is-zoomed img{ transform:scale(2.9); }
@@ -262,7 +263,7 @@
       rgba(17,17,19,.62) 74%,
       rgba(17,17,19,0) 100%
     );
-    transition:opacity 1.75s cubic-bezier(.16,1,.3,1);
+    transition:opacity .7s cubic-bezier(.16,1,.3,1);
     pointer-events:none;
   }
 
