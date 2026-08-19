@@ -146,7 +146,7 @@
   .i27-highlights{
     --highlight-card-width:min(78vw, 1240px);
     position:relative;
-    padding:clamp(24px, 3vw, 36px) 0 0;
+    padding:clamp(30px, 3.2vw, 42px) 0 0;
     background:#000;
   }
 
@@ -216,7 +216,7 @@
 
   .highlight-media{
     position:absolute;
-    top:clamp(104px, 12vw, 138px);
+    top:clamp(116px, 12.5vw, 150px);
     left:0;
     right:0;
     bottom:0;
@@ -253,6 +253,7 @@
     inset:0 0 auto;
     z-index:1;
     height:42%;
+    opacity:0;
     background:linear-gradient(
       to bottom,
       #111113 0%,
@@ -261,8 +262,11 @@
       rgba(17,17,19,.62) 74%,
       rgba(17,17,19,0) 100%
     );
+    transition:opacity 1.75s cubic-bezier(.16,1,.3,1);
     pointer-events:none;
   }
+
+  .highlight-card--fade-top.is-media-zoomed::after{ opacity:1; }
 
   .highlight-controls-anchor{ position:relative; height:clamp(150px, 18vw, 190px); }
 
@@ -742,15 +746,15 @@
     .page-iStage-27 .i27-hero-copy{ position:absolute; inset:auto 24px 94px; padding:0; }
     .i27-hero-headline{ max-width:8.8em; }
     .i27-hero-action{ right:auto; left:24px; bottom:25px; }
-    .i27-highlights{ --highlight-card-width:82vw; padding-top:18px; }
+    .i27-highlights{ --highlight-card-width:82vw; padding-top:24px; }
     .i27-highlights-heading{ margin-bottom:30px; padding:0; }
     .highlight-rail{ gap:14px; }
     .highlight-card{ height:clamp(460px, 120vw, 560px); }
     .highlight-copy{ padding:34px 24px 0; }
     .highlight-copy h3{ font-size:clamp(16px, 4.4vw, 18px); line-height:1.22; }
-    .highlight-media{ top:82px; align-items:flex-start; }
+    .highlight-media{ top:94px; align-items:flex-start; }
     .highlight-media img{
-      --highlight-media-scale:1.18;
+      --highlight-media-scale:1;
       width:100%;
       height:auto;
       max-width:none;
@@ -812,6 +816,7 @@
     .progress-dot{ animation:none !important; transition:none !important; }
     .highlight-copy{ opacity:1 !important; transform:none !important; }
     .highlight-media img{ transition:none !important; }
+    .highlight-card--fade-top::after{ transition:none !important; }
   }
   </style>
 
@@ -1314,10 +1319,14 @@
     function zoomOnce(media){
       if (media.classList.contains('is-zoomed')) return;
       const image = media.querySelector('img');
+      const card = media.closest('.highlight-card');
       const reveal = function(){
         window.setTimeout(function(){
           window.requestAnimationFrame(function(){
-            window.requestAnimationFrame(function(){ media.classList.add('is-zoomed'); });
+            window.requestAnimationFrame(function(){
+              media.classList.add('is-zoomed');
+              if (card) card.classList.add('is-media-zoomed');
+            });
           });
         }, 160);
       };
