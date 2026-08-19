@@ -368,6 +368,16 @@
     letter-spacing:-.025em;
   }
 
+  .i27-download{
+    display:grid;
+    min-height:clamp(210px, 24vw, 290px);
+    margin-top:12px;
+    place-items:center;
+    background:#111113;
+  }
+
+  .i27-download .container{ width:100%; }
+
   .i27-compare{
     --compare-aqua:90 205 211;
     --compare-rose:215 132 174;
@@ -961,10 +971,14 @@
       font-size:clamp(16px, 4.5vw, 18px);
       line-height:1.4;
     }
+    .i27-download{
+      min-height:220px;
+      margin-top:var(--banner-vert-gap);
+    }
     .i27-compare{
       min-height:0;
       margin-top:var(--banner-vert-gap);
-      padding-bottom:0;
+      padding-bottom:22px;
     }
     .i27-compare .hero{
       grid-template-columns:1fr;
@@ -1165,6 +1179,19 @@
       </div>
     </section>
 
+    <section class="section section--black i27-download" aria-labelledby="download-title">
+      <div class="container">
+        <div class="hero">
+          <div class="copy">
+            <h2 class="title reveal" id="download-title">Upgrade your stage.</h2>
+            <div class="cta">
+              <a class="btn btn-blue reveal" href="../releases/#v=27">Download iStage 27</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section section--black i27-compare" aria-label="Compare iStage versions">
       <div class="section-bg" aria-hidden="true"></div>
 
@@ -1189,6 +1216,32 @@
   <script src="../assets/js/shell.js" defer></script>
 
   <script>
+  /* Keep every page image decoded ahead of the viewport without lazy loading. */
+  (function(){
+    const images = Array.from(document.querySelectorAll('.page-iStage-27 img'));
+    if (!images.length) return;
+
+    function warmImage(image){
+      if (typeof image.decode !== 'function') return;
+      image.decode().catch(function(){});
+    }
+
+    images.forEach(warmImage);
+
+    if ('IntersectionObserver' in window){
+      const observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) warmImage(entry.target);
+        });
+      }, { threshold:0, rootMargin:'200% 0px 200% 0px' });
+      images.forEach(function(image){ observer.observe(image); });
+    }
+
+    document.addEventListener('visibilitychange', function(){
+      if (!document.hidden) images.forEach(warmImage);
+    });
+  })();
+
   (function(){
     const rail = document.getElementById('highlight-rail');
     const stage = document.getElementById('highlight-stage');
