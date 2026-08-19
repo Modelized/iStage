@@ -7,6 +7,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="preload" as="image" href="../assets/img/iStage-27-design.png" fetchpriority="high">
+  <link rel="preload" as="image" href="../assets/img/iStage-27-dynamic-island.png" fetchpriority="high">
+  <link rel="preload" as="image" href="../assets/img/iStage-27-live-activities.png" fetchpriority="high">
 
   <!-- Icons / PWA -->
   <link rel="icon" type="image/svg+xml" href="/iStage/favicon.svg">
@@ -241,7 +244,6 @@
     transition:transform 1.75s cubic-bezier(.16,1,.3,1);
   }
 
-  .highlight-media.is-zoom-preparing img{ will-change:transform; }
   .highlight-media--zoom-top img{ transform-origin:50% 9.45%; }
   .highlight-media.highlight-media--zoom-bottom img{ transform-origin:50% 90.55%; }
   .highlight-media--zoom-top.is-zoomed img,
@@ -252,61 +254,92 @@
   /* Refined Liquid Glass */
   .i27-design{
     position:relative;
-    margin:0 var(--banner-side-gap) var(--banner-vert-gap);
-    overflow:hidden;
-    isolation:isolate;
-    border-radius:var(--banner-radius);
-    background:#1d1d1f;
+    margin:0;
+    background:#000;
     color:#f5f5f7;
   }
 
   .i27-design-showcase{
+    position:relative;
+    height:clamp(560px, 62vw, 820px);
     overflow:hidden;
-    padding:clamp(72px, 8vw, 120px) clamp(18px, 3vw, 42px) clamp(86px, 9vw, 132px);
+    background:#000;
+  }
+
+  .i27-design-showcase::before,
+  .i27-design-showcase::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    z-index:2;
+    height:clamp(44px, 5vw, 72px);
+    pointer-events:none;
+  }
+
+  .i27-design-showcase::before{
+    top:0;
+    background:linear-gradient(to bottom, #000 0%, rgba(0,0,0,.94) 18%, rgba(0,0,0,0) 100%);
+  }
+
+  .i27-design-showcase::after{
+    bottom:0;
+    background:linear-gradient(to top, #000 0%, rgba(0,0,0,.94) 18%, rgba(0,0,0,0) 100%);
   }
 
   .i27-showcase-grid{
+    position:absolute;
+    top:50%;
+    left:50%;
     display:grid;
     grid-template-columns:1fr 1.08fr 1fr;
     align-items:center;
-    gap:clamp(6px, 1.1vw, 16px);
-    width:min(84vw, 1120px);
-    margin:0 auto;
+    gap:0;
+    width:min(90vw, 1200px);
+    transform:translate(-50%, -50%);
   }
 
   .i27-showcase-column{
     display:grid;
-    gap:clamp(12px, 1.7vw, 24px);
+    gap:0;
     min-width:0;
     transform:none;
     transition:transform 1.45s cubic-bezier(.16,1,.3,1);
   }
 
-  .js .i27-showcase-grid:not(.is-showcase-revealed) .i27-showcase-column--side{
-    transform:translate3d(0, -44px, 0);
+  .js .i27-showcase-grid[data-showcase-state="before"] .i27-showcase-column--side{
+    transform:translate3d(0, -38px, 0);
   }
 
-  .js .i27-showcase-grid:not(.is-showcase-revealed) .i27-showcase-column--center{
-    transform:translate3d(0, 60px, 0);
+  .js .i27-showcase-grid[data-showcase-state="before"] .i27-showcase-column--center{
+    transform:translate3d(0, 54px, 0);
+  }
+
+  .js .i27-showcase-grid[data-showcase-state="after"] .i27-showcase-column--side{
+    transform:translate3d(0, 38px, 0);
+  }
+
+  .js .i27-showcase-grid[data-showcase-state="after"] .i27-showcase-column--center{
+    transform:translate3d(0, -54px, 0);
   }
 
   .i27-showcase-image{
     display:block;
-    width:100%;
+    width:108%;
     height:auto;
-    filter:drop-shadow(0 22px 32px rgba(0,0,0,.22));
+    margin-inline:-4%;
   }
 
   .i27-design-copy{
-    width:min(1160px, calc(100% - 12vw));
+    width:min(78vw, 1120px);
     margin:0 auto;
-    padding:0 0 clamp(94px, 10vw, 150px);
+    padding:clamp(44px, 5vw, 70px) 0 clamp(88px, 9vw, 132px);
   }
 
   .i27-design-eyebrow{
-    margin:0 0 clamp(24px, 3vw, 38px);
+    margin:0 0 clamp(18px, 2.2vw, 28px);
     color:#f5f5f7;
-    font-size:clamp(18px, 1.8vw, 26px);
+    font-size:clamp(17px, 1.45vw, 20px);
     font-weight:600;
     line-height:1.2;
     letter-spacing:-.015em;
@@ -314,21 +347,21 @@
 
   .i27-design-title{
     margin:0;
-    max-width:1040px;
+    max-width:840px;
     color:#f5f5f7;
-    font-size:clamp(46px, 6.5vw, 92px);
+    font-size:clamp(38px, 4.6vw, 64px);
     font-weight:600;
-    line-height:.98;
-    letter-spacing:-.045em;
+    line-height:1.03;
+    letter-spacing:-.035em;
   }
 
   .i27-design-title span{ display:block; }
 
   .i27-design-description{
-    max-width:1060px;
-    margin:clamp(38px, 4.8vw, 68px) 0 0;
+    max-width:900px;
+    margin:clamp(28px, 3.4vw, 46px) 0 0;
     color:#86868b;
-    font-size:clamp(21px, 2.35vw, 34px);
+    font-size:clamp(18px, 1.75vw, 24px);
     font-weight:600;
     line-height:1.36;
     letter-spacing:-.025em;
@@ -826,37 +859,45 @@
     }
     .highlight-media--zoom-top.is-zoomed img,
     .highlight-media--zoom-bottom.is-zoomed img{ transform:scale(1.92); }
-    .i27-design-showcase{ padding:56px 0 70px; }
+    .i27-design-showcase{ height:clamp(360px, 108vw, 460px); }
+    .i27-design-showcase::before,
+    .i27-design-showcase::after{ height:42px; }
     .i27-showcase-grid{
       grid-template-columns:1fr 1.08fr 1fr;
       gap:0;
-      width:112vw;
+      width:132vw;
       max-width:none;
     }
-    .i27-showcase-column{ gap:10px; }
-    .js .i27-showcase-grid:not(.is-showcase-revealed) .i27-showcase-column--side{
-      transform:translate3d(0, -32px, 0);
+    .i27-showcase-column{ gap:0; }
+    .js .i27-showcase-grid[data-showcase-state="before"] .i27-showcase-column--side{
+      transform:translate3d(0, -28px, 0);
     }
-    .js .i27-showcase-grid:not(.is-showcase-revealed) .i27-showcase-column--center{
-      transform:translate3d(0, 44px, 0);
+    .js .i27-showcase-grid[data-showcase-state="before"] .i27-showcase-column--center{
+      transform:translate3d(0, 40px, 0);
     }
-    .i27-showcase-image{ filter:drop-shadow(0 14px 22px rgba(0,0,0,.2)); }
+    .js .i27-showcase-grid[data-showcase-state="after"] .i27-showcase-column--side{
+      transform:translate3d(0, 28px, 0);
+    }
+    .js .i27-showcase-grid[data-showcase-state="after"] .i27-showcase-column--center{
+      transform:translate3d(0, -40px, 0);
+    }
+    .i27-showcase-image{ width:112%; margin-inline:-6%; }
     .i27-design-copy{
-      width:auto;
-      margin:0;
-      padding:0 28px 78px;
+      width:82vw;
+      margin:0 auto;
+      padding:40px 0 74px;
     }
     .i27-design-eyebrow{
-      margin-bottom:22px;
-      font-size:17px;
+      margin-bottom:18px;
+      font-size:16px;
     }
     .i27-design-title{
-      font-size:clamp(38px, 10.6vw, 48px);
-      line-height:1;
+      font-size:clamp(32px, 9.2vw, 40px);
+      line-height:1.04;
     }
     .i27-design-description{
-      margin-top:34px;
-      font-size:clamp(18px, 5vw, 21px);
+      margin-top:26px;
+      font-size:clamp(16px, 4.5vw, 18px);
       line-height:1.4;
     }
     .progress-pill,
@@ -944,7 +985,7 @@
         <article class="highlight-card" data-card="0" tabindex="0" aria-label="Highlight 1 of 7">
           <div class="highlight-copy"><h3>A lighter Liquid Glass design with refined clarity and subtle depth.</h3></div>
           <div class="highlight-media highlight-media--zoom-top">
-            <img src="../assets/img/iStage-27-design.png" alt="iStage 27 Liquid Glass design" loading="eager" decoding="async" fetchpriority="low">
+            <img src="../assets/img/iStage-27-design.png" alt="iStage 27 Liquid Glass design" width="2160" height="2160" loading="eager" decoding="async" fetchpriority="high">
           </div>
         </article>
         <article class="highlight-card" data-card="1" tabindex="0" aria-label="Highlight 2 of 7">
@@ -962,13 +1003,13 @@
         <article class="highlight-card" data-card="3" tabindex="0" aria-label="Highlight 4 of 7">
           <div class="highlight-copy"><h3>Dynamic Island seamlessly presents system states, such as lock and charging.</h3></div>
           <div class="highlight-media highlight-media--zoom-top">
-            <img src="../assets/img/iStage-27-dynamic-island.png" alt="Dynamic Island lock and charging states in iStage 27" loading="eager" decoding="async" fetchpriority="low">
+            <img src="../assets/img/iStage-27-dynamic-island.png" alt="Dynamic Island lock and charging states in iStage 27" width="2160" height="2160" loading="eager" decoding="async" fetchpriority="high">
           </div>
         </article>
         <article class="highlight-card" data-card="4" tabindex="0" aria-label="Highlight 5 of 7">
           <div class="highlight-copy"><h3>Stay updated on F1 races and live match scores right from your Lock Screen.</h3></div>
           <div class="highlight-media highlight-media--zoom-bottom">
-            <img src="../assets/img/iStage-27-live-activities.png" alt="F1 races and live match scores on the iStage 27 Lock Screen" loading="eager" decoding="async" fetchpriority="low">
+            <img src="../assets/img/iStage-27-live-activities.png" alt="F1 races and live match scores on the iStage 27 Lock Screen" width="2160" height="2160" loading="eager" decoding="async" fetchpriority="high">
           </div>
         </article>
         <article class="highlight-card" data-card="5" tabindex="0" aria-label="Highlight 6 of 7">
@@ -990,21 +1031,21 @@
 
     <section class="i27-design" id="design" aria-labelledby="design-title">
       <div class="i27-design-showcase" aria-label="iStage 27 Refined Liquid Glass showcase">
-        <div class="i27-showcase-grid" id="i27-showcase-grid">
+        <div class="i27-showcase-grid" id="i27-showcase-grid" data-showcase-state="before">
           <div class="i27-showcase-column i27-showcase-column--side">
-            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-1.png" alt="iStage 27 Liquid Glass Lock Screen with an Arsenal stadium photo" loading="lazy" decoding="async">
-            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-2.png" alt="iStage 27 Liquid Glass Lock Screen with a lakeside photo" loading="lazy" decoding="async">
+            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-1.png" alt="iStage 27 Liquid Glass Lock Screen with an Arsenal stadium photo" width="1260" height="2160" loading="eager" decoding="async">
+            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-2.png" alt="iStage 27 Liquid Glass Lock Screen with a lakeside photo" width="1260" height="2160" loading="eager" decoding="async">
           </div>
 
           <div class="i27-showcase-column i27-showcase-column--center">
-            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-3.png" alt="iStage 27 Liquid Glass Lock Screen with a glowing abstract wallpaper" loading="lazy" decoding="async">
-            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-main.png" alt="iStage 27 Liquid Glass Lock Screen with a refined music player" loading="lazy" decoding="async">
-            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-4.png" alt="iStage 27 Liquid Glass Lock Screen with a Formula 1 photo" loading="lazy" decoding="async">
+            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-3.png" alt="iStage 27 Liquid Glass Lock Screen with a glowing abstract wallpaper" width="1260" height="2160" loading="eager" decoding="async">
+            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-main.png" alt="iStage 27 Liquid Glass Lock Screen with a refined music player" width="1260" height="2160" loading="eager" decoding="async">
+            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-4.png" alt="iStage 27 Liquid Glass Lock Screen with a Formula 1 photo" width="1260" height="2160" loading="eager" decoding="async">
           </div>
 
           <div class="i27-showcase-column i27-showcase-column--side">
-            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-5.png" alt="iStage 27 Liquid Glass Lock Screen with a racetrack photo" loading="lazy" decoding="async">
-            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-6.png" alt="iStage 27 Liquid Glass Lock Screen with an orange flower photo" loading="lazy" decoding="async">
+            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-5.png" alt="iStage 27 Liquid Glass Lock Screen with a racetrack photo" width="1260" height="2160" loading="eager" decoding="async">
+            <img class="i27-showcase-image" src="../assets/img/iStage-27-showcase-6.png" alt="iStage 27 Liquid Glass Lock Screen with an orange flower photo" width="1260" height="2160" loading="eager" decoding="async">
           </div>
         </div>
       </div>
@@ -1074,10 +1115,7 @@
     let programmaticScroll = false;
     let scrollTicking = false;
     let pageTicking = false;
-    let controlsMounted = false;
-    let dockAnimationFrame = 0;
-    let renderedDockShift = 0;
-    let targetDockShift = 0;
+    let controlsRegion = 'above';
     let controlsIntroTimer = 0;
     let autoplayStartTimer = 0;
     let pointerGesture = null;
@@ -1285,23 +1323,9 @@
       });
     }
 
-    function renderDockShift(){
-      dockAnimationFrame = 0;
-      const difference = targetDockShift - renderedDockShift;
-      if (Math.abs(difference) < .08){
-        renderedDockShift = targetDockShift;
-      }else{
-        renderedDockShift += difference * .24;
-      }
-      controls.style.setProperty('--controls-dock-shift', renderedDockShift.toFixed(3) + 'px');
-      if (Math.abs(targetDockShift - renderedDockShift) >= .08){
-        dockAnimationFrame = window.requestAnimationFrame(renderDockShift);
-      }
-    }
-
     function setDockShift(nextShift){
-      targetDockShift = Math.min(0, nextShift);
-      if (!dockAnimationFrame) dockAnimationFrame = window.requestAnimationFrame(renderDockShift);
+      const dockShift = Math.min(0, nextShift);
+      controls.style.setProperty('--controls-dock-shift', dockShift.toFixed(3) + 'px');
     }
 
     function updateControlPosition(){
@@ -1310,20 +1334,36 @@
       const anchorBox = controlsAnchor.getBoundingClientRect();
       const visualViewport = window.visualViewport;
       const viewportHeight = visualViewport ? visualViewport.height : (window.innerHeight || document.documentElement.clientHeight);
+      const viewportTop = visualViewport ? visualViewport.offsetTop : 0;
+      const viewportBottom = viewportTop + viewportHeight;
       const controlHeight = controls.offsetHeight || 56;
-      const inRange = sectionBox.top < viewportHeight * .62 && sectionBox.bottom > 36;
       const anchorCenter = anchorBox.top + anchorBox.height / 2;
-      const entering = inRange && !controlsMounted;
-      const controlsBox = controls.getBoundingClientRect();
-      const fixedCenter = controlsBox.top + controlHeight / 2 - renderedDockShift;
+      const previousRegion = controlsRegion;
+      const aboveThreshold = viewportBottom + (previousRegion === 'above' ? -4 : 12);
+      const belowThreshold = viewportTop + (previousRegion === 'below' ? 4 : -8);
+      let nextRegion = 'inside';
 
-      setDockShift(inRange && controlsMounted && !controls.classList.contains('is-introducing')
-        ? anchorCenter - fixedCenter
-        : 0);
+      if (sectionBox.top >= aboveThreshold) nextRegion = 'above';
+      else if (sectionBox.bottom <= belowThreshold) nextRegion = 'below';
 
-      controls.classList.toggle('is-mounted', inRange);
+      const enteringFromAbove = nextRegion === 'inside' && previousRegion === 'above';
+      const returningFromBelow = nextRegion === 'inside' && previousRegion === 'below';
+      const shouldMount = nextRegion !== 'above';
+      const computedBottom = parseFloat(window.getComputedStyle(controls).bottom) || 24;
+      const fixedCenter = viewportBottom - computedBottom - controlHeight / 2;
 
-      if (entering){
+      if (nextRegion === 'above'){
+        window.clearTimeout(controlsIntroTimer);
+        window.clearTimeout(autoplayStartTimer);
+        controls.classList.remove('is-introducing', 'is-intro-settling');
+      }else if (nextRegion === 'below' && controls.classList.contains('is-introducing')){
+        finishControlsIntro();
+      }
+
+      setDockShift(shouldMount ? anchorCenter - fixedCenter : 0);
+      controls.classList.toggle('is-mounted', shouldMount);
+
+      if (enteringFromAbove){
         beginControlsIntro();
         if (!hasStarted && !reduceMotion){
           window.clearTimeout(autoplayStartTimer);
@@ -1334,19 +1374,20 @@
           window.clearTimeout(autoplayStartTimer);
           autoplayStartTimer = window.setTimeout(function(){
             if (controls.classList.contains('is-mounted') && !userInterrupted && !autoplayFinished) play();
-          }, 80);
+          }, 1360);
         }
       }
 
-      if (!inRange){
-        window.clearTimeout(controlsIntroTimer);
+      if (returningFromBelow && resumeOnReturn && !userInterrupted && !autoplayFinished){
         window.clearTimeout(autoplayStartTimer);
-        controls.classList.remove('is-introducing', 'is-intro-settling');
+        autoplayStartTimer = window.setTimeout(function(){
+          if (controls.classList.contains('is-mounted') && !userInterrupted && !autoplayFinished) play();
+        }, 80);
       }
 
-      controlsMounted = inRange;
+      controlsRegion = nextRegion;
 
-      if (!inRange && isPlaying){
+      if (nextRegion !== 'inside' && isPlaying){
         resumeOnReturn = !userInterrupted && !autoplayFinished;
         pausePlayback();
       }
@@ -1431,32 +1472,42 @@
     const mediaNodes = Array.from(document.querySelectorAll('.highlight-media--zoom-top, .highlight-media--zoom-bottom'));
     if (!mediaNodes.length) return;
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const imageReady = new WeakMap();
+
+    function prepareImage(image){
+      if (!image) return Promise.resolve();
+      if (imageReady.has(image)) return imageReady.get(image);
+
+      let ready;
+      if (typeof image.decode === 'function'){
+        ready = image.decode().catch(function(){});
+      }else if (image.complete){
+        ready = Promise.resolve();
+      }else{
+        ready = new Promise(function(resolve){
+          image.addEventListener('load', resolve, { once:true });
+          image.addEventListener('error', resolve, { once:true });
+        });
+      }
+      imageReady.set(image, ready);
+      return ready;
+    }
+
+    mediaNodes.forEach(function(media){ prepareImage(media.querySelector('img')); });
 
     function zoomOnce(media){
       if (media.classList.contains('is-zoomed')) return;
       const image = media.querySelector('img');
       const reveal = function(){
-        media.classList.add('is-zoom-preparing');
         window.setTimeout(function(){
           window.requestAnimationFrame(function(){
             window.requestAnimationFrame(function(){
               media.classList.add('is-zoomed');
-              window.setTimeout(function(){
-                media.classList.remove('is-zoom-preparing');
-              }, 2100);
             });
           });
         }, 160);
       };
-      if (!image){
-        reveal();
-      }else if (typeof image.decode === 'function'){
-        image.decode().catch(function(){}).then(reveal);
-      }else if (image.complete){
-        reveal();
-      }else{
-        image.addEventListener('load', reveal, { once:true });
-      }
+      prepareImage(image).then(reveal);
     }
 
     if (reduce || !('IntersectionObserver' in window)){
@@ -1475,27 +1526,60 @@
     mediaNodes.forEach(function(media){ observer.observe(media); });
   })();
 
-  /* Give the three showcase columns one opposing, fluid entrance. */
+  /* Move the showcase forward or backward whenever it crosses the viewport. */
   (function(){
     const showcase = document.getElementById('i27-showcase-grid');
-    if (!showcase) return;
+    const frame = showcase ? showcase.closest('.i27-design-showcase') : null;
+    if (!showcase || !frame) return;
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const reveal = function(){ showcase.classList.add('is-showcase-revealed'); };
+    const images = Array.from(showcase.querySelectorAll('img'));
+    let ready = reduce;
+    let ticking = false;
+    let desiredState = 'before';
 
-    if (reduce || !('IntersectionObserver' in window)){
-      reveal();
-      return;
+    function prepareImage(image){
+      if (typeof image.decode === 'function') return image.decode().catch(function(){});
+      if (image.complete) return Promise.resolve();
+      return new Promise(function(resolve){
+        image.addEventListener('load', resolve, { once:true });
+        image.addEventListener('error', resolve, { once:true });
+      });
     }
 
-    const observer = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (!entry.isIntersecting) return;
-        observer.unobserve(entry.target);
-        window.requestAnimationFrame(reveal);
-      });
-    }, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
+    function updateState(){
+      ticking = false;
+      const box = frame.getBoundingClientRect();
+      const visualViewport = window.visualViewport;
+      const viewportTop = visualViewport ? visualViewport.offsetTop : 0;
+      const viewportHeight = visualViewport ? visualViewport.height : (window.innerHeight || document.documentElement.clientHeight);
+      const viewportBottom = viewportTop + viewportHeight;
 
-    observer.observe(showcase);
+      if (box.top >= viewportBottom) desiredState = 'before';
+      else if (box.bottom <= viewportTop) desiredState = 'after';
+      else desiredState = 'active';
+
+      if (ready) showcase.dataset.showcaseState = desiredState;
+    }
+
+    function requestState(){
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateState);
+    }
+
+    Promise.all(images.map(prepareImage)).then(function(){
+      ready = true;
+      requestState();
+    });
+
+    window.addEventListener('scroll', requestState, { passive:true });
+    window.addEventListener('resize', requestState);
+    window.addEventListener('orientationchange', requestState);
+    if (window.visualViewport){
+      window.visualViewport.addEventListener('resize', requestState, { passive:true });
+      window.visualViewport.addEventListener('scroll', requestState, { passive:true });
+    }
+    updateState();
   })();
 
   /* Shared reveal-on-scroll behavior, matching the home page. */
