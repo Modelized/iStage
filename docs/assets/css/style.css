@@ -836,7 +836,6 @@ a.btn:link,a.btn:visited{color:inherit}
 .js .reveal{
   opacity:0;
   transform:translateY(var(--reveal-distance, 18px));
-  will-change:opacity, transform;
   transition:
     opacity var(--reveal-duration, .75s) cubic-bezier(.22,1,.36,1),
     transform var(--reveal-duration, .75s) cubic-bezier(.22,1,.36,1);
@@ -844,7 +843,7 @@ a.btn:link,a.btn:visited{color:inherit}
 }
 .js .reveal.is-revealed{opacity:1; transform:none}
 .reveal-onload{
-  animation:fade-up var(--reveal-duration, .75s) cubic-bezier(.22,1,.36,1) both;
+  animation:fade-up var(--reveal-duration, .75s) cubic-bezier(.22,1,.36,1) backwards;
   animation-delay:var(--reveal-delay, 0s);
 }
 .reveal-delay-0{--reveal-delay:0s}

@@ -202,7 +202,6 @@
     text-align:center;
     opacity:var(--copy-opacity, 1);
     transform:translate3d(var(--copy-shift, 0px), 0, 0);
-    will-change:transform, opacity;
   }
 
   .highlight-copy h3{
@@ -211,6 +210,7 @@
     font-weight:500;
     line-height:1.24;
     letter-spacing:-.01em;
+    -webkit-text-stroke:.08px currentColor;
   }
 
   .highlight-media{
@@ -240,10 +240,51 @@
     transition:transform 1.75s cubic-bezier(.16,1,.3,1);
   }
 
-  .highlight-media--zoom-top img{ transform-origin:50% 9.45%; }
-  .highlight-media.highlight-media--zoom-bottom img{ transform-origin:50% 90.55%; }
+  .highlight-raster{
+    position:relative;
+    display:block;
+    flex:0 0 auto;
+    height:100%;
+    max-width:100%;
+    aspect-ratio:1;
+    overflow:visible;
+  }
+
+  .highlight-raster img{
+    position:absolute;
+    left:-95%;
+    width:290%;
+    height:290%;
+    max-width:none;
+    max-height:none;
+    object-fit:contain;
+    object-position:center;
+    transform:scale(.3448276);
+  }
+
+  .highlight-media--zoom-top .highlight-raster img{
+    top:-17.955%;
+    transform-origin:50% 9.45%;
+  }
+
+  .highlight-media--zoom-bottom .highlight-raster img{
+    top:-172.045%;
+    transform-origin:50% 90.55%;
+  }
+
   .highlight-media--zoom-top.is-zoomed img,
-  .highlight-media--zoom-bottom.is-zoomed img{ transform:scale(2.9); }
+  .highlight-media--zoom-bottom.is-zoomed img{ transform:scale(1); }
+
+  @media (min-width:901px){
+    .highlight-media:not(.highlight-media--zoom-top):not(.highlight-media--zoom-bottom) img{
+      transform:translateY(-1.1%) scale(1.018);
+    }
+    .highlight-raster img{
+      transform:scale(.3510345) translateY(-1.1%);
+    }
+    .highlight-media--zoom-top.is-zoomed img,
+    .highlight-media--zoom-bottom.is-zoomed img{ transform:scale(1); }
+  }
 
   .highlight-stage{
     --controls-anchor-height:clamp(150px, 18vw, 190px);
@@ -395,18 +436,23 @@
     overflow-x:auto;
     overflow-y:hidden;
     overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;
     scroll-padding-inline:max(18px, calc((100vw - min(78vw, 1240px)) / 2));
     scrollbar-width:none;
     -webkit-overflow-scrolling:touch;
   }
 
   .i27-feature-rail::-webkit-scrollbar{ display:none; }
+  .i27-feature-rail.is-animating{ scroll-snap-type:none; }
   .i27-feature-carousel.is-static .i27-feature-rail{ overflow-x:hidden; }
 
   .i27-feature-item{
     flex:0 0 clamp(260px, 23vw, 360px);
     min-width:0;
+    scroll-snap-align:start;
   }
+
+  .i27-feature-item:last-child{ scroll-snap-align:end; }
 
   .i27-feature-card{
     position:relative;
@@ -428,7 +474,7 @@
   }
 
   .i27-feature-card--zoom-top-left img{
-    transform:translateY(-4%) scale(1.72);
+    transform:translateY(10%) scale(1.94);
     transform-origin:20% 10%;
   }
 
@@ -454,6 +500,7 @@
     font-weight:400;
     line-height:1.42;
     letter-spacing:-.018em;
+    -webkit-text-stroke:.06px currentColor;
   }
 
   .i27-feature-caption strong{
@@ -464,11 +511,11 @@
   .i27-tint-labels{
     position:absolute;
     top:clamp(20px, 1.8vw, 28px);
-    right:clamp(20px, 1.8vw, 28px);
-    left:clamp(20px, 1.8vw, 28px);
+    right:0;
+    left:0;
     z-index:2;
-    display:flex;
-    justify-content:space-between;
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
     color:#f5f5f7;
     font-size:clamp(14px, 1.15vw, 17px);
     font-weight:500;
@@ -478,8 +525,10 @@
   }
 
   .i27-tint-labels span:last-child{
-    text-align:right;
+    text-align:center;
   }
+
+  .i27-tint-labels span:first-child{ text-align:center; }
 
   .i27-feature-controls{
     display:flex;
@@ -518,8 +567,10 @@
   .i27-feature-arrow--previous::after{ transform:translate(-1px, 3px) rotate(45deg); }
   .i27-feature-arrow--next::before{ transform:translate(1px, -3px) rotate(45deg); }
   .i27-feature-arrow--next::after{ transform:translate(1px, 3px) rotate(-45deg); }
-  .i27-feature-arrow:hover:not(:disabled){ background:rgb(var(--accent-blue) / .84); }
-  .i27-feature-arrow:active:not(:disabled){ background:rgb(var(--accent-blue) / .68); transform:translateY(.5px); }
+  @media (hover:hover) and (pointer:fine){
+    .i27-feature-arrow:hover:not(:disabled){ background:#323236; }
+  }
+  .i27-feature-arrow:active:not(:disabled){ background:#1c1c1f; transform:translateY(.5px); }
   .i27-feature-arrow:focus-visible{ outline:2px solid rgb(var(--accent-blue)); outline-offset:3px; }
   .i27-feature-arrow:disabled{ opacity:.28; cursor:default; }
 
@@ -540,11 +591,11 @@
     inset:-22%;
     z-index:0;
     background:
-      radial-gradient(circle at 34% 48%, rgba(188,133,82,.4), transparent 38%),
-      radial-gradient(circle at 62% 40%, rgba(229,218,204,.3), transparent 34%),
-      radial-gradient(circle at 58% 72%, rgba(105,118,148,.32), transparent 40%);
+      radial-gradient(circle at 34% 48%, rgba(188,133,82,.52), transparent 38%),
+      radial-gradient(circle at 62% 40%, rgba(229,218,204,.42), transparent 34%),
+      radial-gradient(circle at 58% 72%, rgba(105,118,148,.44), transparent 40%);
     filter:blur(58px);
-    opacity:.9;
+    opacity:1;
     pointer-events:none;
   }
 
@@ -559,7 +610,7 @@
     display:block;
     width:min(58vw, 680px);
     height:auto;
-    opacity:.8;
+    opacity:.6;
     transform:translate(-50%, -50%) scale(1);
     transform-origin:center;
     pointer-events:none;
@@ -574,7 +625,7 @@
   }
 
   .js .i27-download-art.reveal.is-revealed{
-    opacity:.8;
+    opacity:.6;
     transform:translate(-50%, -50%) scale(1);
   }
 
@@ -613,6 +664,7 @@
     font-weight:400;
     line-height:1.44;
     letter-spacing:-.018em;
+    -webkit-text-stroke:.06px currentColor;
   }
 
   .i27-more-grid strong{
@@ -1150,6 +1202,10 @@
   .progress-dot:focus-visible,
   .play-toggle:focus-visible{ outline:2px solid rgb(var(--accent-blue)); outline-offset:3px; }
 
+  @media (max-width:1100px){
+    .i27-more-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  }
+
   @media (max-width:900px) and (orientation:portrait){
     .page-iStage-27 .i27-hero-card{ --i27-hero-image-scale:.84; display:block; min-height:clamp(540px, 138vw, 660px); }
     .page-iStage-27 .i27-hero-media{ position:absolute; inset:0; height:auto; }
@@ -1170,8 +1226,22 @@
       max-height:none;
       transform-origin:50% 9.45%;
     }
+    .highlight-raster{
+      width:100%;
+      height:auto;
+      max-width:none;
+      aspect-ratio:1;
+    }
+    .highlight-raster img{
+      left:-46%;
+      width:192%;
+      height:192%;
+      transform:scale(.5208333);
+    }
+    .highlight-media--zoom-top .highlight-raster img{ top:-8.694%; }
+    .highlight-media--zoom-bottom .highlight-raster img{ top:-83.306%; }
     .highlight-media--zoom-top.is-zoomed img,
-    .highlight-media--zoom-bottom.is-zoomed img{ transform:scale(1.92); }
+    .highlight-media--zoom-bottom.is-zoomed img{ transform:scale(1); }
     .i27-design-showcase{ height:clamp(360px, 108vw, 460px); }
     .i27-design-showcase::before,
     .i27-design-showcase::after{ height:42px; }
@@ -1253,7 +1323,6 @@
       line-height:1.04;
     }
     .i27-more-grid{
-      grid-template-columns:1fr;
       gap:42px;
     }
     .i27-more-grid p{
@@ -1321,11 +1390,15 @@
     .i27-download-art,
     .js .i27-download-art.reveal,
     .js .i27-download-art.reveal.is-revealed{
-      opacity:.8 !important;
+      opacity:.6 !important;
       transform:translate(-50%, -50%) scale(1) !important;
       transition:none !important;
     }
     .i27-feature-arrow{ transition:none !important; }
+  }
+
+  @media (max-width:600px){
+    .i27-more-grid{ grid-template-columns:1fr; }
   }
   </style>
 
@@ -1369,7 +1442,7 @@
         <article class="highlight-card" data-card="0" tabindex="0" aria-label="Highlight 1 of 7">
           <div class="highlight-copy"><h3>A lighter Liquid Glass design with refined clarity and subtle depth.</h3></div>
           <div class="highlight-media highlight-media--zoom-top">
-            <img src="../assets/img/iStage-27-design.png" alt="iStage 27 Liquid Glass design" width="2160" height="2160" loading="eager" decoding="async">
+            <span class="highlight-raster"><img src="../assets/img/iStage-27-design.png" alt="iStage 27 Liquid Glass design" width="2160" height="2160" loading="eager" decoding="async" fetchpriority="high"></span>
           </div>
         </article>
         <article class="highlight-card" data-card="1" tabindex="0" aria-label="Highlight 2 of 7">
@@ -1387,13 +1460,13 @@
         <article class="highlight-card" data-card="3" tabindex="0" aria-label="Highlight 4 of 7">
           <div class="highlight-copy"><h3>Dynamic Island seamlessly presents system states, such as lock and charging.</h3></div>
           <div class="highlight-media highlight-media--zoom-top">
-            <img src="../assets/img/iStage-27-dynamic-island.png" alt="Dynamic Island lock and charging states in iStage 27" width="2160" height="2160" loading="eager" decoding="async">
+            <span class="highlight-raster"><img src="../assets/img/iStage-27-dynamic-island.png" alt="Dynamic Island lock and charging states in iStage 27" width="2160" height="2160" loading="eager" decoding="async" fetchpriority="high"></span>
           </div>
         </article>
         <article class="highlight-card" data-card="4" tabindex="0" aria-label="Highlight 5 of 7">
           <div class="highlight-copy"><h3>Stay updated on F1 races and live match scores right from your Lock Screen.</h3></div>
           <div class="highlight-media highlight-media--zoom-bottom">
-            <img src="../assets/img/iStage-27-live-activities.png" alt="F1 races and live match scores on the iStage 27 Lock Screen" width="2160" height="2160" loading="eager" decoding="async">
+            <span class="highlight-raster"><img src="../assets/img/iStage-27-live-activities.png" alt="F1 races and live match scores on the iStage 27 Lock Screen" width="2160" height="2160" loading="eager" decoding="async" fetchpriority="high"></span>
           </div>
         </article>
         <article class="highlight-card" data-card="5" tabindex="0" aria-label="Highlight 6 of 7">
@@ -1498,8 +1571,8 @@
             <div class="i27-feature-card i27-feature-card--zoom-bottom">
               <img src="../assets/img/iStage-27-tint.png" alt="Liquid Glass tint controls adapting to a wallpaper" width="2160" height="2160" loading="eager" decoding="async">
               <div class="i27-tint-labels" aria-hidden="true">
-                <span>More<br>clear</span>
-                <span>More<br>tinted</span>
+                <span>More clear</span>
+                <span>More tinted</span>
               </div>
             </div>
             <p class="i27-feature-caption"><strong>Artfully adaptive materials.</strong> Liquid Glass lets you dynamically adjust its blur intensity and tint based on your wallpaper, so it keeps text readable on any background.</p>
@@ -2081,6 +2154,13 @@
     const mediaNodes = Array.from(document.querySelectorAll('.highlight-media--zoom-top, .highlight-media--zoom-bottom'));
     if (!mediaNodes.length) return;
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const decodedImages = new WeakMap();
+
+    mediaNodes.forEach(function(media){
+      const image = media.querySelector('img');
+      if (!image || typeof image.decode !== 'function') return;
+      decodedImages.set(image, image.decode().catch(function(){}));
+    });
 
     function zoomOnce(media){
       if (media.classList.contains('is-zoomed')) return;
@@ -2094,7 +2174,16 @@
           });
         }, 160);
       };
-      if (!image || image.complete){
+      if (!image){
+        reveal();
+        return;
+      }
+      const decoded = decodedImages.get(image);
+      if (decoded){
+        decoded.then(reveal);
+        return;
+      }
+      if (image.complete){
         reveal();
         return;
       }
@@ -2135,9 +2224,11 @@
       let updateFrame = 0;
 
       function cancelAnimation(){
-        if (!animationFrame) return;
-        window.cancelAnimationFrame(animationFrame);
-        animationFrame = 0;
+        if (animationFrame){
+          window.cancelAnimationFrame(animationFrame);
+          animationFrame = 0;
+        }
+        rail.classList.remove('is-animating');
       }
 
       function getMetrics(){
@@ -2193,6 +2284,7 @@
 
         const startedAt = performance.now();
         const duration = 900;
+        rail.classList.add('is-animating');
         const easeInOutCubic = function(value){
           return value < .5
             ? 4 * value * value * value
@@ -2208,6 +2300,7 @@
           }
           animationFrame = 0;
           rail.scrollLeft = destination;
+          rail.classList.remove('is-animating');
           updateButtons();
         };
 
