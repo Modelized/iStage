@@ -332,9 +332,9 @@
   }
 
   .i27-design-copy{
-    width:min(78vw, 1120px);
+    width:min(78vw, 1240px);
     margin:0 auto;
-    padding:clamp(44px, 5vw, 70px) 0 clamp(88px, 9vw, 132px);
+    padding:clamp(44px, 5vw, 70px) 0 clamp(58px, 6vw, 84px);
   }
 
   .i27-design-eyebrow{
@@ -368,15 +368,176 @@
     letter-spacing:-.025em;
   }
 
-  .i27-download{
-    display:grid;
-    min-height:clamp(210px, 24vw, 290px);
-    margin-top:12px;
-    place-items:center;
-    background:#111113;
+  .i27-content-section{
+    position:relative;
+    margin:0;
+    padding:0 0 clamp(92px, 9vw, 132px);
+    background:#000;
+    color:#f5f5f7;
   }
 
-  .i27-download .container{ width:100%; }
+  .i27-content-section .i27-design-copy{
+    padding-top:clamp(100px, 10vw, 148px);
+  }
+
+  .i27-feature-carousel{
+    position:relative;
+    padding-bottom:clamp(28px, 3vw, 44px);
+  }
+
+  .i27-feature-rail{
+    position:relative;
+    display:flex;
+    align-items:flex-start;
+    gap:clamp(18px, 2vw, 26px);
+    margin:0;
+    padding:4px max(18px, calc((100vw - min(78vw, 1240px)) / 2)) 18px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    overscroll-behavior-x:contain;
+    scroll-padding-inline:max(18px, calc((100vw - min(78vw, 1240px)) / 2));
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .i27-feature-rail::-webkit-scrollbar{ display:none; }
+  .i27-feature-carousel.is-static .i27-feature-rail{ overflow-x:hidden; }
+
+  .i27-feature-item{
+    flex:0 0 clamp(260px, 23vw, 360px);
+    min-width:0;
+  }
+
+  .i27-feature-card{
+    position:relative;
+    aspect-ratio:.82;
+    overflow:hidden;
+    border-radius:clamp(26px, 2.4vw, 36px);
+    background:#111113;
+    isolation:isolate;
+  }
+
+  .i27-feature-card img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    transform:scale(1);
+    transform-origin:center;
+  }
+
+  .i27-feature-card--zoom-top-left img{
+    transform:scale(1.58);
+    transform-origin:20% 16%;
+  }
+
+  .i27-feature-card--zoom-top img{
+    transform:scale(1.55);
+    transform-origin:50% 14%;
+  }
+
+  .i27-feature-card--zoom-bottom-soft img{
+    transform:scale(1.36);
+    transform-origin:50% 86%;
+  }
+
+  .i27-feature-card--zoom-bottom img{
+    transform:scale(1.56);
+    transform-origin:50% 88%;
+  }
+
+  .i27-feature-caption{
+    margin:clamp(22px, 2.2vw, 30px) clamp(16px, 1.5vw, 22px) 0;
+    color:#86868b;
+    font-size:clamp(16px, 1.35vw, 19px);
+    font-weight:600;
+    line-height:1.42;
+    letter-spacing:-.018em;
+  }
+
+  .i27-feature-caption strong{
+    color:#f5f5f7;
+    font-weight:700;
+  }
+
+  .i27-feature-controls{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    width:min(78vw, 1240px);
+    margin:clamp(28px, 3.6vw, 50px) auto 0;
+  }
+
+  .i27-feature-arrow{
+    position:relative;
+    display:grid;
+    width:56px;
+    height:56px;
+    padding:0;
+    place-items:center;
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:50%;
+    background:#242427;
+    color:#f5f5f7;
+    cursor:pointer;
+    transition:opacity .2s linear, background-color .25s ease, transform .25s cubic-bezier(.22,1,.36,1);
+  }
+
+  .i27-feature-arrow::before{
+    content:"";
+    width:11px;
+    height:11px;
+    border-top:3px solid currentColor;
+    border-right:3px solid currentColor;
+  }
+
+  .i27-feature-arrow--previous::before{ transform:translateX(2px) rotate(-135deg); }
+  .i27-feature-arrow--next::before{ transform:translateX(-2px) rotate(45deg); }
+  .i27-feature-arrow:hover:not(:disabled){ background:#343438; transform:scale(1.04); }
+  .i27-feature-arrow:focus-visible{ outline:2px solid rgb(var(--accent-blue)); outline-offset:3px; }
+  .i27-feature-arrow:disabled{ opacity:.28; cursor:default; }
+
+  .i27-download{
+    position:relative;
+    display:grid;
+    min-height:clamp(300px, 30vw, 380px);
+    margin-top:12px;
+    overflow:hidden;
+    place-items:center;
+    background:#111113;
+    isolation:isolate;
+  }
+
+  .i27-download .container{ position:relative; z-index:1; width:100%; }
+  .i27-download .copy{ text-shadow:0 3px 24px rgba(0,0,0,.84); }
+
+  .i27-download-art{
+    position:absolute;
+    top:50%;
+    left:50%;
+    z-index:0;
+    display:block;
+    width:min(74vw, 820px);
+    height:auto;
+    opacity:.8;
+    transform:translate(-50%, -50%) scale(1);
+    transform-origin:center;
+    pointer-events:none;
+  }
+
+  .js .i27-download-art.reveal{
+    opacity:0;
+    transform:translate(-50%, -50%) scale(1.055);
+    transition:
+      opacity 1.2s cubic-bezier(.22,1,.36,1),
+      transform 1.25s cubic-bezier(.22,1,.36,1);
+  }
+
+  .js .i27-download-art.reveal.is-revealed{
+    opacity:.8;
+    transform:translate(-50%, -50%) scale(1);
+  }
 
   .i27-compare{
     --compare-aqua:90 205 211;
@@ -956,7 +1117,7 @@
     .i27-design-copy{
       width:82vw;
       margin:0 auto;
-      padding:40px 0 74px;
+      padding:40px 0 58px;
     }
     .i27-design-eyebrow{
       margin-bottom:18px;
@@ -971,10 +1132,34 @@
       font-size:clamp(16px, 4.5vw, 18px);
       line-height:1.4;
     }
+    .i27-content-section{
+      padding-bottom:clamp(78px, 20vw, 104px);
+    }
+    .i27-content-section .i27-design-copy{
+      padding-top:clamp(84px, 22vw, 112px);
+    }
+    .i27-feature-rail{
+      gap:16px;
+      padding-inline:max(18px, calc((100vw - 82vw) / 2));
+      scroll-padding-inline:max(18px, calc((100vw - 82vw) / 2));
+    }
+    .i27-feature-item{ flex-basis:min(72vw, 330px); }
+    .i27-feature-card{ border-radius:28px; }
+    .i27-feature-caption{
+      margin:22px 16px 0;
+      font-size:16px;
+      line-height:1.42;
+    }
+    .i27-feature-controls{
+      width:82vw;
+      margin-top:30px;
+    }
+    .i27-feature-arrow{ width:54px; height:54px; }
     .i27-download{
-      min-height:220px;
+      min-height:min(82vw, 430px);
       margin-top:var(--banner-vert-gap);
     }
+    .i27-download-art{ width:min(120vw, 620px); }
     .i27-compare{
       min-height:0;
       margin-top:var(--banner-vert-gap);
@@ -1033,6 +1218,14 @@
     .highlight-copy{ opacity:1 !important; transform:none !important; }
     .highlight-media img{ transition:none !important; }
     .i27-showcase-column{ transform:none !important; transition:none !important; }
+    .i27-download-art,
+    .js .i27-download-art.reveal,
+    .js .i27-download-art.reveal.is-revealed{
+      opacity:.8 !important;
+      transform:translate(-50%, -50%) scale(1) !important;
+      transition:none !important;
+    }
+    .i27-feature-arrow{ transition:none !important; }
   }
   </style>
 
@@ -1177,9 +1370,151 @@
         </h2>
         <p class="i27-design-description reveal reveal--long">Engineered to be more responsive, refined Liquid Glass delivers a faster, smoother experience across the entire system. It flows naturally with your touch, and gives the Lock Screen an elegant depth effect.</p>
       </div>
+
+      <div class="i27-feature-carousel reveal reveal--short" data-feature-carousel>
+        <div class="i27-feature-rail" data-feature-rail aria-label="Refined Liquid Glass design features" tabindex="0">
+          <article class="i27-feature-item">
+            <div class="i27-feature-card">
+              <img src="../assets/img/iStage-27-design.png" alt="The redesigned iStage 27 Lock Screen" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>A whole new look for iStage 27.</strong> The new Liquid Glass design reshapes the entire experience with clean visual clarity. It lays down a sleek, modern foundation that makes every interface feel brand new.</p>
+          </article>
+
+          <article class="i27-feature-item">
+            <div class="i27-feature-card i27-feature-card--zoom-top-left">
+              <img src="../assets/img/iStage-27-buttons.png" alt="Liquid Glass buttons reflecting light and depth" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>Dynamic light and depth.</strong> Top and bottom reflections capture light just like real glass, while soft drop shadows create the illusion of elements floating seamlessly over your screen.</p>
+          </article>
+
+          <article class="i27-feature-item">
+            <div class="i27-feature-card i27-feature-card--zoom-bottom-soft">
+              <img src="../assets/img/iStage-27-version-popup.png" alt="A responsive Liquid Glass version popup" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>Tactile, fluid responsiveness.</strong> Elements gently glow and press inward like liquid droplets when touched. Dragging them in any direction creates an elastic, fluid stretch that reacts instantly to your finger.</p>
+          </article>
+
+          <article class="i27-feature-item">
+            <div class="i27-feature-card i27-feature-card--zoom-bottom">
+              <img src="../assets/img/iStage-27-tint.png" alt="Liquid Glass tint controls adapting to a wallpaper" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>Artfully adaptive materials.</strong> Liquid Glass lets you dynamically adjust its blur intensity and tint based on your wallpaper, so it keeps text readable on any background.</p>
+          </article>
+
+          <article class="i27-feature-item">
+            <div class="i27-feature-card">
+              <img src="../assets/img/iStage-27-notifications.png" alt="Rich notifications rendered in Liquid Glass" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>Visually rich, highly efficient.</strong> Advanced shader optimization ensures that every refraction, shadow, and fluid animation renders smoothly with improved battery efficiency and performance.</p>
+          </article>
+        </div>
+
+        <div class="i27-feature-controls" aria-label="Refined Liquid Glass carousel controls">
+          <button class="i27-feature-arrow i27-feature-arrow--previous" data-feature-previous type="button" aria-label="Show previous design feature"></button>
+          <button class="i27-feature-arrow i27-feature-arrow--next" data-feature-next type="button" aria-label="Show next design feature"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="i27-content-section" id="personalization" aria-labelledby="personalization-title">
+      <div class="i27-design-copy">
+        <p class="i27-design-eyebrow reveal reveal--short">Personalization</p>
+        <h2 class="i27-design-title reveal reveal--long" id="personalization-title">More ways to make it yours.</h2>
+        <p class="i27-design-description reveal reveal--long">Redesigned editors and a revamped wallpaper gallery offer endless possibilities. Customize clock styles, colors, widgets, and shortcuts to craft a Lock Screen that reflects your taste.</p>
+      </div>
+
+      <div class="i27-feature-carousel reveal reveal--short" data-feature-carousel>
+        <div class="i27-feature-rail" data-feature-rail aria-label="iStage 27 personalization features" tabindex="0">
+          <article class="i27-feature-item">
+            <div class="i27-feature-card">
+              <img src="../assets/img/iStage-27-editor.png" alt="The redesigned iStage 27 Lock Screen editor" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>A new way to customize.</strong> The redesigned editor space makes personalizing your Lock Screen faster and more intuitive.</p>
+          </article>
+
+          <article class="i27-feature-item">
+            <div class="i27-feature-card">
+              <img src="../assets/img/iStage-27-date-editor.png" alt="Expanded Lock Screen typography and color options" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>Expressive typography.</strong> Choose from expanded font styles and vibrant color palettes to make your clock stand out.</p>
+          </article>
+
+          <article class="i27-feature-item">
+            <div class="i27-feature-card">
+              <img src="../assets/img/iStage-27-clock-editor.png" alt="Inline Lock Screen information widgets" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>Info at a glance.</strong> Add subtle inline widgets right next to the date to track important information such as weather, calendar events, or alarms.</p>
+          </article>
+
+          <article class="i27-feature-item">
+            <div class="i27-feature-card">
+              <img src="../assets/img/iStage-27-wallpaper-gallery.png" alt="The revamped iStage 27 wallpaper gallery" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>A revamped wallpaper gallery.</strong> Browse curated stock wallpapers or craft up to 5 fully customizable photo wallpapers with your favorite images.</p>
+          </article>
+
+          <article class="i27-feature-item">
+            <div class="i27-feature-card i27-feature-card--zoom-bottom">
+              <img src="../assets/img/iStage-27-editor.png" alt="Custom Lock Screen shortcut controls" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>Shortcuts, your way.</strong> Swap out standard Lock Screen controls for your favorite shortcuts for instant access to the tools you use most.</p>
+          </article>
+        </div>
+
+        <div class="i27-feature-controls" aria-label="Personalization carousel controls">
+          <button class="i27-feature-arrow i27-feature-arrow--previous" data-feature-previous type="button" aria-label="Show previous personalization feature"></button>
+          <button class="i27-feature-arrow i27-feature-arrow--next" data-feature-next type="button" aria-label="Show next personalization feature"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="i27-content-section" id="lock-screen-experience" aria-labelledby="lock-screen-experience-title">
+      <div class="i27-design-copy">
+        <p class="i27-design-eyebrow reveal reveal--short">Lock Screen Experience</p>
+        <h2 class="i27-design-title reveal reveal--long" id="lock-screen-experience-title">Stay connected in the moment.</h2>
+        <p class="i27-design-description reveal reveal--long">Dynamic Island and Live Activities bring your most important updates right to the front. Track live events, manage playing media, and interact with notifications — all without leaving your Lock Screen.</p>
+      </div>
+
+      <div class="i27-feature-carousel reveal reveal--short" data-feature-carousel>
+        <div class="i27-feature-rail" data-feature-rail aria-label="iStage 27 Lock Screen Experience features" tabindex="0">
+          <article class="i27-feature-item">
+            <div class="i27-feature-card i27-feature-card--zoom-top">
+              <img src="../assets/img/iStage-27-dynamic-island.png" alt="Dynamic Island showing a priority system state" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>Dynamic Island in view.</strong> Dynamic Island seamlessly expands to show priority system states, such as lock and charging, so you always stay informed.</p>
+          </article>
+
+          <article class="i27-feature-item">
+            <div class="i27-feature-card i27-feature-card--zoom-bottom">
+              <img src="../assets/img/iStage-27-live-activities.png" alt="Live Activities showing live race and match updates" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>Real-time Live Activities.</strong> Follow live F1 races and match scores directly from your Lock Screen with live-updating widgets.</p>
+          </article>
+
+          <article class="i27-feature-item">
+            <div class="i27-feature-card">
+              <img src="../assets/img/iStage-27-music-player-full.png" alt="Expanded full-screen Lock Screen media controls" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>Expanded media controls.</strong> The redesigned media player lets you easily switch between a minimal compact view and an immersive full-screen visual experience.</p>
+          </article>
+
+          <article class="i27-feature-item">
+            <div class="i27-feature-card">
+              <img src="../assets/img/iStage-27-notifications-stack.png" alt="Notifications stacked neatly at the bottom of the Lock Screen" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <p class="i27-feature-caption"><strong>A smarter Notification Center.</strong> Notifications stack neatly at the bottom of your screen to stay out of the way. You can easily switch between Count, Stack, and List views with a simple swipe.</p>
+          </article>
+        </div>
+
+        <div class="i27-feature-controls" aria-label="Lock Screen Experience carousel controls">
+          <button class="i27-feature-arrow i27-feature-arrow--previous" data-feature-previous type="button" aria-label="Show previous Lock Screen feature"></button>
+          <button class="i27-feature-arrow i27-feature-arrow--next" data-feature-next type="button" aria-label="Show next Lock Screen feature"></button>
+        </div>
+      </div>
     </section>
 
     <section class="section section--black i27-download" aria-labelledby="download-title">
+      <img class="i27-download-art reveal" src="../assets/img/27.png" alt="" width="2160" height="2160" loading="eager" decoding="async" aria-hidden="true">
       <div class="container">
         <div class="hero">
           <div class="copy">
@@ -1663,6 +1998,124 @@
     }, { threshold:.72, rootMargin:'0px -2% -8% 0px' });
 
     mediaNodes.forEach(function(media){ observer.observe(media); });
+  })();
+
+  /* Shared manual carousels for the feature cards. */
+  (function(){
+    const carousels = Array.from(document.querySelectorAll('[data-feature-carousel]'));
+    if (!carousels.length) return;
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    carousels.forEach(function(carousel){
+      const rail = carousel.querySelector('[data-feature-rail]');
+      const previous = carousel.querySelector('[data-feature-previous]');
+      const next = carousel.querySelector('[data-feature-next]');
+      const items = rail ? Array.from(rail.querySelectorAll('.i27-feature-item')) : [];
+      if (!rail || !previous || !next || !items.length) return;
+
+      let animationFrame = 0;
+      let updateFrame = 0;
+
+      function cancelAnimation(){
+        if (!animationFrame) return;
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+      }
+
+      function getMetrics(){
+        const last = items[items.length - 1];
+        const lastRightAtStart = last.offsetLeft + last.offsetWidth;
+        const allVisible = lastRightAtStart <= rail.clientWidth - 18;
+        return {
+          allVisible:allVisible,
+          maxLeft:allVisible ? 0 : Math.max(0, rail.scrollWidth - rail.clientWidth)
+        };
+      }
+
+      function updateButtons(){
+        updateFrame = 0;
+        const metrics = getMetrics();
+        carousel.classList.toggle('is-static', metrics.allVisible);
+        if (metrics.allVisible && rail.scrollLeft !== 0) rail.scrollLeft = 0;
+        previous.disabled = metrics.allVisible || rail.scrollLeft <= 1;
+        next.disabled = metrics.allVisible || rail.scrollLeft >= metrics.maxLeft - 1;
+      }
+
+      function requestUpdate(){
+        if (updateFrame) return;
+        updateFrame = window.requestAnimationFrame(updateButtons);
+      }
+
+      function cardStep(){
+        const style = window.getComputedStyle(rail);
+        const gap = parseFloat(style.columnGap || style.gap) || 0;
+        return items[0].offsetWidth + gap;
+      }
+
+      function animateTo(targetLeft){
+        cancelAnimation();
+        const metrics = getMetrics();
+        const destination = Math.max(0, Math.min(metrics.maxLeft, targetLeft));
+        const startLeft = rail.scrollLeft;
+        const distance = destination - startLeft;
+
+        if (reduceMotion || Math.abs(distance) < 1){
+          rail.scrollLeft = destination;
+          updateButtons();
+          return;
+        }
+
+        const startedAt = performance.now();
+        const duration = 900;
+        const easeInOutCubic = function(value){
+          return value < .5
+            ? 4 * value * value * value
+            : 1 - Math.pow(-2 * value + 2, 3) / 2;
+        };
+
+        const step = function(now){
+          const progress = Math.min(1, (now - startedAt) / duration);
+          rail.scrollLeft = startLeft + distance * easeInOutCubic(progress);
+          if (progress < 1){
+            animationFrame = window.requestAnimationFrame(step);
+            return;
+          }
+          animationFrame = 0;
+          rail.scrollLeft = destination;
+          updateButtons();
+        };
+
+        animationFrame = window.requestAnimationFrame(step);
+      }
+
+      function move(direction){
+        animateTo(rail.scrollLeft + cardStep() * direction);
+      }
+
+      previous.addEventListener('click', function(){ move(-1); });
+      next.addEventListener('click', function(){ move(1); });
+      rail.addEventListener('scroll', requestUpdate, { passive:true });
+      rail.addEventListener('pointerdown', cancelAnimation, { passive:true });
+      rail.addEventListener('keydown', function(event){
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        move(event.key === 'ArrowRight' ? 1 : -1);
+      });
+
+      if ('ResizeObserver' in window){
+        const resizeObserver = new ResizeObserver(function(){
+          cancelAnimation();
+          const metrics = getMetrics();
+          rail.scrollLeft = Math.min(rail.scrollLeft, metrics.maxLeft);
+          requestUpdate();
+        });
+        resizeObserver.observe(rail);
+      }else{
+        window.addEventListener('resize', requestUpdate);
+      }
+
+      updateButtons();
+    });
   })();
 
   /* Move the showcase forward or backward whenever it crosses the viewport. */
