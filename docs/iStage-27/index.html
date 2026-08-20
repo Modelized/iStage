@@ -371,18 +371,18 @@
   .i27-content-section{
     position:relative;
     margin:0;
-    padding:0 0 clamp(92px, 9vw, 132px);
+    padding:0;
     background:#000;
     color:#f5f5f7;
   }
 
   .i27-content-section .i27-design-copy{
-    padding-top:clamp(100px, 10vw, 148px);
+    padding-top:clamp(86px, 8vw, 120px);
   }
 
   .i27-feature-carousel{
     position:relative;
-    padding-bottom:clamp(28px, 3vw, 44px);
+    padding-bottom:clamp(22px, 2.4vw, 34px);
   }
 
   .i27-feature-rail{
@@ -428,8 +428,8 @@
   }
 
   .i27-feature-card--zoom-top-left img{
-    transform:scale(1.58);
-    transform-origin:20% 16%;
+    transform:translateY(-4%) scale(1.72);
+    transform-origin:20% 10%;
   }
 
   .i27-feature-card--zoom-top img{
@@ -451,14 +451,34 @@
     margin:clamp(22px, 2.2vw, 30px) clamp(16px, 1.5vw, 22px) 0;
     color:#86868b;
     font-size:clamp(16px, 1.35vw, 19px);
-    font-weight:600;
+    font-weight:400;
     line-height:1.42;
     letter-spacing:-.018em;
   }
 
   .i27-feature-caption strong{
     color:#f5f5f7;
-    font-weight:700;
+    font-weight:inherit;
+  }
+
+  .i27-tint-labels{
+    position:absolute;
+    top:clamp(20px, 1.8vw, 28px);
+    right:clamp(20px, 1.8vw, 28px);
+    left:clamp(20px, 1.8vw, 28px);
+    z-index:2;
+    display:flex;
+    justify-content:space-between;
+    color:#f5f5f7;
+    font-size:clamp(14px, 1.15vw, 17px);
+    font-weight:500;
+    line-height:1.08;
+    letter-spacing:-.018em;
+    pointer-events:none;
+  }
+
+  .i27-tint-labels span:last-child{
+    text-align:right;
   }
 
   .i27-feature-controls{
@@ -472,8 +492,8 @@
   .i27-feature-arrow{
     position:relative;
     display:grid;
-    width:56px;
-    height:56px;
+    width:44px;
+    height:44px;
     padding:0;
     place-items:center;
     border:1px solid rgba(255,255,255,.2);
@@ -484,41 +504,60 @@
     transition:opacity .2s linear, background-color .25s ease, transform .25s cubic-bezier(.22,1,.36,1);
   }
 
-  .i27-feature-arrow::before{
+  .i27-feature-arrow::before,
+  .i27-feature-arrow::after{
     content:"";
-    width:11px;
-    height:11px;
-    border-top:3px solid currentColor;
-    border-right:3px solid currentColor;
+    position:absolute;
+    width:10px;
+    height:2.5px;
+    border-radius:999px;
+    background:currentColor;
   }
 
-  .i27-feature-arrow--previous::before{ transform:translateX(2px) rotate(-135deg); }
-  .i27-feature-arrow--next::before{ transform:translateX(-2px) rotate(45deg); }
-  .i27-feature-arrow:hover:not(:disabled){ background:#343438; transform:scale(1.04); }
+  .i27-feature-arrow--previous::before{ transform:translate(-1px, -3px) rotate(-45deg); }
+  .i27-feature-arrow--previous::after{ transform:translate(-1px, 3px) rotate(45deg); }
+  .i27-feature-arrow--next::before{ transform:translate(1px, -3px) rotate(45deg); }
+  .i27-feature-arrow--next::after{ transform:translate(1px, 3px) rotate(-45deg); }
+  .i27-feature-arrow:hover:not(:disabled){ background:rgb(var(--accent-blue) / .84); }
+  .i27-feature-arrow:active:not(:disabled){ background:rgb(var(--accent-blue) / .68); transform:translateY(.5px); }
   .i27-feature-arrow:focus-visible{ outline:2px solid rgb(var(--accent-blue)); outline-offset:3px; }
   .i27-feature-arrow:disabled{ opacity:.28; cursor:default; }
 
   .i27-download{
     position:relative;
     display:grid;
-    min-height:clamp(300px, 30vw, 380px);
+    min-height:clamp(390px, 38vw, 520px);
     margin-top:12px;
     overflow:hidden;
     place-items:center;
-    background:#111113;
+    background:#000;
     isolation:isolate;
   }
 
-  .i27-download .container{ position:relative; z-index:1; width:100%; }
+  .i27-download::before{
+    content:"";
+    position:absolute;
+    inset:-22%;
+    z-index:0;
+    background:
+      radial-gradient(circle at 34% 48%, rgba(188,133,82,.4), transparent 38%),
+      radial-gradient(circle at 62% 40%, rgba(229,218,204,.3), transparent 34%),
+      radial-gradient(circle at 58% 72%, rgba(105,118,148,.32), transparent 40%);
+    filter:blur(58px);
+    opacity:.9;
+    pointer-events:none;
+  }
+
+  .i27-download .container{ position:relative; z-index:2; width:100%; }
   .i27-download .copy{ text-shadow:0 3px 24px rgba(0,0,0,.84); }
 
   .i27-download-art{
     position:absolute;
     top:50%;
     left:50%;
-    z-index:0;
+    z-index:1;
     display:block;
-    width:min(74vw, 820px);
+    width:min(58vw, 680px);
     height:auto;
     opacity:.8;
     transform:translate(-50%, -50%) scale(1);
@@ -537,6 +576,48 @@
   .js .i27-download-art.reveal.is-revealed{
     opacity:.8;
     transform:translate(-50%, -50%) scale(1);
+  }
+
+  .i27-more{
+    position:relative;
+    margin:0;
+    padding:clamp(86px, 8vw, 120px) 0 clamp(96px, 9vw, 138px);
+    background:#000;
+    color:#f5f5f7;
+  }
+
+  .i27-more-inner{
+    width:min(78vw, 1240px);
+    margin:0 auto;
+  }
+
+  .i27-more-title{
+    margin:0 0 clamp(50px, 6vw, 84px);
+    color:#f5f5f7;
+    font-size:clamp(38px, 4.6vw, 64px);
+    font-weight:600;
+    line-height:1.03;
+    letter-spacing:-.035em;
+  }
+
+  .i27-more-grid{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:clamp(52px, 6vw, 82px) clamp(30px, 4vw, 54px);
+  }
+
+  .i27-more-grid p{
+    margin:0;
+    color:#86868b;
+    font-size:clamp(17px, 1.45vw, 20px);
+    font-weight:400;
+    line-height:1.44;
+    letter-spacing:-.018em;
+  }
+
+  .i27-more-grid strong{
+    color:#f5f5f7;
+    font-weight:inherit;
   }
 
   .i27-compare{
@@ -1132,11 +1213,9 @@
       font-size:clamp(16px, 4.5vw, 18px);
       line-height:1.4;
     }
-    .i27-content-section{
-      padding-bottom:clamp(78px, 20vw, 104px);
-    }
+    .i27-content-section{ padding-bottom:0; }
     .i27-content-section .i27-design-copy{
-      padding-top:clamp(84px, 22vw, 112px);
+      padding-top:clamp(72px, 18vw, 92px);
     }
     .i27-feature-rail{
       gap:16px;
@@ -1154,12 +1233,33 @@
       width:82vw;
       margin-top:30px;
     }
-    .i27-feature-arrow{ width:54px; height:54px; }
+    .i27-feature-arrow{ width:44px; height:44px; }
     .i27-download{
-      min-height:min(82vw, 430px);
+      min-height:min(96vw, 520px);
       margin-top:var(--banner-vert-gap);
     }
-    .i27-download-art{ width:min(120vw, 620px); }
+    .i27-download::before{
+      inset:-14%;
+      filter:blur(42px);
+    }
+    .i27-download-art{ width:min(92vw, 500px); }
+    .i27-more{
+      padding:clamp(72px, 18vw, 92px) 0 clamp(82px, 20vw, 108px);
+    }
+    .i27-more-inner{ width:82vw; }
+    .i27-more-title{
+      margin-bottom:44px;
+      font-size:clamp(32px, 9.2vw, 40px);
+      line-height:1.04;
+    }
+    .i27-more-grid{
+      grid-template-columns:1fr;
+      gap:42px;
+    }
+    .i27-more-grid p{
+      font-size:16px;
+      line-height:1.44;
+    }
     .i27-compare{
       min-height:0;
       margin-top:var(--banner-vert-gap);
@@ -1377,7 +1477,7 @@
             <div class="i27-feature-card">
               <img src="../assets/img/iStage-27-design.png" alt="The redesigned iStage 27 Lock Screen" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>A whole new look for iStage 27.</strong> The new Liquid Glass design reshapes the entire experience with clean visual clarity. It lays down a sleek, modern foundation that makes every interface feel brand new.</p>
+            <p class="i27-feature-caption"><strong>A whole new look for iStage.</strong> The new Liquid Glass design reshapes the entire experience with clean visual clarity. It lays down a sleek, modern foundation that makes every interface feel brand new.</p>
           </article>
 
           <article class="i27-feature-item">
@@ -1397,6 +1497,10 @@
           <article class="i27-feature-item">
             <div class="i27-feature-card i27-feature-card--zoom-bottom">
               <img src="../assets/img/iStage-27-tint.png" alt="Liquid Glass tint controls adapting to a wallpaper" width="2160" height="2160" loading="eager" decoding="async">
+              <div class="i27-tint-labels" aria-hidden="true">
+                <span>More<br>clear</span>
+                <span>More<br>tinted</span>
+              </div>
             </div>
             <p class="i27-feature-caption"><strong>Artfully adaptive materials.</strong> Liquid Glass lets you dynamically adjust its blur intensity and tint based on your wallpaper, so it keeps text readable on any background.</p>
           </article>
@@ -1509,6 +1613,20 @@
         <div class="i27-feature-controls" aria-label="Lock Screen Experience carousel controls">
           <button class="i27-feature-arrow i27-feature-arrow--previous" data-feature-previous type="button" aria-label="Show previous Lock Screen feature"></button>
           <button class="i27-feature-arrow i27-feature-arrow--next" data-feature-next type="button" aria-label="Show next Lock Screen feature"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="i27-more" aria-labelledby="more-title">
+      <div class="i27-more-inner">
+        <h2 class="i27-more-title reveal reveal--long" id="more-title">And so much more.</h2>
+        <div class="i27-more-grid">
+          <p class="reveal reveal--short"><strong>Focus modes and custom profile.</strong> Choose from curated standard Focus modes or craft a fully custom Focus profile with personalized icons to stay focused on the moment.</p>
+          <p class="reveal reveal--short"><strong>Seamless profile transfer.</strong> Double-tap to view full preset details, making it effortless to back up, reconstruct, or transfer your custom Lock Screen setups to another device.</p>
+          <p class="reveal reveal--short"><strong>Always-on volume control.</strong> Display a live volume indicator right on the music player to check and adjust sound levels while listening.</p>
+          <p class="reveal reveal--short"><strong>Custom World Clock.</strong> Personalize the World Clock date widget with your preferred city and time zone.</p>
+          <p class="reveal reveal--short"><strong>Advanced display controls.</strong> Fine-tune status bar height, Dynamic Island position, and corner radius for a consistent visual experience across various devices.</p>
+          <p class="reveal reveal--short"><strong>Carrier &amp; Signal tweaks.</strong> Customize your status bar carrier text and signal strength indicators to match your aesthetic.</p>
         </div>
       </div>
     </section>
@@ -2023,12 +2141,11 @@
       }
 
       function getMetrics(){
-        const last = items[items.length - 1];
-        const lastRightAtStart = last.offsetLeft + last.offsetWidth;
-        const allVisible = lastRightAtStart <= rail.clientWidth - 18;
+        const maxLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
+        const allVisible = maxLeft <= 1;
         return {
           allVisible:allVisible,
-          maxLeft:allVisible ? 0 : Math.max(0, rail.scrollWidth - rail.clientWidth)
+          maxLeft:allVisible ? 0 : maxLeft
         };
       }
 
@@ -2046,10 +2163,19 @@
         updateFrame = window.requestAnimationFrame(updateButtons);
       }
 
-      function cardStep(){
-        const style = window.getComputedStyle(rail);
-        const gap = parseFloat(style.columnGap || style.gap) || 0;
-        return items[0].offsetWidth + gap;
+      function getTargets(){
+        const metrics = getMetrics();
+        if (metrics.allVisible) return [0];
+
+        const firstLeft = items[0].offsetLeft;
+        const targets = items
+          .map(function(item){ return Math.max(0, item.offsetLeft - firstLeft); })
+          .filter(function(target){ return target < metrics.maxLeft - 1; });
+
+        if (!targets.length || Math.abs(targets[targets.length - 1] - metrics.maxLeft) > 1){
+          targets.push(metrics.maxLeft);
+        }
+        return targets;
       }
 
       function animateTo(targetLeft){
@@ -2089,7 +2215,25 @@
       }
 
       function move(direction){
-        animateTo(rail.scrollLeft + cardStep() * direction);
+        cancelAnimation();
+        const targets = getTargets();
+        const current = rail.scrollLeft;
+        let destination = current;
+
+        if (direction > 0){
+          const nextTarget = targets.find(function(target){ return target > current + 1; });
+          destination = typeof nextTarget === 'number' ? nextTarget : targets[targets.length - 1];
+        }else{
+          for (let index = targets.length - 1; index >= 0; index -= 1){
+            if (targets[index] < current - 1){
+              destination = targets[index];
+              break;
+            }
+          }
+          if (current <= 1) destination = 0;
+        }
+
+        animateTo(destination);
       }
 
       previous.addEventListener('click', function(){ move(-1); });
