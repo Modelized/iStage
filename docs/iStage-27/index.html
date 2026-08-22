@@ -207,10 +207,9 @@
   .highlight-copy h3{
     margin:0;
     font-size:clamp(18px, 1.65vw, 26px);
-    font-weight:500;
+    font-weight:550;
     line-height:1.24;
     letter-spacing:-.01em;
-    -webkit-text-stroke:.18px currentColor;
   }
 
   .highlight-media{
@@ -474,7 +473,7 @@
   }
 
   .i27-feature-card--zoom-top-left img{
-    transform:translate(-9.5%, 11%) scale(2.08);
+    transform:translate(-13.5%, 13%) scale(2.22);
     transform-origin:20% 10%;
   }
 
@@ -497,10 +496,9 @@
     margin:clamp(22px, 2.2vw, 30px) clamp(16px, 1.5vw, 22px) 0;
     color:#86868b;
     font-size:clamp(16px, 1.35vw, 19px);
-    font-weight:400;
+    font-weight:550;
     line-height:1.42;
     letter-spacing:-.018em;
-    -webkit-text-stroke:.16px currentColor;
   }
 
   .js [data-stagger-reveal] .i27-feature-item,
@@ -545,6 +543,16 @@
   }
 
   .i27-tint-labels span:first-child{ text-align:center; }
+
+  .i27-feature-card--tint::after{
+    content:"";
+    position:absolute;
+    inset:0 0 auto;
+    z-index:1;
+    height:36%;
+    background:linear-gradient(to bottom, rgba(0,0,0,.38) 0%, rgba(0,0,0,.16) 52%, rgba(0,0,0,0) 100%);
+    pointer-events:none;
+  }
 
   .i27-feature-controls{
     display:flex;
@@ -604,14 +612,14 @@
   .i27-download::before{
     content:"";
     position:absolute;
-    inset:-18% -32%;
+    inset:-22%;
     z-index:0;
     background:
-      radial-gradient(58% 66% at 12% 42%, rgba(188,133,82,.34) 0%, rgba(188,133,82,0) 68%),
-      radial-gradient(56% 68% at 88% 38%, rgba(229,218,204,.28) 0%, rgba(229,218,204,0) 68%),
-      radial-gradient(52% 58% at 58% 90%, rgba(105,118,148,.30) 0%, rgba(105,118,148,0) 70%);
-    filter:blur(30px) saturate(1.08);
-    opacity:.92;
+      radial-gradient(ellipse 44% 58% at 30% 48%, rgba(188,133,82,.44) 0%, rgba(188,133,82,0) 68%),
+      radial-gradient(ellipse 42% 56% at 68% 44%, rgba(229,218,204,.36) 0%, rgba(229,218,204,0) 66%),
+      radial-gradient(ellipse 42% 52% at 58% 76%, rgba(105,118,148,.36) 0%, rgba(105,118,148,0) 70%);
+    filter:blur(46px) saturate(1.08);
+    opacity:.82;
     pointer-events:none;
   }
 
@@ -626,7 +634,7 @@
     display:block;
     width:min(58vw, 680px);
     height:auto;
-    opacity:.6;
+    opacity:.7;
     transform:translate(-50%, -50%) scale(1);
     transform-origin:center;
     pointer-events:none;
@@ -641,7 +649,7 @@
   }
 
   .js .i27-download-art.reveal.is-revealed{
-    opacity:.6;
+    opacity:.7;
     transform:translate(-50%, -50%) scale(1);
   }
 
@@ -677,10 +685,9 @@
     margin:0;
     color:#86868b;
     font-size:clamp(17px, 1.45vw, 20px);
-    font-weight:400;
+    font-weight:550;
     line-height:1.44;
     letter-spacing:-.018em;
-    -webkit-text-stroke:.06px currentColor;
   }
 
   .i27-more-grid strong{
@@ -1325,8 +1332,8 @@
       margin-top:var(--banner-vert-gap);
     }
     .i27-download::before{
-      inset:-14% -28%;
-      filter:blur(38px) saturate(1.06);
+      inset:-16%;
+      filter:blur(40px) saturate(1.06);
     }
     .i27-download-art{ width:min(92vw, 500px); }
     .i27-more{
@@ -1590,7 +1597,7 @@
           </article>
 
           <article class="i27-feature-item">
-            <div class="i27-feature-card i27-feature-card--zoom-bottom">
+            <div class="i27-feature-card i27-feature-card--zoom-bottom i27-feature-card--tint">
               <img src="../assets/img/iStage-27-tint.png" alt="Liquid Glass tint controls adapting to a wallpaper" width="2160" height="2160" loading="eager" decoding="async">
               <div class="i27-tint-labels" aria-hidden="true">
                 <span>More clear</span>
