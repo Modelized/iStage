@@ -210,7 +210,7 @@
     font-weight:500;
     line-height:1.24;
     letter-spacing:-.01em;
-    -webkit-text-stroke:.08px currentColor;
+    -webkit-text-stroke:.18px currentColor;
   }
 
   .highlight-media{
@@ -474,7 +474,7 @@
   }
 
   .i27-feature-card--zoom-top-left img{
-    transform:translateY(10%) scale(1.94);
+    transform:translate(-9.5%, 11%) scale(2.08);
     transform-origin:20% 10%;
   }
 
@@ -500,7 +500,23 @@
     font-weight:400;
     line-height:1.42;
     letter-spacing:-.018em;
-    -webkit-text-stroke:.06px currentColor;
+    -webkit-text-stroke:.16px currentColor;
+  }
+
+  .js [data-stagger-reveal] .i27-feature-item,
+  .js .i27-more-grid[data-stagger-reveal] > p{
+    opacity:0;
+    transform:translateY(10px);
+    transition:
+      opacity .75s cubic-bezier(.22,1,.36,1),
+      transform .75s cubic-bezier(.22,1,.36,1);
+    transition-delay:var(--reveal-delay, 0s);
+  }
+
+  .js [data-stagger-reveal] .i27-feature-item.is-revealed,
+  .js .i27-more-grid[data-stagger-reveal] > p.is-revealed{
+    opacity:1;
+    transform:none;
   }
 
   .i27-feature-caption strong{
@@ -588,14 +604,14 @@
   .i27-download::before{
     content:"";
     position:absolute;
-    inset:-22%;
+    inset:-18% -32%;
     z-index:0;
     background:
-      radial-gradient(circle at 34% 48%, rgba(188,133,82,.52), transparent 38%),
-      radial-gradient(circle at 62% 40%, rgba(229,218,204,.42), transparent 34%),
-      radial-gradient(circle at 58% 72%, rgba(105,118,148,.44), transparent 40%);
-    filter:blur(58px);
-    opacity:1;
+      radial-gradient(58% 66% at 12% 42%, rgba(188,133,82,.34) 0%, rgba(188,133,82,0) 68%),
+      radial-gradient(56% 68% at 88% 38%, rgba(229,218,204,.28) 0%, rgba(229,218,204,0) 68%),
+      radial-gradient(52% 58% at 58% 90%, rgba(105,118,148,.30) 0%, rgba(105,118,148,0) 70%);
+    filter:blur(30px) saturate(1.08);
+    opacity:.92;
     pointer-events:none;
   }
 
@@ -1309,8 +1325,8 @@
       margin-top:var(--banner-vert-gap);
     }
     .i27-download::before{
-      inset:-14%;
-      filter:blur(42px);
+      inset:-14% -28%;
+      filter:blur(38px) saturate(1.06);
     }
     .i27-download-art{ width:min(92vw, 500px); }
     .i27-more{
@@ -1395,6 +1411,12 @@
       transition:none !important;
     }
     .i27-feature-arrow{ transition:none !important; }
+    .js [data-stagger-reveal] .i27-feature-item,
+    .js .i27-more-grid[data-stagger-reveal] > p{
+      opacity:1 !important;
+      transform:none !important;
+      transition:none !important;
+    }
   }
 
   @media (max-width:600px){
@@ -1544,7 +1566,7 @@
         <p class="i27-design-description reveal reveal--long">Engineered to be more responsive, refined Liquid Glass delivers a faster, smoother experience across the entire system. It flows naturally with your touch, and gives the Lock Screen an elegant depth effect.</p>
       </div>
 
-      <div class="i27-feature-carousel reveal reveal--short" data-feature-carousel>
+      <div class="i27-feature-carousel" data-feature-carousel data-stagger-reveal=".i27-feature-item">
         <div class="i27-feature-rail" data-feature-rail aria-label="Refined Liquid Glass design features" tabindex="0">
           <article class="i27-feature-item">
             <div class="i27-feature-card">
@@ -1600,7 +1622,7 @@
         <p class="i27-design-description reveal reveal--long">Redesigned editors and a revamped wallpaper gallery offer endless possibilities. Customize clock styles, colors, widgets, and shortcuts to craft a Lock Screen that reflects your taste.</p>
       </div>
 
-      <div class="i27-feature-carousel reveal reveal--short" data-feature-carousel>
+      <div class="i27-feature-carousel" data-feature-carousel data-stagger-reveal=".i27-feature-item">
         <div class="i27-feature-rail" data-feature-rail aria-label="iStage 27 personalization features" tabindex="0">
           <article class="i27-feature-item">
             <div class="i27-feature-card">
@@ -1652,7 +1674,7 @@
         <p class="i27-design-description reveal reveal--long">Dynamic Island and Live Activities bring your most important updates right to the front. Track live events, manage playing media, and interact with notifications — all without leaving your Lock Screen.</p>
       </div>
 
-      <div class="i27-feature-carousel reveal reveal--short" data-feature-carousel>
+      <div class="i27-feature-carousel" data-feature-carousel data-stagger-reveal=".i27-feature-item">
         <div class="i27-feature-rail" data-feature-rail aria-label="iStage 27 Lock Screen Experience features" tabindex="0">
           <article class="i27-feature-item">
             <div class="i27-feature-card i27-feature-card--zoom-top">
@@ -1693,13 +1715,13 @@
     <section class="i27-more" aria-labelledby="more-title">
       <div class="i27-more-inner">
         <h2 class="i27-more-title reveal reveal--long" id="more-title">And so much more.</h2>
-        <div class="i27-more-grid">
-          <p class="reveal reveal--short"><strong>Focus modes and custom profile.</strong> Choose from curated standard Focus modes or craft a fully custom Focus profile with personalized icons to stay focused on the moment.</p>
-          <p class="reveal reveal--short"><strong>Seamless profile transfer.</strong> Double-tap to view full preset details, making it effortless to back up, reconstruct, or transfer your custom Lock Screen setups to another device.</p>
-          <p class="reveal reveal--short"><strong>Always-on volume control.</strong> Display a live volume indicator right on the music player to check and adjust sound levels while listening.</p>
-          <p class="reveal reveal--short"><strong>Custom World Clock.</strong> Personalize the World Clock date widget with your preferred city and time zone.</p>
-          <p class="reveal reveal--short"><strong>Advanced display controls.</strong> Fine-tune status bar height, Dynamic Island position, and corner radius for a consistent visual experience across various devices.</p>
-          <p class="reveal reveal--short"><strong>Carrier &amp; Signal tweaks.</strong> Customize your status bar carrier text and signal strength indicators to match your aesthetic.</p>
+        <div class="i27-more-grid" data-stagger-reveal=":scope > p">
+          <p><strong>Focus modes and custom profile.</strong> Choose from curated standard Focus modes or craft a fully custom Focus profile with personalized icons to stay focused on the moment.</p>
+          <p><strong>Seamless profile transfer.</strong> Double-tap to view full preset details, making it effortless to back up, reconstruct, or transfer your custom Lock Screen setups to another device.</p>
+          <p><strong>Always-on volume control.</strong> Display a live volume indicator right on the music player to check and adjust sound levels while listening.</p>
+          <p><strong>Custom World Clock.</strong> Personalize the World Clock date widget with your preferred city and time zone.</p>
+          <p><strong>Advanced display controls.</strong> Fine-tune status bar height, Dynamic Island position, and corner radius for a consistent visual experience across various devices.</p>
+          <p><strong>Carrier &amp; Signal tweaks.</strong> Customize your status bar carrier text and signal strength indicators to match your aesthetic.</p>
         </div>
       </div>
     </section>
@@ -2414,10 +2436,24 @@
   /* Shared reveal-on-scroll behavior, matching the home page. */
   (function(){
     const nodes = Array.from(document.querySelectorAll('.reveal'));
-    if (!nodes.length) return;
+    const staggerGroups = Array.from(document.querySelectorAll('[data-stagger-reveal]'));
+    if (!nodes.length && !staggerGroups.length) return;
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const staggeredItems = staggerGroups.map(function(group){
+      const selector = group.dataset.staggerReveal;
+      const items = selector ? Array.from(group.querySelectorAll(selector)) : [];
+      items.forEach(function(item, index){
+        item.style.setProperty('--reveal-delay', (index * .09).toFixed(2) + 's');
+      });
+      return { group:group, items:items };
+    });
+
     if (reduce || !('IntersectionObserver' in window)){
       nodes.forEach(function(node){ node.classList.add('is-revealed'); });
+      staggeredItems.forEach(function(entry){
+        entry.items.forEach(function(item){ item.classList.add('is-revealed'); });
+      });
       return;
     }
     const observer = new IntersectionObserver(function(entries){
@@ -2428,6 +2464,18 @@
       });
     }, { threshold:0, rootMargin:'0px 0px -1% 0px' });
     nodes.forEach(function(node){ observer.observe(node); });
+
+    const staggerObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        const staggered = staggeredItems.find(function(item){ return item.group === entry.target; });
+        if (staggered){
+          staggered.items.forEach(function(item){ item.classList.add('is-revealed'); });
+        }
+        staggerObserver.unobserve(entry.target);
+      });
+    }, { threshold:0, rootMargin:'0px 0px -1% 0px' });
+    staggeredItems.forEach(function(entry){ staggerObserver.observe(entry.group); });
   })();
   </script>
 </body>
