@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>iStage</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  
+
   <!-- Icons / PWA -->
   <link rel="icon" type="image/svg+xml" sizes="any" href="/iStage/favicon.svg?v=20260828a">
   <link rel="icon" sizes="192x192" href="/iStage/android-chrome-192x192.png">
@@ -18,7 +18,7 @@
   <!-- Address bar color -->
   <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-  
+
   <!-- Open Graph / Twitter thumbnail -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="iStage">
@@ -32,156 +32,8 @@
   <meta name="twitter:title" content="Help — iStage">
   <meta name="twitter:description" content="Android. Reimagined.">
   <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
-  
-  <style>
-  /* ----- Help page (scoped) ----- */
-  /* page surface (swap like main redesign) */
-  .page-help{ background:#f5f5f7; font-synthesis-weight: none; }
-  @media (prefers-color-scheme: dark){
-    .page-help{ background:#000; color:#e8e9ec; font-synthesis-weight: none; }
-  }
 
-  .page-help .page-hero-card{
-    --hero-a:68 142 255;
-    --hero-b:70 216 184;
-    --hero-c:116 198 232;
-  }
-
-  /* card surface: swap + same corner system as main (banner-radius) */
-  .page-help .card{
-    background:#fff;
-    color:#111317;
-    border:0;
-    border-radius: var(--banner-radius);
-    padding:0; /* accordion controls internal padding */
-    overflow:hidden; /* ensures radius clips panel border/content */
-  }
-  @media (prefers-color-scheme: dark){
-    .page-help .card{
-      background:var(--surface-dark);
-      color:#e8e9ec;
-      border:0;
-    }
-  }
-
-  /* accordion layout */
-  .help-surface{ background:transparent; padding:16px 0 24px; }
-  .accordion{ display:grid; gap:16px; }
-  .accordion .card{ animation-fill-mode: both; }
-
-  .acc-header{
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
-    gap:8px;
-    padding:14px 18px 14px 10px;
-  }
-  .acc-title{margin:0;font-weight:600;font-size:clamp(18px, 2.2vw, 20px)}
-
-  .acc-toggle{
-    display:grid;
-    place-items:center;
-
-    width:36px;
-    height:36px;
-    border-radius:999px;
-
-    appearance: none;
-    -webkit-appearance: none;
-
-    background: transparent !important;
-    border: 0 !important;
-    color: inherit;
-    cursor:pointer;
-
-    outline: none !important;
-    box-shadow: none !important;
-
-    padding:0;
-    margin:0;
-
-    position:relative;
-    overflow:hidden;
-
-    /* kill iOS/Safari default tap highlight */
-    -webkit-tap-highlight-color: transparent;
-
-    transition: transform .15s ease;
-  }
-  /* custom circular highlight */
-  .acc-toggle::before{
-    content:'';
-    position:absolute;
-    inset:0;
-    border-radius:inherit;
-    opacity:0;
-    transform:scale(.92);
-    transition: opacity .16s ease, transform .16s ease;
-    background: rgba(17,19,23,.10);
-  }
-  @media (prefers-color-scheme: dark){
-    .acc-toggle::before{
-      background: rgba(232,233,236,.14);
-    }
-  }
-
-  /* keep icon above highlight */
-  .acc-toggle .chev{ position:relative; z-index:1; }
-
-  .acc-toggle:hover{ opacity:.92; }
-  .acc-toggle:active{ transform: scale(0.98); }
-  .acc-toggle:active::before{ opacity:1; transform:scale(1); }
-
-  .acc-toggle:focus-visible::before{
-    opacity:.75;
-    transform:scale(1);
-  }
-  .acc-toggle:focus-visible{ box-shadow:none; }
-
-  .chev{
-    width:22px;
-    height:22px;
-    transition:transform .35s cubic-bezier(.22,1,.36,1);
-    transform-origin:center;
-    transform:rotate(-90deg); /* closed */
-  }
-  .acc-toggle[aria-expanded="true"] .chev{
-    transform:rotate(0deg);  /* open */
-  }
-  .acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1);overflow:hidden}
-  .acc-panel>div{overflow:hidden;padding:14px 22px;border-top:0;}
-  .acc-panel[hidden]{ visibility:hidden; pointer-events:none; grid-template-rows:0fr !important; }
-  .acc-panel[hidden] > div{ border-top:0 !important; padding-top:0; padding-bottom:0; }
-
-  /* body text rhythm inside panels */
-  .prose{ line-height:1.65; }
-  .prose h1,.prose h2{ font-size:clamp(18px, 4vw, 20px); margin:16px 0 8px; font-weight:600; }
-  .prose h3{ font-size:clamp(16px, 4vw, 18px); margin:16px 0 6px; }
-  .prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
-  .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
-  .prose li{ margin:6px 0; }
-  .prose{ padding-inline: 6px; }
-  @media (min-width:900px){
-    .prose{ padding-inline: 10px; }
-  }
-  .prose strong{ font-weight:600; }
-  .acc-panel .prose > *:first-child{ margin-top:0; }
-  .prose ul + p{ margin-top:12px; }
-
-  /* footer theming */
-  .page-help .footer{
-    background:#f5f5f7;
-    color:#5e6572;
-  }
-  @media (prefers-color-scheme: dark){
-    .page-help .footer{
-      background:#000;
-      color:#a7acb7;
-    }
-  }
-  .page-help main{ margin-bottom:0; padding-bottom:0 }
-  .page-help .footer{ margin:0 }
-  </style>
+  <link rel="stylesheet" href="../assets/css/pages/help.css">
 
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -230,7 +82,7 @@
                     <li>Import the downloaded <code>.klck</code> preset file.</li>
                     <li>Apply the preset as your lock screen layout.</li>
                   </ul>
-                  
+
                   <h3>Notes</h3>
                   <p><strong>Apple-owned resources are not included in this repository.</strong></p>
                   <p>Certain parts of the interface are designed to use <strong>SF Pro fonts</strong> and <strong>SF Symbols</strong>, and these must be prepared by the user separately.</p>
@@ -343,43 +195,6 @@
 
   <div id="footer-slot"></div>
   <script src="../assets/js/shell.js" defer></script>
-  <script>
-    (function(){
-      try{
-        const toggles = Array.prototype.slice.call(document.querySelectorAll('.acc-toggle'));
-        toggles.forEach(function(btn){
-          btn.addEventListener('click', function(){
-            const expanded = btn.getAttribute('aria-expanded') === 'true';
-            const panelId = btn.getAttribute('aria-controls');
-            const panel = document.getElementById(panelId);
-            btn.setAttribute('aria-expanded', (!expanded).toString());
-            if (panel){
-              if (expanded){
-                panel.setAttribute('hidden','');
-                panel.style.gridTemplateRows = '0fr';
-              }else{
-                panel.removeAttribute('hidden');
-                requestAnimationFrame(function(){ panel.style.gridTemplateRows = '1fr'; });
-              }
-            }
-          });
-          btn.addEventListener('keydown', function(e){
-            if (e.key === 'Enter' || e.key === ' '){
-              e.preventDefault();
-              btn.click();
-            }
-          });
-        });
-      }catch(e){}
-    })();
-    (function(){
-      try{
-        const cards = document.querySelectorAll('.accordion .card.reveal-onload');
-        cards.forEach((el, i) => {
-          el.style.animationDelay = `${0.12 + 0.08*i}s`;
-        });
-      }catch(e){}
-    })();
-  </script>
+  <script src="../assets/js/pages/help.js" defer></script>
 </body>
 </html>
