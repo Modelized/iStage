@@ -3,14 +3,15 @@
 
   const body = document.body;
   const base = (body?.getAttribute("data-base") || ".").trim();
+  const assetVersion = "20260831a";
 
   function getPartialUrl(file) {
     if (!base || base === ".") {
-      return `assets/partials/${file}`;
+      return `assets/partials/${file}?v=${assetVersion}`;
     }
 
     const normalizedBase = base.endsWith("/") ? base.slice(0, -1) : base;
-    return `${normalizedBase}/assets/partials/${file}`;
+    return `${normalizedBase}/assets/partials/${file}?v=${assetVersion}`;
   }
 
   async function injectPartial(selector, file) {

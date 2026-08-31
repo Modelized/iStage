@@ -791,23 +791,89 @@ a.btn:link,a.btn:visited{color:inherit}
 
 /* Footer */
 .footer{
+  position:relative;
   border-top:0;
   margin-top:12px;
-  padding:24px var(--footer-inline-pad);
+  padding:clamp(3rem, 6vw, 5rem) var(--footer-inline-pad) max(clamp(2rem, 4vw, 3.25rem), env(safe-area-inset-bottom, 0px));
   padding-left:max(var(--footer-inline-pad), calc(env(safe-area-inset-left, 0px) + var(--footer-inline-pad)));
   padding-right:max(var(--footer-inline-pad), calc(env(safe-area-inset-right, 0px) + var(--footer-inline-pad)));
   background:#f5f5f7;
   color:#a7acb7;
 }
-.footer-row{
+.footer::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:1px;
+  background:linear-gradient(90deg, transparent 0%, currentColor 18%, currentColor 82%, transparent 100%);
+  opacity:.2;
+}
+.footer .container{
+  width:100%;
+  max-width:1180px;
+  padding:0;
+}
+.footer-content{
+  display:grid;
+  gap:clamp(2.2rem, 4.5vw, 3.8rem);
+}
+.footer-sitemap{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.8rem clamp(1.5rem, 3.5vw, 3.2rem);
+}
+.footer-sitemap a{
+  color:inherit;
+  font-size:clamp(.86rem, 1.4vw, 1rem);
+  font-weight:600;
+  letter-spacing:.08em;
+  text-decoration:none;
+  text-transform:uppercase;
+  transition:opacity .22s ease;
+}
+.footer-sitemap a:hover{
+  opacity:.72;
+  text-decoration:none;
+}
+.footer-meta{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  gap:12px;
+  align-items:flex-end;
+  gap:1.5rem;
+  padding-top:clamp(1.35rem, 2.4vw, 1.9rem);
+  border-top:1px solid rgba(128,128,128,.2);
+  font-size:.94rem;
+}
+.footer-meta p{margin:0}
+.footer-brand{
+  display:block;
+  width:clamp(3.4rem, 5.4vw, 4.5rem);
+  color:inherit;
+  line-height:0;
+  opacity:.72;
+  transition:opacity .22s ease;
+}
+.footer-brand:hover{opacity:1; text-decoration:none}
+.footer-brand svg{display:block; width:100%; height:auto; overflow:visible}
+.footer-brand path{
+  fill:none;
+  stroke:currentColor;
+  stroke-width:10;
+  stroke-linecap:round;
+  stroke-linejoin:round;
 }
 .footer a{color:inherit; text-decoration:none}
-.footer a:hover{text-decoration:underline}
-.footer-legal{margin-left:auto}
+
+@media (max-width:700px){
+  .footer-sitemap{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+  .footer-meta{align-items:center}
+}
 
 /* Mobile menu enter animation */
 .mobile-menu li{opacity:0; transform:translateY(-6px)}
