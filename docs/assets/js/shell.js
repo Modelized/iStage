@@ -3,7 +3,7 @@
 
   const body = document.body;
   const base = (body?.getAttribute("data-base") || ".").trim();
-  const assetVersion = "20260831b";
+  const assetVersion = "20260831c";
 
   function getPartialUrl(file) {
     if (!base || base === ".") {
