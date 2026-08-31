@@ -793,22 +793,12 @@ a.btn:link,a.btn:visited{color:inherit}
 .footer{
   position:relative;
   border-top:0;
-  margin-top:12px;
+  margin-top:0;
   padding:clamp(3rem, 6vw, 5rem) var(--footer-inline-pad) max(clamp(2rem, 4vw, 3.25rem), env(safe-area-inset-bottom, 0px));
   padding-left:max(var(--footer-inline-pad), calc(env(safe-area-inset-left, 0px) + var(--footer-inline-pad)));
   padding-right:max(var(--footer-inline-pad), calc(env(safe-area-inset-right, 0px) + var(--footer-inline-pad)));
   background:#f5f5f7;
   color:#a7acb7;
-}
-.footer::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:1px;
-  background:linear-gradient(90deg, transparent 0%, currentColor 18%, currentColor 82%, transparent 100%);
-  opacity:.2;
 }
 .footer .container{
   width:100%;
@@ -818,6 +808,17 @@ a.btn:link,a.btn:visited{color:inherit}
 .footer-content{
   display:grid;
   gap:clamp(2.2rem, 4.5vw, 3.8rem);
+}
+.footer-navigation{
+  display:grid;
+  gap:clamp(1rem, 2vw, 1.4rem);
+}
+.footer-title{
+  margin:0;
+  color:inherit;
+  font-size:clamp(1.4rem, 2.5vw, 2rem);
+  font-weight:700;
+  line-height:1;
 }
 .footer-sitemap{
   display:flex;
@@ -831,7 +832,6 @@ a.btn:link,a.btn:visited{color:inherit}
   font-weight:600;
   letter-spacing:.08em;
   text-decoration:none;
-  text-transform:uppercase;
   transition:opacity .22s ease;
 }
 .footer-sitemap a:hover{
@@ -843,8 +843,6 @@ a.btn:link,a.btn:visited{color:inherit}
   justify-content:space-between;
   align-items:flex-end;
   gap:1.5rem;
-  padding-top:clamp(1.35rem, 2.4vw, 1.9rem);
-  border-top:1px solid rgba(128,128,128,.2);
   font-size:.94rem;
 }
 .footer-meta p{margin:0}

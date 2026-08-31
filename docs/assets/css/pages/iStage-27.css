@@ -17,7 +17,7 @@ html{ background:#000; color-scheme:dark; }
 
 .page-iStage-27 .brand-logo{ filter:none !important; }
 .page-iStage-27 main{ overflow-x:clip; overflow-y:visible; }
-.page-iStage-27 .footer{ margin:0; background:#000; color:#a7acb7; }
+.page-iStage-27 .footer{ background:#000; color:#a7acb7; }
 
 /* Hero: shared feature-card structure, iStage 27-specific composition. */
 .page-iStage-27 .i27-hero-card{
