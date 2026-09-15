@@ -126,7 +126,7 @@
 
 .page-home .section:not(.top-event){ padding-top:52px; padding-bottom:48px; }
 .page-home .section:not(.top-event) .copy{ gap:8px; }
-.page-home .section:not(.top-event) .cta{ margin-top:8px; }
+.page-home .section:not(.top-event) .cta{ margin-top:10px; }
 .page-home .hero{ gap:28px; }
 .page-home .copy .title{ font-size:clamp(30px, 4.4vw, 54px); }
 .page-home .copy .subtitle{
@@ -267,7 +267,7 @@
 .page-home .i27-compare .copy{ align-items:center; text-align:center; gap:8px; }
 .page-home .i27-compare .copy .subtitle{ color:inherit; font-size:clamp(18px, 1.8vw, 24px); font-weight:400; line-height:1.3; }
 .page-home .i27-compare .copy .title{ font-size:clamp(30px, 4.4vw, 54px); }
-.page-home .i27-compare .cta{ margin-top:8px; }
+.page-home .i27-compare .cta{ margin-top:10px; }
 .page-home .i27-compare{ padding-top:52px; padding-bottom:48px; }
 
 

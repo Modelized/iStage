@@ -689,7 +689,7 @@ html{ background:#000; color-scheme:dark; }
 .i27-download .copy,
 .i27-compare .copy{ gap:8px; }
 .i27-download .cta,
-.i27-compare .cta{ margin-top:8px; }
+.i27-compare .cta{ margin-top:10px; }
 .i27-download,
 .i27-compare{ padding-top:52px; padding-bottom:48px; }
 
