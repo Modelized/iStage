@@ -1,55 +1,6 @@
 "use strict";
 
-const imageDecodePromises = new WeakMap();
-
-function decodeImage(image) {
-  if (!image) {
-    return Promise.resolve();
-  }
-
-  const existing = imageDecodePromises.get(image);
-  if (existing) {
-    return existing;
-  }
-
-  let promise;
-  if (typeof image.decode === "function") {
-    promise = image.decode().catch(() => {});
-  } else if (image.complete) {
-    promise = Promise.resolve();
-  } else {
-    promise = new Promise((resolve) => {
-      image.addEventListener("load", resolve, { once: true });
-      image.addEventListener("error", resolve, { once: true });
-    });
-  }
-
-  imageDecodePromises.set(image, promise);
-  return promise;
-}
-
-/* Keep every page image decoded ahead of the viewport without lazy loading. */
-(function(){
-  const images = Array.from(document.querySelectorAll('.page-iStage-27 img'));
-  if (!images.length) return;
-
-  images.forEach(decodeImage);
-
-  if ('IntersectionObserver' in window){
-    const observer = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (!entry.isIntersecting) return;
-        decodeImage(entry.target);
-        observer.unobserve(entry.target);
-      });
-    }, { threshold:0, rootMargin:'200% 0px 200% 0px' });
-    images.forEach(function(image){ observer.observe(image); });
-  }
-
-  document.addEventListener('visibilitychange', function(){
-    if (!document.hidden) images.forEach(decodeImage);
-  });
-})();
+const decodeImage = (image) => image ? iStageImages.ready(image) : Promise.resolve();
 
 (function(){
   const rail = document.getElementById('highlight-rail');

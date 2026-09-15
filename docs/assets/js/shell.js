@@ -1,9 +1,31 @@
+const iStageImages = (() => {
+  const pending = new WeakMap();
+  function ready(image) {
+    const source = image.currentSrc || image.src;
+    const cached = pending.get(image);
+    if (cached?.source === source) return cached.promise;
+    const loaded = image.complete ? Promise.resolve() : new Promise((resolve) => {
+      const finish = () => {
+        image.removeEventListener('load', finish);
+        image.removeEventListener('error', finish);
+        resolve();
+      };
+      image.addEventListener('load', finish);
+      image.addEventListener('error', finish);
+    });
+    const promise = loaded.then(() => image.naturalWidth && image.decode ? image.decode().catch(() => {}) : undefined);
+    pending.set(image, { source, promise });
+    return promise;
+  }
+  return { ready };
+})();
+
 (function () {
   "use strict";
 
   const body = document.body;
   const base = (body?.getAttribute("data-base") || ".").trim();
-  const assetVersion = "20260831c";
+  const assetVersion = "20260915a";
 
   function getPartialUrl(file) {
     if (!base || base === ".") {
@@ -277,10 +299,44 @@
     }
   }
 
+  function initHeroArtwork() {
+    // Visible PNG bounds measured once in source pixels, excluding transparent padding.
+    const bounds = {
+      'hero-iStage-series.png': [367, 118, 1427, 1921],
+      'releases-hero.png': [367, 118, 1427, 1921],
+      'help-hero.png': [367, 118, 1427, 1921],
+      'hero-iStage-27-desktop.png': [1130, 160, 1604, 1839],
+      'hero-iStage-27-mobile.png': [290, 160, 1604, 1839],
+      'hero-iStage-18-desktop.png': [1460, 160, 920, 1839],
+      'hero-iStage-18-mobile.png': [622, 160, 916, 1839]
+    };
+    document.querySelectorAll('.page-hero-media, .event-visual, .page-home .media').forEach((frame) => {
+      const image = frame.querySelector('img');
+      if (!image) return;
+      frame.classList.add('artwork-frame', 'image-reveal');
+      const fit = () => {
+        if (!image.naturalWidth) return;
+        const name = new URL(image.currentSrc || image.src, document.baseURI).pathname.split('/').pop();
+        const [x, y, width, height] = bounds[name] || [0, 0, image.naturalWidth, image.naturalHeight];
+        const scale = Math.min(frame.clientWidth / width, frame.clientHeight / height);
+        image.style.width = `${image.naturalWidth * scale}px`;
+        image.style.height = `${image.naturalHeight * scale}px`;
+        image.style.left = `${(frame.clientWidth - width * scale) / 2 - x * scale}px`;
+        image.style.top = `${(frame.clientHeight - height * scale) / 2 - y * scale}px`;
+        image.style.transformOrigin = `${(x + width / 2) * scale}px ${(y + height / 2) * scale}px`;
+      };
+      image.addEventListener('load', fit);
+      iStageImages.ready(image).then(fit);
+      if ('ResizeObserver' in window) new ResizeObserver(fit).observe(frame);
+      else window.addEventListener('resize', fit, { passive: true });
+    });
+  }
+
   function initReveal() {
-    const revealNodes = Array.from(document.querySelectorAll(".reveal"));
+    const revealNodes = Array.from(document.querySelectorAll(".reveal, .image-reveal"));
+    const onloadNodes = Array.from(document.querySelectorAll('.reveal-onload'));
     const staggerGroups = Array.from(document.querySelectorAll("[data-stagger-reveal]"));
-    if (!revealNodes.length && !staggerGroups.length) {
+    if (!revealNodes.length && !staggerGroups.length && !onloadNodes.length) {
       return;
     }
 
@@ -296,7 +352,9 @@
       staggeredItems.set(group, items);
     });
 
-    const reveal = (target) => {
+    const reveal = async (target) => {
+      const images = target.matches('img') ? [target] : Array.from(target.querySelectorAll('img'));
+      await Promise.all(images.map(iStageImages.ready));
       const groupItems = staggeredItems.get(target);
       if (groupItems) {
         groupItems.forEach((item) => item.classList.add("is-revealed"));
@@ -306,6 +364,7 @@
     };
 
     const targets = [...revealNodes, ...staggerGroups];
+    onloadNodes.forEach(reveal);
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {
       targets.forEach(reveal);
       return;
@@ -361,6 +420,7 @@
   }
 
   async function boot() {
+    initHeroArtwork();
     initReveal();
 
     await Promise.all([
