@@ -562,34 +562,38 @@ html{ background:#000; color-scheme:dark; }
   inset:-22%;
   z-index:0;
   background:
-    radial-gradient(ellipse 44% 58% at 30% 48%, rgba(188,133,82,.44) 0%, rgba(188,133,82,0) 68%),
-    radial-gradient(ellipse 42% 56% at 68% 44%, rgba(229,218,204,.36) 0%, rgba(229,218,204,0) 66%),
-    radial-gradient(ellipse 42% 52% at 58% 76%, rgba(105,118,148,.36) 0%, rgba(105,118,148,0) 70%);
-  filter:blur(46px) saturate(1.08);
-  opacity:.82;
+    radial-gradient(ellipse 48% 68% at 27% 44%, rgba(192,145,100,.32) 0%, rgba(192,145,100,0) 72%),
+    radial-gradient(ellipse 38% 48% at 38% 28%, rgba(235,222,202,.16) 0%, rgba(235,222,202,0) 70%),
+    radial-gradient(ellipse 56% 64% at 78% 66%, rgba(116,130,158,.22) 0%, rgba(116,130,158,0) 74%);
+  filter:blur(46px) saturate(1.04);
+  opacity:.9;
   pointer-events:none;
 }
 
 .i27-download .container{ position:relative; z-index:2; width:100%; }
-.i27-download .copy{ text-shadow:0 3px 24px rgba(0,0,0,.84); }
+.i27-download .hero{
+  display:grid;
+  grid-template-columns:minmax(0, .95fr) minmax(0, 1.05fr);
+  gap:clamp(36px, 6vw, 88px);
+  align-items:center;
+  width:min(82vw, 1120px);
+  margin:0 auto;
+}
 
 .i27-download-art{
-  position:absolute;
-  top:50%;
-  left:50%;
-  z-index:1;
   display:block;
-  width:min(58vw, 680px);
+  width:100%;
+  min-width:0;
   height:auto;
   opacity:.7;
-  transform:translate(-50%, -50%) scale(1);
+  transform:scale(1);
   transform-origin:center;
   pointer-events:none;
 }
 
 .js .i27-download-art.reveal{
   opacity:0;
-  transform:translate(-50%, -50%) scale(1.055);
+  transform:scale(1.055);
   transition:
     opacity 1.2s cubic-bezier(.22,1,.36,1),
     transform 1.25s cubic-bezier(.22,1,.36,1);
@@ -597,7 +601,7 @@ html{ background:#000; color-scheme:dark; }
 
 .js .i27-download-art.reveal.is-revealed{
   opacity:.7;
-  transform:translate(-50%, -50%) scale(1);
+  transform:scale(1);
 }
 
 .i27-more{
@@ -690,7 +694,7 @@ html{ background:#000; color-scheme:dark; }
 .i27-compare .copy{ gap:8px; }
 .i27-download .cta,
 .i27-compare .cta{ margin-top:10px; }
-.i27-download,
+.i27-download{ padding-block:clamp(68px, 6vw, 88px); }
 .i27-compare{ padding-top:52px; padding-bottom:48px; }
 
 /* A rising intro blob compresses, then hands off to the two controls. */
@@ -1290,14 +1294,19 @@ html{ background:#000; color-scheme:dark; }
   }
   .i27-feature-arrow{ width:44px; height:44px; }
   .i27-download{
-    min-height:min(96vw, 520px);
+    min-height:0;
     margin-top:var(--banner-vert-gap);
   }
   .i27-download::before{
     inset:-16%;
     filter:blur(40px) saturate(1.06);
   }
-  .i27-download-art{ width:min(92vw, 500px); }
+  .i27-download .hero{
+    grid-template-columns:1fr;
+    gap:30px;
+    width:82vw;
+  }
+  .i27-download-art{ width:min(100%, 360px); margin:0 auto; }
   .i27-more{
     padding:clamp(72px, 18vw, 92px) 0 clamp(82px, 20vw, 108px);
   }
@@ -1376,7 +1385,7 @@ html{ background:#000; color-scheme:dark; }
   .js .i27-download-art.reveal,
   .js .i27-download-art.reveal.is-revealed{
     opacity:.6 !important;
-    transform:translate(-50%, -50%) scale(1) !important;
+    transform:scale(1) !important;
     transition:none !important;
   }
   .i27-feature-arrow{ transition:none !important; }
