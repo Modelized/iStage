@@ -569,6 +569,14 @@ body{
 }
 .copy .subtitle{margin:0; color:rgba(232,233,236,.88)}
 .section--white .copy .subtitle{color:#5e6572}
+.release-availability{
+  margin:0;
+  color:rgb(var(--availability-color, 245 245 247) / .78);
+  font-size:clamp(14px, 2vw, 18px);
+  font-weight:400;
+  line-height:1.45;
+}
+.section--white{ --availability-color:17 19 23; }
 .cta{display:flex; gap:12px; justify-content:center; margin-top:12px}
 
 /* Shared feature-page hero card */
@@ -697,7 +705,7 @@ body{
 .artwork-frame{ position:relative; }
 .artwork-frame img{ position:absolute; display:block; width:100%; height:100%; object-fit:contain; max-width:none; margin:0; }
 .js .image-reveal img{ opacity:0; transform:scale(1.16); }
-.js .image-reveal.is-revealed img{ animation:hero-artwork-in 1.8s cubic-bezier(.16,1,.3,1) both; }
+.js .image-reveal.is-revealed img{ animation:hero-artwork-in var(--artwork-reveal-duration, 1.8s) cubic-bezier(.16,1,.3,1) both; }
 @keyframes hero-artwork-in{
   from{ opacity:0; transform:scale(1.16); }
   to{ opacity:1; transform:scale(1); }
