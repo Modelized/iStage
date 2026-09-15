@@ -29,7 +29,7 @@
 }
 
 /* accordion layout */
-.help-surface{ background:transparent; padding:16px 0 24px; }
+.help-surface{ background:transparent; padding:16px 0 0; }
 .accordion{ display:grid; gap:16px; }
 .accordion .card{ animation-fill-mode: both; }
 
@@ -143,4 +143,5 @@
     color:#a7acb7;
   }
 }
+.page-help main > .section:last-child,
 .page-help main{ margin-bottom:0; padding-bottom:0 }

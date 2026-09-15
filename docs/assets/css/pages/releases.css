@@ -21,7 +21,7 @@
 }
 
 /* Surface only for the list area */
-.releases-surface{ background:transparent; padding:16px 0 24px; }
+.releases-surface{ background:transparent; padding:16px 0 0; }
 
 /* Card + typography balance */
 .releases-list{ display:grid; gap:16px; }
@@ -170,4 +170,5 @@
   }
 }
 
+.page-releases main > .section:last-child,
 .page-releases main{ margin-bottom:0; padding-bottom:0 }

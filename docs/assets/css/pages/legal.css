@@ -18,7 +18,7 @@
 }
 
 /* Surface only for the list area (no grey behind the header) */
-.legal-surface{ background:transparent; padding:16px 0 24px; }
+.legal-surface{ background:transparent; padding:16px 0 0; }
 
 /* Card + typography balance */
 .legal-list{ display:grid; gap:16px; }
@@ -93,4 +93,5 @@
   text-transform:uppercase;
   letter-spacing:.02em;
 }
+.page-legal main > .section:last-child,
 .page-legal main{ margin-bottom:0; padding-bottom:0 }

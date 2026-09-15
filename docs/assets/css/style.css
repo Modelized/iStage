@@ -631,6 +631,7 @@ body{
   pointer-events:none;
 }
 .page-hero-media{
+  --artwork-align-y:1;
   position:relative;
   min-height:240px;
   height:clamp(240px, 30vw, 420px);
@@ -670,6 +671,7 @@ body{
     min-height:0;
   }
   .page-hero-media{
+    --artwork-scale:.88;
     height:clamp(260px, 72vw, 360px);
   }
   .page-hero-card--text-only{

@@ -310,7 +310,7 @@ const iStageImages = (() => {
       'hero-iStage-18-desktop.png': [1460, 160, 920, 1839],
       'hero-iStage-18-mobile.png': [622, 160, 916, 1839]
     };
-    document.querySelectorAll('.page-hero-media, .event-visual, .page-home .media').forEach((frame) => {
+    document.querySelectorAll('.page-hero-media, .event-visual, .page-home .media, .i27-compare-media').forEach((frame) => {
       const image = frame.querySelector('img');
       if (!image) return;
       frame.classList.add('artwork-frame', 'image-reveal');

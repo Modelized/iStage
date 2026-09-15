@@ -640,9 +640,6 @@ html{ background:#000; color-scheme:dark; }
 }
 
 .i27-compare{
-  --compare-aqua:90 205 211;
-  --compare-rose:215 132 174;
-  --compare-champagne:226 177 111;
   display:grid;
   min-height:clamp(420px, 44vw, 560px);
   margin-top:12px;
@@ -657,9 +654,9 @@ html{ background:#000; color-scheme:dark; }
   z-index:0;
   overflow:hidden;
   background:
-    radial-gradient(82% 110% at 18% 48%, rgb(var(--compare-aqua) / .17) 0%, rgb(var(--compare-aqua) / 0) 64%),
-    radial-gradient(78% 108% at 80% 34%, rgb(var(--compare-rose) / .14) 0%, rgb(var(--compare-rose) / 0) 62%),
-    radial-gradient(70% 92% at 52% 100%, rgb(var(--compare-champagne) / .11) 0%, rgb(var(--compare-champagne) / 0) 66%);
+    radial-gradient(100% 120% at 28% 40%, rgba(0,229,255,.10) 0%, rgba(0,229,255,0) 62%),
+    radial-gradient(100% 120% at 74% 38%, rgba(251,116,234,.08) 0%, rgba(251,116,234,0) 62%),
+    radial-gradient(120% 140% at 50% 0%, rgba(255,255,255,.30) 0%, rgba(255,255,255,0) 58%);
   pointer-events:none;
 }
 
@@ -674,16 +671,24 @@ html{ background:#000; color-scheme:dark; }
   margin:0 auto;
 }
 
-.i27-compare-media{ display:grid; place-items:center; min-width:0; }
+.i27-compare-media{ --artwork-reveal-duration:1.2s; position:relative; width:100%; height:clamp(280px, 30vw, 390px); min-width:0; }
 .i27-compare-media img{
   display:block;
-  width:min(100%, 430px);
-  height:auto;
+  width:100%;
+  height:100%;
   filter:drop-shadow(0 24px 46px rgba(0,0,0,.34));
 }
 
 .i27-compare .copy{ align-items:center; text-align:center; }
-.i27-compare .copy .subtitle{ color:rgba(232,233,236,.72); }
+.i27-compare .copy .subtitle{ color:inherit; font-size:clamp(18px, 1.8vw, 24px); font-weight:400; line-height:1.3; }
+.i27-download .copy .title,
+.i27-compare .copy .title{ font-size:clamp(30px, 4.4vw, 54px); }
+.i27-download .copy,
+.i27-compare .copy{ gap:8px; }
+.i27-download .cta,
+.i27-compare .cta{ margin-top:8px; }
+.i27-download,
+.i27-compare{ padding-top:52px; padding-bottom:48px; }
 
 /* A rising intro blob compresses, then hands off to the two controls. */
 .highlight-controls{
@@ -1309,7 +1314,6 @@ html{ background:#000; color-scheme:dark; }
   .i27-compare{
     min-height:0;
     margin-top:var(--banner-vert-gap);
-    padding-bottom:22px;
   }
   .i27-compare .hero{
     grid-template-columns:1fr;
@@ -1319,8 +1323,11 @@ html{ background:#000; color-scheme:dark; }
     min-height:0;
   }
   .i27-compare .copy{ grid-area:copy; }
-  .i27-compare-media{ grid-area:media; }
-  .i27-compare-media img{ width:min(76vw, 330px); }
+  .i27-compare-media{ grid-area:media; height:310px; }
+  .i27-download,
+  .i27-compare{ padding-top:36px; padding-bottom:38px; }
+  .i27-download .copy .title,
+  .i27-compare .copy .title{ font-size:clamp(32px, 4.6vw, 56px); }
   .progress-pill,
   .play-toggle{ height:56px; }
   .progress-dots{ --progress-dot-gap:13px; }

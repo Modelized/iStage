@@ -20,7 +20,7 @@
   --hero-c:102 132 255;
 }
 
-.compare-surface{ background:transparent; padding:16px 0 24px; }
+.compare-surface{ background:transparent; padding:16px 0 0; }
 
 .compare-grid{
   display:block;
@@ -260,4 +260,5 @@
   }
 }
 
+.page-compare main > .section:last-child,
 .page-compare main{ margin-bottom:0; padding-bottom:0 }
