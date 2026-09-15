@@ -299,30 +299,6 @@ const iStageImages = (() => {
     }
   }
 
-  function initHeroGlyphAlignment() {
-    const card = document.querySelector('.i27-hero-card');
-    if (!card) return;
-    const labels = Array.from(card.querySelectorAll('.i27-hero-lockup > span, .i27-hero-copy > .release-availability'));
-    const context = document.createElement('canvas').getContext('2d');
-    if (!context) return;
-    const align = () => {
-      labels.forEach((label) => {
-        const style = getComputedStyle(label);
-        context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-        context.textAlign = 'left';
-        const metrics = context.measureText(label.textContent.trim());
-        if (Number.isFinite(metrics.actualBoundingBoxLeft)) {
-          label.style.setProperty('--glyph-start-offset', `${metrics.actualBoundingBoxLeft}px`);
-        }
-      });
-    };
-    align();
-    document.fonts.ready.then(align);
-    document.fonts.addEventListener('loadingdone', align);
-    if ('ResizeObserver' in window) new ResizeObserver(align).observe(card);
-    else window.addEventListener('resize', align, { passive: true });
-  }
-
   function initHeroArtwork() {
     // Visible PNG bounds measured once in source pixels, excluding transparent padding.
     const bounds = {
@@ -447,7 +423,6 @@ const iStageImages = (() => {
   }
 
   async function boot() {
-    initHeroGlyphAlignment();
     initHeroArtwork();
     initReveal();
 
