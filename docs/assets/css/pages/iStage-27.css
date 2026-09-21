@@ -694,7 +694,7 @@ html{ background:#000; color-scheme:dark; }
 .i27-compare .copy{ gap:8px; }
 .i27-download .cta,
 .i27-compare .cta{ margin-top:10px; }
-.i27-download{ padding-block:clamp(68px, 6vw, 88px); }
+.i27-download{ padding-block:clamp(44px, 4vw, 56px); }
 .i27-compare{ padding-top:52px; padding-bottom:48px; }
 
 /* A rising intro blob compresses, then hands off to the two controls. */
