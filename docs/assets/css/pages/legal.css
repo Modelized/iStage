@@ -1,83 +1,120 @@
 /* ----- Legal page (scoped) ----- */
 /* Subtitle contrast */
-.page-legal .subtitle{ color:#5e6572; }
-@media (prefers-color-scheme: dark){
-  .page-legal .subtitle{ color:#a7acb7; }
+.page-legal .subtitle {
+  color: #5e6572;
+}
+@media (prefers-color-scheme: dark) {
+  .page-legal .subtitle {
+    color: #a7acb7;
+  }
 }
 
 /* Swap surface: background <-> cards */
-.page-legal{ background:#f5f5f7; }
-@media (prefers-color-scheme: dark){
-  .page-legal{ background:#000; color:#e8e9ec; }
+.page-legal {
+  background: #f5f5f7;
+}
+@media (prefers-color-scheme: dark) {
+  .page-legal {
+    background: #000;
+    color: #e8e9ec;
+  }
 }
 
-.page-legal .page-hero-card{
-  --hero-a:82 171 163;
-  --hero-b:220 173 111;
-  --hero-c:184 112 139;
+.page-legal .page-hero-card {
+  --hero-a: 82 171 163;
+  --hero-b: 220 173 111;
+  --hero-c: 184 112 139;
 }
 
 /* Surface only for the list area (no grey behind the header) */
-.legal-surface{ background:transparent; padding:16px 0 0; }
+.legal-surface {
+  background: transparent;
+  padding: 16px 0 0;
+}
 
 /* Card + typography balance */
-.legal-list{ display:grid; gap:16px; }
-.legal-title{
-  margin:0 0 1px;
-  font-weight:600;
-  font-size:clamp(18px, 4vw, 20px);
+.legal-list {
+  display: grid;
+  gap: 16px;
 }
-.legal-meta{
-  margin:-2px 0 0;
-  display:flex;
-  align-items:center;
-  gap:.6ch;
+.legal-title {
+  margin: 0 0 1px;
+  font-weight: 600;
+  font-size: clamp(18px, 4vw, 20px);
 }
-.prose{ line-height:1.65; }
-.prose h1,.prose h2{ font-size:clamp(18px, 4vw, 20px); margin:16px 0 8px; font-weight:600; }
-.prose h3{ font-size:clamp(16px, 4vw, 18px); margin:16px 0 6px; }
-.prose p{ margin:8px 0; font-size:clamp(14px, 3.6vw, 16px); }
-.prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
-.prose li{ margin:6px 0; }
+.legal-meta {
+  margin: -2px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6ch;
+}
+.prose {
+  line-height: 1.65;
+}
+.prose h1,
+.prose h2 {
+  font-size: clamp(18px, 4vw, 20px);
+  margin: 16px 0 8px;
+  font-weight: 600;
+}
+.prose h3 {
+  font-size: clamp(16px, 4vw, 18px);
+  margin: 16px 0 6px;
+}
+.prose p {
+  margin: 8px 0;
+  font-size: clamp(14px, 3.6vw, 16px);
+}
+.prose ul {
+  margin: 8px 0 8px 1.2rem;
+  padding: 0;
+}
+.prose li {
+  margin: 6px 0;
+}
 /* Slightly increase horizontal padding for body text */
-.prose{ padding-inline: 6px; }
-@media (width > 900px){
-  .prose{ padding-inline: 10px; }
+.prose {
+  padding-inline: 6px;
 }
-.legal-head{
-  display:grid;
-  grid-template-columns:auto 1fr;
-  column-gap:12px;
-  align-items:center;
-  padding:2px 0 0 2px;
+@media (width > 900px) {
+  .prose {
+    padding-inline: 10px;
+  }
 }
-.legal-head-text{
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding-left:4px;
+.legal-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 12px;
+  align-items: center;
+  padding: 2px 0 0 2px;
+}
+.legal-head-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 4px;
 }
 
 /* Card radius: use banner-radius system */
-.page-legal .card{
-  background:#fff;
-  color:#111317;
-  border:0;
+.page-legal .card {
+  background: #fff;
+  color: #111317;
+  border: 0;
   border-radius: var(--banner-radius);
-  overflow:hidden;
+  overflow: hidden;
 }
-@media (prefers-color-scheme: dark){
-  .page-legal .card{
-    background:var(--surface-dark);
-    color:#e8e9ec;
-    border:0;
+@media (prefers-color-scheme: dark) {
+  .page-legal .card {
+    background: var(--surface-dark);
+    color: #e8e9ec;
+    border: 0;
   }
 }
 
 /* IMPORTANT banner style: bold + uppercase */
-.page-legal .important{
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.02em;
+.page-legal .important {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }

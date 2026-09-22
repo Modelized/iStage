@@ -4,16 +4,20 @@ const iStageImages = (() => {
     const source = image.currentSrc || image.src;
     const cached = pending.get(image);
     if (cached?.source === source) return cached.promise;
-    const loaded = image.complete ? Promise.resolve() : new Promise((resolve) => {
-      const finish = () => {
-        image.removeEventListener('load', finish);
-        image.removeEventListener('error', finish);
-        resolve();
-      };
-      image.addEventListener('load', finish);
-      image.addEventListener('error', finish);
-    });
-    const promise = loaded.then(() => image.naturalWidth && image.decode ? image.decode().catch(() => {}) : undefined);
+    const loaded = image.complete
+      ? Promise.resolve()
+      : new Promise((resolve) => {
+          const finish = () => {
+            image.removeEventListener("load", finish);
+            image.removeEventListener("error", finish);
+            resolve();
+          };
+          image.addEventListener("load", finish);
+          image.addEventListener("error", finish);
+        });
+    const promise = loaded.then(() =>
+      image.naturalWidth && image.decode ? image.decode().catch(() => {}) : undefined
+    );
     pending.set(image, { source, promise });
     return promise;
   }
@@ -152,7 +156,10 @@ const iStageImages = (() => {
     const onLegalPage = isLegalPath(currentPath);
     const current = links.find((link) => {
       try {
-        return normalizePath(new URL(link.getAttribute("href"), document.baseURI).pathname) === currentPath;
+        return (
+          normalizePath(new URL(link.getAttribute("href"), document.baseURI).pathname) ===
+          currentPath
+        );
       } catch {
         return false;
       }
@@ -302,67 +309,78 @@ const iStageImages = (() => {
   function initHeroArtwork() {
     // Visible PNG bounds measured once in source pixels, excluding transparent padding.
     const bounds = {
-      'hero-iStage-series.png': [367, 118, 1427, 1921],
-      'releases-hero.png': [367, 118, 1427, 1921],
-      'help-hero.png': [367, 118, 1427, 1921],
-      'hero-iStage-27-desktop.png': [1130, 160, 1604, 1839],
-      'hero-iStage-27-mobile.png': [290, 160, 1604, 1839],
-      'hero-iStage-18-desktop.png': [1460, 160, 920, 1839],
-      'hero-iStage-18-mobile.png': [622, 160, 916, 1839]
+      "hero-iStage-series.png": [367, 118, 1427, 1921],
+      "releases-hero.png": [367, 118, 1427, 1921],
+      "help-hero.png": [367, 118, 1427, 1921],
+      "hero-iStage-27-desktop.png": [1130, 160, 1604, 1839],
+      "hero-iStage-27-mobile.png": [290, 160, 1604, 1839],
+      "hero-iStage-18-desktop.png": [1460, 160, 920, 1839],
+      "hero-iStage-18-mobile.png": [622, 160, 916, 1839]
     };
-    document.querySelectorAll('.page-hero-media, .event-visual, .page-home .media, .comparison-card .promo-card__media').forEach((frame) => {
-      const image = frame.querySelector('img');
-      if (!image) return;
-      frame.classList.add('artwork-frame', 'image-reveal');
-      const fit = () => {
-        if (!image.naturalWidth) return;
-        const name = new URL(image.currentSrc || image.src, document.baseURI).pathname.split('/').pop();
-        const [x, y, width, height] = bounds[name] || [0, 0, image.naturalWidth, image.naturalHeight];
-        const style = getComputedStyle(frame);
-        const size = parseFloat(style.getPropertyValue('--artwork-scale')) || 1;
-        const alignY = parseFloat(style.getPropertyValue('--artwork-align-y'));
-        const scale = Math.min(frame.clientWidth / width, frame.clientHeight / height) * size;
-        image.style.width = `${image.naturalWidth * scale}px`;
-        image.style.height = `${image.naturalHeight * scale}px`;
-        image.style.left = `${(frame.clientWidth - width * scale) / 2 - x * scale}px`;
-        image.style.top = `${(frame.clientHeight - height * scale) * (Number.isFinite(alignY) ? alignY : .5) - y * scale}px`;
-        image.style.transformOrigin = `${(x + width / 2) * scale}px ${(y + height / 2) * scale}px`;
-      };
-      image.addEventListener('load', fit);
-      iStageImages.ready(image).then(fit);
-      if ('ResizeObserver' in window) new ResizeObserver(fit).observe(frame);
-      else window.addEventListener('resize', fit, { passive: true });
-    });
+    document
+      .querySelectorAll(
+        ".page-hero-media, .event-visual, .page-home .media, .comparison-card .promo-card__media"
+      )
+      .forEach((frame) => {
+        const image = frame.querySelector("img");
+        if (!image) return;
+        frame.classList.add("artwork-frame", "image-reveal");
+        const fit = () => {
+          if (!image.naturalWidth) return;
+          const name = new URL(image.currentSrc || image.src, document.baseURI).pathname
+            .split("/")
+            .pop();
+          const [x, y, width, height] = bounds[name] || [
+            0,
+            0,
+            image.naturalWidth,
+            image.naturalHeight
+          ];
+          const style = getComputedStyle(frame);
+          const size = parseFloat(style.getPropertyValue("--artwork-scale")) || 1;
+          const alignY = parseFloat(style.getPropertyValue("--artwork-align-y"));
+          const scale = Math.min(frame.clientWidth / width, frame.clientHeight / height) * size;
+          image.style.width = `${image.naturalWidth * scale}px`;
+          image.style.height = `${image.naturalHeight * scale}px`;
+          image.style.left = `${(frame.clientWidth - width * scale) / 2 - x * scale}px`;
+          image.style.top = `${(frame.clientHeight - height * scale) * (Number.isFinite(alignY) ? alignY : 0.5) - y * scale}px`;
+          image.style.transformOrigin = `${(x + width / 2) * scale}px ${(y + height / 2) * scale}px`;
+        };
+        image.addEventListener("load", fit);
+        iStageImages.ready(image).then(fit);
+        if ("ResizeObserver" in window) new ResizeObserver(fit).observe(frame);
+        else window.addEventListener("resize", fit, { passive: true });
+      });
   }
 
   function initDownloadAction() {
-    const action = document.querySelector('.i27-hero-action');
-    const note = action?.querySelector('p');
-    const button = action?.querySelector('.btn');
+    const action = document.querySelector(".i27-hero-action");
+    const note = action?.querySelector("p");
+    const button = action?.querySelector(".btn");
     if (!note || !button) return;
 
     const alignPadding = () => {
       const padding = parseFloat(getComputedStyle(action).paddingTop);
       const right = padding + Math.max(0, note.offsetHeight - button.offsetHeight) / 2;
       const value = `${right}px`;
-      if (action.style.getPropertyValue('--action-right-space') !== value) {
-        action.style.setProperty('--action-right-space', value);
+      if (action.style.getPropertyValue("--action-right-space") !== value) {
+        action.style.setProperty("--action-right-space", value);
       }
     };
     alignPadding();
-    if ('ResizeObserver' in window) {
+    if ("ResizeObserver" in window) {
       const observer = new ResizeObserver(alignPadding);
       observer.observe(note);
       observer.observe(button);
     } else {
-      window.addEventListener('resize', alignPadding, { passive: true });
+      window.addEventListener("resize", alignPadding, { passive: true });
       document.fonts?.ready.then(alignPadding);
     }
   }
 
   function initReveal() {
     const revealNodes = Array.from(document.querySelectorAll(".reveal, .image-reveal"));
-    const onloadNodes = Array.from(document.querySelectorAll('.reveal-onload'));
+    const onloadNodes = Array.from(document.querySelectorAll(".reveal-onload"));
     const staggerGroups = Array.from(document.querySelectorAll("[data-stagger-reveal]"));
     if (!revealNodes.length && !staggerGroups.length && !onloadNodes.length) {
       return;
@@ -381,7 +399,7 @@ const iStageImages = (() => {
     });
 
     const reveal = async (target) => {
-      const images = target.matches('img') ? [target] : Array.from(target.querySelectorAll('img'));
+      const images = target.matches("img") ? [target] : Array.from(target.querySelectorAll("img"));
       await Promise.all(images.map(iStageImages.ready));
       const groupItems = staggeredItems.get(target);
       if (groupItems) {
