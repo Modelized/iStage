@@ -690,6 +690,14 @@ body {
   }
 }
 
+/* Shared disclosure icon; each control owns its positioning and rotation. */
+.chevron {
+  display: block;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
 /* Hero */
 .hero {
   display: flex;
@@ -1094,6 +1102,18 @@ a.btn:visited {
   transform: translateY(0.5px);
 }
 
+/* Shared release availability states. */
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
+  pointer-events: none;
+  cursor: default;
+}
+.download-unavailable {
+  color: var(--compare-muted, inherit);
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.5;
+}
+
 /* Releases */
 .card {
   background: var(--surface-dark);
@@ -1153,8 +1173,19 @@ a.btn:visited {
 }
 .footer-title img {
   display: block;
+  visibility: hidden;
   width: 56px;
   height: 56px;
+}
+.footer-title[data-icon-state="loaded"] img {
+  visibility: visible;
+}
+.footer-title span,
+.footer-title[data-icon-state="failed"] img {
+  display: none;
+}
+.footer-title[data-icon-state="failed"] span {
+  display: block;
 }
 .footer-sitemap {
   display: flex;

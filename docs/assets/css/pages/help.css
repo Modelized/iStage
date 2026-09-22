@@ -13,9 +13,9 @@
 }
 
 .page-help .page-hero-card {
-  --hero-a: 68 142 255;
-  --hero-b: 70 216 184;
-  --hero-c: 116 198 232;
+  --hero-a: 124 155 192;
+  --hero-b: 167 158 188;
+  --hero-c: 196 184 167;
 }
 
 /* card surface: swap + same corner system as main (banner-radius) */
@@ -111,9 +111,12 @@
 }
 
 /* keep icon above highlight */
-.acc-toggle .chev {
+.acc-toggle .chevron {
   position: relative;
   z-index: 1;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center;
+  transform: rotate(-90deg); /* closed */
 }
 
 .acc-toggle:hover {
@@ -135,14 +138,7 @@
   box-shadow: none;
 }
 
-.chev {
-  width: 22px;
-  height: 22px;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  transform-origin: center;
-  transform: rotate(-90deg); /* closed */
-}
-.acc-toggle[aria-expanded="true"] .chev {
+.acc-toggle[aria-expanded="true"] .chevron {
   transform: rotate(0deg); /* open */
 }
 .acc-panel {

@@ -2,8 +2,6 @@
 
 /* ---- Releases renderer (GitHub API) ---- */
 (function () {
-  const OWNER = "Modelized";
-  const REPO = "iStage";
   const list = document.getElementById("releases-list");
 
   const groupHTML = (title, inner) => `
@@ -140,10 +138,7 @@
     return out.join("");
   };
 
-  const versionFromTag = (tag = "") => {
-    const m = String(tag).match(/\d+/);
-    return m ? m[0] : "";
-  };
+  const { versionFromTag } = iStageReleases;
 
   const tpl = (r, isHighlight = false) => {
     const title = r.name || r.tag_name || "Untitled";
@@ -181,10 +176,8 @@
     list.innerHTML = `<div class="empty small muted" role="${role}">${esc(msg)}</div>`;
   };
 
-  fetch(`https://api.github.com/repos/${OWNER}/${REPO}/releases`, {
-    headers: { Accept: "application/vnd.github+json" }
-  })
-    .then((r) => (r.ok ? r.json() : Promise.reject(`${r.status} ${r.statusText}`)))
+  iStageReleases
+    .load()
     .then((items) => {
       if (!Array.isArray(items) || !items.length) {
         showState("No releases found.");

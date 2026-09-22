@@ -4,118 +4,210 @@
     {
       "id": "27",
       "name": "iStage 27",
-      "img": "../assets/img/compare-27.png"
+      "img": "../assets/img/compare-27.png",
+      "download": "../releases/#v=27",
+      "learn": "../iStage-27/"
     },
     {
       "id": "26",
       "name": "iStage 26",
-      "img": "../assets/img/compare-26.png"
+      "img": "../assets/img/compare-26.png",
+      "download": "../releases/"
     },
     {
       "id": "18",
       "name": "iStage 18",
-      "img": "../assets/img/compare-18.png"
+      "img": "../assets/img/compare-18.png",
+      "download": "../releases/#v=18",
+      "learn": "../iStage-18/"
     }
   ],
-  "rows": [
+  "groups": [
     {
-      "key": "design_system",
-      "label": "Design System",
-      "values": {
-        "27": "Refined Liquid Glass",
-        "26": "Liquid Glass",
-        "18": "Frosted Blur"
-      }
+      "id": "look",
+      "title": "Look and feel",
+      "rows": [
+        {
+          "key": "design",
+          "label": "Lock Screen design",
+          "values": {
+            "18": "Frosted blur",
+            "26": "Liquid Glass",
+            "27": "Refined Liquid Glass"
+          }
+        }
+      ]
     },
     {
-      "key": "motion_profile",
-      "label": "Motion Profile",
-      "values": {
-        "27": "Fluid",
-        "26": "Fluid",
-        "18": "Stable"
-      }
+      "id": "personalization",
+      "title": "Customization",
+      "rows": [
+        {
+          "key": "clock",
+          "label": "Clock fonts and colors",
+          "values": {
+            "18": "Font and color editor",
+            "26": "Redesigned editor",
+            "27": "Redesigned editor"
+          }
+        },
+        {
+          "key": "widgets",
+          "label": "Customizable widgets",
+          "values": {
+            "18": true,
+            "26": true,
+            "27": true
+          }
+        },
+        {
+          "key": "shortcuts",
+          "label": "Customizable shortcuts",
+          "values": {
+            "18": true,
+            "26": true,
+            "27": true
+          }
+        },
+        {
+          "key": "wallpapers",
+          "label": "Wallpaper gallery",
+          "values": {
+            "18": "Wallpaper gallery",
+            "26": "Redesigned gallery",
+            "27": "Redesigned gallery"
+          }
+        },
+        {
+          "key": "battery",
+          "label": "Show battery percentage",
+          "values": {
+            "18": true,
+            "26": true,
+            "27": true
+          }
+        },
+        {
+          "key": "inline_widgets",
+          "label": "Inline widgets beside the date",
+          "values": {
+            "18": true,
+            "26": true,
+            "27": true
+          }
+        },
+        {
+          "key": "photos",
+          "label": "Personal photo wallpapers",
+          "values": {
+            "18": "Up to 5",
+            "26": "Up to 5",
+            "27": "Up to 5"
+          }
+        },
+        {
+          "key": "focus",
+          "label": "Focus modes and custom profiles",
+          "values": {
+            "18": true,
+            "26": true,
+            "27": true
+          }
+        }
+      ]
     },
     {
-      "key": "personalization",
-      "label": "Personalization",
-      "values": {
-        "27": "Revamped Clock Font & Color Editor\n\nWidgets Editor\n\nShortcuts Editor\n\nRevamped Wallpaper Gallery\n\nBattery Percentage Option",
-        "26": "Revamped Clock Font & Color Editor\n\nWidgets Editor\n\nShortcuts Editor\n\nRevamped Wallpaper Gallery\n\nBattery Percentage Option",
-        "18": "Clock Font & Color Editor\n\nWidgets Editor\n\nShortcuts Editor\n\nWallpaper Gallery\n\nBattery Percentage Option"
-      }
+      "id": "everyday",
+      "title": "Live Activities",
+      "rows": [
+        {
+          "key": "island",
+          "label": "Dynamic Island",
+          "values": {
+            "18": "Lock status and charging animation",
+            "26": "Lock status and charging animation",
+            "27": "Lock status and charging animation"
+          }
+        },
+        {
+          "key": "f1",
+          "label": "Live F1 updates",
+          "values": {
+            "18": false,
+            "26": true,
+            "27": true
+          }
+        },
+        {
+          "key": "football",
+          "label": "Live football updates",
+          "values": {
+            "18": false,
+            "26": false,
+            "27": true
+          }
+        },
+        {
+          "key": "notifications",
+          "label": "Notification views",
+          "values": {
+            "18": "Count, Stack and List",
+            "26": "Count, Stack and List",
+            "27": "Count, Stack and List"
+          }
+        },
+        {
+          "key": "music",
+          "label": "Music player",
+          "values": {
+            "18": "Compact and full-screen views",
+            "26": "Compact and full-screen views",
+            "27": "Compact and full-screen views"
+          }
+        }
+      ]
     },
     {
-      "key": "dynamic_island",
-      "label": "Dynamic Island",
-      "values": {
-        "27": "Lock Indicator\n\nCharging Animation",
-        "26": "Lock Indicator\n\nCharging Animation",
-        "18": "Lock Indicator\n\nCharging Animation"
-      }
-    },
-    {
-      "key": "live_activities",
-      "label": "Live Activities",
-      "values": {
-        "27": "F1 Grand Prix & Football Table",
-        "26": "F1 Grand Prix",
-        "18": "-"
-      }
-    },
-    {
-      "key": "notification_center",
-      "label": "Notification Center",
-      "values": {
-        "27": "Count & Stack & List Mode",
-        "26": "Count & Stack & List Mode",
-        "18": "Count & Stack & List Mode"
-      }
-    },
-    {
-      "key": "music_player",
-      "label": "Music Player",
-      "values": {
-        "27": "Small & Full Screen Music Player",
-        "26": "Small & Full Screen Music Player",
-        "18": "Small & Full Screen Music Player"
-      }
-    },
-    {
-      "key": "transfer_preparation",
-      "label": "Transfer Preparation",
-      "values": {
-        "27": "Double Tap to show Preset Details",
-        "26": "Double Tap to show Preset Details",
-        "18": "Double Tap to show Preset Details"
-      }
-    },
-    {
-      "key": "extensions",
-      "label": "Extensions",
-      "values": {
-        "27": "Custom Carrier Label\n\nCustom Signal Bars\n\nCustom Network Icon\n\n-",
-        "26": "Custom Carrier Label\n\nCustom Signal Bars\n\nCustom Network Icon\n\n-",
-        "18": "Custom Carrier Label\n\nCustom Signal Bars\n\nCustom Network Icon\n\nClock Reposition"
-      }
-    },
-    {
-      "key": "resource",
-      "label": "Resource",
-      "values": {
-        "27": "Heavy",
-        "26": "Heavy",
-        "18": "Normal"
-      }
-    },
-    {
-      "key": "performance",
-      "label": "Performance",
-      "values": {
-        "27": "May require a high-end device",
-        "26": "May require a high-end device",
-        "18": "-"
-      }
+      "id": "controls",
+      "title": "Extra controls",
+      "rows": [
+        {
+          "key": "details",
+          "label": "View your preset details",
+          "values": {
+            "18": "Double-tap to view",
+            "26": "Double-tap to view",
+            "27": "Double-tap to view"
+          }
+        },
+        {
+          "key": "carrier",
+          "label": "Custom carrier name",
+          "values": {
+            "18": true,
+            "26": true,
+            "27": true
+          }
+        },
+        {
+          "key": "signal",
+          "label": "Custom signal bars and network icon",
+          "values": {
+            "18": true,
+            "26": true,
+            "27": true
+          }
+        },
+        {
+          "key": "position",
+          "label": "Reposition the clock",
+          "values": {
+            "18": true,
+            "26": false,
+            "27": false
+          }
+        }
+      ]
     }
   ]
 }

@@ -29,7 +29,7 @@ const iStageImages = (() => {
 
   const body = document.body;
   const base = (body?.getAttribute("data-base") || ".").trim();
-  const assetVersion = "20260915a";
+  const assetVersion = "20260922h";
 
   function getPartialUrl(file) {
     if (!base || base === ".") {
@@ -458,6 +458,19 @@ const iStageImages = (() => {
     initNavBackdrop();
   }
 
+  function initFooterIcon() {
+    const image = document.querySelector("[data-footer-icon]");
+    if (!image) return;
+    const title = image.closest(".footer-title");
+    const sync = () => {
+      title.dataset.iconState = image.naturalWidth > 0 ? "loaded" : "failed";
+    };
+    image.addEventListener("load", sync, { once: true });
+    image.addEventListener("error", sync, { once: true });
+    image.src = new URL(`${base}/assets/img/iStage-icon.png`, document.baseURI).href;
+    if (image.complete) sync();
+  }
+
   function initYear() {
     const year = String(new Date().getFullYear());
     document.querySelectorAll("#year, [data-year]").forEach((node) => {
@@ -477,6 +490,7 @@ const iStageImages = (() => {
 
     initNav();
     initYear();
+    initFooterIcon();
   }
 
   if (document.readyState === "loading") {

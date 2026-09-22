@@ -6,7 +6,7 @@
   <title>iStage</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/style.css?v=20260922e">
+  <link rel="stylesheet" href="../assets/css/style.css?v=20260922h">
 
   <!-- Icons / PWA -->
   <link rel="icon" type="image/svg+xml" sizes="any" href="/iStage/favicon.svg?v=20260828a">
@@ -33,7 +33,7 @@
   <meta name="twitter:description" content="Android. Reimagined.">
   <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
 
-  <link rel="stylesheet" href="../assets/css/pages/compare.css?v=20260922d">
+  <link rel="stylesheet" href="../assets/css/pages/compare.css?v=20260922h">
 
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -59,45 +59,45 @@
 
       <div class="compare-surface">
         <div class="container">
-          <div class="compare-grid" id="compare-grid">
-            <div class="compare-stack" id="compare-stack">
-              <article class="compare-card" id="compare-card-head">
-                <div class="compare-head">
-                  <div>
-                    <div class="compare-hero"><img id="img-a" alt="" loading="lazy" onerror="this.style.display='none'"></div>
-                    <div class="compare-picker">
-                      <div class="compare-select-wrap">
-                        <select class="compare-select" id="pick-a" aria-label="Select model A"></select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="compare-hero"><img id="img-b" alt="" loading="lazy" onerror="this.style.display='none'"></div>
-                    <div class="compare-picker">
-                      <div class="compare-select-wrap">
-                        <select class="compare-select" id="pick-b" aria-label="Select model B"></select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </article>
-
-              <article class="compare-card" id="compare-card-table">
-                <div class="compare-body">
-                  <ul class="spec-table" id="spec-table"></ul>
-                </div>
-              </article>
-            </div>
+          <div class="compare-models">
+            <article class="compare-model">
+              <label class="compare-picker" for="pick-a">
+                <span class="compare-sr-only">First version</span>
+                <select id="pick-a" class="compare-select" disabled><option>Loading…</option></select>
+                <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8.5 12 15.5 19 8.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </label>
+              <div class="compare-artwork"><img id="img-a" alt="" decoding="async" hidden></div>
+              <div class="compare-actions">
+                <a id="download-a" class="btn btn-blue" href="../releases/">Download</a>
+                <a id="learn-a" class="compare-learn" hidden>Learn more <span aria-hidden="true">›</span></a>
+              </div>
+            </article>
+            <article class="compare-model">
+              <label class="compare-picker" for="pick-b">
+                <span class="compare-sr-only">Second version</span>
+                <select id="pick-b" class="compare-select" disabled><option>Loading…</option></select>
+                <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8.5 12 15.5 19 8.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </label>
+              <div class="compare-artwork"><img id="img-b" alt="" decoding="async" hidden></div>
+              <div class="compare-actions">
+                <a id="download-b" class="btn btn-blue" href="../releases/">Download</a>
+                <a id="learn-b" class="compare-learn" hidden>Learn more <span aria-hidden="true">›</span></a>
+              </div>
+            </article>
           </div>
+          <p id="compare-status" class="compare-status compare-sr-only" role="status">Loading comparison…</p>
+          <div id="compare-details" class="compare-details"></div>
+          <p class="compare-footnote">Liquid Glass effects can be demanding. Performance varies with your device and preset settings.</p>
+          <noscript><p>Enable JavaScript to select versions and view their features.</p></noscript>
         </div>
       </div>
     </section>
   </main>
 
   <div id="footer-slot"></div>
-  <script src="../assets/js/shell.js?v=20260922d" defer></script>
+  <script src="../assets/js/releases-data.js?v=20260922h" defer></script>
+  <script src="../assets/js/shell.js?v=20260922h" defer></script>
 
-  <script src="../assets/js/pages/compare.js" defer></script>
+  <script src="../assets/js/pages/compare.js?v=20260922h" defer></script>
 </body>
 </html>
