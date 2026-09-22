@@ -569,6 +569,13 @@ body{
 }
 .copy .subtitle{margin:0; color:rgba(232,233,236,.88)}
 .section--white .copy .subtitle{color:#5e6572}
+.card-description{
+  margin:0;
+  color:inherit;
+  font-size:calc((clamp(18px, 1.8vw, 24px) + clamp(14px, 2vw, 18px)) / 2);
+  font-weight:400;
+  line-height:1.4;
+}
 .release-availability{
   margin:0;
   color:rgb(var(--availability-color, 245 245 247) / .78);

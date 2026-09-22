@@ -582,6 +582,7 @@ html{ background:#000; color-scheme:dark; }
 
 .i27-download-art{
   display:block;
+  scale:1.12;
   width:100%;
   min-width:0;
   height:auto;
@@ -687,7 +688,6 @@ html{ background:#000; color-scheme:dark; }
 }
 
 .i27-compare .copy{ align-items:center; text-align:center; }
-.i27-compare .copy .subtitle{ color:inherit; font-size:clamp(18px, 1.8vw, 24px); font-weight:400; line-height:1.3; }
 .i27-download .copy .title,
 .i27-compare .copy .title{ font-size:clamp(30px, 4.4vw, 54px); }
 .i27-download .copy,
@@ -1303,10 +1303,10 @@ html{ background:#000; color-scheme:dark; }
   }
   .i27-download .hero{
     grid-template-columns:1fr;
-    gap:30px;
+    gap:20px;
     width:82vw;
   }
-  .i27-download-art{ width:min(100%, 360px); margin:0 auto; }
+  .i27-download-art{ width:min(100%, 360px); margin:0 auto; scale:1.04; }
   .i27-more{
     padding:clamp(72px, 18vw, 92px) 0 clamp(82px, 20vw, 108px);
   }
@@ -1336,7 +1336,7 @@ html{ background:#000; color-scheme:dark; }
   }
   .i27-compare .copy{ grid-area:copy; }
   .i27-compare-media{ grid-area:media; height:310px; }
-  .i27-download,
+  .i27-download{ padding-top:26px; padding-bottom:30px; }
   .i27-compare{ padding-top:36px; padding-bottom:38px; }
   .i27-download .copy .title,
   .i27-compare .copy .title{ font-size:clamp(32px, 4.6vw, 56px); }
