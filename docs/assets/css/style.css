@@ -843,7 +843,7 @@ body {
     grid-template-columns: 1fr;
     grid-template-areas: var(--card-mobile-areas, "media" "copy");
     gap: var(--card-mobile-gap, 30px);
-    width: 82vw;
+    width: var(--card-mobile-width, 82vw);
     min-height: 0;
   }
   .promo-card--split .copy {

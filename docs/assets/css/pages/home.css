@@ -133,12 +133,14 @@
   margin: 0 auto 8px;
 }
 
-.page-home .section:not(.comparison-card) .hero {
-  gap: 28px;
+.page-home .section--istage-27,
+.page-home .section--istage-18 {
+  --card-mobile-areas: "copy" "media";
+  --card-mobile-gap: 28px;
+  --card-mobile-width: 100%;
 }
 
 .page-home .media {
-  order: 1;
   height: clamp(280px, 36vw, 460px);
   aspect-ratio: auto;
 }
