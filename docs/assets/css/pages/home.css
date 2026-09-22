@@ -140,6 +140,14 @@
   --card-mobile-width: 100%;
 }
 
+@media (width > 900px) {
+  .page-home .section--istage-27,
+  .page-home .section--istage-18 {
+    padding-top: 92px;
+    padding-bottom: 88px;
+  }
+}
+
 .page-home .media {
   height: clamp(280px, 36vw, 460px);
   aspect-ratio: auto;
