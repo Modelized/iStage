@@ -23,6 +23,8 @@
   const preview = detail.querySelector(".help-detail-preview");
   preview.inert = true;
   const content = detail.querySelector(".help-detail-content");
+  const title = content.querySelector(".help-detail-title");
+  const prose = content.querySelector(".prose");
   const back = detail.querySelector(".help-back");
   let active = null;
   let expanded = false;
@@ -222,9 +224,8 @@
         width: `${tile.width}px`,
         height: `${tile.height}px`
       });
-      detail.querySelector("h2").textContent =
-        topic.querySelector(".help-tile-label > span").textContent;
-      detail.querySelector(".prose").innerHTML = topic.querySelector(".prose").innerHTML;
+      title.textContent = topic.querySelector(".help-tile-label > span").textContent;
+      prose.innerHTML = topic.querySelector(".prose").innerHTML;
       topics.forEach((item) => {
         item.inert = true;
         item.style.opacity = item === active ? "0" : "1";
