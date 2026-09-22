@@ -35,17 +35,17 @@
   gap: clamp(56px, 8vw, 96px);
 }
 .legal-head {
-  padding-bottom: 24px;
+  padding-bottom: clamp(16px, 2vw, 24px);
   border-bottom: 1px solid rgba(17, 19, 23, 0.1);
 }
 .legal-title {
-  margin: 0 0 12px;
+  margin: 0 0 clamp(8px, 1vw, 12px);
 }
 .legal-meta {
   margin: 0;
 }
 .legal-document .prose {
-  margin-top: 28px;
+  margin-top: clamp(16px, 2.4vw, 28px);
   font-size: clamp(15px, 1.5vw, 17px);
   line-height: 1.75;
 }
@@ -57,6 +57,9 @@
 }
 .legal-document .prose p {
   margin: 12px 0;
+}
+.legal-document .prose > :first-child {
+  margin-top: 0;
 }
 .legal-document .prose ul {
   margin: 12px 0;

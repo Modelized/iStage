@@ -87,13 +87,14 @@
 .compare-artwork {
   display: grid;
   place-items: center;
-  height: clamp(220px, 32vw, 380px);
-  margin-block: clamp(24px, 4vw, 48px);
+  height: clamp(250px, 34vw, 400px);
+  margin-block: clamp(20px, 3vw, 40px);
 }
 .compare-artwork img {
   display: block;
-  width: 100%;
+  width: auto;
   height: 100%;
+  max-width: none;
   min-height: 0;
   object-fit: contain;
   filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.14));
