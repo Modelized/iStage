@@ -2,7 +2,7 @@
 
 (function () {
   const deck = document.getElementById("help-deck");
-  if (!deck || !Element.prototype.animate) return;
+  if (!deck || !window.Animation || !window.KeyframeEffect) return;
   const topics = [...deck.querySelectorAll(".help-topic")];
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
   const detail = document.createElement("section");
@@ -21,6 +21,7 @@
   deck.append(detail);
   deck.classList.add("is-ready");
   const preview = detail.querySelector(".help-detail-preview");
+  preview.inert = true;
   const content = detail.querySelector(".help-detail-content");
   const back = detail.querySelector(".help-back");
   let active = null;
@@ -45,6 +46,7 @@
     topics.forEach((topic, index) => {
       const tile = tiles[index];
       topic.style.setProperty("--tile-width", `${tile.width}px`);
+      topic.style.setProperty("--tile-height", `${tile.height}px`);
       topic.style.setProperty("--tile-left", `${tile.x}px`);
       topic.style.setProperty("--tile-top", `${tile.y}px`);
     });
@@ -76,6 +78,7 @@
     topics.forEach((topic) => {
       topic.inert = false;
       topic.style.removeProperty("--tile-width");
+      topic.style.removeProperty("--tile-height");
       topic.style.removeProperty("--tile-left");
       topic.style.removeProperty("--tile-top");
       topic.querySelector("button").setAttribute("aria-expanded", "false");
@@ -144,11 +147,16 @@
         { ...target, offset: finish },
         ...(finish < 1 ? [{ ...target, offset: 1 }] : [])
       ];
-      const animation = element.animate(frames, {
-        duration: reduceMotion.matches ? 1 : milliseconds,
-        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-        fill: "both"
-      });
+      // Prepare every effect before starting any of them: style reads must not
+      // advance the content independently of the card's clip on the first frame.
+      const animation = new Animation(
+        new KeyframeEffect(element, frames, {
+          duration: reduceMotion.matches ? 1 : milliseconds,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          fill: "both"
+        }),
+        document.timeline
+      );
       motion.push({ element, properties, animation });
     };
     // The rounded clip changes size; its radius and the card itself never scale.
@@ -180,6 +188,11 @@
       );
     });
     animate(deck, { height: `${value ? g.height : gridHeight}px` });
+    const startTime = document.timeline.currentTime;
+    motion.forEach(({ animation }) => {
+      animation.play();
+      animation.startTime = startTime;
+    });
     Promise.all(motion.map(({ animation }) => animation.finished))
       .then(() => {
         if (revision === currentRevision) settle();
@@ -195,9 +208,13 @@
       active = topic;
       const tile = tiles[topics.indexOf(topic)];
       // Use one surface from the first frame; no original card background underneath.
-      const label = document.createElement("div");
-      label.className = "help-tile";
-      label.innerHTML = topic.querySelector("button").innerHTML;
+      // Keep the original heading/button layout and inherited typography.
+      // Replacing the button with a div can change its first-frame layout.
+      const label = topic.querySelector(".help-topic-heading").cloneNode(true);
+      const labelButton = label.querySelector("button");
+      labelButton.removeAttribute("aria-controls");
+      labelButton.removeAttribute("aria-expanded");
+      labelButton.tabIndex = -1;
       preview.replaceChildren(label);
       Object.assign(preview.style, {
         left: `${tile.x}px`,

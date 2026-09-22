@@ -101,6 +101,7 @@
   position: absolute;
   opacity: 0;
   width: var(--tile-width);
+  height: var(--tile-height);
   left: var(--tile-left);
   top: var(--tile-top);
 }
@@ -123,7 +124,6 @@
 }
 .help-detail-preview .help-tile {
   background: transparent;
-  min-height: 0;
 }
 .help-detail-content {
   position: relative;
