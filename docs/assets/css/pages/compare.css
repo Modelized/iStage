@@ -26,10 +26,6 @@
 .compare-surface {
   padding-top: clamp(40px, 6vw, 80px);
 }
-.compare-surface > .container {
-  max-width: 1200px;
-  padding-inline: clamp(16px, 3vw, 32px);
-}
 .compare-models {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -138,14 +134,12 @@
   margin: 0;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--compare-line);
-  font-size: clamp(24px, 3vw, 32px);
-  font-weight: 600;
-  letter-spacing: -0.02em;
 }
 .compare-table {
   width: 100%;
   table-layout: fixed;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: clamp(14px, 1.5vw, 17px);
   line-height: 1.5;
 }
@@ -168,7 +162,7 @@
 .compare-table td:last-child {
   padding-left: calc(var(--compare-column-gap) / 2);
 }
-.compare-table tbody + tbody {
+.compare-table tbody + tbody th {
   border-top: 1px solid var(--compare-line);
 }
 .compare-support {

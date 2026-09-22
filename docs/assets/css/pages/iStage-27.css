@@ -130,7 +130,8 @@ html {
 }
 
 .i27-highlights-heading {
-  width: var(--highlight-card-width);
+  --body-content-width: var(--highlight-card-width);
+  --body-content-max: none;
   margin: 0 auto clamp(30px, 5vw, 56px);
   padding: 0;
   color: #f5f5f7;
@@ -366,7 +367,8 @@ html {
 }
 
 .i27-design-copy {
-  width: min(78vw, 1240px);
+  --body-content-width: 78vw;
+  --body-content-max: 1240px;
   margin: 0 auto;
   padding: clamp(44px, 5vw, 70px) 0 clamp(58px, 6vw, 84px);
 }
@@ -707,7 +709,8 @@ html {
 }
 
 .i27-more-inner {
-  width: min(78vw, 1240px);
+  --body-content-width: 78vw;
+  --body-content-max: 1240px;
   margin: 0 auto;
 }
 
@@ -1412,7 +1415,6 @@ html {
     margin-inline: -6%;
   }
   .i27-design-copy {
-    width: 82vw;
     margin: 0 auto;
     padding: 40px 0 58px;
   }
@@ -1475,9 +1477,6 @@ html {
   }
   .i27-more {
     padding: clamp(72px, 18vw, 92px) 0 clamp(82px, 20vw, 108px);
-  }
-  .i27-more-inner {
-    width: 82vw;
   }
   .i27-more-title {
     margin-bottom: 44px;

@@ -115,6 +115,24 @@ body {
   margin: 0 auto;
   padding: 0 12px;
 }
+/* Editorial content; cards and hero shells retain their own geometry. */
+.body-content {
+  width: var(--body-content-width, calc(100% - 64px));
+  max-width: var(--body-content-max, 1136px);
+  margin-inline: auto;
+}
+.body-heading {
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+@media (max-width: 900px) {
+  .body-content {
+    width: 84vw;
+    max-width: none;
+  }
+}
 .muted {
   color: #5e6572;
 }

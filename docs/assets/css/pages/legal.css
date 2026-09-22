@@ -9,7 +9,7 @@
   }
 }
 
-/* Swap surface: background <-> cards */
+/* Page background */
 .page-legal {
   background: #f5f5f7;
 }
@@ -26,89 +26,48 @@
   --hero-c: 184 112 139;
 }
 
-/* Surface only for the list area (no grey behind the header) */
+/* Open documents share the editorial gutter with other body sections. */
 .legal-surface {
-  background: transparent;
-  padding: 16px 0 0;
+  padding-top: clamp(40px, 6vw, 80px);
 }
-
-/* Card + typography balance */
 .legal-list {
   display: grid;
-  gap: 16px;
-}
-.legal-title {
-  margin: 0 0 1px;
-  font-weight: 600;
-  font-size: clamp(18px, 4vw, 20px);
-}
-.legal-meta {
-  margin: -2px 0 0;
-  display: flex;
-  align-items: center;
-  gap: 0.6ch;
-}
-.prose {
-  line-height: 1.65;
-}
-.prose h1,
-.prose h2 {
-  font-size: clamp(18px, 4vw, 20px);
-  margin: 16px 0 8px;
-  font-weight: 600;
-}
-.prose h3 {
-  font-size: clamp(16px, 4vw, 18px);
-  margin: 16px 0 6px;
-}
-.prose p {
-  margin: 8px 0;
-  font-size: clamp(14px, 3.6vw, 16px);
-}
-.prose ul {
-  margin: 8px 0 8px 1.2rem;
-  padding: 0;
-}
-.prose li {
-  margin: 6px 0;
-}
-/* Slightly increase horizontal padding for body text */
-.prose {
-  padding-inline: 6px;
-}
-@media (width > 900px) {
-  .prose {
-    padding-inline: 10px;
-  }
+  gap: clamp(56px, 8vw, 96px);
 }
 .legal-head {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 12px;
-  align-items: center;
-  padding: 2px 0 0 2px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(17, 19, 23, 0.1);
 }
-.legal-head-text {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 4px;
+.legal-title {
+  margin: 0 0 12px;
 }
-
-/* Card radius: use banner-radius system */
-.page-legal .card {
-  background: #fff;
-  color: #111317;
-  border: 0;
-  border-radius: var(--banner-radius);
-  overflow: hidden;
+.legal-meta {
+  margin: 0;
+}
+.legal-document .prose {
+  margin-top: 28px;
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 1.75;
+}
+.legal-document .prose h2 {
+  margin: 32px 0 12px;
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 600;
+  line-height: 1.35;
+}
+.legal-document .prose p {
+  margin: 12px 0;
+}
+.legal-document .prose ul {
+  margin: 12px 0;
+  padding-left: 1.25em;
+}
+.legal-document .prose li {
+  margin: 8px 0;
 }
 @media (prefers-color-scheme: dark) {
-  .page-legal .card {
-    background: var(--surface-dark);
-    color: #e8e9ec;
-    border: 0;
+  .legal-head {
+    border-bottom-color: rgba(255, 255, 255, 0.12);
   }
 }
 

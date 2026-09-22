@@ -6,7 +6,7 @@
 
   const groupHTML = (title, inner) => `
     <div class="releases-group" data-group="${title}">
-      <h2 class="group-title">${title}</h2>
+      <h2 class="group-title body-heading body-content">${title}</h2>
       <div class="releases-list">${inner}</div>
     </div>`;
 
@@ -215,7 +215,7 @@
       const empty = (msg) => `<div class="empty"><p class="small muted">${esc(msg)}</p></div>`;
       const group = (title, arr, emptyMsg) => `
       <div class="releases-group" data-group="${title}">
-        <h2 class="group-title">${title}</h2>
+        <h2 class="group-title body-heading body-content">${title}</h2>
         <div class="releases-list">
           ${arr.length ? arr.map((r, i) => tpl(r, title === "Latest Releases" && i === 0)).join("") : empty(emptyMsg || "No releases.")}
         </div>

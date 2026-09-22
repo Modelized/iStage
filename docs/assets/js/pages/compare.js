@@ -74,7 +74,7 @@
             const rows = group.rows;
             rowCount += rows.length;
             return `<section class="compare-group" aria-labelledby="group-${esc(group.id)}">
-            <h3 id="group-${esc(group.id)}">${esc(group.title)}</h3>
+            <h3 class="body-heading" id="group-${esc(group.id)}">${esc(group.title)}</h3>
             <table class="compare-table" aria-labelledby="group-${esc(group.id)}">
               <thead class="compare-sr-only"><tr><th scope="col" id="model-a-${esc(group.id)}">${esc(a.name)}</th><th scope="col" id="model-b-${esc(group.id)}">${esc(b.name)}</th></tr></thead>
               ${rows.map((row) => `<tbody><tr><th colspan="2" id="feature-${esc(row.key)}">${esc(row.label)}</th></tr><tr><td headers="model-a-${esc(group.id)} feature-${esc(row.key)}">${renderValue(row.values[a.id])}</td><td headers="model-b-${esc(group.id)} feature-${esc(row.key)}">${renderValue(row.values[b.id])}</td></tr></tbody>`).join("")}
