@@ -82,7 +82,7 @@ html{ background:#000; color-scheme:dark; }
   background:var(--surface-dark);
   z-index:3;
 }
-.i27-hero-action p{ margin:0; min-width:0; font-size:clamp(14px, 2vw, 18px); line-height:var(--action-note-line-height); }
+.i27-hero-action p{ margin:0; min-width:0; font-size:clamp(14px, 2vw, 18px); font-weight:500; line-height:var(--action-note-line-height); }
 .i27-hero-action p span{ display:block; }
 .i27-hero-action .btn{ min-width:112px; flex-shrink:0; }
 
@@ -696,6 +696,11 @@ html{ background:#000; color-scheme:dark; }
 .i27-compare .cta{ margin-top:10px; }
 .i27-download{ padding-block:clamp(44px, 4vw, 56px); }
 .i27-compare{ padding-top:52px; padding-bottom:48px; }
+
+@media (min-width:901px), (orientation:landscape){
+  .i27-download .copy .title,
+  .i27-compare .copy .title{ margin-bottom:4px; }
+}
 
 /* A rising intro blob compresses, then hands off to the two controls. */
 .highlight-controls{

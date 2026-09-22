@@ -572,7 +572,7 @@ body{
 .card-description{
   margin:0;
   color:inherit;
-  font-size:calc((clamp(18px, 1.8vw, 24px) + clamp(14px, 2vw, 18px)) / 2);
+  font-size:clamp(16px, 1.9vw, 21px);
   font-weight:400;
   line-height:1.4;
 }

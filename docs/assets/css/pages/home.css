@@ -129,6 +129,9 @@
 .page-home .section:not(.top-event) .cta{ margin-top:10px; }
 .page-home .hero{ gap:28px; }
 .page-home .copy .title{ font-size:clamp(30px, 4.4vw, 54px); }
+@media (min-width:901px), (orientation:landscape){
+  .page-home .section:not(.top-event) .copy .title{ margin-bottom:4px; }
+}
 .page-home .copy .subtitle{
   color:inherit;
   font-size:clamp(18px, 1.8vw, 24px);
