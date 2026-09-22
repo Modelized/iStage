@@ -7,7 +7,7 @@
 
 # iStage — Android. Reimagined.
 
-A pixel-perfect recreation of the iOS Lock Screen for Android, including Dynamic Island, Live Activities, and extensive customization features — all powered by KLCK.
+iStage is a pixel-perfect recreation of the iOS Lock Screen for Android, including Dynamic Island, Live Activities, and extensive customization features — all powered by KLCK.
 
 Formerly iOS KLCK
 
