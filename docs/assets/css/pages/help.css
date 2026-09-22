@@ -99,22 +99,24 @@
 }
 .help-deck.is-active .help-topic {
   position: absolute;
-  opacity: 0;
   width: var(--tile-width);
   height: var(--tile-height);
   left: var(--tile-left);
   top: var(--tile-top);
 }
+.help-layer {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  width: 100%;
+  pointer-events: none;
+}
 .help-detail {
   position: relative;
-  z-index: 2;
   width: 100%;
   border-radius: var(--banner-radius);
   background: var(--help-surface);
   overflow: hidden;
-}
-.help-detail[hidden] {
-  display: none;
 }
 .help-detail-preview {
   position: absolute;
@@ -129,6 +131,9 @@
   position: relative;
   padding: 28px;
   transform-origin: center;
+}
+.help-detail-content.is-interactive {
+  pointer-events: auto;
 }
 .help-back {
   display: grid;
