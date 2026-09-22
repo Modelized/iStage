@@ -6,7 +6,7 @@
   <title>iStage</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/style.css?v=20260922k">
+  <link rel="stylesheet" href="../assets/css/style.css?v=20260922l">
 
   <!-- Icons / PWA -->
   <link rel="icon" type="image/svg+xml" sizes="any" href="/iStage/favicon.svg?v=20260828a">
@@ -33,7 +33,7 @@
   <meta name="twitter:description" content="Android. Reimagined.">
   <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
 
-  <link rel="stylesheet" href="../assets/css/pages/help.css?v=20260922h">
+  <link rel="stylesheet" href="../assets/css/pages/help.css?v=20260923a">
 
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -59,16 +59,16 @@
 
       <div class="help-surface">
         <div class="container">
-          <div class="accordion" id="help-accordion">
+          <div class="help-deck" id="help-deck">
             <!-- Download & Setup -->
-            <article class="card reveal-onload">
-              <div class="acc-header">
-                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-setup" aria-labelledby="acc-title-setup">
-                  <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8.5 12 15.5 19 8.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <article class="help-topic">
+              <h2 class="help-topic-heading">
+                <button class="help-tile" aria-expanded="false" aria-controls="help-detail">
+                  <span class="help-number" aria-hidden="true">01</span>
+                  <span class="help-tile-label"><span>Download &amp; Setup</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <h2 class="acc-title" id="acc-title-setup">Download &amp; Setup</h2>
-              </div>
-              <div class="acc-panel" id="acc-panel-setup" hidden>
+              </h2>
+              <div class="help-topic-content">
                 <div class="prose">
                   <h3>Download</h3>
                   <ul>
@@ -92,14 +92,14 @@
             </article>
 
             <!-- Performance & Responsiveness -->
-            <article class="card reveal-onload">
-              <div class="acc-header">
-                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-perf" aria-labelledby="acc-title-perf">
-                  <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8.5 12 15.5 19 8.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <article class="help-topic">
+              <h2 class="help-topic-heading">
+                <button class="help-tile" aria-expanded="false" aria-controls="help-detail">
+                  <span class="help-number" aria-hidden="true">02</span>
+                  <span class="help-tile-label"><span>Performance &amp; Responsiveness</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <h2 class="acc-title" id="acc-title-perf">Performance &amp; Responsiveness</h2>
-              </div>
-              <div class="acc-panel" id="acc-panel-perf" hidden>
+              </h2>
+              <div class="help-topic-content">
                 <div class="prose">
                   <ul>
                     <li>Disable other live wallpapers/widgets temporarily to check conflicts.</li>
@@ -112,14 +112,14 @@
             </article>
 
             <!-- Importing & Applying -->
-            <article class="card reveal-onload">
-              <div class="acc-header">
-                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-import" aria-labelledby="acc-title-import">
-                  <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8.5 12 15.5 19 8.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <article class="help-topic">
+              <h2 class="help-topic-heading">
+                <button class="help-tile" aria-expanded="false" aria-controls="help-detail">
+                  <span class="help-number" aria-hidden="true">03</span>
+                  <span class="help-tile-label"><span>Importing &amp; Applying</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <h2 class="acc-title" id="acc-title-import">Importing &amp; Applying</h2>
-              </div>
-              <div class="acc-panel" id="acc-panel-import" hidden>
+              </h2>
+              <div class="help-topic-content">
                 <div class="prose">
                   <ul>
                     <li>Ensure KLCK is updated to the latest version.</li>
@@ -132,14 +132,14 @@
             </article>
 
             <!-- Device Compatibility -->
-            <article class="card reveal-onload">
-              <div class="acc-header">
-                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-compat" aria-labelledby="acc-title-compat">
-                  <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8.5 12 15.5 19 8.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <article class="help-topic">
+              <h2 class="help-topic-heading">
+                <button class="help-tile" aria-expanded="false" aria-controls="help-detail">
+                  <span class="help-number" aria-hidden="true">04</span>
+                  <span class="help-tile-label"><span>Device Compatibility</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <h2 class="acc-title" id="acc-title-compat">Device Compatibility</h2>
-              </div>
-              <div class="acc-panel" id="acc-panel-compat" hidden>
+              </h2>
+              <div class="help-topic-content">
                 <div class="prose">
                   <ul>
                     <li>Designed for modern Android devices with KLCK support.</li>
@@ -151,14 +151,14 @@
             </article>
 
             <!-- Known Limitations -->
-            <article class="card reveal-onload">
-              <div class="acc-header">
-                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-limits" aria-labelledby="acc-title-limits">
-                  <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8.5 12 15.5 19 8.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <article class="help-topic">
+              <h2 class="help-topic-heading">
+                <button class="help-tile" aria-expanded="false" aria-controls="help-detail">
+                  <span class="help-number" aria-hidden="true">05</span>
+                  <span class="help-tile-label"><span>Known Limitations</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <h2 class="acc-title" id="acc-title-limits">Known Limitations</h2>
-              </div>
-              <div class="acc-panel" id="acc-panel-limits" hidden>
+              </h2>
+              <div class="help-topic-content">
                 <div class="prose">
                   <ul>
                     <li>Some KLCK blur behaviors may exceed intended bounds; alternatives are under review.</li>
@@ -169,14 +169,14 @@
             </article>
 
             <!-- Troubleshooting -->
-            <article class="card reveal-onload">
-              <div class="acc-header">
-                <button class="acc-toggle" aria-expanded="false" aria-controls="acc-panel-check" aria-labelledby="acc-title-check">
-                  <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8.5 12 15.5 19 8.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <article class="help-topic">
+              <h2 class="help-topic-heading">
+                <button class="help-tile" aria-expanded="false" aria-controls="help-detail">
+                  <span class="help-number" aria-hidden="true">06</span>
+                  <span class="help-tile-label"><span>Troubleshooting</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <h2 class="acc-title" id="acc-title-check">Troubleshooting</h2>
-              </div>
-              <div class="acc-panel" id="acc-panel-check" hidden>
+              </h2>
+              <div class="help-topic-content">
                 <div class="prose">
                   <ol>
                     <li>Latest KLCK installed and permissions granted.</li>
@@ -195,6 +195,6 @@
 
   <div id="footer-slot"></div>
   <script src="../assets/js/shell.js?v=20260922h" defer></script>
-  <script src="../assets/js/pages/help.js" defer></script>
+  <script src="../assets/js/pages/help.js?v=20260923a" defer></script>
 </body>
 </html>

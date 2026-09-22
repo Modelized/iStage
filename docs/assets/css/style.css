@@ -117,8 +117,8 @@ body {
 }
 /* Editorial content; cards and hero shells retain their own geometry. */
 .body-content {
-  width: var(--body-content-width, calc(100% - 64px));
-  max-width: var(--body-content-max, 1136px);
+  width: var(--body-content-width, calc(100% - 56px));
+  max-width: var(--body-content-max, 1160px);
   margin-inline: auto;
 }
 .body-heading {
@@ -129,7 +129,7 @@ body {
 }
 @media (max-width: 900px) {
   .body-content {
-    width: 84vw;
+    width: 86vw;
     max-width: none;
   }
 }
