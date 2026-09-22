@@ -966,7 +966,7 @@ body {
 }
 @media (prefers-color-scheme: light) {
   :is(.page-compare, .page-releases, .page-help, .page-legal) .page-hero-card {
-    --hero-fade-rgb: 255 255 255;
+    --hero-fade-rgb: 245 245 247;
     color: #111317;
     background: linear-gradient(145deg, #f5f5f7 0%, #fff 52%, #f7f5f7 100%);
   }
@@ -976,6 +976,7 @@ body {
 }
 .page-hero-card--text-only {
   display: flex;
+  min-height: clamp(260px, 32vw, 360px);
 }
 .page-hero-card--text-only .page-hero-copy.copy {
   width: 100%;

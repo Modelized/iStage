@@ -85,13 +85,15 @@
   outline-offset: 5px;
 }
 .compare-artwork {
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: clamp(250px, 34vw, 400px);
   margin-block: clamp(20px, 3vw, 40px);
 }
 .compare-artwork img {
   display: block;
+  flex-shrink: 0;
   width: auto;
   height: 100%;
   max-width: none;
