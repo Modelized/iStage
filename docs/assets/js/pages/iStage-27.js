@@ -1,5 +1,48 @@
 "use strict";
 
+function createRailScroller(rail, reduceMotion, onStateChange = () => {}) {
+  let frame = 0;
+  function cancel() {
+    if (frame) cancelAnimationFrame(frame);
+    frame = 0;
+    rail.classList.remove('is-animating');
+    onStateChange(false);
+  }
+  function to(targetLeft, duration, onComplete) {
+    cancel();
+    const maxLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
+    const destination = Math.max(0, Math.min(maxLeft, targetLeft));
+    const startLeft = rail.scrollLeft;
+    const distance = destination - startLeft;
+    if (reduceMotion || Math.abs(distance) < 1) {
+      rail.scrollLeft = destination;
+      onComplete?.();
+      return;
+    }
+    onStateChange(true);
+    rail.classList.add('is-animating');
+    const startedAt = performance.now();
+    function step(now) {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = progress < .5
+        ? 4 * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+      rail.scrollLeft = startLeft + distance * eased;
+      if (progress < 1) {
+        frame = requestAnimationFrame(step);
+      } else {
+        frame = 0;
+        rail.scrollLeft = destination;
+        rail.classList.remove('is-animating');
+        onStateChange(false);
+        onComplete?.();
+      }
+    }
+    frame = requestAnimationFrame(step);
+  }
+  return { cancel, to };
+}
+
 const decodeImage = (image) => image ? iStageImages.ready(image) : Promise.resolve();
 
 (function(){
@@ -23,7 +66,6 @@ const decodeImage = (image) => image ? iStageImages.ready(image) : Promise.resol
   let autoplayFinished = false;
   let resumeOnReturn = false;
   let playbackTimer = 0;
-  let scrollAnimationFrame = 0;
   let programmaticScroll = false;
   let scrollTicking = false;
   let pageTicking = false;
@@ -93,54 +135,9 @@ const decodeImage = (image) => image ? iStageImages.ready(image) : Promise.resol
     updateControls();
   }
 
-  function cancelRailAnimation(){
-    if (scrollAnimationFrame){
-      window.cancelAnimationFrame(scrollAnimationFrame);
-      scrollAnimationFrame = 0;
-    }
-    rail.classList.remove('is-animating');
-    programmaticScroll = false;
-  }
-
-  function animateRailTo(targetLeft, duration, onComplete){
-    cancelRailAnimation();
-    const maxLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
-    const destination = Math.max(0, Math.min(maxLeft, targetLeft));
-    const startLeft = rail.scrollLeft;
-    const distance = destination - startLeft;
-
-    if (reduceMotion || Math.abs(distance) < 1){
-      rail.scrollLeft = destination;
-      programmaticScroll = false;
-      if (typeof onComplete === 'function') onComplete();
-      return;
-    }
-
-    programmaticScroll = true;
-    rail.classList.add('is-animating');
-    const startedAt = performance.now();
-    const easeInOutCubic = function(value){
-      return value < .5
-        ? 4 * value * value * value
-        : 1 - Math.pow(-2 * value + 2, 3) / 2;
-    };
-
-    const step = function(now){
-      const progress = Math.min(1, (now - startedAt) / duration);
-      rail.scrollLeft = startLeft + distance * easeInOutCubic(progress);
-      if (progress < 1){
-        scrollAnimationFrame = window.requestAnimationFrame(step);
-        return;
-      }
-      scrollAnimationFrame = 0;
-      rail.scrollLeft = destination;
-      rail.classList.remove('is-animating');
-      programmaticScroll = false;
-      if (typeof onComplete === 'function') onComplete();
-    };
-
-    scrollAnimationFrame = window.requestAnimationFrame(step);
-  }
+  const scroller = createRailScroller(rail, reduceMotion, (active) => { programmaticScroll = active; });
+  const cancelRailAnimation = scroller.cancel;
+  const animateRailTo = scroller.to;
 
   function goTo(index, source){
     const nextIndex = Math.max(0, Math.min(cards.length - 1, index));
@@ -442,16 +439,10 @@ const decodeImage = (image) => image ? iStageImages.ready(image) : Promise.resol
     const items = rail ? Array.from(rail.querySelectorAll('.i27-feature-item')) : [];
     if (!rail || !previous || !next || !items.length) return;
 
-    let animationFrame = 0;
     let updateFrame = 0;
 
-    function cancelAnimation(){
-      if (animationFrame){
-        window.cancelAnimationFrame(animationFrame);
-        animationFrame = 0;
-      }
-      rail.classList.remove('is-animating');
-    }
+    const scroller = createRailScroller(rail, reduceMotion);
+    const cancelAnimation = scroller.cancel;
 
     function getMetrics(){
       const maxLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
@@ -492,41 +483,7 @@ const decodeImage = (image) => image ? iStageImages.ready(image) : Promise.resol
     }
 
     function animateTo(targetLeft){
-      cancelAnimation();
-      const metrics = getMetrics();
-      const destination = Math.max(0, Math.min(metrics.maxLeft, targetLeft));
-      const startLeft = rail.scrollLeft;
-      const distance = destination - startLeft;
-
-      if (reduceMotion || Math.abs(distance) < 1){
-        rail.scrollLeft = destination;
-        updateButtons();
-        return;
-      }
-
-      const startedAt = performance.now();
-      const duration = 900;
-      rail.classList.add('is-animating');
-      const easeInOutCubic = function(value){
-        return value < .5
-          ? 4 * value * value * value
-          : 1 - Math.pow(-2 * value + 2, 3) / 2;
-      };
-
-      const step = function(now){
-        const progress = Math.min(1, (now - startedAt) / duration);
-        rail.scrollLeft = startLeft + distance * easeInOutCubic(progress);
-        if (progress < 1){
-          animationFrame = window.requestAnimationFrame(step);
-          return;
-        }
-        animationFrame = 0;
-        rail.scrollLeft = destination;
-        rail.classList.remove('is-animating');
-        updateButtons();
-      };
-
-      animationFrame = window.requestAnimationFrame(step);
+      scroller.to(targetLeft, 900, updateButtons);
     }
 
     function move(direction){

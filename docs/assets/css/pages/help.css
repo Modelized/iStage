@@ -53,13 +53,13 @@
   appearance: none;
   -webkit-appearance: none;
 
-  background: transparent !important;
-  border: 0 !important;
+  background: transparent;
+  border: 0;
   color: inherit;
   cursor:pointer;
 
-  outline: none !important;
-  box-shadow: none !important;
+  outline: none;
+  box-shadow: none;
 
   padding:0;
   margin:0;
@@ -125,23 +125,9 @@
 .prose ul{ margin:8px 0 8px 1.2rem; padding:0; }
 .prose li{ margin:6px 0; }
 .prose{ padding-inline: 6px; }
-@media (min-width:900px){
+@media (width > 900px){
   .prose{ padding-inline: 10px; }
 }
 .prose strong{ font-weight:600; }
 .acc-panel .prose > *:first-child{ margin-top:0; }
 .prose ul + p{ margin-top:12px; }
-
-/* footer theming */
-.page-help .footer{
-  background:#f5f5f7;
-  color:#5e6572;
-}
-@media (prefers-color-scheme: dark){
-  .page-help .footer{
-    background:#000;
-    color:#a7acb7;
-  }
-}
-.page-help main > .section:last-child,
-.page-help main{ margin-bottom:0; padding-bottom:0 }

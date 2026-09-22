@@ -77,7 +77,7 @@
 
 /* Slightly increase horizontal padding for body text */
 .prose{ padding-inline: 6px; }
-@media (min-width:900px){
+@media (width > 900px){
   .prose{ padding-inline: 10px; }
 }
 
@@ -147,28 +147,14 @@
 
 /* Keep the highlight button aligned with the card glow */
 .page-releases .card.is-highlight .btn-blue{
-  background:rgb(var(--release-highlight) / .86) !important;
-  border-color:rgb(var(--release-highlight) / .62) !important;
-  color:#111317 !important;
+  background:rgb(var(--release-highlight) / .86);
+  border-color:rgb(var(--release-highlight) / .62);
+  --button-text:#111317;
+  color:var(--button-text);
 }
 .page-releases .card.is-highlight .btn-blue:hover{
-  background:rgb(var(--release-highlight) / .94) !important;
+  background:rgb(var(--release-highlight) / .94);
 }
 .page-releases .card.is-highlight .btn-blue:active{
-  background:rgb(var(--release-highlight) / .78) !important;
+  background:rgb(var(--release-highlight) / .78);
 }
-
-/* Footer theming */
-.page-releases .footer{
-  background:#f5f5f7;
-  color:#5e6572;
-}
-@media (prefers-color-scheme: dark){
-  .page-releases .footer{
-    background:#000;
-    color:#a7acb7;
-  }
-}
-
-.page-releases main > .section:last-child,
-.page-releases main{ margin-bottom:0; padding-bottom:0 }

@@ -310,7 +310,7 @@ const iStageImages = (() => {
       'hero-iStage-18-desktop.png': [1460, 160, 920, 1839],
       'hero-iStage-18-mobile.png': [622, 160, 916, 1839]
     };
-    document.querySelectorAll('.page-hero-media, .event-visual, .page-home .media, .i27-compare-media').forEach((frame) => {
+    document.querySelectorAll('.page-hero-media, .event-visual, .page-home .media, .comparison-card .promo-card__media').forEach((frame) => {
       const image = frame.querySelector('img');
       if (!image) return;
       frame.classList.add('artwork-frame', 'image-reveal');
@@ -333,6 +333,31 @@ const iStageImages = (() => {
       if ('ResizeObserver' in window) new ResizeObserver(fit).observe(frame);
       else window.addEventListener('resize', fit, { passive: true });
     });
+  }
+
+  function initDownloadAction() {
+    const action = document.querySelector('.i27-hero-action');
+    const note = action?.querySelector('p');
+    const button = action?.querySelector('.btn');
+    if (!note || !button) return;
+
+    const alignPadding = () => {
+      const padding = parseFloat(getComputedStyle(action).paddingTop);
+      const right = padding + Math.max(0, note.offsetHeight - button.offsetHeight) / 2;
+      const value = `${right}px`;
+      if (action.style.getPropertyValue('--action-right-space') !== value) {
+        action.style.setProperty('--action-right-space', value);
+      }
+    };
+    alignPadding();
+    if ('ResizeObserver' in window) {
+      const observer = new ResizeObserver(alignPadding);
+      observer.observe(note);
+      observer.observe(button);
+    } else {
+      window.addEventListener('resize', alignPadding, { passive: true });
+      document.fonts?.ready.then(alignPadding);
+    }
   }
 
   function initReveal() {
@@ -424,6 +449,7 @@ const iStageImages = (() => {
 
   async function boot() {
     initHeroArtwork();
+    initDownloadAction();
     initReveal();
 
     await Promise.all([
