@@ -43,6 +43,10 @@
       const select = picker.querySelector("select");
       select.id = `${original.id}-floating`;
       picker.htmlFor = select.id;
+      const outline = document.createElement("span");
+      outline.className = "compare-dock-outline";
+      outline.setAttribute("aria-hidden", "true");
+      picker.append(outline);
       slot.append(picker);
       dock.append(slot);
       return select;
@@ -56,8 +60,11 @@
     const footer = document.getElementById("footer-slot");
     const reduce = matchMedia("(prefers-reduced-motion: reduce)");
     const pickers = copies.map((select) => select.closest(".compare-picker"));
-    const labels = pickers.flatMap((picker) => [...picker.children]);
-    const elements = [dock, blob, ...pickers, ...labels];
+    const outlines = pickers.map((picker) => picker.querySelector(".compare-dock-outline"));
+    const labels = pickers.flatMap((picker) =>
+      [...picker.children].filter((element) => !outlines.includes(element))
+    );
+    const elements = [dock, blob, ...pickers, ...labels, ...outlines];
     const properties = ["opacity", "transform", "left", "width", "height"];
     const ease = "cubic-bezier(0.42, 0, 0.18, 1)";
     const settleEase = "cubic-bezier(0.16, 1, 0.3, 1)";
@@ -210,6 +217,21 @@
             settleEase
           );
         }
+      });
+      outlines.forEach((element) => {
+        animate(
+          element,
+          next && !interrupted
+            ? [
+                { offset: 0, opacity: 0 },
+                { offset: 0.3, opacity: 0 },
+                { offset: 0.46, opacity: 1 },
+                { offset: 1, opacity: 1 }
+              ]
+            : [{ opacity: snapshots.get(element).opacity }, { opacity: next ? 1 : 0 }],
+          next && !interrupted ? 1300 : 220,
+          next && !interrupted ? ease : settleEase
+        );
       });
       labels.forEach((element) => {
         animate(
