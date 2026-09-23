@@ -1,5 +1,5 @@
-/* Shared CSS choreography, played forward/backward without detaching effects.
-   Pages provide widths and colours; JavaScript controls playback direction. */
+/* Choreography restored from the original iStage 27 CSS.
+   Entry keyframes and exit transitions stay separate. */
 .popup-motion {
   --popup-size: 56px;
   --popup-primary-width: 216px;
@@ -8,24 +8,33 @@
   --popup-secondary-left: calc(100% - var(--popup-secondary-width));
   --popup-surface: rgba(37, 37, 40, 0.78);
   --popup-blob: rgb(42, 42, 45);
+  --popup-merged-surface: rgb(29, 29, 31);
   --popup-border: rgba(255, 255, 255, 0.1);
   --popup-shadow: rgba(0, 0, 0, 0.34);
   --popup-ease: cubic-bezier(0.42, 0, 0.18, 1);
   --popup-duration: 1.3s;
   --popup-rise-duration: 1.2s;
+  --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --popup-outline-exit: 0.12s;
   height: var(--popup-size);
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, 180px);
   transform-origin: center;
+  transition-property: opacity, transform;
+  transition-duration: 0.22s, 0.66s;
+  transition-timing-function: linear, var(--popup-settle-ease);
+  transition-delay: 0.58s, 0.52s;
 }
 .popup-motion.is-mounted {
   opacity: 1;
   pointer-events: auto;
   transform: translate(-50%, 0) scale(1);
+  transition-delay: 0s, 0s;
 }
-.popup-motion.has-popup-animation {
-  animation: popup-rise var(--popup-rise-duration) var(--popup-ease) both paused;
+.popup-motion.is-introducing {
+  animation: popup-rise var(--popup-rise-duration) var(--popup-ease) both;
+  transition: none;
 }
 .popup-control {
   position: absolute;
@@ -40,6 +49,11 @@
   color: inherit;
   box-shadow: none;
   transform: translateY(-50%);
+  transition-property: width, left;
+  transition-duration: 0.78s;
+  transition-timing-function: var(--popup-settle-ease);
+  /* Clear the outline before the two controls begin to overlap. */
+  transition-delay: var(--popup-outline-exit);
 }
 .popup-control--primary {
   z-index: 1;
@@ -50,10 +64,12 @@
 .popup-motion.is-mounted .popup-control--primary {
   left: 0;
   width: var(--popup-primary-width);
+  transition-delay: 0.1s;
 }
 .popup-motion.is-mounted .popup-control--secondary {
   left: var(--popup-secondary-left);
   width: var(--popup-secondary-width);
+  transition-delay: 0.16s;
 }
 .popup-control::before,
 .popup-control::after {
@@ -65,21 +81,37 @@
 }
 .popup-control::before {
   z-index: 0;
-  background: var(--popup-surface);
+  opacity: var(--popup-frozen-surface-opacity, 1);
+  /* Equal opaque surfaces merge without accumulating two glass layers. */
+  background: var(
+    --popup-frozen-surface-color,
+    var(--popup-current-surface, var(--popup-merged-surface))
+  );
   box-shadow: 0 12px 38px var(--popup-shadow);
   backdrop-filter: saturate(150%) blur(22px);
   -webkit-backdrop-filter: saturate(150%) blur(22px);
-  transition: background-color var(--control-duration) var(--control-ease);
+  transition:
+    opacity 0.12s linear,
+    background-color var(--popup-outline-exit) linear;
+}
+.popup-motion.is-mounted .popup-control::before {
+  --popup-current-surface: var(--popup-surface);
+  transition:
+    opacity 0.22s linear,
+    background-color var(--control-duration) var(--control-ease);
 }
 .popup-control::after {
   z-index: 3;
   box-sizing: border-box;
   border: 1px solid var(--popup-border);
-  opacity: 0;
-  transition: border-color var(--control-duration) var(--control-ease);
+  opacity: var(--popup-frozen-outline-opacity, 0);
+  transition:
+    opacity var(--popup-outline-exit) var(--popup-settle-ease),
+    border-color var(--control-duration) var(--control-ease);
 }
 .popup-motion.is-mounted .popup-control::after {
-  opacity: 1;
+  opacity: var(--popup-frozen-outline-opacity, 1);
+  transition-duration: 0.22s, var(--control-duration);
 }
 .popup-blob {
   position: absolute;
@@ -97,21 +129,27 @@
   pointer-events: none;
   transform: translate(-50%, -50%) scale(1.3);
   transform-origin: center;
+  transition:
+    opacity 0.12s linear,
+    width 0.22s ease,
+    height 0.22s ease;
 }
-.popup-motion.has-popup-animation .popup-blob {
-  animation: popup-blob var(--popup-rise-duration) var(--popup-ease) both paused;
+.popup-motion.is-introducing .popup-blob {
+  animation: popup-blob var(--popup-rise-duration) var(--popup-ease) both;
 }
-.popup-motion.has-popup-animation .popup-control::before {
-  animation: popup-surface var(--popup-duration) var(--popup-ease) both paused;
+.popup-motion.is-introducing .popup-control::before {
+  animation: popup-surface var(--popup-duration) var(--popup-ease) both;
 }
-.popup-motion.has-popup-animation .popup-control::after {
-  animation: popup-outline var(--popup-duration) var(--popup-ease) both paused;
+.popup-motion.is-introducing .popup-control::after {
+  animation: popup-outline var(--popup-duration) var(--popup-ease) both;
 }
-.popup-motion.has-popup-animation .popup-control--primary {
-  animation: popup-primary-split var(--popup-duration) var(--popup-ease) both paused;
+.popup-motion.is-introducing .popup-control--primary {
+  animation: popup-primary-split var(--popup-duration) var(--popup-ease) both;
+  transition: none;
 }
-.popup-motion.has-popup-animation .popup-control--secondary {
-  animation: popup-secondary-split var(--popup-duration) var(--popup-ease) both paused;
+.popup-motion.is-introducing .popup-control--secondary {
+  animation: popup-secondary-split var(--popup-duration) var(--popup-ease) both;
+  transition: none;
 }
 .popup-content--unfold {
   width: var(--popup-content-width);
@@ -125,20 +163,43 @@
   opacity: 1;
   transform: scale(1);
 }
-.popup-motion.has-popup-animation .popup-content--unfold {
-  animation: popup-content-unfold var(--popup-duration) var(--popup-ease) both paused;
+.popup-content--unfold,
+.popup-content--scale {
+  transition:
+    width 0.22s ease,
+    opacity 0.22s linear,
+    transform 0.22s ease;
 }
-.popup-motion.has-popup-animation .popup-content--scale {
-  animation: popup-content-arrive var(--popup-duration) var(--popup-ease) both paused;
+.popup-motion.is-introducing .popup-content--unfold {
+  animation: popup-content-unfold var(--popup-duration) var(--popup-ease) both;
+}
+.popup-motion.is-introducing .popup-content--scale {
+  animation: popup-content-arrive var(--popup-duration) var(--popup-ease) both;
 }
 .popup-motion:not(.is-mounted) .popup-content--unfold,
 .popup-motion:not(.is-mounted) .popup-content--scale {
   opacity: 0;
   transform: scale(0.74);
+  transition:
+    width 0.22s ease,
+    opacity 0.12s linear,
+    transform 0.22s ease;
 }
-.popup-motion.has-popup-animation .popup-content-item {
+.popup-motion.is-introducing .popup-content-item {
   animation: popup-item-arrive 0.1s cubic-bezier(0.18, 0.72, 0.22, 0.88)
-    calc(0.46s + var(--popup-item-index) * 0.05s) both paused;
+    calc(0.46s + var(--popup-item-index) * 0.05s) both;
+  transition: none;
+}
+/* A single boundary snapshot hands an interrupted intro to exit transitions. */
+.popup-motion.is-popup-snapshot,
+.popup-motion.is-popup-snapshot .popup-control,
+.popup-motion.is-popup-snapshot .popup-control::before,
+.popup-motion.is-popup-snapshot .popup-control::after,
+.popup-motion.is-popup-snapshot .popup-content--unfold,
+.popup-motion.is-popup-snapshot .popup-content--scale,
+.popup-motion.is-popup-snapshot .popup-content-item,
+.popup-motion.is-popup-snapshot .popup-blob {
+  transition: none !important;
 }
 
 @keyframes popup-rise {
@@ -212,14 +273,18 @@
 @keyframes popup-surface {
   0%,
   27% {
+    background-color: var(--popup-merged-surface);
     opacity: 0;
     animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
   }
-  40% {
+  40%,
+  64% {
+    background-color: var(--popup-merged-surface);
     opacity: 1;
     animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
   }
   100% {
+    background-color: var(--popup-surface);
     opacity: 1;
   }
 }

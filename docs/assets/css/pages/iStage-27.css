@@ -824,7 +824,9 @@ html {
   transform: scale(1);
   transition:
     width 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-    background-color var(--control-duration) var(--control-ease);
+    background-color var(--control-duration) var(--control-ease),
+    opacity 0.12s linear,
+    transform 0.22s ease;
 }
 
 .progress-dot:first-child {

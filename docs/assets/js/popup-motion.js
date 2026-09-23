@@ -1,97 +1,121 @@
 "use strict";
 
-/* CSS defines every visual frame. Keep its animation players attached so a
-   visibility change reverses the current frame instead of replacing it. */
+/* CSS owns the original entrance and the separate merge-and-drop exit.
+   JS only changes visibility and hands off an interrupted entrance once. */
 window.createPopupMotion = function (root) {
+  const primary = root.querySelector(".popup-control--primary");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const controls = [...root.querySelectorAll(".popup-control")];
+  const contents = [
+    ...root.querySelectorAll(".popup-content--unfold, .popup-content--scale, .popup-content-item")
+  ];
+  const blob = root.querySelector(".popup-blob");
   let desired = false;
-  let players = [];
-  let leader = null;
-  let duration = 0;
+  let phase = "hidden";
   let revision = 0;
 
   root.querySelectorAll(".popup-content-item").forEach((item, index) => {
     item.style.setProperty("--popup-item-index", index);
   });
 
-  function prepare() {
-    root.classList.add("has-popup-animation");
-    players = root
-      .getAnimations({ subtree: true })
-      .filter((animation) => animation.animationName?.startsWith("popup-"));
-    leader = players.find((animation) => animation.animationName === "popup-primary-split");
-    duration = Math.max(
-      0,
-      ...players.map((animation) => animation.effect.getComputedTiming().endTime)
+  function finishWithoutMotion() {
+    root.classList.add("is-popup-snapshot");
+    root.classList.remove("is-introducing");
+    root.classList.toggle("is-mounted", desired);
+    // Flush only at a handoff, never on each animation frame.
+    void root.offsetWidth;
+    root.classList.remove("is-popup-snapshot");
+    phase = desired ? "open" : "hidden";
+  }
+
+  function handOffIntro() {
+    const snapshots = [root, ...controls, ...contents, blob].filter(Boolean).map((element) => {
+      const style = getComputedStyle(element);
+      const properties =
+        element === root
+          ? ["opacity", "transform"]
+          : ["opacity", "transform", "width", "height", "left"];
+      return {
+        element,
+        values: properties.map((property) => [property, style.getPropertyValue(property)])
+      };
+    });
+    controls.forEach((element) => {
+      const surface = getComputedStyle(element, "::before");
+      const outline = getComputedStyle(element, "::after");
+      snapshots.push({
+        element,
+        values: [
+          ["--popup-frozen-surface-opacity", surface.opacity],
+          ["--popup-frozen-surface-color", surface.backgroundColor],
+          ["--popup-frozen-outline-opacity", outline.opacity]
+        ]
+      });
+    });
+    root.classList.add("is-popup-snapshot");
+    root.classList.remove("is-introducing");
+    snapshots.forEach(({ element, values }) =>
+      values.forEach(([property, value]) => element.style.setProperty(property, value))
     );
-    players.forEach((animation) => {
-      // Shorter effects (including staggered dots) hold their final frame until
-      // the common endpoint. They then reverse on the same clock as the shell.
-      const endTime = animation.effect.getComputedTiming().endTime;
-      animation.effect.updateTiming({ endDelay: duration - endTime });
-      animation.pause();
-      animation.currentTime = 0;
-    });
+    void root.offsetWidth;
+    root.classList.remove("is-popup-snapshot");
+    root.classList.toggle("is-mounted", desired);
+    snapshots.forEach(({ element, values }) =>
+      values.forEach(([property]) => element.style.removeProperty(property))
+    );
   }
 
-  function hold(time) {
-    players.forEach((animation) => {
-      animation.pause();
-      animation.currentTime = time;
-    });
-  }
-
-  function playToTarget() {
-    const operation = ++revision;
-    const endpoint = desired ? duration : 0;
-    const time = Math.max(0, Math.min(duration, leader.currentTime ?? 0));
-    if (time === endpoint) {
-      hold(endpoint);
+  function settleAfter(animations, operation, callback) {
+    if (!animations.length) {
+      callback();
       return;
     }
-
-    players.forEach((animation) => {
-      animation.pause();
-      animation.currentTime = time;
-      animation.playbackRate = desired ? 1 : -1;
-      // Leave startTime to the browser's pending-play task, so setup time is
-      // not counted as already-rendered animation time.
-      animation.play();
+    Promise.allSettled(animations.map((animation) => animation.finished)).then(() => {
+      if (operation === revision) callback();
     });
-    Promise.all(players.map((animation) => animation.finished)).then(
-      () => {
-        if (operation === revision) hold(endpoint);
-      },
-      () => {
-        // A reduced-motion change may cancel these players.
-      }
-    );
-  }
-
-  function updateMotionPreference() {
-    ++revision;
-    root.classList.remove("has-popup-animation");
-    players.forEach((animation) => animation.cancel());
-    players = [];
-    leader = null;
-    if (!reduce.matches) {
-      prepare();
-      hold(desired ? duration : 0);
-    }
   }
 
   function setVisible(next) {
     if (next === desired) return;
+    const operation = ++revision;
     desired = next;
     root.inert = !next;
     root.setAttribute("aria-hidden", String(!next));
     if (!next && root.contains(document.activeElement)) document.activeElement.blur();
-    if (!reduce.matches && !leader) prepare();
-    root.classList.toggle("is-mounted", next);
-    if (!reduce.matches && leader) playToTarget();
+    if (reduce.matches) {
+      finishWithoutMotion();
+    } else if (next && phase === "hidden") {
+      phase = "intro";
+      root.classList.add("is-mounted", "is-introducing");
+      const intro = primary
+        .getAnimations()
+        .find((animation) => animation.animationName === "popup-primary-split");
+      settleAfter(intro ? [intro] : [], operation, finishWithoutMotion);
+    } else {
+      if (phase === "intro") handOffIntro();
+      else root.classList.toggle("is-mounted", next);
+      phase = "transition";
+      // Native CSS transitions retarget from their currently rendered value.
+      // Wait for shell geometry, not hover or carousel playback effects. A
+      // near-hidden root may have no transform transition while controls merge.
+      const hosts = new Set([root, ...controls]);
+      const movement = root
+        .getAnimations({ subtree: true })
+        .filter(
+          (animation) =>
+            hosts.has(animation.effect.target) &&
+            ["transform", "opacity", "width", "left"].includes(animation.transitionProperty)
+        );
+      settleAfter(movement, operation, () => {
+        phase = desired ? "open" : "hidden";
+      });
+    }
   }
 
-  reduce.addEventListener("change", updateMotionPreference);
+  reduce.addEventListener("change", () => {
+    ++revision;
+    finishWithoutMotion();
+  });
   root.inert = true;
   root.setAttribute("aria-hidden", "true");
   return { setVisible };
