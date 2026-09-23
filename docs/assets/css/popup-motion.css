@@ -21,8 +21,8 @@
   pointer-events: none;
   transform: translate(-50%, 180px);
   transform-origin: center;
-  /* One small, fixed overlay per page; keep its travel on a prepared layer. */
-  will-change: transform, opacity;
+  /* Prepare movement without an opacity backdrop root isolating the glass. */
+  will-change: transform;
   transition-property: opacity, transform;
   transition-duration: 0.22s, 0.66s;
   transition-timing-function: linear, var(--popup-settle-ease);
