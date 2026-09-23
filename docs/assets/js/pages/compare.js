@@ -33,34 +33,33 @@
     dock.setAttribute("aria-hidden", "true");
     dock.inert = true;
     const originals = [pickA, pickB];
-    const copies = originals.map((original) => {
+    const copies = originals.map((original, index) => {
       const picker = original.closest(".compare-picker").cloneNode(true);
       const select = picker.querySelector("select");
       select.id = `${original.id}-floating`;
       picker.htmlFor = select.id;
+      picker.classList.add(
+        "popup-control",
+        index === 0 ? "popup-control--primary" : "popup-control--secondary"
+      );
+      const content = document.createElement("span");
+      content.className = "popup-content--scale";
+      content.append(...picker.childNodes);
+      picker.append(content);
       dock.append(picker);
       return select;
     });
+    const blob = document.createElement("span");
+    blob.className = "popup-blob";
+    blob.setAttribute("aria-hidden", "true");
+    dock.append(blob);
     document.body.append(dock);
     return { dock, originals, copies };
   }
 
-  function initFloatingMotion({ dock, originals, copies }) {
+  function initFloatingMotion({ dock, originals }) {
     const footer = document.getElementById("footer-slot");
-    const pickers = copies.map((select) => select.closest(".compare-picker"));
-    const motion = createPopupMotion({
-      root: dock,
-      controls: pickers,
-      content: pickers.flatMap((picker) => [...picker.children].map((element) => ({ element }))),
-      measure(width) {
-        const gap = parseFloat(getComputedStyle(dock).columnGap);
-        const slotWidth = (width - gap) / 2;
-        return [
-          { left: 0, width: slotWidth },
-          { left: slotWidth + gap, width: slotWidth }
-        ];
-      }
-    });
+    const motion = createPopupMotion(dock);
     let visible = false;
     let frame = 0;
 

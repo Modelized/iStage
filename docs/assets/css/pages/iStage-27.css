@@ -749,7 +749,7 @@ html {
 
 /* Shared popup motion; this page defines only control layout and playback. */
 .highlight-controls {
-  --pill-expanded-width: 216px;
+  --popup-primary-width: 216px;
   --progress-active-width: 46px;
   --dots-collapsed-width: 46px;
   --dots-expanded-width: 172px;
@@ -759,7 +759,6 @@ html {
   bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px));
   z-index: 900;
   width: 288px;
-  height: 56px;
   color: #f5f5f7;
 }
 .highlight-controls.is-docked {
@@ -786,8 +785,8 @@ html {
   cursor: pointer;
 }
 @media (hover: hover) and (pointer: fine) {
-  .play-toggle:hover {
-    background: rgba(255, 255, 255, 0.07);
+  .play-toggle:hover::before {
+    background: rgba(55, 55, 59, 0.88);
   }
   .progress-dot:hover:not(.is-active) {
     background: rgba(245, 245, 247, 0.72);

@@ -53,7 +53,6 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
   const controlsAnchor = document.getElementById("highlight-controls-anchor");
   const controlsFixedGuide = document.getElementById("highlight-controls-fixed-guide");
   const playToggle = document.getElementById("highlight-play-toggle");
-  const progressPill = controls ? controls.querySelector(".progress-pill") : null;
   const cards = rail ? Array.from(rail.querySelectorAll(".highlight-card")) : [];
   const dots = controls ? Array.from(controls.querySelectorAll(".progress-dot")) : [];
   const reduceMotion =
@@ -231,23 +230,7 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     pausePlayback();
   }
 
-  const popupMotion = createPopupMotion({
-    root: controls,
-    controls: [progressPill, playToggle],
-    content: [
-      { element: controls.querySelector(".progress-dots"), type: "unfold", items: dots },
-      { element: controls.querySelector(".play-icon"), type: "scale" }
-    ],
-    measure(width, size) {
-      const pillWidth = parseFloat(
-        getComputedStyle(controls).getPropertyValue("--pill-expanded-width")
-      );
-      return [
-        { left: 0, width: pillWidth },
-        { left: width - size, width: size }
-      ];
-    }
-  });
+  const popupMotion = createPopupMotion(controls);
 
   function updateControlPosition() {
     pageTicking = false;
@@ -283,7 +266,6 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     }
 
     controls.classList.toggle("is-docked", nextRegion === "below");
-    controls.classList.toggle("is-mounted", shouldMount);
     popupMotion.setVisible(shouldMount);
 
     if (enteringFromAbove) {

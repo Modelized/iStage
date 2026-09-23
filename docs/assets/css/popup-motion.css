@@ -1,55 +1,104 @@
-/* Page CSS supplies geometry and theme; popup-motion.js owns every motion track. */
+/* Choreography restored from the original iStage 27 CSS.
+   Pages provide widths and colours; JavaScript only requests visibility. */
 .popup-motion {
+  --popup-size: 56px;
+  --popup-primary-width: 216px;
+  --popup-secondary-width: var(--popup-size);
+  --popup-merge-left: calc(50% - var(--popup-size) / 2);
+  --popup-secondary-left: calc(100% - var(--popup-secondary-width));
   --popup-surface: rgba(37, 37, 40, 0.78);
   --popup-blob: rgb(42, 42, 45);
   --popup-border: rgba(255, 255, 255, 0.1);
   --popup-shadow: rgba(0, 0, 0, 0.34);
+  --popup-ease: cubic-bezier(0.42, 0, 0.18, 1);
+  --popup-duration: 1.3s;
+  --popup-rise-duration: 1.2s;
+  --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --popup-outline-exit: 0.12s;
+  height: var(--popup-size);
   opacity: 0;
-  transform: translate(-50%, 180px);
   pointer-events: none;
+  transform: translate(-50%, 180px);
+  transform-origin: center;
+  transition-property: opacity, transform;
+  transition-duration: 0.22s, 0.66s;
+  transition-timing-function: linear, var(--popup-settle-ease);
+  transition-delay: 0.58s, 0.52s;
 }
-.popup-motion.is-popup-visible {
+.popup-motion.is-mounted {
+  opacity: 1;
   pointer-events: auto;
+  transform: translate(-50%, 0) scale(1);
+  transition-delay: 0s, 0s;
 }
-.popup-control,
-.popup-shadow {
-  position: absolute;
-  top: 50%;
-  border: 0;
-  border-radius: 999px;
-  transform: translateY(-50%);
+.popup-motion.is-introducing {
+  animation: popup-rise var(--popup-rise-duration) var(--popup-ease) both;
+  transition: none;
 }
 .popup-control {
-  z-index: 2;
-  overflow: hidden;
-  background: transparent;
-  box-shadow: none;
-  transition: background-color var(--control-duration) var(--control-ease);
-}
-.popup-shadow {
-  z-index: 0;
-  box-shadow: 0 12px 38px var(--popup-shadow);
-  pointer-events: none;
-}
-.popup-glass {
   position: absolute;
-  inset: 0 -16px;
-  z-index: 1;
-  background: var(--popup-surface);
-  backdrop-filter: saturate(150%) blur(22px);
-  -webkit-backdrop-filter: saturate(150%) blur(22px);
-  pointer-events: none;
+  top: 50%;
+  left: var(--popup-merge-left);
+  width: var(--popup-size);
+  height: var(--popup-size);
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+  transform: translateY(-50%);
+  transition-property: width, left;
+  transition-duration: 0.78s;
+  transition-timing-function: var(--popup-settle-ease);
+  /* Clear the outline before the two controls begin to overlap. */
+  transition-delay: var(--popup-outline-exit);
 }
-.popup-outline {
+.popup-control--primary {
+  z-index: 1;
+}
+.popup-control--secondary {
+  z-index: 0;
+}
+.popup-motion.is-mounted .popup-control--primary {
+  left: 0;
+  width: var(--popup-primary-width);
+  transition-delay: 0.1s;
+}
+.popup-motion.is-mounted .popup-control--secondary {
+  left: var(--popup-secondary-left);
+  width: var(--popup-secondary-width);
+  transition-delay: 0.16s;
+}
+.popup-control::before,
+.popup-control::after {
+  content: "";
   position: absolute;
   inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.popup-control::before {
+  z-index: 0;
+  background: var(--popup-surface);
+  box-shadow: 0 12px 38px var(--popup-shadow);
+  backdrop-filter: saturate(150%) blur(22px);
+  -webkit-backdrop-filter: saturate(150%) blur(22px);
+  transition: background-color var(--control-duration) var(--control-ease);
+}
+.popup-control::after {
   z-index: 3;
   box-sizing: border-box;
   border: 1px solid var(--popup-border);
-  border-radius: inherit;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  pointer-events: none;
-  transition: border-color var(--control-duration) var(--control-ease);
+  opacity: 0;
+  transition:
+    opacity var(--popup-outline-exit) var(--popup-settle-ease),
+    border-color var(--control-duration) var(--control-ease);
+}
+.popup-motion.is-mounted .popup-control::after {
+  opacity: 1;
+  transition-duration: 0.22s, var(--control-duration);
 }
 .popup-blob {
   position: absolute;
@@ -58,16 +107,269 @@
   z-index: 3;
   width: 30px;
   height: 80px;
+  box-sizing: border-box;
+  border: 0;
   border-radius: 999px;
+  opacity: 0;
   background: var(--popup-blob);
   box-shadow: 0 12px 38px var(--popup-shadow);
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(1.3);
   pointer-events: none;
+  transform: translate(-50%, -50%) scale(1.3);
+  transform-origin: center;
 }
+.popup-motion.is-introducing .popup-blob {
+  animation: popup-blob var(--popup-rise-duration) var(--popup-ease) both;
+}
+.popup-motion.is-introducing .popup-control::before {
+  animation: popup-surface var(--popup-duration) var(--popup-ease) both;
+}
+.popup-motion.is-introducing .popup-control::after {
+  animation: popup-outline var(--popup-duration) var(--popup-ease) both;
+}
+.popup-motion.is-introducing .popup-control--primary {
+  animation: popup-primary-split var(--popup-duration) var(--popup-ease) both;
+  transition: none;
+}
+.popup-motion.is-introducing .popup-control--secondary {
+  animation: popup-secondary-split var(--popup-duration) var(--popup-ease) both;
+  transition: none;
+}
+.popup-content--unfold {
+  width: var(--popup-content-width);
+  opacity: 1;
+  transform: none;
+}
+.popup-content--scale {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 1;
+  transform: scale(1);
+}
+.popup-content--unfold,
+.popup-content--scale {
+  transition:
+    opacity 0.22s linear,
+    transform 0.22s ease;
+}
+.popup-motion.is-introducing .popup-content--unfold {
+  animation: popup-content-unfold var(--popup-duration) var(--popup-ease) both;
+}
+.popup-motion.is-introducing .popup-content--scale {
+  animation: popup-content-arrive var(--popup-duration) var(--popup-ease) both;
+}
+.popup-motion:not(.is-mounted) .popup-content--unfold,
+.popup-motion:not(.is-mounted) .popup-content--scale {
+  opacity: 0;
+  transform: scale(0.74);
+  transition:
+    opacity 0.12s linear,
+    transform 0.22s ease;
+}
+.popup-motion.is-introducing .popup-content-item {
+  animation: popup-item-arrive 0.1s cubic-bezier(0.18, 0.72, 0.22, 0.88)
+    calc(0.46s + var(--popup-item-index) * 0.05s) both;
+  transition: none;
+}
+/* Commit the end of the intro before handing its properties to transitions. */
+.popup-motion.is-intro-settling,
+.popup-motion.is-intro-settling .popup-control,
+.popup-motion.is-intro-settling .popup-control::before,
+.popup-motion.is-intro-settling .popup-control::after,
+.popup-motion.is-intro-settling .popup-content--unfold,
+.popup-motion.is-intro-settling .popup-content--scale {
+  transition: none;
+}
+
+@keyframes popup-rise {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 180px);
+    animation-timing-function: cubic-bezier(0.48, 0, 0.2, 1);
+  }
+  7% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -46px);
+    animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
+  }
+  54% {
+    opacity: 1;
+    transform: translate(-50%, 3px);
+    animation-timing-function: cubic-bezier(0.32, 0.04, 0.2, 1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+@keyframes popup-blob {
+  0% {
+    width: 30px;
+    height: 80px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.3);
+    animation-timing-function: cubic-bezier(0.48, 0, 0.2, 1);
+  }
+  7% {
+    width: 30px;
+    height: 80px;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+    animation-timing-function: cubic-bezier(0.44, 0, 0.2, 1);
+  }
+  24% {
+    width: 39px;
+    height: 45px;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+    animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
+  }
+  30% {
+    width: 40px;
+    height: 30px;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+    animation-timing-function: cubic-bezier(0.32, 0.04, 0.2, 1);
+  }
+  38% {
+    width: 35px;
+    height: 32px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+  100% {
+    width: 30px;
+    height: 80px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+}
+
+@keyframes popup-surface {
+  0%,
+  27% {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
+  }
+  40% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes popup-outline {
+  0%,
+  30% {
+    opacity: 0;
+  }
+  46%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes popup-primary-split {
+  0%,
+  27% {
+    left: var(--popup-merge-left);
+    width: var(--popup-size);
+    height: var(--popup-size);
+    transform: translateY(-50%);
+    animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
+  }
+  64% {
+    left: 6px;
+    width: calc(var(--popup-primary-width) - 12px);
+    height: var(--popup-size);
+    transform: translateY(-50%);
+    animation-timing-function: cubic-bezier(0.26, 1.16, 0.72, 1);
+  }
+  100% {
+    left: 0;
+    width: var(--popup-primary-width);
+    height: var(--popup-size);
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes popup-secondary-split {
+  0%,
+  27% {
+    left: var(--popup-merge-left);
+    width: var(--popup-size);
+    height: var(--popup-size);
+    opacity: 1;
+    transform: translateY(-50%);
+    animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
+  }
+  64% {
+    left: calc(var(--popup-secondary-left) + 8px);
+    width: var(--popup-secondary-width);
+    height: var(--popup-size);
+    opacity: 1;
+    transform: translateY(-50%);
+    animation-timing-function: cubic-bezier(0.26, 1.16, 0.72, 1);
+  }
+  100% {
+    left: var(--popup-secondary-left);
+    width: var(--popup-secondary-width);
+    height: var(--popup-size);
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes popup-content-unfold {
+  0%,
+  27% {
+    width: var(--popup-content-collapsed-width);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.3, 0, 0.18, 1);
+  }
+  58%,
+  100% {
+    width: var(--popup-content-width);
+    opacity: 1;
+  }
+}
+
+@keyframes popup-item-arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes popup-content-arrive {
+  0%,
+  36% {
+    opacity: 0;
+    transform: scale(0.72);
+    animation-timing-function: cubic-bezier(0.26, 1.16, 0.72, 1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .popup-control,
-  .popup-outline {
-    transition: none;
+  .popup-motion,
+  .popup-motion *,
+  .popup-control::before,
+  .popup-control::after {
+    animation: none !important;
+    transition: none !important;
   }
 }

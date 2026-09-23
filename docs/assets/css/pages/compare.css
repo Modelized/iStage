@@ -84,6 +84,8 @@
   pointer-events: none;
 }
 .compare-dock {
+  --popup-primary-width: calc((100% - var(--compare-column-gap)) / 2);
+  --popup-secondary-width: var(--popup-primary-width);
   --popup-surface: var(--compare-dock-surface);
   --popup-blob: var(--compare-dock-blob);
   --popup-border: var(--compare-dock-border);
@@ -92,8 +94,6 @@
   left: 50%;
   bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px));
   z-index: 900;
-  column-gap: var(--compare-column-gap);
-  height: 56px;
   margin: 0;
   color: var(--compare-dock-text);
 }
@@ -106,11 +106,11 @@
   padding-block: 0;
   border: 0;
 }
-.compare-dock .compare-picker:focus-within .popup-outline {
+.compare-dock .compare-picker:focus-within::after {
   border-color: currentColor;
 }
 @media (hover: hover) and (pointer: fine) {
-  .compare-dock .compare-picker:hover .popup-outline {
+  .compare-dock .compare-picker:hover::after {
     border-color: currentColor;
   }
 }
