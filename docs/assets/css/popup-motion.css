@@ -1,5 +1,5 @@
-/* Choreography restored from the original iStage 27 CSS.
-   Pages provide widths and colours; JavaScript only requests visibility. */
+/* Shared CSS choreography, played forward/backward without detaching effects.
+   Pages provide widths and colours; JavaScript controls playback direction. */
 .popup-motion {
   --popup-size: 56px;
   --popup-primary-width: 216px;
@@ -13,27 +13,19 @@
   --popup-ease: cubic-bezier(0.42, 0, 0.18, 1);
   --popup-duration: 1.3s;
   --popup-rise-duration: 1.2s;
-  --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --popup-outline-exit: 0.12s;
   height: var(--popup-size);
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, 180px);
   transform-origin: center;
-  transition-property: opacity, transform;
-  transition-duration: 0.22s, 0.66s;
-  transition-timing-function: linear, var(--popup-settle-ease);
-  transition-delay: 0.58s, 0.52s;
 }
 .popup-motion.is-mounted {
   opacity: 1;
   pointer-events: auto;
   transform: translate(-50%, 0) scale(1);
-  transition-delay: 0s, 0s;
 }
-.popup-motion.is-introducing {
-  animation: popup-rise var(--popup-rise-duration) var(--popup-ease) both;
-  transition: none;
+.popup-motion.has-popup-animation {
+  animation: popup-rise var(--popup-rise-duration) var(--popup-ease) both paused;
 }
 .popup-control {
   position: absolute;
@@ -48,11 +40,6 @@
   color: inherit;
   box-shadow: none;
   transform: translateY(-50%);
-  transition-property: width, left;
-  transition-duration: 0.78s;
-  transition-timing-function: var(--popup-settle-ease);
-  /* Clear the outline before the two controls begin to overlap. */
-  transition-delay: var(--popup-outline-exit);
 }
 .popup-control--primary {
   z-index: 1;
@@ -63,12 +50,10 @@
 .popup-motion.is-mounted .popup-control--primary {
   left: 0;
   width: var(--popup-primary-width);
-  transition-delay: 0.1s;
 }
 .popup-motion.is-mounted .popup-control--secondary {
   left: var(--popup-secondary-left);
   width: var(--popup-secondary-width);
-  transition-delay: 0.16s;
 }
 .popup-control::before,
 .popup-control::after {
@@ -90,15 +75,11 @@
   z-index: 3;
   box-sizing: border-box;
   border: 1px solid var(--popup-border);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
   opacity: 0;
-  transition:
-    opacity var(--popup-outline-exit) var(--popup-settle-ease),
-    border-color var(--control-duration) var(--control-ease);
+  transition: border-color var(--control-duration) var(--control-ease);
 }
 .popup-motion.is-mounted .popup-control::after {
   opacity: 1;
-  transition-duration: 0.22s, var(--control-duration);
 }
 .popup-blob {
   position: absolute;
@@ -117,22 +98,20 @@
   transform: translate(-50%, -50%) scale(1.3);
   transform-origin: center;
 }
-.popup-motion.is-introducing .popup-blob {
-  animation: popup-blob var(--popup-rise-duration) var(--popup-ease) both;
+.popup-motion.has-popup-animation .popup-blob {
+  animation: popup-blob var(--popup-rise-duration) var(--popup-ease) both paused;
 }
-.popup-motion.is-introducing .popup-control::before {
-  animation: popup-surface var(--popup-duration) var(--popup-ease) both;
+.popup-motion.has-popup-animation .popup-control::before {
+  animation: popup-surface var(--popup-duration) var(--popup-ease) both paused;
 }
-.popup-motion.is-introducing .popup-control::after {
-  animation: popup-outline var(--popup-duration) var(--popup-ease) both;
+.popup-motion.has-popup-animation .popup-control::after {
+  animation: popup-outline var(--popup-duration) var(--popup-ease) both paused;
 }
-.popup-motion.is-introducing .popup-control--primary {
-  animation: popup-primary-split var(--popup-duration) var(--popup-ease) both;
-  transition: none;
+.popup-motion.has-popup-animation .popup-control--primary {
+  animation: popup-primary-split var(--popup-duration) var(--popup-ease) both paused;
 }
-.popup-motion.is-introducing .popup-control--secondary {
-  animation: popup-secondary-split var(--popup-duration) var(--popup-ease) both;
-  transition: none;
+.popup-motion.has-popup-animation .popup-control--secondary {
+  animation: popup-secondary-split var(--popup-duration) var(--popup-ease) both paused;
 }
 .popup-content--unfold {
   width: var(--popup-content-width);
@@ -146,39 +125,20 @@
   opacity: 1;
   transform: scale(1);
 }
-.popup-content--unfold,
-.popup-content--scale {
-  transition:
-    opacity 0.22s linear,
-    transform 0.22s ease;
+.popup-motion.has-popup-animation .popup-content--unfold {
+  animation: popup-content-unfold var(--popup-duration) var(--popup-ease) both paused;
 }
-.popup-motion.is-introducing .popup-content--unfold {
-  animation: popup-content-unfold var(--popup-duration) var(--popup-ease) both;
-}
-.popup-motion.is-introducing .popup-content--scale {
-  animation: popup-content-arrive var(--popup-duration) var(--popup-ease) both;
+.popup-motion.has-popup-animation .popup-content--scale {
+  animation: popup-content-arrive var(--popup-duration) var(--popup-ease) both paused;
 }
 .popup-motion:not(.is-mounted) .popup-content--unfold,
 .popup-motion:not(.is-mounted) .popup-content--scale {
   opacity: 0;
   transform: scale(0.74);
-  transition:
-    opacity 0.12s linear,
-    transform 0.22s ease;
 }
-.popup-motion.is-introducing .popup-content-item {
+.popup-motion.has-popup-animation .popup-content-item {
   animation: popup-item-arrive 0.1s cubic-bezier(0.18, 0.72, 0.22, 0.88)
-    calc(0.46s + var(--popup-item-index) * 0.05s) both;
-  transition: none;
-}
-/* Commit the end of the intro before handing its properties to transitions. */
-.popup-motion.is-intro-settling,
-.popup-motion.is-intro-settling .popup-control,
-.popup-motion.is-intro-settling .popup-control::before,
-.popup-motion.is-intro-settling .popup-control::after,
-.popup-motion.is-intro-settling .popup-content--unfold,
-.popup-motion.is-intro-settling .popup-content--scale {
-  transition: none;
+    calc(0.46s + var(--popup-item-index) * 0.05s) both paused;
 }
 
 @keyframes popup-rise {
@@ -266,10 +226,10 @@
 
 @keyframes popup-outline {
   0%,
-  30% {
+  64% {
     opacity: 0;
   }
-  46%,
+  78%,
   100% {
     opacity: 1;
   }
