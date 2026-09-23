@@ -51,7 +51,11 @@ window.createPopupMotion = function (root) {
 
     if (!next) {
       clearIntroCallbacks();
+      // Commit the mounted endpoint before removing it. Removing an intro and
+      // unmounting in one style update can skip the separate exit transition.
+      if (!reduce.matches) finishIntro();
       root.classList.remove("is-introducing", "is-intro-settling");
+      if (!reduce.matches) void root.offsetWidth;
     }
     root.classList.toggle("is-mounted", next);
     if (next && !reduce.matches) beginIntro();
