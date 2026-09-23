@@ -84,6 +84,7 @@
   pointer-events: none;
 }
 .compare-dock {
+  --compare-control-size: 56px;
   position: fixed;
   left: 50%;
   bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px));
@@ -91,7 +92,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--compare-column-gap);
-  height: 56px;
+  height: var(--compare-control-size);
   margin: 0;
   opacity: 0;
   transform: translate(-50%, 180px);
@@ -113,7 +114,7 @@
   top: 50%;
   transform: translateY(-50%);
   width: 100%;
-  height: 56px;
+  height: var(--compare-control-size);
   overflow: hidden;
   border: 1px solid transparent;
   border-radius: 999px;

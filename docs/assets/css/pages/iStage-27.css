@@ -1035,14 +1035,14 @@ html {
   27% {
     left: var(--pill-merge-left);
     width: var(--collapsed-control-size);
-    height: 41.44px;
+    height: var(--collapsed-control-size);
     transform: translateY(-50%);
     animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
   }
   64% {
     left: 6px;
     width: calc(var(--pill-expanded-width) - 12px);
-    height: 49.28px;
+    height: var(--collapsed-control-size);
     transform: translateY(-50%);
     animation-timing-function: cubic-bezier(0.26, 1.16, 0.72, 1);
   }
@@ -1223,14 +1223,14 @@ html {
   0%,
   27% {
     left: var(--play-merge-left);
-    height: 41.44px;
+    height: var(--collapsed-control-size);
     opacity: 1;
     transform: translateY(-50%);
     animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
   }
   64% {
     left: calc(var(--play-final-left) + 8px);
-    height: 49.28px;
+    height: var(--collapsed-control-size);
     opacity: 1;
     transform: translateY(-50%);
     animation-timing-function: cubic-bezier(0.26, 1.16, 0.72, 1);

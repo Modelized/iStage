@@ -102,7 +102,10 @@
       if (reduce.matches || immediate || !dock.animate) return;
       const token = revision;
       const slotWidth = pickers[0].parentElement.clientWidth;
-      const gap = parseFloat(getComputedStyle(dock).columnGap);
+      const dockStyle = getComputedStyle(dock);
+      const gap = parseFloat(dockStyle.columnGap);
+      const controlSize = parseFloat(dockStyle.height);
+      const controlHeight = `${controlSize}px`;
       const finalTransform = "translate(-50%, 0px)";
 
       if (next && !interrupted) {
@@ -177,10 +180,16 @@
       }
 
       pickers.forEach((picker, index) => {
-        const mergedLeft = index === 0 ? slotWidth + gap / 2 - 28 : -gap / 2 - 28;
+        const mergedLeft =
+          index === 0 ? slotWidth + gap / 2 - controlSize / 2 : -gap / 2 - controlSize / 2;
         const start = snapshots.get(picker);
-        const merged = { left: `${mergedLeft}px`, width: "56px", height: "41.44px" };
-        const expanded = { left: "0px", width: `${slotWidth}px`, height: "56px", opacity: 1 };
+        const merged = { left: `${mergedLeft}px`, width: controlHeight, height: controlHeight };
+        const expanded = {
+          left: "0px",
+          width: `${slotWidth}px`,
+          height: controlHeight,
+          opacity: 1
+        };
         if (next && !interrupted) {
           animate(
             picker,
@@ -192,7 +201,7 @@
                 offset: 0.64,
                 left: "6px",
                 width: `${slotWidth - 12}px`,
-                height: "49.28px",
+                height: controlHeight,
                 opacity: 1,
                 easing: "cubic-bezier(.26,1.16,.72,1)"
               },
