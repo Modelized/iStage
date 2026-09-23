@@ -196,6 +196,10 @@
   width: 24px;
   height: 24px;
 }
+.help-back,
+.help-topic-link {
+  transition: var(--control-transition);
+}
 .help-detail-title {
   margin: 18px 0 14px;
   font-size: clamp(25px, 3.2vw, 34px);
@@ -269,8 +273,11 @@
   flex-direction: row-reverse;
   text-align: right;
 }
-.help-topic-link:hover {
-  background: color-mix(in srgb, var(--help-button), currentColor 5%);
+@media (hover: hover) and (pointer: fine) {
+  .help-back:hover,
+  .help-topic-link:hover {
+    background: color-mix(in srgb, var(--help-button), currentColor 5%);
+  }
 }
 @media (max-width: 900px) {
   .help-deck {

@@ -95,6 +95,16 @@
 
   // Timing reads only: no per-frame geometry, computed styles, or blur calculations.
   function updateAccess() {
+    if (
+      pendingNavigation &&
+      !selected &&
+      [...layers.values()].every((layer) => progress(layer) <= 0.2)
+    ) {
+      const destination = pendingNavigation;
+      pendingNavigation = null;
+      changeSelection(destination);
+      return;
+    }
     const available = tilesAvailable();
     topics.forEach((topic) => {
       if (topic.inert !== !available) topic.inert = !available;
@@ -220,18 +230,10 @@
 
   function navigateToTopic(layer, topic) {
     if (pendingNavigation || selected !== layer || progress(layer) < 0.8) return;
-    const navigation = { topic };
-    pendingNavigation = navigation;
+    // The existing access loop starts the next opening at 20%, without ever
+    // unlocking the grid. Departing layers keep their shrinking timelines.
+    pendingNavigation = topic;
     changeSelection(null);
-    // Keep the grid locked through the whole collapse, then reuse normal opening.
-    // The identity check also makes a resize/cancelled transition harmless.
-    layer.morph.finished
-      .then(() => {
-        if (pendingNavigation !== navigation) return;
-        pendingNavigation = null;
-        changeSelection(topic);
-      })
-      .catch(() => {});
     if (deck.getBoundingClientRect().top < 90) {
       deck.scrollIntoView({
         behavior: reduceMotion.matches ? "instant" : "smooth",
@@ -396,7 +398,7 @@
     if (nextWidth === width) return;
     width = nextWidth;
     if (!deck.classList.contains("is-active")) return;
-    const destination = pendingNavigation?.topic;
+    const destination = pendingNavigation;
     pendingNavigation = null;
     settle();
     if (!selected) {

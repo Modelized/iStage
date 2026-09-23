@@ -196,8 +196,10 @@
   --button-text: #111317;
   color: var(--button-text);
 }
-.page-releases .card.is-highlight .btn-blue:hover {
-  background: rgb(var(--release-highlight) / 0.94);
+@media (hover: hover) and (pointer: fine) {
+  .page-releases .card.is-highlight .btn-blue:hover {
+    background: rgb(var(--release-highlight) / 0.94);
+  }
 }
 .page-releases .card.is-highlight .btn-blue:active {
   background: rgb(var(--release-highlight) / 0.78);

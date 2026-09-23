@@ -588,8 +588,8 @@ html {
   color: #f5f5f7;
   cursor: pointer;
   transition:
-    opacity 0.2s linear,
-    background-color 0.25s ease,
+    var(--control-transition),
+    opacity var(--control-duration) var(--control-ease),
     transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -882,6 +882,18 @@ html {
   transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.play-toggle::before {
+  transition: var(--control-transition);
+}
+@media (hover: hover) and (pointer: fine) {
+  .play-toggle:hover::before {
+    background: rgba(55, 55, 59, 0.88);
+  }
+  .progress-dot:hover:not(.is-active) {
+    background: rgba(245, 245, 247, 0.72);
+  }
+}
+
 .highlight-controls.is-mounted .progress-pill::after,
 .highlight-controls.is-mounted .play-toggle::after {
   opacity: 1;
@@ -1101,7 +1113,7 @@ html {
   transform: scale(1);
   transition:
     width 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 0.2s linear;
+    background-color var(--control-duration) var(--control-ease);
 }
 
 .progress-dot:first-child {

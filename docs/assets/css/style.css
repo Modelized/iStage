@@ -33,6 +33,12 @@ body {
 :root {
   --accent-blue: 0 113 227;
   --title-weight: 650;
+  --control-duration: 180ms;
+  --control-ease: ease-out;
+  --control-transition:
+    background-color var(--control-duration) var(--control-ease),
+    border-color var(--control-duration) var(--control-ease),
+    color var(--control-duration) var(--control-ease);
 
   --nav-pill-height-mobile: 56px;
   --nav-pill-height-desktop: 44px;
@@ -86,6 +92,11 @@ body {
 .page-gallery,
 .page-feature:not(.page-iStage-27) {
   --footer-color: #5e6572;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --control-duration: 0ms;
+  }
 }
 @media (prefers-color-scheme: dark) {
   .page-home,
@@ -309,6 +320,7 @@ body {
   -webkit-backdrop-filter: saturate(170%) blur(18px);
   box-shadow: var(--nav-shadow);
   color: var(--nav-text);
+  transition: var(--control-transition);
 }
 
 .nav-search {
@@ -357,7 +369,7 @@ body {
   text-decoration: none;
   padding: 6px 12px;
   border-radius: 12px;
-  transition: color 0.18s linear;
+  transition: var(--control-transition);
 }
 .menu a.is-current {
   color: var(--nav-text);
@@ -489,7 +501,7 @@ body {
       transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
       width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
       opacity 0.18s linear,
-      background-color 0.12s linear;
+      background-color var(--control-duration) var(--control-ease);
     pointer-events: none;
     z-index: 0;
   }
@@ -600,6 +612,7 @@ body {
   color: var(--nav-text);
   text-decoration: none;
   border-radius: 999px;
+  transition: var(--control-transition);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1093,9 +1106,7 @@ a.btn,
   box-shadow: 0 0 24px -14px rgba(0, 0, 0, 0.28);
 
   transition:
-    background-color 0.18s linear,
-    border-color 0.18s linear,
-    filter 0.18s linear,
+    var(--control-transition),
     transform 0.12s ease;
 }
 a.btn:link,
@@ -1103,14 +1114,19 @@ a.btn:visited {
   color: var(--button-text, inherit);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .btn-blue:hover {
+    background: rgb(var(--accent-blue) / 0.84);
+  }
+  .btn-outline:hover {
+    background: rgba(120, 120, 120, 0.4);
+  }
+}
 .btn-blue {
   background: rgb(var(--accent-blue) / 0.76);
   border-color: rgb(var(--accent-blue) / 0.56);
   --button-text: #fff;
   color: var(--button-text);
-}
-.btn-blue:hover {
-  background: rgb(var(--accent-blue) / 0.84);
 }
 .btn-blue:active {
   background: rgb(var(--accent-blue) / 0.68);
@@ -1122,9 +1138,6 @@ a.btn:visited {
   border-color: rgba(255, 255, 255, 0.18);
   --button-text: #fff;
   color: var(--button-text);
-}
-.btn-outline:hover {
-  background: rgba(120, 120, 120, 0.4);
 }
 .btn-outline:active {
   background: rgba(120, 120, 120, 0.24);
@@ -1228,7 +1241,7 @@ a.btn:visited {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-decoration: none;
-  transition: opacity 0.22s ease;
+  transition: opacity var(--control-duration) var(--control-ease);
 }
 .footer-sitemap a:hover {
   opacity: 0.72;
@@ -1257,7 +1270,7 @@ a.btn:visited {
   line-height: 0;
   opacity: 0.72;
   transform: translateY(-50%);
-  transition: opacity 0.22s ease;
+  transition: opacity var(--control-duration) var(--control-ease);
 }
 .footer-brand:hover {
   opacity: 1;
@@ -1325,12 +1338,15 @@ a.btn:visited {
   transform: none;
 }
 .js .reveal {
+  --reveal-transition:
+    opacity var(--reveal-duration, 0.75s) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    transform var(--reveal-duration, 0.75s) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
   opacity: 0;
   transform: translateY(var(--reveal-distance, 18px));
-  transition:
-    opacity var(--reveal-duration, 0.75s) cubic-bezier(0.22, 1, 0.36, 1),
-    transform var(--reveal-duration, 0.75s) cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: var(--reveal-delay, 0s);
+  transition: var(--reveal-transition);
+}
+.js .btn.reveal {
+  transition: var(--reveal-transition), var(--control-transition);
 }
 .js .reveal.is-revealed {
   opacity: 1;

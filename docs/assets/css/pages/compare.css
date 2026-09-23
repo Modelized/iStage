@@ -58,7 +58,7 @@
   font-size: clamp(16px, 2vw, 22px);
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 0.18s ease;
+  transition: var(--control-transition);
 }
 .compare-select option {
   color: #111317;
@@ -73,7 +73,6 @@
   transform: translateY(-50%);
   pointer-events: none;
 }
-.compare-select:hover,
 .compare-select:focus {
   border-color: currentColor;
 }
@@ -122,9 +121,15 @@
   color: rgb(var(--accent-blue));
   font-size: 16px;
   text-decoration: none;
+  transition: opacity var(--control-duration) var(--control-ease);
 }
-.compare-learn:hover {
-  text-decoration: underline;
+@media (hover: hover) and (pointer: fine) {
+  .compare-select:hover {
+    border-color: currentColor;
+  }
+  .compare-learn:hover {
+    opacity: 0.75;
+  }
 }
 .compare-details {
   display: grid;
