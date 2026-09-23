@@ -19,6 +19,7 @@
   let gridHeight = 0;
   let tiles = [];
   let returnFocus = null;
+  let pendingNavigation = null;
   deck.classList.add("is-ready");
   topics.forEach((topic, index) => {
     topic.querySelector("button").setAttribute("aria-controls", `help-detail-${index}`);
@@ -85,7 +86,11 @@
   }
 
   function tilesAvailable() {
-    return !selected && [...layers.values()].every((layer) => progress(layer) <= 0.2);
+    return (
+      !pendingNavigation &&
+      !selected &&
+      [...layers.values()].every((layer) => progress(layer) <= 0.2)
+    );
   }
 
   // Timing reads only: no per-frame geometry, computed styles, or blur calculations.
@@ -153,6 +158,7 @@
         </button>
         <h2 class="help-detail-title" id="help-detail-title-${index}"></h2>
         <div class="prose"></div>
+        <nav class="help-topic-navigation" aria-label="Adjacent help topics"></nav>
       </div>
     </section>`;
     const layer = {
@@ -179,6 +185,22 @@
     layer.content.querySelector(".help-detail-title").textContent =
       topic.querySelector(".help-tile-label > span").textContent;
     layer.content.querySelector(".prose").innerHTML = topic.querySelector(".prose").innerHTML;
+    const navigation = layer.content.querySelector(".help-topic-navigation");
+    [-1, 1].forEach((offset) => {
+      const adjacent = topics[index + offset];
+      if (!adjacent) return;
+      const direction = offset < 0 ? "previous" : "next";
+      const title = adjacent.querySelector(".help-tile-label > span").textContent;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `help-topic-link help-topic-link--${direction}`;
+      button.setAttribute("aria-label", `${offset < 0 ? "Previous" : "Next"} topic: ${title}`);
+      button.innerHTML = `<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="${offset < 0 ? "m15 5-7 7 7 7" : "m9 5 7 7-7 7"}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span></span>`;
+      button.querySelector("span").textContent = title;
+      button.addEventListener("click", () => navigateToTopic(layer, adjacent));
+      navigation.append(button);
+    });
+    if (!navigation.childElementCount) navigation.remove();
     const style = getComputedStyle(topic);
     Object.assign(surface.style, {
       opacity: style.opacity,
@@ -194,6 +216,28 @@
       changeSelection(null);
     });
     return layer;
+  }
+
+  function navigateToTopic(layer, topic) {
+    if (pendingNavigation || selected !== layer || progress(layer) < 0.8) return;
+    const navigation = { topic };
+    pendingNavigation = navigation;
+    changeSelection(null);
+    // Keep the grid locked through the whole collapse, then reuse normal opening.
+    // The identity check also makes a resize/cancelled transition harmless.
+    layer.morph.finished
+      .then(() => {
+        if (pendingNavigation !== navigation) return;
+        pendingNavigation = null;
+        changeSelection(topic);
+      })
+      .catch(() => {});
+    if (deck.getBoundingClientRect().top < 90) {
+      deck.scrollIntoView({
+        behavior: reduceMotion.matches ? "instant" : "smooth",
+        block: "start"
+      });
+    }
   }
 
   function readStyle(style, key) {
@@ -352,8 +396,13 @@
     if (nextWidth === width) return;
     width = nextWidth;
     if (!deck.classList.contains("is-active")) return;
+    const destination = pendingNavigation?.topic;
+    pendingNavigation = null;
     settle();
-    if (!selected) return;
+    if (!selected) {
+      if (destination) changeSelection(destination);
+      return;
+    }
     deck.classList.remove("is-active");
     deck.style.height = "";
     measureGrid();
