@@ -81,36 +81,28 @@
 }
 .popup-control::before {
   z-index: 0;
-  opacity: var(--popup-frozen-surface-opacity, 1);
   /* Equal opaque surfaces merge without accumulating two glass layers. */
-  background: var(
-    --popup-frozen-surface-color,
-    var(--popup-current-surface, var(--popup-merged-surface))
-  );
+  background: var(--popup-current-surface, var(--popup-merged-surface));
   box-shadow: 0 12px 38px var(--popup-shadow);
   backdrop-filter: saturate(150%) blur(22px);
   -webkit-backdrop-filter: saturate(150%) blur(22px);
-  transition:
-    opacity 0.12s linear,
-    background-color var(--popup-outline-exit) linear;
+  transition: background-color var(--popup-outline-exit) linear;
 }
 .popup-motion.is-mounted .popup-control::before {
   --popup-current-surface: var(--popup-surface);
-  transition:
-    opacity 0.22s linear,
-    background-color var(--control-duration) var(--control-ease);
+  transition: background-color var(--control-duration) var(--control-ease);
 }
 .popup-control::after {
   z-index: 3;
   box-sizing: border-box;
   border: 1px solid var(--popup-border);
-  opacity: var(--popup-frozen-outline-opacity, 0);
+  opacity: 0;
   transition:
     opacity var(--popup-outline-exit) var(--popup-settle-ease),
     border-color var(--control-duration) var(--control-ease);
 }
 .popup-motion.is-mounted .popup-control::after {
-  opacity: var(--popup-frozen-outline-opacity, 1);
+  opacity: 1;
   transition-duration: 0.22s, var(--control-duration);
 }
 .popup-blob {
@@ -129,10 +121,6 @@
   pointer-events: none;
   transform: translate(-50%, -50%) scale(1.3);
   transform-origin: center;
-  transition:
-    opacity 0.12s linear,
-    width 0.22s ease,
-    height 0.22s ease;
 }
 .popup-motion.is-introducing .popup-blob {
   animation: popup-blob var(--popup-rise-duration) var(--popup-ease) both;
@@ -166,7 +154,6 @@
 .popup-content--unfold,
 .popup-content--scale {
   transition:
-    width 0.22s ease,
     opacity 0.22s linear,
     transform 0.22s ease;
 }
@@ -181,7 +168,6 @@
   opacity: 0;
   transform: scale(0.74);
   transition:
-    width 0.22s ease,
     opacity 0.12s linear,
     transform 0.22s ease;
 }
@@ -190,16 +176,12 @@
     calc(0.46s + var(--popup-item-index) * 0.05s) both;
   transition: none;
 }
-/* A single boundary snapshot hands an interrupted intro to exit transitions. */
-.popup-motion.is-popup-snapshot,
-.popup-motion.is-popup-snapshot .popup-control,
-.popup-motion.is-popup-snapshot .popup-control::before,
-.popup-motion.is-popup-snapshot .popup-control::after,
-.popup-motion.is-popup-snapshot .popup-content--unfold,
-.popup-motion.is-popup-snapshot .popup-content--scale,
-.popup-motion.is-popup-snapshot .popup-content-item,
-.popup-motion.is-popup-snapshot .popup-blob {
-  transition: none !important;
+/* Preserve the intro endpoint until the next visibility change, as before. */
+.popup-motion.is-intro-settling,
+.popup-motion.is-intro-settling .popup-control,
+.popup-motion.is-intro-settling .popup-content--unfold,
+.popup-motion.is-intro-settling .popup-content--scale {
+  transition: none;
 }
 
 @keyframes popup-rise {
