@@ -437,50 +437,18 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     document.querySelectorAll(".highlight-media--zoom-top, .highlight-media--zoom-bottom")
   );
   if (!mediaNodes.length) return;
-  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  mediaNodes.forEach(function (media) {
-    const image = media.querySelector("img");
-    decodeImage(image);
+  const controller = createScrollReveal({
+    threshold: 0.72,
+    rootMargin: "0px -2% -8% 0px"
   });
-
-  function zoomOnce(media) {
-    if (media.classList.contains("is-zoomed")) return;
-    const image = media.querySelector("img");
-    const reveal = function () {
-      window.setTimeout(function () {
-        window.requestAnimationFrame(function () {
-          window.requestAnimationFrame(function () {
-            media.classList.add("is-zoomed");
-          });
-        });
-      }, 160);
-    };
-    if (!image) {
-      reveal();
-      return;
-    }
-    decodeImage(image).then(reveal);
-  }
-
-  if (reduce || !("IntersectionObserver" in window)) {
-    mediaNodes.forEach(zoomOnce);
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        observer.unobserve(entry.target);
-        zoomOnce(entry.target);
-      });
-    },
-    { threshold: 0.72, rootMargin: "0px -2% -8% 0px" }
-  );
-
   mediaNodes.forEach(function (media) {
-    observer.observe(media);
+    const image = media.querySelector("img");
+    controller.observe(media, {
+      elements: image ? [image] : [],
+      prepare: () => decodeImage(image),
+      delay: 160,
+      reveal: () => media.classList.add("is-zoomed")
+    });
   });
 })();
 
@@ -627,7 +595,9 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     else if (box.bottom <= viewportTop) desiredState = "after";
     else desiredState = "active";
 
-    if (ready) showcase.dataset.showcaseState = desiredState;
+    if (ready && showcase.dataset.showcaseState !== desiredState) {
+      showcase.dataset.showcaseState = desiredState;
+    }
   }
 
   function requestState() {

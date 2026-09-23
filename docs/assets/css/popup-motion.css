@@ -21,6 +21,8 @@
   pointer-events: none;
   transform: translate(-50%, 180px);
   transform-origin: center;
+  /* One small, fixed overlay per page; keep its travel on a prepared layer. */
+  will-change: transform, opacity;
   transition-property: opacity, transform;
   transition-duration: 0.22s, 0.66s;
   transition-timing-function: linear, var(--popup-settle-ease);

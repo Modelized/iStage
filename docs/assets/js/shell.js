@@ -386,7 +386,7 @@ const iStageImages = (() => {
       return;
     }
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const controller = createScrollReveal();
     const staggeredItems = new Map();
 
     staggerGroups.forEach((group) => {
@@ -398,38 +398,26 @@ const iStageImages = (() => {
       staggeredItems.set(group, items);
     });
 
-    const reveal = async (target) => {
+    const observe = (target) => {
       const images = target.matches("img") ? [target] : Array.from(target.querySelectorAll("img"));
-      await Promise.all(images.map(iStageImages.ready));
       const groupItems = staggeredItems.get(target);
-      if (groupItems) {
-        groupItems.forEach((item) => item.classList.add("is-revealed"));
-      } else {
-        target.classList.add("is-revealed");
-      }
+      const elements = groupItems || (target.matches(".image-reveal") ? images : [target]);
+      controller.observe(target, {
+        elements,
+        prepare: () => {
+          images.forEach((image) => {
+            if (image.loading === "lazy") image.loading = "eager";
+          });
+          return Promise.all(images.map(iStageImages.ready));
+        },
+        reveal: () => {
+          (groupItems || [target]).forEach((item) => item.classList.add("is-revealed"));
+        }
+      });
     };
 
-    const targets = [...revealNodes, ...staggerGroups];
-    onloadNodes.forEach(reveal);
-    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
-      targets.forEach(reveal);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            return;
-          }
-          reveal(entry.target);
-          observer.unobserve(entry.target);
-        });
-      },
-      { threshold: 0, rootMargin: "0px 0px -1% 0px" }
-    );
-
-    targets.forEach((target) => observer.observe(target));
+    new Set([...revealNodes, ...staggerGroups, ...onloadNodes]).forEach(observe);
+    onloadNodes.forEach(controller.reveal);
   }
 
   function initNav() {
