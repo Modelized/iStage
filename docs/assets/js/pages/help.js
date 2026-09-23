@@ -293,11 +293,12 @@
       animate(item, backgroundTarget(item, !!selected), 1000);
     });
     animate(deck, { height: `${targetHeight}px` }, 780);
-    const startTime = document.timeline.currentTime;
     motion.forEach((entry) => {
       if (!entry.fresh) return;
+      // Let pending playback wait for the first rendered frame. Assigning a
+      // startTime here bypasses that wait and counts setup time as animation time.
+      entry.animation.currentTime = 0;
       entry.animation.play();
-      entry.animation.startTime = startTime;
       entry.fresh = false;
     });
     updateAccess();
