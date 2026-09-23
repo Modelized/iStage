@@ -84,45 +84,21 @@
   pointer-events: none;
 }
 .compare-dock {
-  --compare-control-size: 56px;
+  --popup-surface: var(--compare-dock-surface);
+  --popup-blob: var(--compare-dock-blob);
+  --popup-border: var(--compare-dock-border);
+  --popup-shadow: var(--compare-dock-shadow);
   position: fixed;
   left: 50%;
   bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px));
   z-index: 900;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--compare-column-gap);
-  height: var(--compare-control-size);
+  column-gap: var(--compare-column-gap);
+  height: 56px;
   margin: 0;
-  opacity: 0;
-  transform: translate(-50%, 180px);
-  pointer-events: none;
   color: var(--compare-dock-text);
-}
-.compare-dock.is-visible {
-  opacity: 1;
-  transform: translate(-50%, 0);
-  pointer-events: auto;
-}
-.compare-dock-slot {
-  position: relative;
-  min-width: 0;
 }
 .compare-dock .compare-picker {
   position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  height: var(--compare-control-size);
-  overflow: hidden;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  background: var(--compare-dock-surface);
-  box-shadow: 0 12px 38px var(--compare-dock-shadow);
-  backdrop-filter: saturate(150%) blur(22px);
-  -webkit-backdrop-filter: saturate(150%) blur(22px);
-  transition: var(--control-transition);
 }
 .compare-dock .compare-select {
   height: 100%;
@@ -130,39 +106,13 @@
   padding-block: 0;
   border: 0;
 }
-.compare-dock-outline {
-  position: absolute;
-  inset: -1px;
-  border: 1px solid var(--compare-dock-border);
-  border-radius: inherit;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  opacity: 0;
-  pointer-events: none;
-  transition: var(--control-transition);
-}
-.compare-dock.is-visible .compare-dock-outline {
-  opacity: 1;
-}
-.compare-dock .compare-picker:focus-within .compare-dock-outline {
+.compare-dock .compare-picker:focus-within .popup-outline {
   border-color: currentColor;
 }
 @media (hover: hover) and (pointer: fine) {
-  .compare-dock .compare-picker:hover .compare-dock-outline {
+  .compare-dock .compare-picker:hover .popup-outline {
     border-color: currentColor;
   }
-}
-.compare-dock-blob {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 30px;
-  height: 80px;
-  border-radius: 999px;
-  background: var(--compare-dock-blob);
-  box-shadow: 0 12px 38px var(--compare-dock-shadow);
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(1.3);
-  pointer-events: none;
 }
 .compare-select:focus {
   border-color: currentColor;

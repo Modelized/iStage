@@ -747,52 +747,25 @@ html {
   padding-block: clamp(44px, 4vw, 56px);
 }
 
-/* A rising intro blob compresses, then hands off to the two controls. */
+/* Shared popup motion; this page defines only control layout and playback. */
 .highlight-controls {
-  --controls-frame-width: 288px;
-  --control-half: 28px;
-  --collapsed-control-size: 56px;
   --pill-expanded-width: 216px;
-  --pill-merge-left: 116px;
   --progress-active-width: 46px;
   --dots-collapsed-width: 46px;
   --dots-expanded-width: 172px;
-  --play-final-left: 232px;
-  --play-merge-left: 116px;
-  --island-ease: cubic-bezier(0.42, 0, 0.18, 1);
-  --island-duration: 1.3s;
-  --island-rise-duration: 1.2s;
   position: fixed;
   left: 50%;
   top: auto;
   bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px));
   z-index: 900;
-  display: block;
-  width: var(--controls-frame-width);
+  width: 288px;
   height: 56px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, 180px);
-  transform-origin: center;
-  transition-property: opacity, transform;
-  transition-duration: 0.22s, 0.66s;
-  transition-timing-function: linear, cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: 0.58s, 0.52s;
+  color: #f5f5f7;
 }
-
-.highlight-controls.is-mounted {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, 0) scale(1);
-  transition-delay: 0s, 0s;
-}
-
 .highlight-controls.is-docked {
   position: absolute;
-  top: auto;
   bottom: calc((var(--controls-anchor-height) - 56px) / 2);
 }
-
 .highlight-controls-fixed-guide {
   position: fixed;
   right: 0;
@@ -802,301 +775,41 @@ html {
   visibility: hidden;
   pointer-events: none;
 }
-
-.highlight-controls.is-introducing {
-  animation: highlight-controls-rise var(--island-rise-duration) var(--island-ease) both;
-  transition: none;
+.progress-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-/* Keep the final animated frame and the mounted geometry on the same frame. */
-.highlight-controls.is-intro-settling,
-.highlight-controls.is-intro-settling .progress-pill,
-.highlight-controls.is-intro-settling .progress-dots,
-.highlight-controls.is-intro-settling .play-toggle {
-  transition: none;
-}
-
-@keyframes highlight-controls-rise {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 180px);
-    animation-timing-function: cubic-bezier(0.48, 0, 0.2, 1);
-  }
-  7% {
-    opacity: 1;
-  }
-  30% {
-    opacity: 1;
-    transform: translate(-50%, -46px);
-    animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
-  }
-  54% {
-    opacity: 1;
-    transform: translate(-50%, 3px);
-    animation-timing-function: cubic-bezier(0.32, 0.04, 0.2, 1);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, 0) scale(1);
-  }
-}
-
-.progress-pill,
 .play-toggle {
-  height: 56px;
-  border: 0;
-  background: transparent;
-  color: #f5f5f7;
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-.progress-pill::before,
-.play-toggle::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  background: rgba(37, 37, 40, 0.78);
-  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.34);
-  backdrop-filter: saturate(150%) blur(22px);
-  -webkit-backdrop-filter: saturate(150%) blur(22px);
-  pointer-events: none;
-}
-
-.progress-pill::after,
-.play-toggle::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: inherit;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  box-sizing: border-box;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.play-toggle::before {
-  transition: var(--control-transition);
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
 }
 @media (hover: hover) and (pointer: fine) {
-  .play-toggle:hover::before {
-    background: rgba(55, 55, 59, 0.88);
+  .play-toggle:hover {
+    background: rgba(255, 255, 255, 0.07);
   }
   .progress-dot:hover:not(.is-active) {
     background: rgba(245, 245, 247, 0.72);
   }
 }
-
-.highlight-controls.is-mounted .progress-pill::after,
-.highlight-controls.is-mounted .play-toggle::after {
-  opacity: 1;
-}
-
-.highlight-intro-blob {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 3;
-  width: 30px;
-  height: 80px;
-  box-sizing: border-box;
-  border: 0;
-  border-radius: 999px;
-  opacity: 0;
-  background: rgb(42, 42, 45);
-  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.34);
-  pointer-events: none;
-  transform: translate(-50%, -50%) scale(1.3);
-  transform-origin: center;
-}
-
-.highlight-controls.is-introducing .highlight-intro-blob {
-  animation: highlight-intro-blob var(--island-rise-duration) var(--island-ease) both;
-}
-
-@keyframes highlight-intro-blob {
-  0% {
-    width: 30px;
-    height: 80px;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.3);
-    animation-timing-function: cubic-bezier(0.48, 0, 0.2, 1);
-  }
-  7% {
-    width: 30px;
-    height: 80px;
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.3);
-    animation-timing-function: cubic-bezier(0.44, 0, 0.2, 1);
-  }
-  24% {
-    width: 39px;
-    height: 45px;
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.3);
-    animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
-  }
-  30% {
-    width: 40px;
-    height: 30px;
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.3);
-    animation-timing-function: cubic-bezier(0.32, 0.04, 0.2, 1);
-  }
-  38% {
-    width: 35px;
-    height: 32px;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.3);
-  }
-  100% {
-    width: 30px;
-    height: 80px;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.3);
-  }
-}
-
-.highlight-controls.is-introducing .progress-pill::before,
-.highlight-controls.is-introducing .play-toggle::before {
-  animation: highlight-control-surface var(--island-duration) var(--island-ease) both;
-}
-
-.highlight-controls.is-introducing .progress-pill::after,
-.highlight-controls.is-introducing .play-toggle::after {
-  animation: highlight-control-outline var(--island-duration) var(--island-ease) both;
-}
-
-@keyframes highlight-control-surface {
-  0%,
-  27% {
-    opacity: 0;
-    animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
-  }
-  40% {
-    opacity: 1;
-    animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes highlight-control-outline {
-  0%,
-  30% {
-    opacity: 0;
-  }
-  46%,
-  100% {
-    opacity: 1;
-  }
-}
-
-.progress-pill {
-  position: absolute;
-  top: 50%;
-  left: var(--pill-merge-left);
-  display: flex;
-  width: var(--collapsed-control-size);
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 999px;
-  z-index: 1;
-  transform: translateY(-50%);
-  transition:
-    width 0.78s cubic-bezier(0.16, 1, 0.3, 1),
-    height 0.78s cubic-bezier(0.16, 1, 0.3, 1),
-    left 0.78s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.is-mounted .progress-pill {
-  left: 0;
-  width: var(--pill-expanded-width);
-  height: var(--collapsed-control-size);
-  transform: translateY(-50%);
-  transition-delay: 0.1s;
-}
-
-.highlight-controls.is-introducing .progress-pill {
-  animation: highlight-pill-split var(--island-duration) var(--island-ease) both;
-  transition: none;
-}
-
-@keyframes highlight-pill-split {
-  0%,
-  27% {
-    left: var(--pill-merge-left);
-    width: var(--collapsed-control-size);
-    height: var(--collapsed-control-size);
-    transform: translateY(-50%);
-    animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
-  }
-  64% {
-    left: 6px;
-    width: calc(var(--pill-expanded-width) - 12px);
-    height: var(--collapsed-control-size);
-    transform: translateY(-50%);
-    animation-timing-function: cubic-bezier(0.26, 1.16, 0.72, 1);
-  }
-  100% {
-    left: 0;
-    width: var(--pill-expanded-width);
-    height: var(--collapsed-control-size);
-    transform: translateY(-50%);
-  }
-}
-
 .progress-dots {
   --progress-dot-gap: 13px;
+  --popup-content-width: var(--dots-expanded-width);
+  --popup-content-collapsed-width: var(--dots-collapsed-width);
   display: flex;
   width: var(--dots-expanded-width);
+  flex-shrink: 0;
   align-items: center;
   justify-content: flex-start;
   gap: 0;
-  opacity: 1;
   position: relative;
   z-index: 1;
   overflow: hidden;
-  transform: none;
-}
-
-.highlight-controls.is-introducing .progress-dots {
-  animation: highlight-dots-center-unfold var(--island-duration) var(--island-ease) both;
-}
-
-@keyframes highlight-dots-center-unfold {
-  0%,
-  27% {
-    width: var(--dots-collapsed-width);
-    opacity: 0;
-    animation-timing-function: cubic-bezier(0.3, 0, 0.18, 1);
-  }
-  58%,
-  100% {
-    width: var(--dots-expanded-width);
-    opacity: 1;
-  }
-}
-
-.highlight-controls:not(.is-mounted) .progress-dots {
-  opacity: 0;
-  transform: scale(0.74);
-  transition:
-    opacity 0.12s linear,
-    transform 0.22s ease;
 }
 
 .progress-dot {
   --dot-gap: var(--progress-dot-gap);
-  --dot-delay: 0.46s;
   position: relative;
   width: 8px;
   height: 8px;
@@ -1118,44 +831,6 @@ html {
 .progress-dot:first-child {
   --dot-gap: 0px;
 }
-.progress-dot:nth-child(1) {
-  --dot-delay: 0.46s;
-}
-.progress-dot:nth-child(2) {
-  --dot-delay: 0.51s;
-}
-.progress-dot:nth-child(3) {
-  --dot-delay: 0.56s;
-}
-.progress-dot:nth-child(4) {
-  --dot-delay: 0.61s;
-}
-.progress-dot:nth-child(5) {
-  --dot-delay: 0.66s;
-}
-.progress-dot:nth-child(6) {
-  --dot-delay: 0.71s;
-}
-.progress-dot:nth-child(7) {
-  --dot-delay: 0.76s;
-}
-
-.highlight-controls.is-introducing .progress-dot {
-  animation: highlight-dot-arrive 0.1s cubic-bezier(0.18, 0.72, 0.22, 0.88) var(--dot-delay) both;
-  transition: none;
-}
-
-@keyframes highlight-dot-arrive {
-  from {
-    opacity: 0;
-    transform: scale(0.2);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 .progress-dot.is-active {
   width: var(--progress-active-width);
   background: rgba(245, 245, 247, 0.22);
@@ -1181,82 +856,6 @@ html {
 @keyframes highlight-progress {
   to {
     transform: translateX(0);
-  }
-}
-
-.play-toggle {
-  position: absolute;
-  top: 50%;
-  left: var(--play-merge-left);
-  width: var(--collapsed-control-size);
-  min-width: var(--collapsed-control-size);
-  padding: 0;
-  overflow: hidden;
-  border-radius: 999px;
-  z-index: 0;
-  opacity: 0;
-  cursor: pointer;
-  transform-origin: center center;
-  transform: translateY(-50%);
-  transition:
-    opacity 0.1s linear 0.58s,
-    height 0.68s cubic-bezier(0.16, 1, 0.3, 1),
-    left 0.68s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.is-mounted .play-toggle {
-  left: var(--play-final-left);
-  width: var(--collapsed-control-size);
-  min-width: var(--collapsed-control-size);
-  height: var(--collapsed-control-size);
-  opacity: 1;
-  transform: translateY(-50%);
-  transition-delay: 0.16s, 0.16s, 0.16s;
-}
-
-.highlight-controls.is-introducing .play-toggle {
-  animation: highlight-play-split var(--island-duration) var(--island-ease) both;
-  transition: none;
-}
-
-@keyframes highlight-play-split {
-  0%,
-  27% {
-    left: var(--play-merge-left);
-    height: var(--collapsed-control-size);
-    opacity: 1;
-    transform: translateY(-50%);
-    animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
-  }
-  64% {
-    left: calc(var(--play-final-left) + 8px);
-    height: var(--collapsed-control-size);
-    opacity: 1;
-    transform: translateY(-50%);
-    animation-timing-function: cubic-bezier(0.26, 1.16, 0.72, 1);
-  }
-  100% {
-    left: var(--play-final-left);
-    height: var(--collapsed-control-size);
-    opacity: 1;
-    transform: translateY(-50%);
-  }
-}
-
-.highlight-controls.is-introducing .play-icon {
-  animation: highlight-play-icon-arrive var(--island-duration) var(--island-ease) both;
-}
-
-@keyframes highlight-play-icon-arrive {
-  0%,
-  36% {
-    opacity: 0;
-    transform: scale(0.72);
-    animation-timing-function: cubic-bezier(0.26, 1.16, 0.72, 1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
   }
 }
 
@@ -1505,35 +1104,10 @@ html {
     padding-top: 26px;
     padding-bottom: 30px;
   }
-  .progress-pill,
-  .play-toggle {
-    height: 56px;
-  }
-  .progress-dots {
-    --progress-dot-gap: 13px;
-  }
   .highlight-controls {
-    --controls-frame-width: 288px;
-    --control-half: 28px;
-    --collapsed-control-size: 56px;
-    --pill-expanded-width: 216px;
-    --pill-merge-left: 116px;
     --progress-active-width: 40px;
     --dots-collapsed-width: 40px;
     --dots-expanded-width: 166px;
-    --play-final-left: 232px;
-    --play-merge-left: 116px;
-    height: 56px;
-  }
-  .is-mounted .progress-pill {
-    width: var(--pill-expanded-width);
-  }
-  .is-mounted .play-toggle {
-    width: var(--collapsed-control-size);
-    min-width: var(--collapsed-control-size);
-  }
-  .progress-dots {
-    gap: 0;
   }
 }
 
@@ -1550,15 +1124,6 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .highlight-controls,
-  .highlight-intro-blob,
-  .progress-pill,
-  .progress-pill::before,
-  .progress-dots,
-  .play-toggle,
-  .play-toggle::before,
-  .progress-pill::after,
-  .play-toggle::after,
   .progress-dot {
     animation: none !important;
     transition: none !important;

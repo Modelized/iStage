@@ -82,7 +82,6 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
   let pageTicking = false;
   let controlsRegion = "above";
   let playbackRegion = "above";
-  let controlsIntroTimer = 0;
   let autoplayStartTimer = 0;
   let pointerGesture = null;
 
@@ -232,31 +231,23 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     pausePlayback();
   }
 
-  function finishControlsIntro() {
-    if (!controls.classList.contains("is-introducing")) return;
-    window.clearTimeout(controlsIntroTimer);
-    controls.classList.add("is-intro-settling");
-    controls.classList.remove("is-introducing");
-    void controls.offsetWidth;
-  }
-
-  function beginControlsIntro() {
-    window.clearTimeout(controlsIntroTimer);
-    controls.classList.add("is-intro-settling");
-    controls.classList.remove("is-introducing");
-    void controls.offsetWidth;
-    controls.classList.add("is-introducing");
-    window.requestAnimationFrame(function () {
-      controls.classList.remove("is-intro-settling");
-    });
-    controlsIntroTimer = window.setTimeout(finishControlsIntro, 1800);
-  }
-
-  if (progressPill) {
-    progressPill.addEventListener("animationend", function (event) {
-      if (event.animationName === "highlight-pill-split") finishControlsIntro();
-    });
-  }
+  const popupMotion = createPopupMotion({
+    root: controls,
+    controls: [progressPill, playToggle],
+    content: [
+      { element: controls.querySelector(".progress-dots"), type: "unfold", items: dots },
+      { element: controls.querySelector(".play-icon"), type: "scale" }
+    ],
+    measure(width, size) {
+      const pillWidth = parseFloat(
+        getComputedStyle(controls).getPropertyValue("--pill-expanded-width")
+      );
+      return [
+        { left: 0, width: pillWidth },
+        { left: width - size, width: size }
+      ];
+    }
+  });
 
   function updateControlPosition() {
     pageTicking = false;
@@ -288,16 +279,14 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     const shouldMount = nextRegion !== "above";
 
     if (nextRegion === "above") {
-      window.clearTimeout(controlsIntroTimer);
       window.clearTimeout(autoplayStartTimer);
-      controls.classList.remove("is-introducing", "is-intro-settling");
     }
 
     controls.classList.toggle("is-docked", nextRegion === "below");
     controls.classList.toggle("is-mounted", shouldMount);
+    popupMotion.setVisible(shouldMount);
 
     if (enteringFromAbove) {
-      beginControlsIntro();
       if (!hasStarted && !reduceMotion && nextPlaybackRegion === "inside") {
         window.clearTimeout(autoplayStartTimer);
         autoplayStartTimer = window.setTimeout(function () {
