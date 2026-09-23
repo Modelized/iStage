@@ -509,18 +509,16 @@ html {
 
 .js [data-stagger-reveal] .i27-feature-item,
 .js .i27-more-grid[data-stagger-reveal] > p {
+  --reveal-distance: 10px;
   opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: var(--reveal-delay, 0s);
+  transform: translateY(var(--reveal-distance));
 }
 
 .js [data-stagger-reveal] .i27-feature-item.is-revealed,
 .js .i27-more-grid[data-stagger-reveal] > p.is-revealed {
   opacity: 1;
   transform: none;
+  animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s) backwards;
 }
 
 .i27-feature-caption strong {
@@ -1150,6 +1148,7 @@ html {
   }
   .js [data-stagger-reveal] .i27-feature-item,
   .js .i27-more-grid[data-stagger-reveal] > p {
+    animation: none !important;
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;

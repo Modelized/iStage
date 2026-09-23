@@ -1338,22 +1338,24 @@ a.btn:visited {
   transform: none;
 }
 .js .reveal {
-  --reveal-transition:
-    opacity var(--reveal-duration, 0.75s) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
-    transform var(--reveal-duration, 0.75s) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
   opacity: 0;
   transform: translateY(var(--reveal-distance, 18px));
-  transition: var(--reveal-transition);
 }
 .js .btn.reveal {
-  transition: var(--reveal-transition), var(--control-transition);
+  transition: var(--control-transition);
 }
 .js .reveal.is-revealed {
   opacity: 1;
   transform: none;
 }
+/* Explicit endpoints keep one-shot reveals independent of transition history.
+   Dedicated image motion retains its own animation. */
+.js .reveal.is-revealed:not([data-image-motion]) {
+  animation: fade-up var(--reveal-duration, 0.9s) cubic-bezier(0.22, 1, 0.36, 1)
+    var(--reveal-delay, 0s) backwards;
+}
 .reveal-onload {
-  animation: fade-up var(--reveal-duration, 0.75s) cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation: fade-up var(--reveal-duration, 0.9s) cubic-bezier(0.22, 1, 0.36, 1) backwards;
   animation-delay: var(--reveal-delay, 0s);
 }
 .js .reveal-onload:not(.is-revealed) {

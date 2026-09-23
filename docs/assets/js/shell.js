@@ -399,17 +399,18 @@ const iStageImages = (() => {
     });
 
     const observe = (target) => {
-      const images = target.matches("img") ? [target] : Array.from(target.querySelectorAll("img"));
       const groupItems = staggeredItems.get(target);
-      const elements = groupItems || (target.matches(".image-reveal") ? images : [target]);
+      // Only dedicated artwork motion waits for an image. A card or staggered
+      // group must not wait for every descendant image before it can appear.
+      const artwork = target.matches(".image-reveal")
+        ? target.querySelector("img")
+        : target.matches("img[data-image-motion]")
+          ? target
+          : null;
+      const elements = groupItems || (artwork ? [artwork] : [target]);
       controller.observe(target, {
         elements,
-        prepare: () => {
-          images.forEach((image) => {
-            if (image.loading === "lazy") image.loading = "eager";
-          });
-          return Promise.all(images.map(iStageImages.ready));
-        },
+        prepare: artwork ? () => iStageImages.ready(artwork) : undefined,
         reveal: () => {
           (groupItems || [target]).forEach((item) => item.classList.add("is-revealed"));
         }
