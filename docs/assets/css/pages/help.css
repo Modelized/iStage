@@ -112,25 +112,69 @@
   pointer-events: none;
 }
 .help-detail {
+  --help-from: 0;
+  --help-to: 0;
+  --help-content-opacity: 0;
+  --help-preview-opacity: 1;
+  --help-open: calc(var(--help-from) + (var(--help-to) - var(--help-from)) * var(--help-phase));
+  --help-rest: calc(1 - var(--help-open));
+  --help-fade-out: clamp(0, calc(var(--help-phase) / 0.4), 1);
+  --help-fade-in: clamp(0, calc((var(--help-phase) - 0.4) / 0.6), 1);
   position: relative;
   width: 100%;
   border-radius: var(--banner-radius);
   background: var(--help-surface);
   overflow: hidden;
+  clip-path: inset(
+    calc(var(--help-tile-top) * var(--help-rest)) calc(var(--help-tile-right) * var(--help-rest))
+      calc(var(--help-tile-bottom) * var(--help-rest) + var(--help-open-bottom) * var(--help-open))
+      calc(var(--help-tile-left) * var(--help-rest)) round var(--banner-radius)
+  );
 }
 .help-detail-preview {
+  --help-fade: var(--help-fade-in);
   position: absolute;
   margin: 0;
   transform-origin: center;
   pointer-events: none;
+  transform: translate(
+      calc(-1 * var(--help-shift-x) * var(--help-open)),
+      calc(-1 * var(--help-shift-y) * var(--help-open))
+    )
+    scale(
+      calc(1 + var(--help-preview-growth-x) * var(--help-open)),
+      calc(1 + var(--help-preview-growth-y) * var(--help-open))
+    );
+  opacity: calc(
+    var(--help-preview-opacity) + (1 - var(--help-to) - var(--help-preview-opacity)) *
+      var(--help-fade)
+  );
 }
 .help-detail-preview .help-tile {
   background: transparent;
 }
 .help-detail-content {
+  --help-fade: var(--help-fade-out);
   position: relative;
   padding: 28px;
   transform-origin: center;
+  transform: translate(
+      calc(var(--help-shift-x) * var(--help-rest)),
+      calc(var(--help-shift-y) * var(--help-rest))
+    )
+    scale(
+      calc(var(--help-content-scale-x) + (1 - var(--help-content-scale-x)) * var(--help-open)),
+      calc(var(--help-content-scale-y) + (1 - var(--help-content-scale-y)) * var(--help-open))
+    );
+  opacity: calc(
+    var(--help-content-opacity) + (var(--help-to) - var(--help-content-opacity)) * var(--help-fade)
+  );
+}
+.help-detail.is-opening .help-detail-preview {
+  --help-fade: var(--help-fade-out);
+}
+.help-detail.is-opening .help-detail-content {
+  --help-fade: var(--help-fade-in);
 }
 .help-detail-content.is-interactive {
   pointer-events: auto;

@@ -2,7 +2,13 @@
 
 (function () {
   const deck = document.getElementById("help-deck");
-  if (!deck || !window.Animation || !window.KeyframeEffect) return;
+  if (!deck || !window.Animation || !window.KeyframeEffect || !window.CSS?.registerProperty) return;
+  CSS.registerProperty({
+    name: "--help-phase",
+    syntax: "<number>",
+    inherits: true,
+    initialValue: "0"
+  });
   const topics = [...deck.querySelectorAll(".help-topic")];
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
   const layers = new Map();
@@ -44,11 +50,8 @@
     const width = deck.clientWidth;
     const height = layer.content.offsetHeight;
     const canvasHeight = Math.max(gridHeight, height);
-    const radius = getComputedStyle(layer.detail).borderTopLeftRadius;
     const dx = tile.x + tile.width / 2 - width / 2;
     const dy = tile.y + tile.height / 2 - height / 2;
-    const inset = (x, y, w, h) =>
-      `inset(${y}px ${width - x - w}px ${canvasHeight - y - h}px ${x}px round ${radius})`;
     Object.assign(layer.preview.style, {
       left: `${tile.x}px`,
       top: `${tile.y}px`,
@@ -57,17 +60,27 @@
     });
     layer.surface.style.transformOrigin = `${tile.x + tile.width / 2}px ${tile.y + tile.height / 2}px`;
     layer.detail.style.height = `${canvasHeight}px`;
-    return {
-      height,
-      closedClip: inset(tile.x, tile.y, tile.width, tile.height),
-      openClip: inset(0, 0, width, height),
-      smallContent: `translate(${dx}px, ${dy}px) scale(${tile.width / width}, ${tile.height / height})`,
-      largePreview: `translate(${-dx}px, ${-dy}px) scale(${width / tile.width}, ${height / tile.height})`
+    const values = {
+      "--help-tile-top": `${tile.y}px`,
+      "--help-tile-right": `${width - tile.x - tile.width}px`,
+      "--help-tile-bottom": `${canvasHeight - tile.y - tile.height}px`,
+      "--help-tile-left": `${tile.x}px`,
+      "--help-open-bottom": `${canvasHeight - height}px`,
+      "--help-shift-x": `${dx}px`,
+      "--help-shift-y": `${dy}px`,
+      "--help-content-scale-x": tile.width / width,
+      "--help-content-scale-y": tile.height / height,
+      "--help-preview-growth-x": width / tile.width - 1,
+      "--help-preview-growth-y": height / tile.height - 1
     };
+    Object.entries(values).forEach(([key, value]) =>
+      layer.detail.style.setProperty(key, String(value))
+    );
+    return height;
   }
 
   function progress(layer) {
-    const eased = layer.clip ? (layer.clip.effect.getComputedTiming().progress ?? 0) : 1;
+    const eased = layer.morph ? (layer.morph.effect.getComputedTiming().progress ?? 0) : 1;
     return layer.from + (layer.target - layer.from) * eased;
   }
 
@@ -101,22 +114,27 @@
 
   function freezeMotion(continuing = new Set()) {
     const preserved = new Set();
-    continuing.forEach((layer) => {
-      [layer.detail, layer.content, layer.preview].forEach((element) => preserved.add(element));
-    });
+    continuing.forEach((layer) => preserved.add(layer.detail));
     // Capture ALL values before cancelling or writing any of them.
     layers.forEach((layer) => {
       if (continuing.has(layer)) return;
       layer.from = progress(layer);
       layer.target = layer.from;
-      layer.clip = null;
+      layer.contentOpacity = getComputedStyle(layer.content).opacity;
+      layer.previewOpacity = getComputedStyle(layer.preview).opacity;
+      layer.morph = null;
     });
     const changing = motion.filter(({ element }) => !preserved.has(element));
     const snapshots = changing.map(({ element, properties }) => {
       const style = getComputedStyle(element);
-      return [element, Object.fromEntries(properties.map((key) => [key, style[key]]))];
+      return [element, Object.fromEntries(properties.map((key) => [key, readStyle(style, key)]))];
     });
-    snapshots.forEach(([element, values]) => Object.assign(element.style, values));
+    snapshots.forEach(([element, values]) => {
+      Object.entries(values).forEach(([key, value]) => {
+        if (key.startsWith("--")) element.style.setProperty(key, value);
+        else element.style[key] = value;
+      });
+    });
     revision++;
     changing.forEach(({ animation }) => animation.cancel());
     motion = motion.filter(({ element }) => preserved.has(element));
@@ -146,7 +164,9 @@
       back: surface.querySelector(".help-back"),
       from: 0,
       target: 0,
-      clip: null
+      morph: null,
+      contentOpacity: "0",
+      previewOpacity: "1"
     };
     // Preserve both the original tile layout and its current background motion.
     const label = topic.querySelector(".help-topic-heading").cloneNode(true);
@@ -167,10 +187,7 @@
     });
     deck.append(surface);
     layers.set(topic, layer);
-    const g = geometry(layer);
-    layer.detail.style.clipPath = g.closedClip;
-    Object.assign(layer.content.style, { opacity: "0", transform: g.smallContent });
-    Object.assign(layer.preview.style, { opacity: "1", transform: "none" });
+    geometry(layer);
     Object.assign(topic.style, { opacity: "0", transform: "none", filter: "" });
     layer.back.addEventListener("click", () => {
       if (selected !== layer || progress(layer) < 0.8) return;
@@ -179,16 +196,15 @@
     return layer;
   }
 
-  function animate(element, target, duration, hold = 0, finish = 1) {
+  function readStyle(style, key) {
+    return key.startsWith("--") ? style.getPropertyValue(key) : style[key];
+  }
+
+  function animate(element, target, duration) {
     const properties = Object.keys(target);
     const style = getComputedStyle(element);
-    const start = Object.fromEntries(properties.map((key) => [key, style[key]]));
-    const frames = [
-      { ...start, offset: 0 },
-      ...(hold ? [{ ...start, offset: hold }] : []),
-      { ...target, offset: finish },
-      ...(finish < 1 ? [{ ...target, offset: 1 }] : [])
-    ];
+    const start = Object.fromEntries(properties.map((key) => [key, readStyle(style, key)]));
+    const frames = [start, target];
     const animation = new Animation(
       new KeyframeEffect(element, frames, {
         duration: reduceMotion.matches ? 1 : duration,
@@ -218,9 +234,7 @@
       if (layer === selected) {
         layer.from = layer.target = 1;
         Object.assign(layer.surface.style, { opacity: "1", transform: "none", filter: "" });
-        Object.assign(layer.detail.style, { height: "", clipPath: "" });
-        Object.assign(layer.content.style, { opacity: "1", transform: "none" });
-        layer.preview.style.opacity = "0";
+        layer.detail.style.setProperty("--help-phase", "1");
       } else {
         layer.surface.remove();
         layers.delete(topic);
@@ -253,7 +267,9 @@
     // A departing card keeps its existing shrinking timeline. Only its outer
     // blur/fade retargets when it becomes a background card for a new selection.
     const continuing = new Set(
-      [...layers.values()].filter((layer) => layer !== incoming && layer.target === 0 && layer.clip)
+      [...layers.values()].filter(
+        (layer) => layer !== incoming && layer.target === 0 && layer.morph
+      )
     );
     freezeMotion(continuing);
     if (!topic && selected) returnFocus = selected.topic;
@@ -268,17 +284,18 @@
     layers.forEach((layer) => {
       const open = layer === selected;
       if (!continuing.has(layer)) {
-        const g = geometry(layer);
-        // Settled surfaces need an explicit rectangle, not the keyword 'none'.
-        if (layer.from === 1) layer.detail.style.clipPath = g.openClip;
-        if (layer.from === 0) layer.detail.style.clipPath = g.closedClip;
+        const height = geometry(layer);
         layer.target = open ? 1 : 0;
-        if (open) targetHeight = g.height;
-        layer.clip = animate(layer.detail, { clipPath: open ? g.openClip : g.closedClip }, 780);
-        animate(layer.content, { transform: open ? "none" : g.smallContent }, 780);
-        animate(layer.preview, { transform: open ? g.largePreview : "none" }, 780);
-        animate(layer.content, { opacity: open ? "1" : "0" }, 780, open ? 0.4 : 0, open ? 1 : 0.4);
-        animate(layer.preview, { opacity: open ? "0" : "1" }, 780, open ? 0 : 0.4, open ? 0.4 : 1);
+        if (open) targetHeight = height;
+        layer.detail.classList.toggle("is-opening", open);
+        layer.detail.style.setProperty("--help-from", String(layer.from));
+        layer.detail.style.setProperty("--help-to", String(layer.target));
+        layer.detail.style.setProperty("--help-content-opacity", layer.contentOpacity);
+        layer.detail.style.setProperty("--help-preview-opacity", layer.previewOpacity);
+        layer.detail.style.setProperty("--help-phase", "0");
+        // One sampled value drives the mask, both transforms and both fades.
+        // No independent compositor animation can run ahead of the card mask.
+        layer.morph = animate(layer.detail, { "--help-phase": "1" }, 780);
       }
       animate(layer.surface, backgroundTarget(layer.topic, !!selected && !open), 1000);
     });
@@ -341,10 +358,7 @@
     deck.style.height = "";
     measureGrid();
     deck.classList.add("is-active");
-    const g = geometry(selected);
-    deck.style.height = `${g.height}px`;
-    selected.detail.style.height = "";
-    selected.preview.style.transform = g.largePreview;
+    deck.style.height = `${geometry(selected)}px`;
   };
   if ("ResizeObserver" in window) new ResizeObserver(onResize).observe(deck);
   else window.addEventListener("resize", onResize, { passive: true });
