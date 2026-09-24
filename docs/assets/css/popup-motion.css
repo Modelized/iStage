@@ -12,6 +12,7 @@
   --popup-border: rgba(255, 255, 255, 0.1);
   --popup-shadow: rgba(0, 0, 0, 0.34);
   --popup-ease: cubic-bezier(0.42, 0, 0.18, 1);
+  --popup-split-ease: cubic-bezier(0.32, 1.3, 0.42, 1);
   --popup-duration: 1.3s;
   --popup-rise-duration: 1.2s;
   --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -291,14 +292,8 @@
     width: var(--popup-size);
     height: var(--popup-size);
     transform: translateY(-50%);
-    animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
-  }
-  64% {
-    left: 6px;
-    width: calc(var(--popup-primary-width) - 12px);
-    height: var(--popup-size);
-    transform: translateY(-50%);
-    animation-timing-function: cubic-bezier(0.26, 1.16, 0.72, 1);
+    /* One curve carries separation through overshoot and back to rest. */
+    animation-timing-function: var(--popup-split-ease);
   }
   100% {
     left: 0;
@@ -316,15 +311,7 @@
     height: var(--popup-size);
     opacity: 1;
     transform: translateY(-50%);
-    animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
-  }
-  64% {
-    left: calc(var(--popup-secondary-left) + 8px);
-    width: var(--popup-secondary-width);
-    height: var(--popup-size);
-    opacity: 1;
-    transform: translateY(-50%);
-    animation-timing-function: cubic-bezier(0.26, 1.16, 0.72, 1);
+    animation-timing-function: var(--popup-split-ease);
   }
   100% {
     left: var(--popup-secondary-left);
