@@ -4,9 +4,9 @@
   --compare-line: rgba(17, 19, 23, 0.1);
   --compare-picker-border: var(--nav-border);
   --compare-column-gap: clamp(16px, 3vw, 40px);
-  --compare-dock-surface: rgba(245, 245, 247, 0.86);
-  --compare-dock-blob: #e5e5e8;
-  --compare-dock-merged-surface: #f5f5f7;
+  --compare-dock-surface: #fff;
+  --compare-dock-blob: #fff;
+  --compare-dock-merged-surface: #fff;
   --compare-dock-text: #111317;
   --compare-dock-border: rgba(17, 19, 23, 0.16);
   --compare-dock-shadow: rgba(0, 0, 0, 0.18);
