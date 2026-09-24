@@ -160,7 +160,9 @@
   animation: popup-outline var(--popup-duration) var(--popup-ease) both;
 }
 .popup-motion.is-introducing .popup-control {
-  animation: popup-split var(--popup-duration) var(--popup-ease) both;
+  /* Resolve the curve here: var() in the keyframe timing descriptor can
+     fall back to the default easing and remove overshoot altogether. */
+  animation: popup-split var(--popup-duration) var(--popup-split-ease) both;
   transition: none;
 }
 .popup-content--unfold {
@@ -310,8 +312,6 @@
   0%,
   27% {
     --popup-expansion: 0;
-    /* The curve itself overshoots and returns; no stop/restart at its peak. */
-    animation-timing-function: var(--popup-split-ease);
   }
   100% {
     --popup-expansion: 1;
