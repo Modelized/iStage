@@ -19,6 +19,7 @@
   --popup-ease: cubic-bezier(0.42, 0, 0.18, 1);
   /* Start fast, decelerate into the stretch, then settle in the same curve. */
   --popup-split-ease: cubic-bezier(0.4, 1.6, 0.6, 1);
+  --popup-height-ease: cubic-bezier(0.25, 1, 0.5, 1);
   --popup-duration: 1.3s;
   --popup-rise-duration: 1.2s;
   --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -48,8 +49,6 @@
 .popup-control {
   --popup-expansion: 0;
   --popup-expanded-width: var(--popup-size);
-  --popup-compression: 0px;
-  --popup-strain: max(0, var(--popup-expansion) - 1);
   position: absolute;
   top: 50%;
   left: calc(
@@ -59,10 +58,7 @@
   width: calc(
     var(--popup-size) + (var(--popup-expanded-width) - var(--popup-size)) * var(--popup-expansion)
   );
-  /* Squared strain avoids a sharp height change as progress crosses 1. */
-  height: calc(
-    var(--popup-size) - var(--popup-compression) * var(--popup-strain) * var(--popup-strain)
-  );
+  height: var(--popup-size);
   overflow: hidden;
   border: 0;
   border-radius: 999px;
@@ -90,11 +86,9 @@
 }
 .popup-control[data-popup-shape="stretch"] {
   --popup-expanded-width: var(--popup-slot-width);
-  --popup-compression: calc(var(--popup-size) * 12);
 }
 .popup-control[data-popup-shape="circle"] {
   --popup-expanded-width: var(--popup-size);
-  --popup-compression: 0px;
 }
 .popup-motion.is-mounted .popup-control {
   --popup-expansion: 1;
@@ -163,7 +157,9 @@
 .popup-motion.is-introducing .popup-control {
   /* Resolve the curve here: var() in the keyframe timing descriptor can
      fall back to the default easing and remove overshoot altogether. */
-  animation: popup-split var(--popup-duration) var(--popup-split-ease) both;
+  animation:
+    popup-split var(--popup-duration) var(--popup-split-ease) both,
+    popup-height-restore var(--popup-duration) var(--popup-height-ease) both;
   transition: none;
 }
 .popup-content--unfold {
@@ -316,6 +312,18 @@
   }
   100% {
     --popup-expansion: 1;
+  }
+}
+
+/* Start compressed before separation. Recover as movement slows, independently
+   of the horizontal overshoot, so the capsule never squeezes a second time. */
+@keyframes popup-height-restore {
+  0%,
+  27% {
+    height: calc(var(--popup-size) * 0.74);
+  }
+  100% {
+    height: var(--popup-size);
   }
 }
 

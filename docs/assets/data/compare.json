@@ -48,7 +48,7 @@
           "values": {
             "18": "Clock Composer 2",
             "26": "Clock Composer 3",
-            "27": "Clock Composer 3"
+            "27": "Clock Composer 4"
           }
         },
         {
@@ -195,6 +195,15 @@
           "values": {
             "18": true,
             "26": true,
+            "27": true
+          }
+        },
+        {
+          "key": "smaller_dynamic_island",
+          "label": "Use smaller Dynamic Island",
+          "values": {
+            "18": false,
+            "26": false,
             "27": true
           }
         },

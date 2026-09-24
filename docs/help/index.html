@@ -33,7 +33,7 @@
   <meta name="twitter:description" content="Android. Reimagined.">
   <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
 
-  <link rel="stylesheet" href="../assets/css/pages/help.css?v=20260923h">
+  <link rel="stylesheet" href="../assets/css/pages/help.css?v=20260925a">
 
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -60,110 +60,351 @@
       <div class="help-surface">
         <div class="container">
           <div class="help-deck" id="help-deck">
-            <!-- Download & Setup -->
+            <!-- About KLCK and iStage -->
             <article class="help-topic">
               <h2 class="help-topic-heading">
                 <button class="help-tile" aria-expanded="false" aria-controls="help-detail">
                   <span class="help-number" aria-hidden="true">01</span>
-                  <span class="help-tile-label"><span>Download &amp; Setup</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <span class="help-tile-label"><span>About KLCK and iStage</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
               </h2>
               <div class="help-topic-content">
                 <div class="prose">
-                  <h3>Download</h3>
-                  <ul>
-                    <li>Get the latest release from the <a href="../releases/">Releases</a> page.</li>
-                    <li>Download the <code>.klck</code> preset file included in the release.</li>
-                  </ul>
-
-                  <h3>Setup</h3>
-                  <ul>
-                    <li>Open <strong>KLCK</strong> on your Android device.</li>
-                    <li>Import the downloaded <code>.klck</code> preset file.</li>
-                    <li>Apply the preset as your lock screen layout.</li>
-                  </ul>
-
-                  <h3>Notes</h3>
-                  <p><strong>Apple-owned resources are not included in this repository.</strong></p>
-                  <p>Certain parts of the interface are designed to use <strong>SF Pro fonts</strong> and <strong>SF Symbols</strong>, and these must be prepared by the user separately.</p>
-                  <p>Please check the font list needed to use the lock screen in <strong>globals(config/font)</strong> of the preset. (Installation methods or download links are <strong>not provided</strong> here.)</p>
+                  <h3>What is KLCK?</h3>
+                  <p><strong>KLCK (Kustom Lock Screen Maker)</strong> is an Android app for creating and displaying custom lock screens.</p>
+                  <p>It lets you build a Lock Screen using text, images, widgets, animations, notifications, media information, device data, and other interactive elements.</p>
+                  <p>KLCK is also used to load, edit, and display iStage.</p>
+                  <h3>What is iStage?</h3>
+                  <p><strong>iStage</strong> is a customizable iOS-inspired Lock Screen preset for KLCK.</p>
+                  <p>It recreates the look and behavior of the iOS Lock Screen on Android, with features such as Dynamic Island, widgets, notifications, media controls, Live Activities, animations, and customization options.</p>
+                  <p>iStage is provided as a .klck preset file and is opened through KLCK.</p>
+                  <p>Most iStage settings can be changed through Globals in KLCK without editing individual elements.</p>
+                  <h3>How do they work together?</h3>
+                  <p>KLCK is the app that runs the Lock Screen.</p>
+                  <p>iStage is the preset that defines how the Lock Screen looks and works.</p>
+                  <p>iStage runs through KLCK, so KLCK needs to be installed first.</p>
                 </div>
               </div>
             </article>
 
-            <!-- Performance & Responsiveness -->
+            <!-- Getting Ready -->
             <article class="help-topic">
               <h2 class="help-topic-heading">
                 <button class="help-tile" aria-expanded="false" aria-controls="help-detail">
                   <span class="help-number" aria-hidden="true">02</span>
-                  <span class="help-tile-label"><span>Performance &amp; Responsiveness</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <span class="help-tile-label"><span>Getting Ready</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
               </h2>
               <div class="help-topic-content">
                 <div class="prose">
+                  <p>Before setting up iStage, you need to install and configure KLCK.</p>
+                  <h3>Install KLCK</h3>
+                  <p>First, download and install the <strong>KLCK App</strong>.</p>
+                  <p>KLCK can be downloaded from Google Play or from Kustom’s official website.</p>
+                  <p>If you use the Google Play version, <strong>KLCK Pro</strong> is required to import external presets such as iStage. Kustom also provides an AOSP version that does not require Pro.</p>
+                  <h3>Set up Kustom storage</h3>
+                  <p>When you open KLCK for the first time, choose a folder that Kustom can use for its files.</p>
+                  <p>Kustom creates and manages several files and folders inside the selected storage location, so using an empty folder is recommended.</p>
+                  <p>A simple setup is to create a new folder named Kustom at the top level of Internal Storage and select that folder when KLCK asks for a storage location.</p>
+                  <p>For example:</p>
+                  <p class="help-setting"><code>Internal Storage/Kustom</code></p>
+                  <p>Using a separate folder keeps Kustom files organized and makes them easier to find later.</p>
+                  <h3>Permissions</h3>
+                  <p>KLCK needs access to some Android features for iStage to work correctly.</p>
+                  <p>The permissions you need depend on the features you use. KLCK may request access to:</p>
                   <ul>
-                    <li>Disable other live wallpapers/widgets temporarily to check conflicts.</li>
-                    <li>Reduce blur intensity in iStage settings if your device struggles with heavy blur.</li>
-                    <li>Turn off battery savers that throttle animations.</li>
-                    <li>Restart KLCK after big changes (force stop → reopen).</li>
+                    <li><strong>Display over other apps</strong> to show the custom Lock Screen</li>
+                    <li><strong>Notifications</strong> for notifications, media information, and music controls</li>
+                    <li><strong>Location</strong> for weather, sunrise and sunset times, and other location-based information</li>
+                    <li><strong>Files and media</strong> for accessing local images and other files</li>
+                    <li>Other device information when a feature requires it</li>
                   </ul>
+                  <p>You do not need to enable every permission at once. KLCK will request permissions when they are needed.</p>
+                  <h3>Background activity</h3>
+                  <p>KLCK needs to remain active in the background to display and update the Lock Screen correctly.</p>
+                  <p>Allow KLCK to run in the background and remove it from battery optimization.</p>
+                  <p>On many Android devices, this setting can be found under:</p>
+                  <p class="help-setting"><code>Settings → Apps → KLCK → Battery</code></p>
+                  <p>Set KLCK to <strong>Unrestricted</strong>, <strong>Allow background activity</strong>, or the equivalent option available on your device.</p>
+                  <p>If your device has a separate Battery optimization setting, exclude KLCK from optimization.</p>
+                  <p>The exact names and locations of these settings vary between Android devices and manufacturers. Kustom recommends removing the app from battery optimization so it can continue running normally.</p>
+                  <h4>Keep the system Lock Screen enabled</h4>
+                  <p>iStage does not replace Android’s secure Lock Screen.</p>
+                  <p>Keep your normal PIN, password, pattern, fingerprint, or other screen lock enabled. KLCK displays iStage over the Android Lock Screen, while Android continues to handle authentication and device security.</p>
                 </div>
               </div>
             </article>
 
-            <!-- Importing & Applying -->
+            <!-- Applying iStage -->
             <article class="help-topic">
               <h2 class="help-topic-heading">
                 <button class="help-tile" aria-expanded="false" aria-controls="help-detail">
                   <span class="help-number" aria-hidden="true">03</span>
-                  <span class="help-tile-label"><span>Importing &amp; Applying</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <span class="help-tile-label"><span>Applying iStage</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
               </h2>
               <div class="help-topic-content">
                 <div class="prose">
-                  <ul>
-                    <li>Ensure KLCK is updated to the latest version.</li>
-                    <li>Confirm storage permission is granted to KLCK.</li>
-                    <li>If import fails, move the file to internal storage (e.g., <code>/Download</code>) and retry.</li>
-                    <li>If widgets look misaligned, set the device DPI and safe-area to default in KLCK.</li>
-                  </ul>
+                  <p>If you have not finished setting up KLCK, complete the previous <strong>Getting Ready</strong> section before continuing.</p>
+                  <p>Once KLCK is ready, you can download and apply iStage.</p>
+                  <h3>Download iStage</h3>
+                  <p>The latest version of iStage is available from the <strong>Releases</strong> page on the iStage website.</p>
+                  <p>You can also download iStage directly from <strong>GitHub Releases</strong>.</p>
+                  <p>Download the .klck file for the version you want to use. Do not extract or rename the file before importing it into KLCK.</p>
+                  <h3>Import the preset</h3>
+                  <p>Open KLCK and select <strong>Import</strong>, and choose the iStage .klck file you downloaded.</p>
+                  <p>KLCK will copy the preset into its storage and add it to the preset library. Now the iStage preset should be shown in the Library tab.</p>
+                  <h3>Load iStage</h3>
+                  <p>After the import is complete, find iStage in the <strong>Library</strong> tab and select it.</p>
+                  <p>KLCK will open the preset in the editor.</p>
+                  <p>If Android or KLCK asks for an additional permission while loading iStage, allow it if the permission is required for the feature you want to use.</p>
+                  <h3>Enable the Lock Screen</h3>
+                  <p>Importing and loading the preset does not automatically enable KLCK’s Lock Screen.</p>
+                  <p>Open the side menu in the KLCK editor and turn on Lock Screen. Kustom requires this toggle to be enabled manually before a KLCK preset is shown on the device Lock Screen.</p>
+                  <h3>Check the Lock Screen</h3>
+                  <p>Turn the screen off and wake the device again.</p>
+                  <p>iStage should now appear before the Android system Lock Screen and show its initial Setup screen.</p>
+                  <p>Continue to <strong>Personalizing iStage</strong> to complete the initial setup.</p>
+                  <p>If iStage does not appear, stays on the default KLCK screen, or disappears after a short time, check the <strong>Troubleshooting</strong> section.</p>
                 </div>
               </div>
             </article>
 
-            <!-- Device Compatibility -->
+            <!-- Personalizing iStage -->
             <article class="help-topic">
               <h2 class="help-topic-heading">
                 <button class="help-tile" aria-expanded="false" aria-controls="help-detail">
                   <span class="help-number" aria-hidden="true">04</span>
-                  <span class="help-tile-label"><span>Device Compatibility</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <span class="help-tile-label"><span>Personalizing iStage</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
               </h2>
               <div class="help-topic-content">
                 <div class="prose">
+                  <p>After applying iStage for the first time, the <strong>Onboard</strong> screen will appear on the Lock Screen.</p>
+                  <p>Complete the initial setup before using iStage normally. When setup is finished, iStage will show a Setup Summary with your selected options.</p>
+                  <h3>Open the Lock Screen Carousel</h3>
+                  <p>Touch and hold the Lock Screen to open the <strong>Lock Screen Carousel</strong>.</p>
+                  <p>From here, you can:</p>
                   <ul>
-                    <li>Designed for modern Android devices with KLCK support.</li>
-                    <li>Requires SF Pro fonts / SF Symbols prepared by the user for best visual match.</li>
-                    <li>Dynamic blur/animations are heavier on low-end devices.</li>
+                    <li>Tap <strong>Customize</strong> to open the Lock Screen editor</li>
+                    <li>Tap the + button to open <strong>Wallpaper Gallery 2</strong></li>
                   </ul>
+                  <p>Tap Customize from the Lock Screen Carousel to open the built-in editor.</p>
+                  <p>The editor lets you customize the main elements of the Lock Screen:</p>
+                  <ul>
+                    <li>Date &amp; Inline Widget</li>
+                    <li>Clock</li>
+                    <li>Widgets</li>
+                    <li>Wallpaper appearance</li>
+                    <li>Shortcuts</li>
+                  </ul>
+                  <p>The Date &amp; Inline Widget, Clock, and Widgets are arranged from top to bottom in the editor.</p>
+                  <p>Tap each area to open its editor and change the available options.</p>
+                  <p>The wallpaper controls and shortcuts are located below them.</p>
+                  <h3>Date &amp; Inline Widget</h3>
+                  <p>Tap the date area to change the inline widget.</p>
+                  <p>Inline widgets can show information such as weather, calendar events, alarms, and other supported data. It also includes a customizable World Clock with your preferred city and time zone.</p>
+                  <h3>Clock Composer 4</h3>
+                  <p>Tap the clock area to open <strong>Clock Composer 4</strong>.</p>
+                  <p>You can change:</p>
+                  <ul>
+                    <li>Font</li>
+                    <li>Color</li>
+                    <li>Material</li>
+                    <li>Size</li>
+                  </ul>
+                  <p>Clock Composer 4 includes expanded font styles, color palettes, clock materials, and size controls to use the smaller clock.</p>
+                  <h3>Wallpaper controls</h3>
+                  <p>The controls below the main editor are used to adjust the current wallpaper and its appearance.</p>
+                  <p>Open the <strong>More ···</strong> menu for additional options.</p>
+                  <p><strong>Use dark UI elements</strong> overrides supported Lock Screen elements with a darker appearance.</p>
+                  <p>Use it when a bright wallpaper makes the default light elements difficult to see.</p>
+                  <h3>Shortcuts</h3>
+                  <p>The shortcut controls are located at the bottom of the editor.</p>
+                  <p>You can replace the standard Lock Screen controls with other supported shortcuts for faster access to the functions you use most.</p>
+                  <h3>Wallpaper Gallery 2</h3>
+                  <p>Tap the <strong>+</strong> button in the Lock Screen Carousel to open <strong>Wallpaper Gallery 2</strong>.</p>
+                  <p>Wallpaper Gallery 2 includes curated stock wallpapers and lets you create up to 5 custom photo wallpapers using your own images.</p>
+                  <p>Changing a wallpaper changes the background of the current iStage Lock Screen. It does not create a separate Lock Screen configuration.</p>
+                  <h3>Other personalization options</h3>
+                  <p>iStage also includes additional controls for:</p>
+                  <ul>
+                    <li>Focus modes and custom profiles, including custom profile icons</li>
+                    <li>World Clock, including a custom city and time zone</li>
+                    <li>Music player volume, with an optional live volume indicator</li>
+                    <li>Preset details, which can be viewed for backing up, rebuilding, or transferring your configuration to another device.</li>
+                  </ul>
+                  <p>You can return to the <strong>Lock Screen Carousel</strong> at any time by touching and holding the Lock Screen.</p>
+                  <p>Settings that are not available through iStage’s built-in editor, including device-specific display adjustments and direct Globals controls, are covered in the next <strong>Advanced</strong> <strong>Customization</strong> section.</p>
                 </div>
               </div>
             </article>
 
-            <!-- Known Limitations -->
+            <!-- Advanced Customization -->
             <article class="help-topic">
               <h2 class="help-topic-heading">
                 <button class="help-tile" aria-expanded="false" aria-controls="help-detail">
                   <span class="help-number" aria-hidden="true">05</span>
-                  <span class="help-tile-label"><span>Known Limitations</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <span class="help-tile-label"><span>Advanced Customization</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
               </h2>
               <div class="help-topic-content">
                 <div class="prose">
+                  <p>Most settings can be changed directly from the iStage editor.</p>
+                  <p>For settings that are not available there, you can change iStage directly through <strong>Globals</strong> in KLCK.</p>
+                  <h3>Open Globals</h3>
+                  <p>Open the <strong>KLCK App</strong> and load iStage in the editor.</p>
+                  <p>Open the <strong>Globals</strong> tab to view the settings used throughout the preset.</p>
+                  <p>At the top level, iStage uses three main folders:</p>
                   <ul>
-                    <li>Some KLCK blur behaviors may exceed intended bounds; alternatives are under review.</li>
-                    <li>Live Activity overlaps may occur with expanded widgets; fixes are planned in future updates.</li>
+                    <li><strong>bg</strong> — Wallpaper settings</li>
+                    <li><strong>config</strong> — User-configurable settings</li>
+                    <li><strong>dev</strong> — Internal settings used by iStage</li>
                   </ul>
+                  <p>The <strong>dev</strong> folder contains globals used by iStage’s internal systems, formulas, animations, and interface states. Editing these values can affect how the preset works, so leaving this folder unchanged is recommended.</p>
+                  <p>After changing a Global, save the preset in KLCK to apply the change.</p>
+                  <h3>Change Setup options later</h3>
+                  <p>Some settings shown during the initial Setup can also be changed directly through Globals.</p>
+                  <h4>Corner radius</h4>
+                  <p>Go to:</p>
+                  <p class="help-setting"><code>config/glass/radius</code></p>
+                  <p>Change the value to adjust the corner radius used throughout iStage. The preset recommends values between <strong>20 and 100</strong>.</p>
+                  <h4>Status Bar &amp; Dynamic Island position</h4>
+                  <p>Go to:</p>
+                  <p class="help-setting"><code>config/status/position</code></p>
+                  <p>Change the value to move the Status Bar and Dynamic Island vertically to better match your device. The recommended range is <strong>10 to 40</strong>.</p>
+                  <h4>Dynamic Island size</h4>
+                  <p>Go to:</p>
+                  <p class="help-setting"><code>config/status/island</code></p>
+                  <p>Choose:</p>
+                  <ul>
+                    <li><strong>New</strong> — iPhone 18 Pro series size</li>
+                    <li><strong>Old</strong> — iPhone 17 Pro series and older size</li>
+                  </ul>
+                  <p>This changes the width of the Dynamic Island.</p>
+                  <h4>Time format</h4>
+                  <p>Go to:</p>
+                  <p class="help-setting"><code>config/date/timefmt</code></p>
+                  <p>Use:</p>
+                  <ul>
+                    <li><strong>0</strong> — 12-hour</li>
+                    <li><strong>1</strong> — 24-hour</li>
+                  </ul>
+                  <p>The selected format should match the time format used by your device.</p>
+                  <h4>Battery percentage</h4>
+                  <p>Go to:</p>
+                  <p class="help-setting"><code>config/status/battery</code></p>
+                  <p>Use:</p>
+                  <ul>
+                    <li><strong>0</strong> — Hide</li>
+                    <li><strong>1</strong> — Show</li>
+                  </ul>
+                  <p>This controls the percentage shown inside the battery indicator.</p>
+                  <h4>Notification previews</h4>
+                  <p>Go to:</p>
+                  <p class="help-setting"><code>config/notishow</code></p>
+                  <p>Use:</p>
+                  <ul>
+                    <li><strong>0</strong> — Hide</li>
+                    <li><strong>1</strong> — Show</li>
+                  </ul>
+                  <p>This controls whether notification content is shown on the Lock Screen.</p>
+                  <h4>Live Activities</h4>
+                  <p>Live Activity controls are located in:</p>
+                  <p class="help-setting"><code>config/liveact</code></p>
+                  <p>Each supported Live Activity has its own switch. The available modules may vary between iStage builds. In the attached build, the F1 module is controlled by f1status.</p>
+                  <h3>Backgrounds</h3>
+                  <p>Wallpaper settings are stored in the <strong>bg</strong> folder.</p>
+                  <h4>Change the active wallpaper</h4>
+                  <p>Go to:</p>
+                  <p class="help-setting"><code>bg/type</code></p>
+                  <p>Enter the ID of the wallpaper you want to use.</p>
+                  <p>Wallpaper IDs are organized by category:</p>
+                  <ul>
+                    <li><strong>1X</strong> — iOS wallpapers</li>
+                    <li><strong>2X</strong> — iPhone wallpapers</li>
+                    <li><strong>3X</strong> — Photo wallpapers</li>
+                  </ul>
+                  <p>For example, 21 selects bg21, while 34 selects the fourth custom photo wallpaper.</p>
+                  <p>You can check the ID of a wallpaper by opening its folder under bg and looking at the name of its Bitmap Global.</p>
+                  <h4>Assign custom photo wallpapers</h4>
+                  <p>Go to:</p>
+                  <p class="help-setting"><code>bg/photo</code></p>
+                  <p>There are five custom photo slots:</p>
+                  <ul>
+                    <li>bg31</li>
+                    <li>bg32</li>
+                    <li>bg33</li>
+                    <li>bg34</li>
+                    <li>bg35</li>
+                  </ul>
+                  <p>Open one of these Bitmap Globals and use <strong>Pick Image</strong> to assign your photo.</p>
+                  <p>To display that photo, set bg/type to the matching number.</p>
+                  <p>For example:</p>
+                  <p class="help-setting"><code>bg31 → bg/type = 31</code></p>
+                  <h3>Custom clock color</h3>
+                  <p><strong>Clock Composer 4</strong> provides the standard clock color controls. A fully custom color can be set through Globals.</p>
+                  <p>Go to:</p>
+                  <p class="help-setting"><code>config/clock/custom</code></p>
+                  <p>Open the Color Global and choose the color you want to use.</p>
+                  <p>The custom color is used when <strong>Custom</strong> is selected as the clock color.</p>
+                  <h3>Custom World Clock</h3>
+                  <p>To change the city and time zone used by the World Clock, go to:</p>
+                  <p class="help-setting"><code>config/date</code></p>
+                  <p>Change these two Globals:</p>
+                  <ul>
+                    <li><strong>tztext</strong> — The city or time zone label displayed on the Lock Screen</li>
+                    <li><strong>tzcode</strong> — The IANA time zone code used for the World Clock</li>
+                  </ul>
+                  <p>For example:</p>
+                  <p class="help-setting"><code>tztext = NYC</code></p>
+                  <p class="help-setting"><code>tzcode = America/New_York</code></p>
+                  <p>Use a valid IANA time zone code for tzcode.</p>
+                  <h3>Custom Focus profile</h3>
+                  <p>The icon and color of a custom Focus profile can be changed from the iStage editor.</p>
+                  <p>The profile name is changed through Globals.</p>
+                  <p>Go to:</p>
+                  <p class="help-setting"><code>config/focus/text</code></p>
+                  <p>Enter the name you want to display.</p>
+                  <p>After changing the name, also open:</p>
+                  <p class="help-setting"><code>config/focus/bgwidth</code></p>
+                  <p>and adjust the value to match the length of the new text.</p>
+                  <p>KLCK does not automatically resize the Focus background when the text changes. If the value is too small, the text can extend outside the background. If it is too large, unnecessary empty space will appear around the text.</p>
+                  <h3>Carrier &amp; Signal tweaks</h3>
+                  <p>Additional Status Bar settings are available under:</p>
+                  <p class="help-setting"><code>config/status</code></p>
+                  <h4>Carrier name</h4>
+                  <p class="help-setting"><code>config/status/carrier</code></p>
+                  <p>Enter a custom carrier name to replace the detected carrier text.</p>
+                  <h4>Signal strength</h4>
+                  <p class="help-setting"><code>config/status/sigbars</code></p>
+                  <p>Use <strong>1 to 5</strong> to manually set the displayed cellular signal strength.</p>
+                  <p>Use <strong>0</strong> to disable the custom override.</p>
+                  <h4>Network type</h4>
+                  <p class="help-setting"><code>config/status/network</code></p>
+                  <p>You can override the displayed cellular network type with:</p>
+                  <ul>
+                    <li>LTE</li>
+                    <li>4G</li>
+                    <li>5G</li>
+                  </ul>
+                  <p>The preset uses <strong>GPRS</strong> as the no-custom setting.</p>
+                  <h3>Liquid Glass</h3>
+                  <p>Additional Liquid Glass settings are available under:</p>
+                  <p class="help-setting"><code>config/glass</code></p>
+                  <p>You can manually adjust:</p>
+                  <ul>
+                    <li><strong>blur</strong> — Blur intensity</li>
+                    <li><strong>brighten</strong> — Brightening applied to the material</li>
+                    <li><strong>dim</strong> — Additional dimming</li>
+                    <li><strong>radius</strong> — Corner radius</li>
+                  </ul>
+                  <p>These settings change the appearance of Liquid Glass elements across iStage.</p>
+                  <p>radius is also available during the initial Setup, while the other values are intended for finer manual adjustment.</p>
+                  <h3>System accent color</h3>
+                  <p>Go to:</p>
+                  <p class="help-setting"><code>config/color/accent</code></p>
+                  <p>to change the system accent color used by supported iStage elements.</p>
                 </div>
               </div>
             </article>
@@ -178,12 +419,116 @@
               </h2>
               <div class="help-topic-content">
                 <div class="prose">
+                  <p>If iStage does not work as expected, check the issue below before changing individual elements or Globals.</p>
+                  <h3>Try restarting KLCK first</h3>
+                  <p>If iStage suddenly stops working even though the setup is correct, restart KLCK and clear its cache.</p>
                   <ol>
-                    <li>Latest KLCK installed and permissions granted.</li>
-                    <li>Preset imported from internal storage (not cloud sandbox).</li>
-                    <li>Battery saver / device optimizer disabled for KLCK.</li>
-                    <li>Device restarted if graphics glitches persist.</li>
+                    <li>Touch and hold the <strong>KLCK App</strong> icon.</li>
+                    <li>Open <strong>App info</strong>.</li>
+                    <li>Tap <strong>Force stop</strong>.</li>
+                    <li>Open <strong>Storage</strong> or <strong>Storage &amp; cache</strong>.</li>
+                    <li>Tap <strong>Clear cache</strong>.</li>
+                    <li>Open KLCK again and check the Lock Screen.</li>
                   </ol>
+                  <p>This can fix temporary KLCK issues where iStage does not appear, stops updating, or becomes unresponsive.</p>
+                  <p>Do not use <strong>Clear storage</strong> or <strong>Clear data</strong> unless you intend to reset KLCK.</p>
+                  <h3>iStage does not appear</h3>
+                  <p>Open the KLCK App and check that iStage is loaded in the editor.</p>
+                  <p>Open the side menu and make sure Lock Screen is enabled. KLCK does not enable its Lock Screen automatically after a preset is imported.</p>
+                  <p>Also check that:</p>
+                  <ul>
+                    <li>Display over other apps is allowed for KLCK</li>
+                    <li>KLCK is allowed to run in the background</li>
+                    <li>KLCK is excluded from battery optimization</li>
+                    <li>The preset has been saved after loading</li>
+                  </ul>
+                  <p>Turn the screen off and wake the device again after changing these settings.</p>
+                  <h3>The default KLCK screen appears instead of iStage</h3>
+                  <p>Open KLCK and go to the <strong>Library</strong> tab.</p>
+                  <p>Select iStage again and save the preset.</p>
+                  <p>If iStage is not shown in the Library, import the .klck file again. Make sure the file has not been extracted or renamed. Kustom supports .klck and .klck.zip preset files and recommends importing them without decompressing them.</p>
+                  <p>If you installed KLCK from Google Play, make sure <strong>KLCK Pro</strong> is available before importing an external preset.</p>
+                  <h3>iStage disappears or stops updating</h3>
+                  <p>Android may stop KLCK when it remains in the background.</p>
+                  <p>Open your device settings and set KLCK to <strong>Unrestricted</strong>, <strong>Allow background activity</strong>, or the equivalent option provided by your device. Also remove KLCK from Android battery optimization.</p>
+                  <p>Kustom needs to remain active to update information such as the clock, battery state, weather, and other live data. Kustom recommends excluding the app from battery optimization for this reason.</p>
+                  <p>Some manufacturers apply additional background restrictions. Check any Auto Start, Background Usage, Sleeping Apps, or similar settings available on your device.</p>
+                  <h3>The Onboard screen is stuck or buttons do not respond</h3>
+                  <p>Make sure KLCK is still running and has permission to display over other apps.</p>
+                  <p>If touch controls stop responding:</p>
+                  <ol>
+                    <li>Remove KLCK from battery optimization.</li>
+                    <li>Open <strong>KLCK Settings</strong> and check its background and notification settings.</li>
+                    <li>Restart KLCK.</li>
+                    <li>Turn the screen off and wake the device again.</li>
+                    <li>Restart the device if the problem continues.</li>
+                  </ol>
+                  <p>Kustom also recommends using <strong>Forced</strong> Notification Mode when touch actions fail on devices that aggressively restrict background apps.</p>
+                  <p>Do not change values inside the dev Globals folder to bypass the Onboard screen.</p>
+                  <h3>The Lock Screen is cropped or does not fill the display</h3>
+                  <p>Make sure Android allows KLCK to use the entire display, including the area around the camera cutout or notch.</p>
+                  <p>Some devices provide a per-app <strong>Full screen</strong>, <strong>Camera cutout</strong>, or similar display setting. Set KLCK to use the full screen where available. Kustom specifically recommends enabling full-screen access when KLCK cannot draw behind a notch or cutout.</p>
+                  <p>If the Lock Screen fills the display but individual elements are still misaligned, use the display controls described in <strong>Advanced Customization</strong> section to adjust the Status Bar position, Dynamic Island size, and corner radius.</p>
+                  <h3>Notifications do not appear</h3>
+                  <p>Make sure <strong>Notification access</strong> is enabled for KLCK.</p>
+                  <p>Android uses this access to provide notification information to Kustom. It is also required for several media-related features.</p>
+                  <p>Also check that:</p>
+                  <ul>
+                    <li>The source app is allowed to send notifications</li>
+                    <li>Notification previews are enabled in iStage if you want notification content to be shown</li>
+                    <li>KLCK is not being stopped in the background</li>
+                  </ul>
+                  <h3>Music information or controls do not work</h3>
+                  <p>KLCK uses Android notifications to detect active media players.</p>
+                  <p>Make sure <strong>Notification access</strong> is enabled, then start your music app and play something at least once. The media player should also have an active notification in the Android notification panel.</p>
+                  <p>If KLCK detects the wrong media app, open the KLCK settings and set your preferred app under <strong>Preferred Music Player</strong>.</p>
+                  <p>If album artwork is missing, check whether the music app has an option that prevents album artwork from being exposed to the Lock Screen or media notification.</p>
+                  <h3>Weather or location information is missing</h3>
+                  <p>Check that KLCK has <strong>Location</strong> permission and network access.</p>
+                  <p>Kustom uses location data for weather information and for calculations such as sunrise and sunset times. A fixed location can also be configured in Kustom if you do not want to provide continuous location access.</p>
+                  <p>After changing the location settings, allow some time for weather information to refresh.</p>
+                  <h3>Carrier or signal information is missing</h3>
+                  <p>KLCK may require phone status access to read information such as the current carrier, cellular connection type, and signal state. Kustom requests this permission when a preset uses those values.</p>
+                  <p>If your device does not provide the information correctly, iStage also provides manual <strong>Carrier</strong> <strong>&amp; Signal</strong> overrides under <strong>Advanced Customization</strong>.</p>
+                  <h3>Live Activities do not update</h3>
+                  <p>Live Activities that use online information require an internet connection.</p>
+                  <p>Make sure KLCK has network access and is allowed to continue running in the background.</p>
+                  <p>Battery restrictions can prevent data from refreshing while the device is idle.</p>
+                  <p>If only one Live Activity is affected, the external data source used by that activity may also be temporarily unavailable.</p>
+                  <h3>Custom photos do not appear</h3>
+                  <p>If you assigned a photo through Globals, check that the image is still available to KLCK.</p>
+                  <p>For the five custom Photo slots, make sure the selected bg/type value matches the Bitmap Global being used:</p>
+                  <p class="help-setting"><code>bg31 → 31</code></p>
+                  <p class="help-setting"><code>bg32 → 32</code></p>
+                  <p class="help-setting"><code>bg33 → 33</code></p>
+                  <p class="help-setting"><code>bg34 → 34</code></p>
+                  <p class="help-setting"><code>bg35 → 35</code></p>
+                  <p>These slots and the bg/type selector are defined separately in the preset.</p>
+                  <h3>A persistent KLCK notification appears</h3>
+                  <p>This notification may be used to keep Kustom active in the background.</p>
+                  <p>Kustom recommends removing the app from battery optimization. When Kustom can remain active normally, the persistent notification may no longer be required. The notification itself can also be disabled through Android notification settings.</p>
+                  <h3>The Android Lock Screen still appears</h3>
+                  <p>This is normal.</p>
+                  <p>KLCK displays iStage over the Android system Lock Screen and does not replace Android’s secure authentication screen. Your PIN, password, pattern, fingerprint, or other authentication method is still handled by Android.</p>
+                  <p>Because of this, the system Lock Screen may appear during the unlock process depending on your device and security settings.</p>
+                  <h3>iStage is slow or laggy</h3>
+                  <p>The new iStage uses a large number of Globals, animations, visual effects, and interactive elements.</p>
+                  <p>On lower-end devices, this can cause slow animations, delayed touch responses, high memory usage, or severe lag.</p>
+                  <p>Try closing unnecessary background apps and make sure KLCK is not restricted by battery or memory management.</p>
+                  <p>If the new iStage is too heavy for your device, you can also try <strong>iStage 18</strong>, which has a simpler feature set and may run better on less powerful hardware.</p>
+                  <p>Performance can still vary depending on the device, Android version, and KLCK version.</p>
+                  <h3>iStage still does not work</h3>
+                  <p>Update KLCK to the latest available version and restart the device.</p>
+                  <p>If the problem continues, re-import a fresh copy of the latest iStage .klck file and load it again.</p>
+                  <p>Avoid modifying anything in the <strong>dev</strong> Globals folder while testing.</p>
+                  <p>Some problems may be caused by the Android version or the device manufacturer’s Lock Screen behavior.</p>
+                  <ul>
+                    <li><strong>Samsung One UI</strong> — iStage generally works correctly across most versions.</li>
+                    <li><strong>Google Pixel and AOSP-based ROMs</strong> — On Android 16 QPR2 and later, KLCK may occasionally fail to appear immediately when the screen wakes. Turning the screen off and on again may be required before the Lock Screen appears. Disabling full-screen Always-On Display may reduce how often this occurs.</li>
+                    <li><strong>Other Android systems</strong> — Compatibility may vary depending on the manufacturer’s Lock Screen, background activity, and battery-management behavior.</li>
+                  </ul>
+                  <p>If none of the steps above resolve the issue, the problem may be caused by a system-level limitation that KLCK or iStage cannot fully control.</p>
+                  <p>When reporting an issue, include your device model, Android version, KLCK version, iStage version or build number, a screenshot or screen recording, and a short description of what happens and when it happens.</p>
                 </div>
               </div>
             </article>
