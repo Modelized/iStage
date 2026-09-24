@@ -3,7 +3,7 @@
 /* Preserve the original highlight popup lifecycle: every new entrance restarts
    the CSS intro; hiding cancels it and uses the separate CSS exit transitions. */
 window.createPopupMotion = function (root) {
-  const primary = root.querySelector(".popup-control--primary");
+  const firstControl = root.querySelector(".popup-control");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   let visible = false;
   let introFrame = 0;
@@ -71,8 +71,8 @@ window.createPopupMotion = function (root) {
     }
   }
 
-  primary.addEventListener("animationend", (event) => {
-    if (event.target === primary && event.animationName === "popup-primary-split") finishIntro();
+  firstControl.addEventListener("animationend", (event) => {
+    if (event.target === firstControl && event.animationName === "popup-split") finishIntro();
   });
   reduce.addEventListener("change", () => {
     cancelAnimationFrame(visibilityFrame);

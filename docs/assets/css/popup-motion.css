@@ -1,19 +1,23 @@
-/* Choreography restored from the original iStage 27 CSS.
-   Entry keyframes and exit transitions stay separate. */
+/* One entry progress drives both controls. Shape and direction are independent;
+   exit transitions and the original rise/content choreography stay separate. */
+@property --popup-expansion {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
 .popup-motion {
   --popup-size: 56px;
   --popup-primary-width: 216px;
   --popup-secondary-width: var(--popup-size);
   --popup-merge-left: calc(50% - var(--popup-size) / 2);
-  --popup-secondary-left: calc(100% - var(--popup-secondary-width));
   --popup-surface: rgba(37, 37, 40, 0.78);
   --popup-blob: rgb(42, 42, 45);
   --popup-merged-surface: rgb(29, 29, 31);
   --popup-border: rgba(255, 255, 255, 0.1);
   --popup-shadow: rgba(0, 0, 0, 0.34);
   --popup-ease: cubic-bezier(0.42, 0, 0.18, 1);
-  --popup-split-ease: cubic-bezier(0.22, 0.65, 0.55, 1);
-  --popup-rebound-ease: cubic-bezier(0.12, 0, 0.3, 1);
+  --popup-split-ease: cubic-bezier(0.18, 1.6, 0.45, 1);
   --popup-duration: 1.3s;
   --popup-rise-duration: 1.2s;
   --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -41,11 +45,23 @@
   transition: none;
 }
 .popup-control {
+  --popup-expansion: 0;
+  --popup-expanded-width: var(--popup-size);
+  --popup-compression: 0px;
+  --popup-strain: max(0, var(--popup-expansion) - 1);
   position: absolute;
   top: 50%;
-  left: var(--popup-merge-left);
-  width: var(--popup-size);
-  height: var(--popup-size);
+  left: calc(
+    var(--popup-merge-left) + (var(--popup-final-left) - var(--popup-merge-left)) *
+      var(--popup-expansion)
+  );
+  width: calc(
+    var(--popup-size) + (var(--popup-expanded-width) - var(--popup-size)) * var(--popup-expansion)
+  );
+  /* Squared strain avoids a sharp height change as progress crosses 1. */
+  height: calc(
+    var(--popup-size) - var(--popup-compression) * var(--popup-strain) * var(--popup-strain)
+  );
   overflow: hidden;
   border: 0;
   border-radius: 999px;
@@ -59,21 +75,29 @@
   /* Clear the outline before the two controls begin to overlap. */
   transition-delay: var(--popup-outline-exit);
 }
-.popup-control--primary {
+.popup-control[data-popup-direction="left"] {
+  --popup-slot-width: var(--popup-primary-width);
+  --popup-final-left: 0px;
+  --popup-entry-delay: 0.1s;
   z-index: 1;
 }
-.popup-control--secondary {
+.popup-control[data-popup-direction="right"] {
+  --popup-slot-width: var(--popup-secondary-width);
+  --popup-final-left: calc(100% - var(--popup-expanded-width));
+  --popup-entry-delay: 0.16s;
   z-index: 0;
 }
-.popup-motion.is-mounted .popup-control--primary {
-  left: 0;
-  width: var(--popup-primary-width);
-  transition-delay: 0.1s;
+.popup-control[data-popup-shape="stretch"] {
+  --popup-expanded-width: var(--popup-slot-width);
+  --popup-compression: calc(var(--popup-size) * 12);
 }
-.popup-motion.is-mounted .popup-control--secondary {
-  left: var(--popup-secondary-left);
-  width: var(--popup-secondary-width);
-  transition-delay: 0.16s;
+.popup-control[data-popup-shape="circle"] {
+  --popup-expanded-width: var(--popup-size);
+  --popup-compression: 0px;
+}
+.popup-motion.is-mounted .popup-control {
+  --popup-expansion: 1;
+  transition-delay: var(--popup-entry-delay);
 }
 .popup-control::before,
 .popup-control::after {
@@ -135,12 +159,8 @@
 .popup-motion.is-introducing .popup-control::after {
   animation: popup-outline var(--popup-duration) var(--popup-ease) both;
 }
-.popup-motion.is-introducing .popup-control--primary {
-  animation: popup-primary-split var(--popup-duration) var(--popup-ease) both;
-  transition: none;
-}
-.popup-motion.is-introducing .popup-control--secondary {
-  animation: popup-secondary-split var(--popup-duration) var(--popup-ease) both;
+.popup-motion.is-introducing .popup-control {
+  animation: popup-split var(--popup-duration) var(--popup-ease) both;
   transition: none;
 }
 .popup-content--unfold {
@@ -286,56 +306,15 @@
   }
 }
 
-@keyframes popup-primary-split {
+@keyframes popup-split {
   0%,
   27% {
-    left: var(--popup-merge-left);
-    width: var(--popup-size);
-    height: var(--popup-size);
-    transform: translateY(-50%);
-    /* Reach the stretched shape on the original split beat. Both curves
-       meet at zero velocity, with no hold before the short rebound. */
+    --popup-expansion: 0;
+    /* The curve itself overshoots and returns; no stop/restart at its peak. */
     animation-timing-function: var(--popup-split-ease);
   }
-  64% {
-    left: -6px;
-    width: calc(var(--popup-primary-width) + 12px);
-    height: calc(var(--popup-size) * 0.88);
-    transform: translateY(-50%);
-    animation-timing-function: var(--popup-rebound-ease);
-  }
   100% {
-    left: 0;
-    width: var(--popup-primary-width);
-    height: var(--popup-size);
-    transform: translateY(-50%);
-  }
-}
-
-@keyframes popup-secondary-split {
-  0%,
-  27% {
-    left: var(--popup-merge-left);
-    width: var(--popup-size);
-    height: var(--popup-size);
-    opacity: 1;
-    transform: translateY(-50%);
-    animation-timing-function: var(--popup-split-ease);
-  }
-  64% {
-    left: calc(var(--popup-secondary-left) + 8px);
-    width: var(--popup-secondary-width);
-    height: calc(var(--popup-size) * 0.88);
-    opacity: 1;
-    transform: translateY(-50%);
-    animation-timing-function: var(--popup-rebound-ease);
-  }
-  100% {
-    left: var(--popup-secondary-left);
-    width: var(--popup-secondary-width);
-    height: var(--popup-size);
-    opacity: 1;
-    transform: translateY(-50%);
+    --popup-expansion: 1;
   }
 }
 

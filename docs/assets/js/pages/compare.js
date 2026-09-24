@@ -38,10 +38,9 @@
       const select = picker.querySelector("select");
       select.id = `${original.id}-floating`;
       picker.htmlFor = select.id;
-      picker.classList.add(
-        "popup-control",
-        index === 0 ? "popup-control--primary" : "popup-control--secondary"
-      );
+      picker.classList.add("popup-control");
+      picker.dataset.popupDirection = index === 0 ? "left" : "right";
+      picker.dataset.popupShape = "stretch";
       const content = document.createElement("span");
       content.className = "popup-content--scale";
       content.append(...picker.childNodes);
