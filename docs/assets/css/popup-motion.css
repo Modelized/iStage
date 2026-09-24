@@ -12,7 +12,8 @@
   --popup-border: rgba(255, 255, 255, 0.1);
   --popup-shadow: rgba(0, 0, 0, 0.34);
   --popup-ease: cubic-bezier(0.42, 0, 0.18, 1);
-  --popup-split-ease: cubic-bezier(0.32, 1.3, 0.42, 1);
+  --popup-split-ease: cubic-bezier(0.22, 0.65, 0.55, 1);
+  --popup-rebound-ease: cubic-bezier(0.12, 0, 0.3, 1);
   --popup-duration: 1.3s;
   --popup-rise-duration: 1.2s;
   --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -292,8 +293,16 @@
     width: var(--popup-size);
     height: var(--popup-size);
     transform: translateY(-50%);
-    /* One curve carries separation through overshoot and back to rest. */
+    /* Reach the stretched shape on the original split beat. Both curves
+       meet at zero velocity, with no hold before the short rebound. */
     animation-timing-function: var(--popup-split-ease);
+  }
+  64% {
+    left: -6px;
+    width: calc(var(--popup-primary-width) + 12px);
+    height: calc(var(--popup-size) * 0.88);
+    transform: translateY(-50%);
+    animation-timing-function: var(--popup-rebound-ease);
   }
   100% {
     left: 0;
@@ -312,6 +321,14 @@
     opacity: 1;
     transform: translateY(-50%);
     animation-timing-function: var(--popup-split-ease);
+  }
+  64% {
+    left: calc(var(--popup-secondary-left) + 8px);
+    width: var(--popup-secondary-width);
+    height: calc(var(--popup-size) * 0.88);
+    opacity: 1;
+    transform: translateY(-50%);
+    animation-timing-function: var(--popup-rebound-ease);
   }
   100% {
     left: var(--popup-secondary-left);
