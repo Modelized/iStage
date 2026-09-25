@@ -208,10 +208,34 @@
   letter-spacing: -0.025em;
 }
 .page-help .prose {
-  max-width: 72ch;
   line-height: 1.7;
   font-size: clamp(14px, 1.6vw, 17px);
   overflow-wrap: break-word;
+}
+.page-help .prose > :not(.help-callout) {
+  max-width: 72ch;
+}
+.help-callout,
+.help-topic-link {
+  padding: 14px 16px;
+  border-radius: 18px;
+}
+.page-help .prose .help-callout {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 1.2em 0;
+  background: rgb(235 166 48 / 0.12);
+}
+.page-help .help-callout > :first-child {
+  margin-top: 0;
+}
+.page-help .help-callout > :last-child {
+  margin-bottom: 0;
+}
+.page-help .prose a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 .page-help .prose h3 {
   font-size: 1.1em;
@@ -261,9 +285,7 @@
   gap: 10px;
   min-width: 0;
   min-height: 44px;
-  padding: 14px 16px;
   border: 0;
-  border-radius: 18px;
   background: var(--help-button);
   color: inherit;
   font: inherit;
