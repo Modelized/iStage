@@ -21,6 +21,8 @@
   --popup-split-ease: cubic-bezier(0.4, 1.6, 0.6, 1);
   --popup-duration: 1.3s;
   --popup-rise-duration: 1.2s;
+  /* Give the circle 150ms of descent before the existing split sequence. */
+  --popup-descent-lead: 0.15s;
   --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --popup-outline-exit: 0.12s;
   --popup-merge-duration: 0.36s;
@@ -70,7 +72,7 @@
   transform: translateY(-50%);
   transition-property: width, left;
   transition-duration: var(--popup-merge-duration);
-  transition-timing-function: var(--popup-ease);
+  transition-timing-function: var(--popup-settle-ease);
   /* Clear the outline before the two controls begin to overlap. */
   transition-delay: var(--popup-outline-exit);
 }
@@ -155,10 +157,10 @@
     popup-blob-visibility var(--popup-duration) linear both;
 }
 .popup-motion.is-introducing .popup-control::before {
-  animation: popup-surface var(--popup-duration) var(--popup-ease) both;
+  animation: popup-surface var(--popup-duration) var(--popup-ease) var(--popup-descent-lead) both;
 }
 .popup-motion.is-introducing .popup-control::after {
-  animation: popup-outline var(--popup-duration) var(--popup-ease) both;
+  animation: popup-outline var(--popup-duration) var(--popup-ease) var(--popup-descent-lead) both;
 }
 .popup-motion.is-introducing .popup-control {
   /* One animated value owns width, position AND height. Parallel height and
@@ -167,7 +169,7 @@
     var(--popup-compressed-height) + (var(--popup-size) - var(--popup-compressed-height)) *
       clamp(0, var(--popup-expansion), 1)
   );
-  animation: popup-split var(--popup-duration) var(--popup-split-ease) both;
+  animation: popup-split var(--popup-duration) var(--popup-split-ease) var(--popup-descent-lead) both;
   transition: none;
 }
 .popup-content--unfold {
@@ -189,22 +191,22 @@
     transform 0.22s ease;
 }
 .popup-motion.is-introducing .popup-content--unfold {
-  animation: popup-content-unfold var(--popup-duration) var(--popup-ease) both;
+  animation: popup-content-unfold var(--popup-duration) var(--popup-ease) var(--popup-descent-lead) both;
 }
 .popup-motion.is-introducing .popup-content--scale {
-  animation: popup-content-arrive var(--popup-duration) var(--popup-ease) both;
+  animation: popup-content-arrive var(--popup-duration) var(--popup-ease) var(--popup-descent-lead) both;
 }
 .popup-motion:not(.is-mounted) .popup-content--unfold,
 .popup-motion:not(.is-mounted) .popup-content--scale {
   opacity: 0;
   transform: scale(0.74);
   transition:
-    opacity var(--popup-merge-duration) var(--popup-ease) var(--popup-outline-exit),
-    transform var(--popup-merge-duration) var(--popup-ease) var(--popup-outline-exit);
+    opacity var(--popup-merge-duration) var(--popup-settle-ease) var(--popup-outline-exit),
+    transform var(--popup-merge-duration) var(--popup-settle-ease) var(--popup-outline-exit);
 }
 .popup-motion.is-introducing .popup-content-item {
   animation: popup-item-arrive 0.1s cubic-bezier(0.18, 0.72, 0.22, 0.88)
-    calc(0.46s + var(--popup-item-index) * 0.05s) both;
+    calc(var(--popup-descent-lead) + 0.46s + var(--popup-item-index) * 0.05s) both;
   transition: none;
 }
 /* Preserve the intro endpoint until the next visibility change, as before. */
@@ -219,24 +221,16 @@
   0% {
     opacity: 0;
     transform: translate(-50%, 180px);
-    animation-timing-function: cubic-bezier(0.48, 0, 0.2, 1);
+    /* One continuous arc: approximately -46px at 361ms, then back to rest.
+       No separate ease-in restart or held keyframe at the apex. */
+    animation-timing-function: cubic-bezier(0.3, 2.01, 0.17, 1);
   }
   7% {
     opacity: 1;
   }
-  30% {
-    opacity: 1;
-    transform: translate(-50%, -46px);
-    animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
-  }
-  54% {
-    opacity: 1;
-    transform: translate(-50%, 3px);
-    animation-timing-function: cubic-bezier(0.32, 0.04, 0.2, 1);
-  }
   100% {
     opacity: 1;
-    transform: translate(-50%, 0) scale(1);
+    transform: translate(-50%, 0);
   }
 }
 
@@ -246,15 +240,21 @@
     height: 104px;
     animation-timing-function: cubic-bezier(0.22, 0.65, 0.35, 1);
   }
-  /* At handoff, both controls have expansion 0 and this exact silhouette. */
-  27%,
+  /* The rise curve peaks at 360.53ms: a true circle at that instant. */
+  27.733077% {
+    width: var(--popup-compressed-height);
+    height: var(--popup-compressed-height);
+    animation-timing-function: cubic-bezier(0.32, 0, 0.4, 1);
+  }
+  /* 351ms split lead-in + 150ms descent = 501ms on the 1.3s blob clock. */
+  38.538462%,
   100% {
     width: var(--popup-size);
     height: var(--popup-compressed-height);
   }
 }
 
-/* Atomic surface handoff at 27%: never crossfade three overlapping surfaces. */
+/* Atomic handoff at 501ms, matching the delayed split's 27% keyframe. */
 @keyframes popup-blob-visibility {
   0% {
     opacity: 0;
@@ -263,7 +263,7 @@
     opacity: 1;
     animation-timing-function: steps(1, end);
   }
-  27%,
+  38.538462%,
   100% {
     opacity: 0;
   }
