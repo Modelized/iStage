@@ -5,6 +5,11 @@
   inherits: false;
   initial-value: 0;
 }
+@property --popup-height-recovery {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
 
 .popup-motion {
   --popup-size: 56px;
@@ -25,9 +30,9 @@
   --popup-descent-lead: 0.15s;
   --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --popup-outline-exit: 0.12s;
-  --popup-merge-duration: 0.36s;
+  --popup-merge-duration: 0.64s;
   --popup-exit-delay: calc(var(--popup-outline-exit) + var(--popup-merge-duration));
-  --popup-compressed-height: var(--popup-orb-size);
+  --popup-compressed-height: 42px;
   height: var(--popup-size);
   opacity: 0;
   pointer-events: none;
@@ -168,11 +173,20 @@
   animation: popup-outline var(--popup-duration) var(--popup-ease) var(--popup-descent-lead) both;
 }
 .popup-motion.is-introducing .popup-control {
-  /* One animated value owns width, position AND height. Parallel height and
-     custom-property animations can disagree on WebKit's rendered height. */
   /* The descending orb widens before entry; exit merges to the round orb. */
   --popup-collapsed-width: var(--popup-size);
-  animation: popup-split var(--popup-duration) var(--popup-split-ease) var(--popup-descent-lead) both;
+  /* Keep the bottom edge fixed while the top recovers from compression.
+     Animate progress only: no direct height animation competing with this calc. */
+  top: auto;
+  bottom: 0;
+  transform: none;
+  height: calc(
+    var(--popup-compressed-height) + (var(--popup-size) - var(--popup-compressed-height)) *
+      var(--popup-height-recovery)
+  );
+  animation:
+    popup-split var(--popup-duration) var(--popup-split-ease) var(--popup-descent-lead) both,
+    popup-height-recovery var(--popup-duration) linear var(--popup-descent-lead) both;
   transition: none;
 }
 .popup-content--unfold {
@@ -249,12 +263,14 @@
   0% {
     width: calc(var(--popup-orb-size) * 0.94);
     height: calc(var(--popup-orb-size) * 2.5);
+    transform: translate(-50%, -50%);
     animation-timing-function: cubic-bezier(0.22, 0.65, 0.35, 1);
   }
   /* 30% of the 1.2s rise is 360ms on the 1.3s shape clock. */
   27.692308% {
-    width: var(--popup-compressed-height);
-    height: var(--popup-compressed-height);
+    width: var(--popup-orb-size);
+    height: var(--popup-orb-size);
+    transform: translate(-50%, -50%);
     animation-timing-function: cubic-bezier(0.32, 0, 0.4, 1);
   }
   /* 351ms split lead-in + 150ms descent = 501ms on the 1.3s blob clock. */
@@ -262,6 +278,7 @@
   100% {
     width: var(--popup-size);
     height: var(--popup-compressed-height);
+    transform: translate(-50%, calc(var(--popup-size) / 2 - var(--popup-compressed-height)));
   }
 }
 
@@ -317,6 +334,20 @@
   }
   100% {
     --popup-expansion: 1;
+  }
+}
+
+@keyframes popup-height-recovery {
+  0%,
+  27% {
+    --popup-height-recovery: 0;
+    /* Normalized rising segment of the split curve, ending at its maximum. */
+    animation-timing-function: cubic-bezier(0.404959, 0.823529, 0.694215, 1);
+  }
+  /* Split curve (.4, 1.6, .6, 1) peaks here, 1036.65ms including the delay. */
+  68.203499%,
+  100% {
+    --popup-height-recovery: 1;
   }
 }
 
