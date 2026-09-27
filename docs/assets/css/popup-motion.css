@@ -12,14 +12,13 @@
   --popup-secondary-width: var(--popup-size);
   --popup-merge-left: calc(50% - var(--popup-size) / 2);
   --popup-surface: rgba(37, 37, 40, 0.78);
-  --popup-blob: rgb(42, 42, 45);
-  --popup-merged-surface: rgb(29, 29, 31);
+  --popup-blob: rgb(37, 37, 40);
+  --popup-merged-surface: rgb(37, 37, 40);
   --popup-border: rgba(255, 255, 255, 0.1);
   --popup-shadow: rgba(0, 0, 0, 0.34);
   --popup-ease: cubic-bezier(0.42, 0, 0.18, 1);
   /* Start fast, decelerate into the stretch, then settle in the same curve. */
   --popup-split-ease: cubic-bezier(0.4, 1.6, 0.6, 1);
-  --popup-height-ease: cubic-bezier(0.25, 1, 0.5, 1);
   --popup-duration: 1.3s;
   --popup-rise-duration: 1.2s;
   --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -138,8 +137,8 @@
   top: 50%;
   left: 50%;
   z-index: 3;
-  width: 30px;
-  height: 80px;
+  width: 39px;
+  height: 104px;
   box-sizing: border-box;
   border: 0;
   border-radius: 999px;
@@ -147,7 +146,7 @@
   background: var(--popup-blob);
   box-shadow: 0 12px 38px var(--popup-shadow);
   pointer-events: none;
-  transform: translate(-50%, -50%) scale(1.3);
+  transform: translate(-50%, -50%);
   transform-origin: center;
 }
 .popup-motion.is-introducing .popup-blob {
@@ -162,11 +161,13 @@
   animation: popup-outline var(--popup-duration) var(--popup-ease) both;
 }
 .popup-motion.is-introducing .popup-control {
-  /* Resolve the curve here: var() in the keyframe timing descriptor can
-     fall back to the default easing and remove overshoot altogether. */
-  animation:
-    popup-split var(--popup-duration) var(--popup-split-ease) both,
-    popup-height-restore var(--popup-duration) var(--popup-height-ease) both;
+  /* One animated value owns width, position AND height. Parallel height and
+     custom-property animations can disagree on WebKit's rendered height. */
+  height: calc(
+    var(--popup-compressed-height) + (var(--popup-size) - var(--popup-compressed-height)) *
+      clamp(0, var(--popup-expansion), 1)
+  );
+  animation: popup-split var(--popup-duration) var(--popup-split-ease) both;
   transition: none;
 }
 .popup-content--unfold {
@@ -198,8 +199,8 @@
   opacity: 0;
   transform: scale(0.74);
   transition:
-    opacity 0.12s linear,
-    transform 0.22s ease;
+    opacity var(--popup-merge-duration) var(--popup-ease) var(--popup-outline-exit),
+    transform var(--popup-merge-duration) var(--popup-ease) var(--popup-outline-exit);
 }
 .popup-motion.is-introducing .popup-content-item {
   animation: popup-item-arrive 0.1s cubic-bezier(0.18, 0.72, 0.22, 0.88)
@@ -241,34 +242,15 @@
 
 @keyframes popup-blob {
   0% {
-    width: 30px;
-    height: 80px;
-    background-color: var(--popup-blob);
-    transform: translate(-50%, -50%) scale(1.3);
-    animation-timing-function: cubic-bezier(0.48, 0, 0.2, 1);
-  }
-  /* Keep the original 84ms/288ms rise landmarks on the shared 1.3s clock. */
-  6.461538% {
-    width: 30px;
-    height: 80px;
-    background-color: var(--popup-blob);
-    transform: translate(-50%, -50%) scale(1.3);
-    animation-timing-function: cubic-bezier(0.44, 0, 0.2, 1);
-  }
-  22.153846% {
     width: 39px;
-    height: 45px;
-    background-color: var(--popup-blob);
-    transform: translate(-50%, -50%) scale(1.3);
-    animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
+    height: 104px;
+    animation-timing-function: cubic-bezier(0.22, 0.65, 0.35, 1);
   }
   /* At handoff, both controls have expansion 0 and this exact silhouette. */
   27%,
   100% {
     width: var(--popup-size);
     height: var(--popup-compressed-height);
-    background-color: var(--popup-merged-surface);
-    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -294,11 +276,12 @@
     animation-timing-function: steps(1, end);
   }
   27%,
-  64% {
+  48% {
     background-color: var(--popup-merged-surface);
     opacity: 1;
     animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
   }
+  64%,
   100% {
     background-color: var(--popup-surface);
     opacity: 1;
@@ -323,18 +306,6 @@
   }
   100% {
     --popup-expansion: 1;
-  }
-}
-
-/* Start compressed before separation. Recover as movement slows, independently
-   of the horizontal overshoot, so the capsule never squeezes a second time. */
-@keyframes popup-height-restore {
-  0%,
-  27% {
-    height: var(--popup-compressed-height);
-  }
-  100% {
-    height: var(--popup-size);
   }
 }
 

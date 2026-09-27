@@ -18,8 +18,8 @@
     --compare-line: rgba(255, 255, 255, 0.12);
     --compare-picker-border: #56596466;
     --compare-dock-surface: rgba(37, 37, 40, 0.78);
-    --compare-dock-blob: rgb(42, 42, 45);
-    --compare-dock-merged-surface: rgb(29, 29, 31);
+    --compare-dock-blob: rgb(37, 37, 40);
+    --compare-dock-merged-surface: rgb(37, 37, 40);
     --compare-dock-text: #f5f5f7;
     --compare-dock-border: rgba(255, 255, 255, 0.1);
     --compare-dock-shadow: rgba(0, 0, 0, 0.34);
