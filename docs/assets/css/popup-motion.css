@@ -24,6 +24,9 @@
   --popup-rise-duration: 1.2s;
   --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --popup-outline-exit: 0.12s;
+  --popup-merge-duration: 0.36s;
+  --popup-exit-delay: calc(var(--popup-outline-exit) + var(--popup-merge-duration));
+  --popup-compressed-height: calc(var(--popup-size) * 0.74);
   height: var(--popup-size);
   opacity: 0;
   pointer-events: none;
@@ -34,7 +37,7 @@
   transition-property: opacity, transform;
   transition-duration: 0.22s, 0.66s;
   transition-timing-function: linear, var(--popup-settle-ease);
-  transition-delay: 0.58s, 0.52s;
+  transition-delay: calc(var(--popup-exit-delay) + 0.06s), var(--popup-exit-delay);
 }
 .popup-motion.is-mounted {
   opacity: 1;
@@ -67,8 +70,8 @@
   box-shadow: none;
   transform: translateY(-50%);
   transition-property: width, left;
-  transition-duration: 0.78s;
-  transition-timing-function: var(--popup-settle-ease);
+  transition-duration: var(--popup-merge-duration);
+  transition-timing-function: var(--popup-ease);
   /* Clear the outline before the two controls begin to overlap. */
   transition-delay: var(--popup-outline-exit);
 }
@@ -92,6 +95,8 @@
 }
 .popup-motion.is-mounted .popup-control {
   --popup-expansion: 1;
+  transition-duration: 0.78s;
+  transition-timing-function: var(--popup-settle-ease);
   transition-delay: var(--popup-entry-delay);
 }
 .popup-control::before,
@@ -146,7 +151,9 @@
   transform-origin: center;
 }
 .popup-motion.is-introducing .popup-blob {
-  animation: popup-blob var(--popup-rise-duration) var(--popup-ease) both;
+  animation:
+    popup-blob var(--popup-duration) var(--popup-ease) both,
+    popup-blob-visibility var(--popup-duration) linear both;
 }
 .popup-motion.is-introducing .popup-control::before {
   animation: popup-surface var(--popup-duration) var(--popup-ease) both;
@@ -236,53 +243,57 @@
   0% {
     width: 30px;
     height: 80px;
-    opacity: 0;
+    background-color: var(--popup-blob);
     transform: translate(-50%, -50%) scale(1.3);
     animation-timing-function: cubic-bezier(0.48, 0, 0.2, 1);
   }
-  7% {
+  /* Keep the original 84ms/288ms rise landmarks on the shared 1.3s clock. */
+  6.461538% {
     width: 30px;
     height: 80px;
-    opacity: 1;
+    background-color: var(--popup-blob);
     transform: translate(-50%, -50%) scale(1.3);
     animation-timing-function: cubic-bezier(0.44, 0, 0.2, 1);
   }
-  24% {
+  22.153846% {
     width: 39px;
     height: 45px;
-    opacity: 1;
+    background-color: var(--popup-blob);
     transform: translate(-50%, -50%) scale(1.3);
     animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
   }
-  30% {
-    width: 40px;
-    height: 30px;
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.3);
-    animation-timing-function: cubic-bezier(0.32, 0.04, 0.2, 1);
-  }
-  38% {
-    width: 35px;
-    height: 32px;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.3);
-  }
+  /* At handoff, both controls have expansion 0 and this exact silhouette. */
+  27%,
   100% {
-    width: 30px;
-    height: 80px;
+    width: var(--popup-size);
+    height: var(--popup-compressed-height);
+    background-color: var(--popup-merged-surface);
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Atomic surface handoff at 27%: never crossfade three overlapping surfaces. */
+@keyframes popup-blob-visibility {
+  0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(1.3);
+  }
+  6.461538% {
+    opacity: 1;
+    animation-timing-function: steps(1, end);
+  }
+  27%,
+  100% {
+    opacity: 0;
   }
 }
 
 @keyframes popup-surface {
-  0%,
-  27% {
+  0% {
     background-color: var(--popup-merged-surface);
     opacity: 0;
-    animation-timing-function: cubic-bezier(0.42, 0, 0.2, 1);
+    animation-timing-function: steps(1, end);
   }
-  40%,
+  27%,
   64% {
     background-color: var(--popup-merged-surface);
     opacity: 1;
@@ -320,7 +331,7 @@
 @keyframes popup-height-restore {
   0%,
   27% {
-    height: calc(var(--popup-size) * 0.74);
+    height: var(--popup-compressed-height);
   }
   100% {
     height: var(--popup-size);
