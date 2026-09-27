@@ -29,12 +29,13 @@
   /* Give the circle 150ms of descent before the existing split sequence. */
   --popup-descent-lead: 0.15s;
   --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --popup-merge-ease: cubic-bezier(0.25, 0.6, 0.45, 1);
+  --popup-merge-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --popup-exit-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --popup-outline-exit: 0.12s;
   --popup-merge-duration: 0.64s;
-  /* Blend the last 20% of merging into a gently accelerating descent instead
-     of waiting through an almost stationary ease-out tail. */
-  --popup-exit-delay: calc(var(--popup-outline-exit) + var(--popup-merge-duration) * 0.8);
+  /* This merge curve completes about 98% of its travel at 54% of its duration.
+     Start the separate ease-out descent there, not after the stationary tail. */
+  --popup-exit-delay: calc(var(--popup-outline-exit) + var(--popup-merge-duration) * 0.54);
   --popup-compressed-height: 39px;
   height: var(--popup-size);
   opacity: 0;
@@ -45,7 +46,7 @@
   will-change: transform;
   transition-property: opacity, transform;
   transition-duration: 0.22s, 0.66s;
-  transition-timing-function: linear, cubic-bezier(0.3, 0, 0.6, 1);
+  transition-timing-function: linear, var(--popup-exit-ease);
   transition-delay: calc(var(--popup-exit-delay) + 0.06s), var(--popup-exit-delay);
 }
 .popup-motion.is-mounted {
