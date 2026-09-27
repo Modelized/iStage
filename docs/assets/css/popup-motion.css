@@ -29,10 +29,13 @@
   /* Give the circle 150ms of descent before the existing split sequence. */
   --popup-descent-lead: 0.15s;
   --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --popup-merge-ease: cubic-bezier(0.25, 0.6, 0.45, 1);
   --popup-outline-exit: 0.12s;
   --popup-merge-duration: 0.64s;
-  --popup-exit-delay: calc(var(--popup-outline-exit) + var(--popup-merge-duration));
-  --popup-compressed-height: 42px;
+  /* Blend the last 20% of merging into a gently accelerating descent instead
+     of waiting through an almost stationary ease-out tail. */
+  --popup-exit-delay: calc(var(--popup-outline-exit) + var(--popup-merge-duration) * 0.8);
+  --popup-compressed-height: 39px;
   height: var(--popup-size);
   opacity: 0;
   pointer-events: none;
@@ -42,7 +45,7 @@
   will-change: transform;
   transition-property: opacity, transform;
   transition-duration: 0.22s, 0.66s;
-  transition-timing-function: linear, var(--popup-settle-ease);
+  transition-timing-function: linear, cubic-bezier(0.3, 0, 0.6, 1);
   transition-delay: calc(var(--popup-exit-delay) + 0.06s), var(--popup-exit-delay);
 }
 .popup-motion.is-mounted {
@@ -82,7 +85,7 @@
   transform: translateY(-50%);
   transition-property: width, left, height;
   transition-duration: var(--popup-merge-duration);
-  transition-timing-function: var(--popup-settle-ease);
+  transition-timing-function: var(--popup-merge-ease);
   /* Clear the outline before the two controls begin to overlap. */
   transition-delay: var(--popup-outline-exit);
 }
@@ -218,8 +221,8 @@
   opacity: 0;
   transform: scale(0.74);
   transition:
-    opacity var(--popup-merge-duration) var(--popup-settle-ease) var(--popup-outline-exit),
-    transform var(--popup-merge-duration) var(--popup-settle-ease) var(--popup-outline-exit);
+    opacity var(--popup-merge-duration) var(--popup-merge-ease) var(--popup-outline-exit),
+    transform var(--popup-merge-duration) var(--popup-merge-ease) var(--popup-outline-exit);
 }
 .popup-motion.is-introducing .popup-content-item {
   animation: popup-item-arrive 0.1s cubic-bezier(0.18, 0.72, 0.22, 0.88)
@@ -246,12 +249,13 @@
   30% {
     opacity: 1;
     transform: translate(-50%, -46px);
-    animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
+    animation-timing-function: cubic-bezier(0.32, 0, 0.38, 1);
   }
-  54% {
+  /* Zero velocity on both sides of the low point, with no held interval. */
+  60% {
     opacity: 1;
-    transform: translate(-50%, 3px);
-    animation-timing-function: cubic-bezier(0.32, 0.04, 0.2, 1);
+    transform: translate(-50%, 12px);
+    animation-timing-function: cubic-bezier(0.18, 0, 0.4, 1);
   }
   100% {
     opacity: 1;
