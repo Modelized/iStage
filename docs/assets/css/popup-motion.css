@@ -8,9 +8,9 @@
 
 .popup-motion {
   --popup-size: 56px;
+  --popup-orb-size: 48px;
   --popup-primary-width: 216px;
   --popup-secondary-width: var(--popup-size);
-  --popup-merge-left: calc(50% - var(--popup-size) / 2);
   --popup-surface: rgba(37, 37, 40, 0.78);
   --popup-blob: rgb(37, 37, 40);
   --popup-merged-surface: rgb(37, 37, 40);
@@ -27,7 +27,7 @@
   --popup-outline-exit: 0.12s;
   --popup-merge-duration: 0.36s;
   --popup-exit-delay: calc(var(--popup-outline-exit) + var(--popup-merge-duration));
-  --popup-compressed-height: calc(var(--popup-size) * 0.74);
+  --popup-compressed-height: var(--popup-orb-size);
   height: var(--popup-size);
   opacity: 0;
   pointer-events: none;
@@ -52,6 +52,8 @@
 }
 .popup-control {
   --popup-expansion: 0;
+  --popup-collapsed-width: var(--popup-orb-size);
+  --popup-merge-left: calc(50% - var(--popup-collapsed-width) / 2);
   --popup-expanded-width: var(--popup-size);
   position: absolute;
   top: 50%;
@@ -60,9 +62,12 @@
       var(--popup-expansion)
   );
   width: calc(
-    var(--popup-size) + (var(--popup-expanded-width) - var(--popup-size)) * var(--popup-expansion)
+    var(--popup-collapsed-width) + (var(--popup-expanded-width) - var(--popup-collapsed-width)) * var(--popup-expansion)
   );
-  height: var(--popup-size);
+  height: calc(
+    var(--popup-orb-size) + (var(--popup-size) - var(--popup-orb-size)) *
+      clamp(0, var(--popup-expansion), 1)
+  );
   overflow: hidden;
   border: 0;
   border-radius: 999px;
@@ -70,7 +75,7 @@
   color: inherit;
   box-shadow: none;
   transform: translateY(-50%);
-  transition-property: width, left;
+  transition-property: width, left, height;
   transition-duration: var(--popup-merge-duration);
   transition-timing-function: var(--popup-settle-ease);
   /* Clear the outline before the two controls begin to overlap. */
@@ -139,8 +144,8 @@
   top: 50%;
   left: 50%;
   z-index: 3;
-  width: 39px;
-  height: 104px;
+  width: calc(var(--popup-orb-size) * 0.94);
+  height: calc(var(--popup-orb-size) * 2.5);
   box-sizing: border-box;
   border: 0;
   border-radius: 999px;
@@ -165,10 +170,8 @@
 .popup-motion.is-introducing .popup-control {
   /* One animated value owns width, position AND height. Parallel height and
      custom-property animations can disagree on WebKit's rendered height. */
-  height: calc(
-    var(--popup-compressed-height) + (var(--popup-size) - var(--popup-compressed-height)) *
-      clamp(0, var(--popup-expansion), 1)
-  );
+  /* The descending orb widens before entry; exit merges to the round orb. */
+  --popup-collapsed-width: var(--popup-size);
   animation: popup-split var(--popup-duration) var(--popup-split-ease) var(--popup-descent-lead) both;
   transition: none;
 }
@@ -221,27 +224,35 @@
   0% {
     opacity: 0;
     transform: translate(-50%, 180px);
-    /* One continuous arc: approximately -46px at 361ms, then back to rest.
-       No separate ease-in restart or held keyframe at the apex. */
-    animation-timing-function: cubic-bezier(0.3, 2.01, 0.17, 1);
+    animation-timing-function: cubic-bezier(0.48, 0, 0.2, 1);
   }
   7% {
     opacity: 1;
   }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -46px);
+    animation-timing-function: cubic-bezier(0.34, 0.02, 0.2, 1);
+  }
+  54% {
+    opacity: 1;
+    transform: translate(-50%, 3px);
+    animation-timing-function: cubic-bezier(0.32, 0.04, 0.2, 1);
+  }
   100% {
     opacity: 1;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, 0) scale(1);
   }
 }
 
 @keyframes popup-blob {
   0% {
-    width: 39px;
-    height: 104px;
+    width: calc(var(--popup-orb-size) * 0.94);
+    height: calc(var(--popup-orb-size) * 2.5);
     animation-timing-function: cubic-bezier(0.22, 0.65, 0.35, 1);
   }
-  /* The rise curve peaks at 360.53ms: a true circle at that instant. */
-  27.733077% {
+  /* 30% of the 1.2s rise is 360ms on the 1.3s shape clock. */
+  27.692308% {
     width: var(--popup-compressed-height);
     height: var(--popup-compressed-height);
     animation-timing-function: cubic-bezier(0.32, 0, 0.4, 1);
