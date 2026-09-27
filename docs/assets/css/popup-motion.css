@@ -33,9 +33,9 @@
   --popup-exit-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --popup-outline-exit: 0.12s;
   --popup-merge-duration: 0.64s;
-  /* This merge curve completes about 98% of its travel at 54% of its duration.
-     Start the separate ease-out descent there, not after the stationary tail. */
-  --popup-exit-delay: calc(var(--popup-outline-exit) + var(--popup-merge-duration) * 0.54);
+  /* Allow a little more rounding after 98% convergence, without waiting for
+     the entire stationary tail of the merge. */
+  --popup-exit-delay: calc(var(--popup-outline-exit) + var(--popup-merge-duration) * 0.6);
   --popup-compressed-height: 39px;
   height: var(--popup-size);
   opacity: 0;

@@ -50,8 +50,6 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
   const rail = document.getElementById("highlight-rail");
   const stage = document.getElementById("highlight-stage");
   const controls = document.getElementById("highlight-controls");
-  const controlsAnchor = document.getElementById("highlight-controls-anchor");
-  const controlsFixedGuide = document.getElementById("highlight-controls-fixed-guide");
   const playToggle = document.getElementById("highlight-play-toggle");
   const cards = rail ? Array.from(rail.querySelectorAll(".highlight-card")) : [];
   const dots = controls ? Array.from(controls.querySelectorAll(".progress-dot")) : [];
@@ -62,8 +60,6 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     !rail ||
     !stage ||
     !controls ||
-    !controlsAnchor ||
-    !controlsFixedGuide ||
     !playToggle ||
     !cards.length
   )
@@ -241,28 +237,22 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
 
   const popupMotion = createPopupMotion(controls);
 
-  function updateControlPosition() {
+  function updateControlState() {
     pageTicking = false;
     const railBox = rail.getBoundingClientRect();
     const stageBox = stage.getBoundingClientRect();
-    const anchorBox = controlsAnchor.getBoundingClientRect();
-    const fixedGuideBox = controlsFixedGuide.getBoundingClientRect();
     const visualViewport = window.visualViewport;
     const viewportHeight = visualViewport
       ? visualViewport.height
       : window.innerHeight || document.documentElement.clientHeight;
     const viewportTop = visualViewport ? visualViewport.offsetTop : 0;
     const viewportBottom = viewportTop + viewportHeight;
-    const anchorCenter = anchorBox.top + anchorBox.height / 2;
-    const fixedCenter = fixedGuideBox.top + fixedGuideBox.height / 2;
     const previousRegion = controlsRegion;
     const aboveThreshold = viewportBottom + (previousRegion === "above" ? -4 : 12);
-    const dockThreshold = fixedCenter + (previousRegion === "below" ? 8 : -4);
     const belowExitThreshold = viewportTop + (playbackRegion === "below" ? 8 : -8);
     let nextRegion = "inside";
 
     if (railBox.top >= aboveThreshold) nextRegion = "above";
-    else if (anchorCenter <= dockThreshold) nextRegion = "below";
 
     const nextPlaybackRegion =
       nextRegion === "above" ? "above" : stageBox.bottom <= belowExitThreshold ? "below" : "inside";
@@ -274,7 +264,7 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
       window.clearTimeout(autoplayStartTimer);
     }
 
-    controls.classList.toggle("is-docked", nextRegion === "below");
+    // CSS sticky owns positioning; JS only controls visibility and playback.
     popupMotion.setVisible(shouldMount);
 
     if (enteringFromAbove) {
@@ -334,10 +324,10 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     }
   }
 
-  function requestControlPosition() {
+  function requestControlState() {
     if (pageTicking) return;
     pageTicking = true;
-    window.requestAnimationFrame(updateControlPosition);
+    window.requestAnimationFrame(updateControlState);
   }
 
   cards.forEach(function (card, index) {
@@ -424,20 +414,20 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     goTo(currentIndex + (event.key === "ArrowRight" ? 1 : -1), "manual");
   });
 
-  window.addEventListener("scroll", requestControlPosition, { passive: true });
+  window.addEventListener("scroll", requestControlState, { passive: true });
   window.addEventListener("resize", function () {
-    requestControlPosition();
+    requestControlState();
     updateCardText();
   });
-  window.addEventListener("orientationchange", requestControlPosition);
+  window.addEventListener("orientationchange", requestControlState);
   if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", requestControlPosition, { passive: true });
-    window.visualViewport.addEventListener("scroll", requestControlPosition, { passive: true });
+    window.visualViewport.addEventListener("resize", requestControlState, { passive: true });
+    window.visualViewport.addEventListener("scroll", requestControlState, { passive: true });
   }
 
   updateControls();
   updateCardText();
-  updateControlPosition();
+  updateControlState();
 })();
 
 /* Zoom selected highlight artwork once, after the same eager image load used by every card. */
