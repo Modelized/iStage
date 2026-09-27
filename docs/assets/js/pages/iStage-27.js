@@ -83,6 +83,15 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
   let playbackRegion = "above";
   let autoplayStartTimer = 0;
   let pointerGesture = null;
+  const copies = cards.map((card) => card.querySelector(".highlight-copy"));
+
+  function measureCards() {
+    const railBox = rail.getBoundingClientRect();
+    return {
+      center: railBox.left + railBox.width / 2,
+      boxes: cards.map((card) => card.getBoundingClientRect())
+    };
+  }
 
   function clearCompletedDots() {
     dots.forEach(function (dot) {
@@ -175,13 +184,10 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     });
   }
 
-  function nearestCardIndex() {
-    const railBox = rail.getBoundingClientRect();
-    const center = railBox.left + railBox.width / 2;
+  function nearestCardIndex({ center, boxes }) {
     let nearest = 0;
     let nearestDistance = Infinity;
-    cards.forEach(function (card, index) {
-      const box = card.getBoundingClientRect();
+    boxes.forEach(function (box, index) {
       const distance = Math.abs(box.left + box.width / 2 - center);
       if (distance < nearestDistance) {
         nearestDistance = distance;
@@ -191,17 +197,19 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     return nearest;
   }
 
-  function updateCardText() {
-    const railBox = rail.getBoundingClientRect();
-    const center = railBox.left + railBox.width / 2;
-    cards.forEach(function (card) {
-      const box = card.getBoundingClientRect();
+  function updateCardText({ center, boxes } = measureCards()) {
+    // Complete the geometry snapshot before writing any animated copy styles.
+    boxes.forEach(function (box, index) {
       const delta = box.left + box.width / 2 - center;
       const ratio = Math.max(-1, Math.min(1, delta / Math.max(box.width * 0.78, 1)));
-      const copy = card.querySelector(".highlight-copy");
+      const copy = copies[index];
       if (!copy) return;
-      copy.style.setProperty("--copy-shift", (ratio * 42).toFixed(2) + "px");
-      copy.style.setProperty("--copy-opacity", String(Math.max(0.16, 1 - Math.abs(ratio) * 0.86)));
+      const shift = (ratio * 42).toFixed(2) + "px";
+      const opacity = String(Math.max(0.16, 1 - Math.abs(ratio) * 0.86));
+      if (copy.style.getPropertyValue("--copy-shift") !== shift)
+        copy.style.setProperty("--copy-shift", shift);
+      if (copy.style.getPropertyValue("--copy-opacity") !== opacity)
+        copy.style.setProperty("--copy-opacity", opacity);
     });
   }
 
@@ -210,15 +218,16 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     scrollTicking = true;
     window.requestAnimationFrame(function () {
       scrollTicking = false;
+      const metrics = measureCards();
       if (!programmaticScroll) {
         clearCompletedDots();
-        const next = nearestCardIndex();
+        const next = nearestCardIndex(metrics);
         if (next !== currentIndex) {
           currentIndex = next;
           updateControls();
         }
       }
-      updateCardText();
+      updateCardText(metrics);
     });
   }
 
@@ -483,10 +492,14 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     function updateButtons() {
       updateFrame = 0;
       const metrics = getMetrics();
+      const left = metrics.allVisible ? 0 : rail.scrollLeft;
+      const resetScroll = metrics.allVisible && rail.scrollLeft !== 0;
       carousel.classList.toggle("is-static", metrics.allVisible);
-      if (metrics.allVisible && rail.scrollLeft !== 0) rail.scrollLeft = 0;
-      previous.disabled = metrics.allVisible || rail.scrollLeft <= 1;
-      next.disabled = metrics.allVisible || rail.scrollLeft >= metrics.maxLeft - 1;
+      if (resetScroll) rail.scrollLeft = 0;
+      const atStart = metrics.allVisible || left <= 1;
+      const atEnd = metrics.allVisible || left >= metrics.maxLeft - 1;
+      if (previous.disabled !== atStart) previous.disabled = atStart;
+      if (next.disabled !== atEnd) next.disabled = atEnd;
     }
 
     function requestUpdate() {

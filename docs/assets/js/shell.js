@@ -171,6 +171,8 @@ const iStageImages = (() => {
     }
 
     const setThumbTo = (link, show = true) => {
+      // The desktop menu has no geometry while hidden in the mobile layout.
+      if (!menu.getClientRects().length) return;
       if (!link) {
         menu.style.setProperty("--menu-thumb-o", "0");
         return;
@@ -221,6 +223,7 @@ const iStageImages = (() => {
 
     let frame = 0;
     let target = current || links[0];
+    let pointerX = null;
     let leaveTimer = 0;
 
     const isHoverPointer = (event) => event.pointerType === "mouse" || event.pointerType === "pen";
@@ -237,6 +240,10 @@ const iStageImages = (() => {
 
     const syncTarget = () => {
       frame = 0;
+      if (pointerX !== null) {
+        target = nearestLinkByX(pointerX);
+        pointerX = null;
+      }
       setThumbTo(target);
       setTarget(target);
     };
@@ -275,7 +282,7 @@ const iStageImages = (() => {
 
       cancelLeave();
       menu.dataset.thumbHovering = "1";
-      target = nearestLinkByX(event.clientX);
+      pointerX = event.clientX;
       if (!frame) {
         frame = requestAnimationFrame(syncTarget);
       }
@@ -294,7 +301,7 @@ const iStageImages = (() => {
     if (!("PointerEvent" in window)) {
       menu.addEventListener("mousemove", (event) => {
         menu.dataset.thumbHovering = "1";
-        target = nearestLinkByX(event.clientX);
+        pointerX = event.clientX;
         if (!frame) {
           frame = requestAnimationFrame(syncTarget);
         }
@@ -339,12 +346,19 @@ const iStageImages = (() => {
           const style = getComputedStyle(frame);
           const size = parseFloat(style.getPropertyValue("--artwork-scale")) || 1;
           const alignY = parseFloat(style.getPropertyValue("--artwork-align-y"));
-          const scale = Math.min(frame.clientWidth / width, frame.clientHeight / height) * size;
-          image.style.width = `${image.naturalWidth * scale}px`;
-          image.style.height = `${image.naturalHeight * scale}px`;
-          image.style.left = `${(frame.clientWidth - width * scale) / 2 - x * scale}px`;
-          image.style.top = `${(frame.clientHeight - height * scale) * (Number.isFinite(alignY) ? alignY : 0.5) - y * scale}px`;
-          image.style.transformOrigin = `${(x + width / 2) * scale}px ${(y + height / 2) * scale}px`;
+          const frameWidth = frame.clientWidth;
+          const frameHeight = frame.clientHeight;
+          const scale = Math.min(frameWidth / width, frameHeight / height) * size;
+          const values = {
+            width: `${image.naturalWidth * scale}px`,
+            height: `${image.naturalHeight * scale}px`,
+            left: `${(frameWidth - width * scale) / 2 - x * scale}px`,
+            top: `${(frameHeight - height * scale) * (Number.isFinite(alignY) ? alignY : 0.5) - y * scale}px`,
+            transformOrigin: `${(x + width / 2) * scale}px ${(y + height / 2) * scale}px`
+          };
+          Object.entries(values).forEach(([key, value]) => {
+            if (image.style[key] !== value) image.style[key] = value;
+          });
         };
         image.addEventListener("load", fit);
         iStageImages.ready(image).then(fit);
