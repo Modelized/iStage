@@ -2,7 +2,7 @@
 
 /* Shared by the two static sites. Prepare nearby elements, then commit a
    one-shot CSS reveal on a render boundary. Scrolling never cancels playback. */
-window.createScrollReveal = function ({ rootMargin = "0px 0px -1% 0px", threshold = 0 } = {}) {
+export const createScrollReveal = function ({ rootMargin = "0px 0px -1% 0px", threshold = 0 } = {}) {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const entries = new Map();
   const queued = new Set();

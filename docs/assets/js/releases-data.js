@@ -1,5 +1,5 @@
 /* Shared public release lookup and version download controls. */
-const iStageReleases = (() => {
+export const iStageReleases = (() => {
   let request;
   const controls = new Map();
   let availability;

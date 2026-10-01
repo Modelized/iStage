@@ -1,3 +1,5 @@
+import "../shell.js?v=20261002a";
+
 "use strict";
 
 (function () {

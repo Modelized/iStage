@@ -2,7 +2,7 @@
 
 /* Preserve the original highlight popup lifecycle: every new entrance restarts
    the CSS intro; hiding cancels it and uses the separate CSS exit transitions. */
-window.createPopupMotion = function (root) {
+export const createPopupMotion = function (root) {
   const firstControl = root.querySelector(".popup-control");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   let visible = false;

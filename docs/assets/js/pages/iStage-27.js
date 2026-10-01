@@ -1,3 +1,8 @@
+import "../shell.js?v=20261002a";
+import { createPopupMotion } from "../popup-motion.js?v=20261002a";
+import { createScrollReveal } from "../scroll-reveal.js?v=20261002a";
+import { iStageImages } from "../modules/artwork.js?v=20261002a";
+
 "use strict";
 
 function createRailScroller(rail, reduceMotion, onStateChange = () => {}) {

@@ -133,16 +133,14 @@
   margin: 0 auto 8px;
 }
 
-.page-home .section--istage-27,
-.page-home .section--istage-18 {
+.page-home .product-card {
   --card-mobile-areas: "copy" "media";
   --card-mobile-gap: 28px;
   --card-mobile-width: 100%;
 }
 
 @media (width > 900px) {
-  .page-home .section--istage-27,
-  .page-home .section--istage-18 {
+  .page-home .product-card {
     padding-top: 92px;
     padding-bottom: 88px;
   }
