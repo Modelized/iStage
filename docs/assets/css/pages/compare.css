@@ -162,10 +162,17 @@
   margin-top: 20px;
 }
 .compare-learn {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
   color: rgb(var(--accent-blue));
   font-size: 16px;
   text-decoration: none;
   transition: opacity var(--control-duration) var(--control-ease);
+}
+.compare-learn .chevron {
+  width: 1.5em;
+  height: 1.5em;
 }
 @media (hover: hover) and (pointer: fine) {
   .compare-select:hover {
