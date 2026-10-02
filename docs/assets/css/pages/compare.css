@@ -171,8 +171,8 @@
   transition: opacity var(--control-duration) var(--control-ease);
 }
 .compare-learn .chevron {
-  width: 1.5em;
-  height: 1.5em;
+  width: 1.125em;
+  height: 1.125em;
 }
 @media (hover: hover) and (pointer: fine) {
   .compare-select:hover {
