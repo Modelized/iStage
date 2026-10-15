@@ -1,3 +1,5 @@
+// Image readiness
+
 const iStageImages = (() => {
   const pending = new WeakMap();
   function ready(image) {
@@ -24,8 +26,10 @@ const iStageImages = (() => {
   return { ready };
 })();
 
+// Artwork fitting
+
 function initHeroArtwork() {
-  // Visible PNG bounds measured once in source pixels, excluding transparent padding.
+  // These bounds use source pixels and exclude transparent padding.
   const bounds = {
     "hero-iStage-series.png": [367, 118, 1427, 1921],
     "releases-hero.png": [367, 118, 1427, 1921],

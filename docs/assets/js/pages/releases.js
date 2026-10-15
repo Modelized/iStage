@@ -3,7 +3,6 @@ import { iStageReleases } from "../releases-data.js?v=20261002a";
 
 "use strict";
 
-/* ---- Releases renderer (GitHub API) ---- */
 (function () {
   const list = document.getElementById("releases-list");
 
@@ -26,6 +25,8 @@ import { iStageReleases } from "../releases-data.js?v=20261002a";
     ].join("");
   }
   if (!list) return;
+
+  // Release note formatting
 
   const esc = (s = "") =>
     s.replace(
@@ -140,6 +141,8 @@ import { iStageReleases } from "../releases-data.js?v=20261002a";
     flushList();
     return out.join("");
   };
+
+  // Release cards and grouping
 
   const { versionFromTag } = iStageReleases;
 

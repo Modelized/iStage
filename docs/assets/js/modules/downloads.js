@@ -1,3 +1,5 @@
+/* Hero download action alignment */
+
 function initDownloadAction() {
   const action = document.querySelector(".i27-hero-action");
   const note = action?.querySelector("p");

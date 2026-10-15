@@ -1,4 +1,5 @@
-/* ----- iStage 27 introduction page (always dark) ----- */
+/* Dark page appearance */
+
 html {
   background: #000;
   color-scheme: dark;
@@ -33,7 +34,8 @@ html {
   overflow-y: visible;
 }
 
-/* Hero: shared feature-card structure, iStage 27-specific composition. */
+/* Hero composition */
+
 .page-iStage-27 .i27-hero-card {
   --hero-a: 188 133 82;
   --hero-b: 229 218 204;
@@ -123,6 +125,7 @@ html {
 }
 
 /* Highlights */
+
 .page-iStage-27 .section--first {
   padding-bottom: 0;
 }
@@ -293,6 +296,7 @@ html {
 }
 
 /* Refined Liquid Glass */
+
 .i27-design {
   position: relative;
   margin: 0;
@@ -410,6 +414,8 @@ html {
   line-height: 1.36;
   letter-spacing: -0.025em;
 }
+
+/* Feature sections and carousels */
 
 .i27-content-section {
   position: relative;
@@ -636,6 +642,8 @@ html {
   cursor: default;
 }
 
+/* Download and additional features */
+
 .i27-download {
   position: relative;
   display: grid;
@@ -750,7 +758,8 @@ html {
   padding-block: clamp(44px, 4vw, 56px);
 }
 
-/* Shared popup motion; this page defines only control layout and playback. */
+/* Highlight playback controls */
+
 .highlight-controls-track {
   position: absolute;
   /* Extend above the stage so exiting above it can still animate in view. */

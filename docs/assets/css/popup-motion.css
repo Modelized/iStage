@@ -1,5 +1,5 @@
-/* One entry progress drives both controls. Shape and direction are independent;
-   exit transitions and the original rise/content choreography stay separate. */
+/* Both controls share expansion progress, while shape and direction remain configurable.
+   Rise, content entry and exit use separate timelines. */
 @property --popup-expansion {
   syntax: "<number>";
   inherits: false;
@@ -22,19 +22,17 @@
   --popup-border: rgba(255, 255, 255, 0.1);
   --popup-shadow: rgba(0, 0, 0, 0.34);
   --popup-ease: cubic-bezier(0.42, 0, 0.18, 1);
-  /* Start fast, decelerate into the stretch, then settle in the same curve. */
   --popup-split-ease: cubic-bezier(0.4, 1.6, 0.6, 1);
   --popup-duration: 1.3s;
   --popup-rise-duration: 1.2s;
-  /* Give the circle 150ms of descent before the existing split sequence. */
+  /* The orb starts descending before the controls split. */
   --popup-descent-lead: 0.15s;
   --popup-settle-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --popup-merge-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --popup-exit-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --popup-outline-exit: 0.12s;
   --popup-merge-duration: 0.64s;
-  /* Allow a little more rounding after 98% convergence, without waiting for
-     the entire stationary tail of the merge. */
+  /* Begin the exit while the merge settles to avoid a pause between movements. */
   --popup-exit-delay: calc(var(--popup-outline-exit) + var(--popup-merge-duration) * 0.6);
   --popup-compressed-height: 39px;
   height: var(--popup-size);
@@ -59,6 +57,8 @@
   animation: popup-rise var(--popup-rise-duration) var(--popup-ease) both;
   transition: none;
 }
+/* Control geometry and surfaces */
+
 .popup-control {
   --popup-expansion: 0;
   --popup-collapsed-width: var(--popup-orb-size);
@@ -148,6 +148,8 @@
   opacity: 1;
   transition-duration: 0.22s, var(--control-duration);
 }
+/* Entry orb and control handoff */
+
 .popup-blob {
   position: absolute;
   top: 50%;
@@ -177,10 +179,10 @@
   animation: popup-outline var(--popup-duration) var(--popup-ease) var(--popup-descent-lead) both;
 }
 .popup-motion.is-introducing .popup-control {
-  /* The descending orb widens before entry; exit merges to the round orb. */
+  /* Entry begins with the widened orb, while exit returns to the round orb. */
   --popup-collapsed-width: var(--popup-size);
-  /* Keep the bottom edge fixed while the top recovers from compression.
-     Animate progress only: no direct height animation competing with this calc. */
+  /* Keep the bottom edge fixed during height recovery and animate only progress
+     so a direct height animation cannot compete with the calculation. */
   top: auto;
   bottom: 0;
   transform: none;
@@ -193,6 +195,8 @@
     popup-height-recovery var(--popup-duration) linear var(--popup-descent-lead) both;
   transition: none;
 }
+/* Content transitions */
+
 .popup-content--unfold {
   width: var(--popup-content-width);
   opacity: 1;
@@ -230,13 +234,15 @@
     calc(var(--popup-descent-lead) + 0.46s + var(--popup-item-index) * 0.05s) both;
   transition: none;
 }
-/* Preserve the intro endpoint until the next visibility change, as before. */
+/* Preserve the intro endpoint until the next visibility change. */
 .popup-motion.is-intro-settling,
 .popup-motion.is-intro-settling .popup-control,
 .popup-motion.is-intro-settling .popup-content--unfold,
 .popup-motion.is-intro-settling .popup-content--scale {
   transition: none;
 }
+
+/* Entry choreography */
 
 @keyframes popup-rise {
   0% {
@@ -252,7 +258,7 @@
     transform: translate(-50%, -46px);
     animation-timing-function: cubic-bezier(0.32, 0, 0.38, 1);
   }
-  /* Zero velocity on both sides of the low point, with no held interval. */
+  /* Both easing segments reach zero velocity at the low point without a pause. */
   60% {
     opacity: 1;
     transform: translate(-50%, 12px);
@@ -271,14 +277,14 @@
     transform: translate(-50%, -50%);
     animation-timing-function: cubic-bezier(0.22, 0.65, 0.35, 1);
   }
-  /* 30% of the 1.2s rise is 360ms on the 1.3s shape clock. */
+  /* Match the orb's round shape to the rise apex on the separate shape timeline. */
   27.692308% {
     width: var(--popup-orb-size);
     height: var(--popup-orb-size);
     transform: translate(-50%, -50%);
     animation-timing-function: cubic-bezier(0.32, 0, 0.4, 1);
   }
-  /* 351ms split lead-in + 150ms descent = 501ms on the 1.3s blob clock. */
+  /* Match the compressed shape to the delayed split's first visible frame. */
   38.538462%,
   100% {
     width: var(--popup-size);
@@ -287,7 +293,7 @@
   }
 }
 
-/* Atomic handoff at 501ms, matching the delayed split's 27% keyframe. */
+/* Hide the orb on the same frame that the delayed control surfaces appear. */
 @keyframes popup-blob-visibility {
   0% {
     opacity: 0;
@@ -346,10 +352,10 @@
   0%,
   27% {
     --popup-height-recovery: 0;
-    /* Normalized rising segment of the split curve, ending at its maximum. */
+    /* This curve normalizes the split's rising segment up to its maximum. */
     animation-timing-function: cubic-bezier(0.404959, 0.823529, 0.694215, 1);
   }
-  /* Split curve (.4, 1.6, .6, 1) peaks here, 1036.65ms including the delay. */
+  /* Height recovery ends at the split curve's maximum to avoid a second compression. */
   68.203499%,
   100% {
     --popup-height-recovery: 1;

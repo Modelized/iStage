@@ -1,4 +1,5 @@
-/* Compare page: open two-column comparison beneath the shared hero. */
+/* Page appearance */
+
 .page-compare {
   --compare-muted: #5e6572;
   --compare-line: rgba(17, 19, 23, 0.1);
@@ -35,6 +36,8 @@
   --hero-b: 225 106 143;
   --hero-c: 102 132 255;
 }
+/* Model selection */
+
 .compare-surface {
   padding-top: clamp(40px, 6vw, 80px);
 }
@@ -85,6 +88,8 @@
   transform: translateY(-50%);
   pointer-events: none;
 }
+/* Floating pickers */
+
 .compare-dock {
   --popup-primary-width: calc((100% - var(--compare-column-gap)) / 2);
   --popup-secondary-width: var(--popup-primary-width);
@@ -182,6 +187,8 @@
     opacity: 0.75;
   }
 }
+/* Comparison tables */
+
 .compare-details {
   display: grid;
   gap: clamp(48px, 7vw, 80px);

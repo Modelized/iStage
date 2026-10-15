@@ -1,5 +1,5 @@
-/* ----- Releases page (scoped) ----- */
-/* Subtitle contrast */
+/* Page appearance */
+
 .page-releases .subtitle {
   color: #5e6572;
 }
@@ -9,7 +9,6 @@
   }
 }
 
-/* Swap surface: background <-> cards */
 .page-releases {
   --release-highlight: 235 166 48;
   background: #f5f5f7;
@@ -27,19 +26,18 @@
   --hero-c: 193 135 93;
 }
 
-/* Surface only for the list area */
+/* Release list and metadata */
+
 .releases-surface {
   background: transparent;
   padding: 16px 0 0;
 }
 
-/* Card + typography balance */
 .releases-list {
   display: grid;
   gap: 16px;
 }
 
-/* Empty/loading states */
 .empty {
   border: 1px solid var(--nav-border);
   border-radius: var(--banner-radius);
@@ -63,7 +61,6 @@
   margin-block: 0 24px;
 }
 
-/* Ensure release titles are left-aligned */
 .release-title {
   text-align: left;
 }
@@ -78,6 +75,8 @@
   align-items: center;
   gap: 0.6ch;
 }
+
+/* Release notes */
 
 .prose {
   line-height: 1.65;
@@ -115,7 +114,6 @@
   margin: 0 0 18px;
 }
 
-/* Slightly increase horizontal padding for body text */
 .prose {
   padding-inline: 6px;
 }
@@ -124,6 +122,8 @@
     padding-inline: 10px;
   }
 }
+
+/* Release cards */
 
 .release-head {
   display: grid;
@@ -147,7 +147,6 @@
   padding-left: 4px;
 }
 
-/* Card radius: use banner-radius system */
 .page-releases .card {
   background: #fff;
   color: #111317;
@@ -162,7 +161,8 @@
   }
 }
 
-/* Highlight the top item in "Latest Releases" with a restrained inner glow */
+/* Latest release highlight */
+
 .page-releases .card.is-highlight {
   position: relative;
 }
@@ -189,7 +189,6 @@
   margin-top: 12px;
 }
 
-/* Keep the highlight button aligned with the card glow */
 .page-releases .card.is-highlight .btn-blue {
   background: rgb(var(--release-highlight) / 0.86);
   border-color: rgb(var(--release-highlight) / 0.62);

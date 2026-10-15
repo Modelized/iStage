@@ -27,6 +27,8 @@ import "../shell.js?v=20261002a";
     topic.querySelector("button").setAttribute("aria-controls", `help-detail-${index}`);
   });
 
+  // Tile and detail geometry
+
   function measureGrid() {
     const origin = deck.getBoundingClientRect();
     gridHeight = deck.offsetHeight;
@@ -82,6 +84,8 @@ import "../shell.js?v=20261002a";
     return height;
   }
 
+  // Playback state and access
+
   function progress(layer) {
     const eased = layer.morph ? (layer.morph.effect.getComputedTiming().progress ?? 0) : 1;
     return layer.from + (layer.target - layer.from) * eased;
@@ -95,7 +99,7 @@ import "../shell.js?v=20261002a";
     );
   }
 
-  // Timing reads only: no per-frame geometry, computed styles, or blur calculations.
+  // Access checks read animation timing without measuring layout on each frame.
   function updateAccess() {
     if (
       pendingNavigation &&
@@ -132,7 +136,7 @@ import "../shell.js?v=20261002a";
   function freezeMotion(continuing = new Set()) {
     const preserved = new Set();
     continuing.forEach((layer) => preserved.add(layer.detail));
-    // Capture ALL values before cancelling or writing any of them.
+    // Read every animated value before canceling animations or writing styles.
     layers.forEach((layer) => {
       if (continuing.has(layer)) return;
       layer.from = progress(layer);
@@ -157,6 +161,8 @@ import "../shell.js?v=20261002a";
     motion = motion.filter(({ element }) => preserved.has(element));
     cancelAnimationFrame(accessFrame);
   }
+
+  // Detail layers and topic navigation
 
   function createLayer(topic) {
     const index = topics.indexOf(topic);
@@ -232,8 +238,8 @@ import "../shell.js?v=20261002a";
 
   function navigateToTopic(layer, topic) {
     if (pendingNavigation || selected !== layer || progress(layer) < 0.8) return;
-    // The existing access loop starts the next opening at 20%, without ever
-    // unlocking the grid. Departing layers keep their shrinking timelines.
+    // The access loop starts the next topic while the departing layer shrinks,
+    // keeping the grid locked throughout the handoff.
     pendingNavigation = topic;
     changeSelection(null);
     if (deck.getBoundingClientRect().top < 90) {
@@ -243,6 +249,8 @@ import "../shell.js?v=20261002a";
       });
     }
   }
+
+  // Selection transitions
 
   function readStyle(style, key) {
     return key.startsWith("--") ? style.getPropertyValue(key) : style[key];
@@ -289,7 +297,7 @@ import "../shell.js?v=20261002a";
       }
     });
     topics.forEach((topic) => {
-      // Invisible tiles need no persistent blur/compositing surface at rest.
+      // Clear filters and transforms so hidden tiles need no compositing layers at rest.
       Object.assign(topic.style, { opacity: selected ? "0" : "", transform: "", filter: "" });
       if (!selected) {
         ["width", "height", "left", "top"].forEach((key) =>
@@ -312,8 +320,8 @@ import "../shell.js?v=20261002a";
       deck.classList.add("is-active");
     }
     const incoming = layers.get(topic);
-    // A departing card keeps its existing shrinking timeline. Only its outer
-    // blur/fade retargets when it becomes a background card for a new selection.
+    // Departing cards keep shrinking on their current timelines while their
+    // outer surfaces transition into the background of the new selection.
     const continuing = new Set(
       [...layers.values()].filter(
         (layer) => layer !== incoming && layer.target === 0 && layer.morph
@@ -350,8 +358,8 @@ import "../shell.js?v=20261002a";
     topics.forEach((item) => {
       item.querySelector("button").setAttribute("aria-expanded", String(selected?.topic === item));
       if (layers.has(item)) return;
-      // Reconstruct a hidden endpoint only while invisible; visible interrupted
-      // tiles always retain the snapshot taken above.
+      // Reconstruct endpoints only for hidden tiles so visible interruptions
+      // continue from the captured state.
       if (getComputedStyle(item).opacity === "0") {
         Object.assign(item.style, backgroundTarget(item, true));
       }
@@ -373,6 +381,8 @@ import "../shell.js?v=20261002a";
       })
       .catch(() => {});
   }
+
+  // Input and layout changes
 
   topics.forEach((topic) => {
     topic.querySelector("button").addEventListener("click", () => {

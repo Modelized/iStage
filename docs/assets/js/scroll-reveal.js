@@ -1,7 +1,7 @@
 "use strict";
 
-/* Shared by the two static sites. Prepare nearby elements, then commit a
-   one-shot CSS reveal on a render boundary. Scrolling never cancels playback. */
+// Both sites use this observer to prepare nearby elements before a one-shot CSS reveal.
+// Scrolling away does not cancel an animation that has started.
 export const createScrollReveal = function ({ rootMargin = "0px 0px -1% 0px", threshold = 0 } = {}) {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const entries = new Map();
@@ -100,7 +100,7 @@ export const createScrollReveal = function ({ rootMargin = "0px 0px -1% 0px", th
       return;
     }
     queued.add(entry);
-    // Keep the hidden/prepared style in a separate rendering update, including
+    // Keep the prepared hidden state in a separate rendering update, including
     // when initialization, image decoding and intersection happen together.
     if (!frame)
       frame = requestAnimationFrame(() => {

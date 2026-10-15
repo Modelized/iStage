@@ -5,6 +5,8 @@ import { iStageImages } from "../modules/artwork.js?v=20261002a";
 
 "use strict";
 
+// Rail scrolling
+
 function createRailScroller(rail, reduceMotion, onStateChange = () => {}) {
   let frame = 0;
   function cancel() {
@@ -93,6 +95,8 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
       boxes: cards.map((card) => card.getBoundingClientRect())
     };
   }
+
+  // Highlight playback
 
   function clearCompletedDots() {
     dots.forEach(function (dot) {
@@ -185,6 +189,8 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
     });
   }
 
+  // Scroll tracking and copy motion
+
   function nearestCardIndex({ center, boxes }) {
     let nearest = 0;
     let nearestDistance = Infinity;
@@ -242,6 +248,8 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
 
   const popupMotion = createPopupMotion(controls);
 
+  // Viewport visibility
+
   function updateControlState() {
     pageTicking = false;
     const railBox = rail.getBoundingClientRect();
@@ -269,7 +277,7 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
       window.clearTimeout(autoplayStartTimer);
     }
 
-    // CSS sticky owns positioning; JS only controls visibility and playback.
+    // Sticky positioning stays in CSS so scrolling needs no scripted position handoff.
     popupMotion.setVisible(shouldMount);
 
     if (enteringFromAbove) {
@@ -435,7 +443,8 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
   updateControlState();
 })();
 
-/* Zoom selected highlight artwork once, after the same eager image load used by every card. */
+// Highlight artwork reveal
+
 (function () {
   const mediaNodes = Array.from(
     document.querySelectorAll(".highlight-media--zoom-top, .highlight-media--zoom-bottom")
@@ -456,7 +465,8 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
   });
 })();
 
-/* Shared manual carousels for the feature cards. */
+// Feature carousels
+
 (function () {
   const carousels = Array.from(document.querySelectorAll("[data-feature-carousel]"));
   if (!carousels.length) return;
@@ -578,7 +588,8 @@ const decodeImage = (image) => (image ? iStageImages.ready(image) : Promise.reso
   });
 })();
 
-/* Move the showcase forward or backward whenever it crosses the viewport. */
+// Showcase viewport motion
+
 (function () {
   const showcase = document.getElementById("i27-showcase-grid");
   const frame = showcase ? showcase.closest(".i27-design-showcase") : null;

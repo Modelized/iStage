@@ -1,4 +1,9 @@
+/* Site partials and footer setup */
+
 import { base, assetVersion } from "./context.js?v=20261002a";
+
+// Partial loading
+
 function getPartialUrl(file) {
   if (!base || base === ".") {
     return `assets/partials/${file}?v=${assetVersion}`;
@@ -24,6 +29,8 @@ async function injectPartial(selector, file) {
     console.error("Partial load failed", error);
   }
 }
+
+// Footer content
 
 function initFooterIcon() {
   const image = document.querySelector("[data-footer-icon]");

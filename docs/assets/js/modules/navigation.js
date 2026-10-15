@@ -1,4 +1,7 @@
 import { body } from "./context.js?v=20261002a";
+
+// Menu visibility and branding
+
 function setNavOpenState(nav, open) {
   const toggle = nav?.querySelector(".nav-toggle");
   const sheet = nav?.querySelector("#mobile-sheet");
@@ -66,6 +69,8 @@ function initNavBackdrop() {
   window.addEventListener("orientationchange", queueBackdropSync);
   window.addEventListener("pageshow", queueBackdropSync);
 }
+
+// Menu highlight
 
 function normalizePath(path) {
   if (!path) {
@@ -254,6 +259,8 @@ function initMenuThumb(nav) {
     });
   }
 }
+
+// Navigation setup
 
 function initNav() {
   const nav = document.querySelector(".nav");

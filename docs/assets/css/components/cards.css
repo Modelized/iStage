@@ -1,4 +1,5 @@
-/* Promotional cards share typography and explicit spacing between content rows. */
+/* Promotional cards */
+
 .promo-card {
   --card-title-gap: 12px;
   padding-top: 52px;
@@ -112,7 +113,8 @@
   }
 }
 
-/* Shared feature-page hero card */
+/* Feature page heroes */
+
 .page-feature .section--first {
   padding-top: 0;
 }
@@ -246,6 +248,7 @@
 }
 
 /* Hero media */
+
 .media {
   width: 100%;
   background-position: center;

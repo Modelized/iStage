@@ -1,4 +1,5 @@
-/* Help topics: a compact grid that opens into one reading surface. */
+/* Page appearance */
+
 .page-help {
   --help-surface: #fff;
   --help-muted: #667080;
@@ -20,6 +21,8 @@
   --hero-b: 167 158 188;
   --hero-c: 196 184 167;
 }
+/* Topic grid */
+
 .help-surface {
   padding: 16px 0 0;
 }
@@ -105,6 +108,8 @@
   left: var(--tile-left);
   top: var(--tile-top);
 }
+/* Expanded topic layers */
+
 .help-layer {
   position: absolute;
   inset: 0 0 auto;
@@ -180,6 +185,8 @@
 .help-detail-content.is-interactive {
   pointer-events: auto;
 }
+/* Detail controls and content */
+
 .help-back {
   display: grid;
   place-items: center;

@@ -1,4 +1,5 @@
 /* Base */
+
 * {
   box-sizing: border-box;
 }
@@ -46,11 +47,11 @@ body {
   --nav-inline-pad: 16px;
   --footer-inline-pad: clamp(16px, 6vw, 28px);
 
-  /* Shared nav shadow tokens */
+  /* Navigation shadows */
   --nav-shadow: 0 0 28px -14px rgba(0, 0, 0, 0.24);
   --nav-shadow-mobile-scrolled: 0 0 40px -12px rgba(0, 0, 0, 0.3);
 
-  /* Nav theme tokens (default: dark look) */
+  /* Default navigation colors */
   --surface-dark: #111113;
   --nav-surface: rgba(24, 24, 27, 0.54);
   --nav-border: #ffffff33;
@@ -61,7 +62,7 @@ body {
   --menu-thumb-bg-default: rgba(255, 255, 255, 0.16);
   --menu-thumb-bg-press: rgba(255, 255, 255, 0.24);
 
-  /* Nav backdrop */
+  /* Navigation backdrop */
   --nav-backdrop: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.46) 0%,
@@ -107,7 +108,8 @@ body {
   }
 }
 
-/* Light mode nav */
+/* Light navigation colors */
+
 @media (prefers-color-scheme: light) {
   :root {
     --nav-surface: rgba(255, 255, 255, 0.78);
@@ -121,12 +123,14 @@ body {
   }
 }
 
+/* Shared content layout */
+
 .container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 12px;
 }
-/* Editorial content; cards and hero shells retain their own geometry. */
+/* Editorial gutters are separate from card and hero geometry. */
 .body-content {
   width: var(--body-content-width, calc(100% - 56px));
   max-width: var(--body-content-max, 1160px);
@@ -154,13 +158,13 @@ body {
   overflow: hidden;
 }
 
-/* Full-width containers for fixed nav + footer */
 .nav .container,
 .footer .container {
   max-width: none;
 }
 
-/* Nav backdrop */
+/* Navigation backdrop */
+
 .nav-backdrop {
   position: fixed;
   top: 0;
@@ -188,7 +192,6 @@ body {
   }
 }
 
-/* Mobile portrait: no nav backdrop */
 @media (max-width: 900px) and (orientation: portrait) {
   .nav-backdrop {
     display: none !important;
@@ -199,7 +202,8 @@ body {
   opacity: 1;
 }
 
-/* Nav */
+/* Navigation controls */
+
 .nav {
   position: fixed;
   top: calc(env(safe-area-inset-top, 0px) + 12px);
@@ -262,7 +266,7 @@ body {
   display: block;
 }
 
-/* Light mode + desktop/landscape: black logo at top, white logo after scroll */
+/* The light-mode logo follows the backdrop contrast outside portrait mobile layouts. */
 @media (prefers-color-scheme: light) and (width > 900px) {
   body:not(.nav--scrolled) .brand-logo {
     filter: invert(1);
@@ -280,7 +284,6 @@ body {
   }
 }
 
-/* Mobile portrait: keep the logo black in light mode */
 @media (prefers-color-scheme: light) and (max-width: 900px) and (orientation: portrait) {
   body .brand-logo {
     filter: invert(1) !important;
@@ -331,7 +334,6 @@ body {
   text-decoration: none;
 }
 
-/* CSS-only search icon */
 .nav-search::before,
 .nav-search::after {
   content: "";
@@ -378,13 +380,12 @@ body {
   color: var(--nav-text);
 }
 
-/* Fix: prevent two fully-opaque labels (current + hovered) */
+/* Dim the current label when the highlight moves to another link. */
 @supports selector(.menu:has(a)) {
   .menu:has(a.is-target:not(.is-current)) a.is-current {
     color: var(--nav-text-dim);
   }
 }
-/* Fallback for browsers without :has */
 @supports not selector(.menu:has(a)) {
   @media (hover: hover) and (pointer: fine) {
     .menu:hover a.is-current {
@@ -451,7 +452,8 @@ body {
   background: var(--nav-press-bg);
 }
 
-/* Desktop / landscape: frosted menu pill + thumb highlight */
+/* Desktop and landscape navigation */
+
 @media (width > 900px), (max-width: 900px) and (orientation: landscape) {
   .row {
     height: var(--nav-pill-height-desktop);
@@ -532,7 +534,8 @@ body {
   }
 }
 
-/* Mobile portrait nav */
+/* Portrait mobile navigation */
+
 @media (max-width: 900px) and (orientation: portrait) {
   .desktop {
     display: none;
@@ -552,7 +555,7 @@ body {
     transition: box-shadow 0.22s ease;
   }
 
-  /* When scrolled, allow a slightly wider/stronger shadow for readability */
+  /* A stronger shadow separates the navigation from scrolled content. */
   body.nav--scrolled .nav-inner {
     box-shadow: var(--nav-shadow-mobile-scrolled);
   }
@@ -627,7 +630,7 @@ body {
   }
 }
 
-/* Press background should apply only to the mobile sheet links */
+/* Desktop links use the moving highlight instead of a pressed background. */
 .mobile-menu a:active {
   background: var(--nav-press-bg);
 }
@@ -650,6 +653,7 @@ body {
 }
 
 /* Sections */
+
 .section {
   padding: 44px 0 32px;
 }
@@ -662,7 +666,7 @@ body {
   padding-top: 44px;
 }
 
-/* Ensure the first card clears the floating nav (desktop + landscape) */
+/* Reserve room for the floating navigation above the first card. */
 @media (width > 900px), (max-width: 900px) and (orientation: landscape) {
   .section--first {
     margin-top: calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 12px);
@@ -682,7 +686,6 @@ body {
   color: #111317;
 }
 
-/* Card layout for desktop + landscape (page cards, nav/footer excluded) */
 @media (width > 900px), (max-width: 900px) and (orientation: landscape) {
   .section--black,
   .section--white {
@@ -697,7 +700,6 @@ body {
   }
 }
 
-/* Card layout for mobile portrait */
 @media (max-width: 900px) and (orientation: portrait) {
   .section--black,
   .section--white {
@@ -721,7 +723,7 @@ body {
   }
 }
 
-/* Shared disclosure icon; each control owns its positioning and rotation. */
+/* Each disclosure control owns its icon's position and rotation. */
 .chevron {
   display: block;
   width: 28px;
@@ -730,6 +732,7 @@ body {
 }
 
 /* Hero */
+
 .hero {
   display: flex;
   flex-direction: column;

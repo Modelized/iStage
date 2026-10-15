@@ -29,6 +29,8 @@ import { iStageReleases } from "../releases-data.js?v=20261002a";
     return `<span class="compare-support${value ? " compare-support--yes" : ""}" aria-hidden="true">${value ? "✓" : "—"}</span><span class="compare-sr-only">${value ? "Included" : "Not included"}</span>`;
   };
 
+  // Floating version pickers
+
   function createFloatingPickers() {
     const dock = document.createElement("div");
     dock.className = "compare-dock body-content popup-motion";
@@ -75,7 +77,7 @@ import { iStageReleases } from "../releases-data.js?v=20261002a";
         ...originals.map((select) => select.getBoundingClientRect().bottom)
       );
       const footerTop = footer?.getBoundingClientRect().top ?? Infinity;
-      // 24px entry buffer; keep showing until the original actually re-enters.
+      // Separate entry and exit thresholds prevent flicker near the viewport edges.
       const next =
         pickerBottom < top - (visible ? 0 : 24) && footerTop > bottom + (visible ? 0 : 16);
       if (next !== visible) {
@@ -97,6 +99,8 @@ import { iStageReleases } from "../releases-data.js?v=20261002a";
     }
     update();
   }
+
+  // Comparison data and selection
 
   fetch("../assets/data/compare.json", { cache: "no-store" })
     .then((response) => {

@@ -22,7 +22,8 @@
   background: var(--card-ambient);
 }
 
-/* Section-specific subtle gradients (no images) */
+/* Product section backgrounds */
+
 .page-home .top-event {
   --identity-aqua: 90, 205, 211;
   --identity-rose: 215, 132, 174;
@@ -165,7 +166,8 @@
   padding: 0 8px;
 }
 
-/* Home-only scroll cue */
+/* Scroll cue */
+
 .page-home .section--first .copy::after {
   content: "";
   display: block;
@@ -192,6 +194,8 @@
   box-shadow: none;
   pointer-events: none;
 }
+
+/* Aurora text */
 
 .text-aurora {
   --c1: var(--identity-aqua);
