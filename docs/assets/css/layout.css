@@ -1,0 +1,132 @@
+/* Sections */
+
+.section {
+  padding: 44px 0 32px;
+}
+.section + .section {
+  margin-top: 12px;
+}
+
+.section--first {
+  margin-top: 0;
+  padding-top: 44px;
+}
+
+/* Reserve room for the floating navigation above the first card. */
+@media (width > 900px), (max-width: 900px) and (orientation: landscape) {
+  .section--first {
+    margin-top: calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 12px);
+  }
+}
+
+.section--black,
+.section--white {
+  position: relative;
+}
+.section--black {
+  background: #000;
+  color: #e8e9ec;
+}
+.section--white {
+  background: #f5f5f7;
+  color: #111317;
+}
+
+@media (width > 900px), (max-width: 900px) and (orientation: landscape) {
+  .section--black,
+  .section--white {
+    margin-left: var(--banner-side-gap);
+    margin-right: var(--banner-side-gap);
+    border-radius: var(--banner-radius);
+    overflow: hidden;
+  }
+
+  .media {
+    border-radius: calc(var(--banner-radius) - 8px);
+  }
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  .section--black,
+  .section--white {
+    margin-left: var(--banner-side-gap);
+    margin-right: var(--banner-side-gap);
+    border-radius: var(--banner-radius);
+    overflow: hidden;
+  }
+
+  .section + .section {
+    margin-top: var(--banner-vert-gap);
+  }
+
+  .section--first {
+    margin-top: calc(env(safe-area-inset-top, 0px) + var(--nav-offset-mobile));
+    padding-top: 28px;
+  }
+
+  .media {
+    border-radius: calc(var(--banner-radius) - 8px);
+  }
+}
+
+/* Each disclosure control owns its icon's position and rotation. */
+.chevron {
+  display: block;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+/* Hero */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.copy {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(10px, 1.6vw, 12px);
+  padding: 0 6px;
+}
+.copy .title {
+  margin: 0;
+  font-weight: var(--title-weight);
+  font-size: clamp(28px, 4.6vw, 56px);
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+}
+.copy .subtitle {
+  margin: 0;
+  color: rgba(232, 233, 236, 0.88);
+}
+.section--white .copy .subtitle {
+  color: #5e6572;
+}
+.card-description {
+  margin: 0;
+  color: inherit;
+  font-size: clamp(16px, 1.9vw, 21px);
+  font-weight: 400;
+  line-height: 1.4;
+}
+.release-availability {
+  margin: 0;
+  color: rgb(var(--availability-color, 245 245 247) / 0.78);
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 400;
+  line-height: 1.45;
+}
+.section--white {
+  --availability-color: 17 19 23;
+}
+.cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 12px;
+}

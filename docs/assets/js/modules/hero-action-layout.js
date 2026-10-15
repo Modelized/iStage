@@ -1,4 +1,4 @@
-/* Hero download action alignment */
+/* Hero download button alignment */
 
 function initDownloadAction() {
   const action = document.querySelector(".i27-hero-action");

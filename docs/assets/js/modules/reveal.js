@@ -1,5 +1,5 @@
-import { iStageImages } from "./artwork.js?v=20261002a";
-import { createScrollReveal } from "../scroll-reveal.js?v=20261002a";
+import { iStageImages } from "./artwork.js?v=20261015i";
+import { createScrollReveal } from "../scroll-reveal.js?v=20261015i";
 function initReveal() {
   const revealNodes = Array.from(document.querySelectorAll(".reveal, .image-reveal"));
   const onloadNodes = Array.from(document.querySelectorAll(".reveal-onload"));

@@ -1,6 +1,6 @@
-import "../shell.js?v=20261002a";
-import { createPopupMotion } from "../popup-motion.js?v=20261002a";
-import { iStageReleases } from "../releases-data.js?v=20261002a";
+import "../shell.js?v=20261015i";
+import { createPopupMotion } from "../popup-motion.js?v=20261015i";
+import { iStageReleases } from "../releases-data.js?v=20261015i";
 
 "use strict";
 

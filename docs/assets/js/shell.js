@@ -1,9 +1,10 @@
-import "./releases-data.js?v=20261002a";
-import { initHeroArtwork } from "./modules/artwork.js?v=20261002a";
-import { initDownloadAction } from "./modules/downloads.js?v=20261002a";
-import { initReveal } from "./modules/reveal.js?v=20261002a";
-import { injectPartial, initYear, initFooterIcon } from "./modules/core.js?v=20261002a";
-import { initNav } from "./modules/navigation.js?v=20261002a";
+import "./releases-data.js?v=20261015i";
+import { initHeroArtwork } from "./modules/artwork.js?v=20261015i";
+import { initDownloadAction } from "./modules/hero-action-layout.js?v=20261015i";
+import { initReveal } from "./modules/reveal.js?v=20261015i";
+import { injectPartial } from "./modules/site-partials.js?v=20261015i";
+import { initYear, initFooterIcon } from "./modules/footer.js?v=20261015i";
+import { initNav } from "./modules/navigation.js?v=20261015i";
 async function boot() {
   initHeroArtwork();
   initDownloadAction();
