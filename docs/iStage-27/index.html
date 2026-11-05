@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>iStage</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/style.css?v=20261015i">
-  <link rel="stylesheet" href="../assets/css/components/navigation.css?v=20261015i">
-  <link rel="stylesheet" href="../assets/css/layout.css?v=20261015i">
-  <link rel="stylesheet" href="../assets/css/components/cards.css?v=20261015i">
-  <link rel="stylesheet" href="../assets/css/components/interface.css?v=20261015i">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css?v=20261106c">
+  <link rel="stylesheet" href="../assets/css/components/glass.css?v=20261106f">
+  <link rel="stylesheet" href="../assets/css/components/navigation.css?v=20261106c">
+  <link rel="stylesheet" href="../assets/css/layout.css?v=20261105c">
+  <link rel="stylesheet" href="../assets/css/components/cards.css?v=20261106c">
+  <link rel="stylesheet" href="../assets/css/components/hero.css?v=20261106j">
+  <link rel="stylesheet" href="../assets/css/components/interface.css?v=20261106g">
 
   <!-- Icons and web app metadata -->
   <link rel="icon" type="image/svg+xml" sizes="any" href="/iStage/favicon.svg?v=20260828a">
@@ -36,8 +38,11 @@
   <meta name="twitter:description" content="Glass act.">
   <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
 
-  <link rel="stylesheet" href="../assets/css/popup-motion.css?v=20261015i">
-  <link rel="stylesheet" href="../assets/css/pages/iStage-27.css?v=20261015i">
+  <link rel="stylesheet" href="../assets/css/popup-motion.css?v=20261106e">
+  <link rel="stylesheet" href="../assets/css/components/highlights.css?v=20261105b">
+  <link rel="stylesheet" href="../assets/css/components/carousel.css?v=20261106c">
+  <link rel="stylesheet" href="../assets/css/components/product-navigation.css?v=20261106h">
+  <link rel="stylesheet" href="../assets/css/pages/iStage-27.css?v=20261106c">
 
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -46,38 +51,81 @@
   <div class="nav-backdrop" aria-hidden="true"></div>
   <div id="nav-slot"></div>
 
-  <main>
-    <section class="section section--first" id="overview" aria-labelledby="i27-title">
-      <div class="page-hero-shell">
-        <div class="page-hero-card i27-hero-card">
-          <div class="page-hero-media i27-hero-media">
-            <picture>
-              <source media="(max-width: 900px) and (orientation: portrait)" srcset="../assets/img/hero-iStage-27-mobile.png">
-              <img src="../assets/img/hero-iStage-27-desktop.png" alt="iStage 27 lock screen" loading="eager" decoding="async">
-            </picture>
+  <div class="product-nav-track" data-product-navigation data-product-hero="overview">
+    <div class="product-nav-dock">
+      <div class="product-nav-backdrop" aria-hidden="true"></div>
+      <nav class="product-nav" aria-label="iStage 27 navigation" aria-hidden="true" inert>
+        <h2 class="product-nav-title" id="product-nav-title">iStage 27</h2>
+        <div class="product-nav-bar">
+          <button class="btn btn-outline product-nav-explore" type="button" aria-label="Explore iStage 27" aria-expanded="false" aria-controls="product-explore">
+            <span class="product-nav-explore-label" aria-hidden="true">Explore</span>
+            <svg class="product-nav-explore-close" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </button>
+          <div class="product-nav-get"><a class="btn btn-blue" href="../releases/#v=27" data-download-version="27" data-download-supported>Get</a></div>
+        </div>
+        <div class="product-nav-panel" id="product-explore" aria-labelledby="product-nav-title" aria-hidden="true" inert>
+          <div class="product-nav-models">
+            <a href="../iStage-27/" aria-current="page" data-product-enter><img src="../assets/img/compare-27.png" width="1080" height="1080" alt=""><span class="product-nav-model-label"><span>iStage 27</span><small>Currently viewing</small></span></a>
+            <a href="../iStage-18/" data-product-enter><img src="../assets/img/compare-18.png" width="1080" height="1080" alt=""><span class="product-nav-model-label">iStage 18</span></a>
           </div>
+          <div class="product-nav-details" data-product-enter>
+            <div class="product-nav-title-slot" aria-hidden="true"></div>
+            <div class="product-nav-action"><p><span>Available for free.</span><span>Requires KLCK Pro.</span></p><a class="btn btn-blue" href="../releases/#v=27" data-download-version="27" data-download-supported>Get</a></div>
+          </div>
+          <div class="product-nav-browse">
+            <div class="product-nav-overview">
+              <button class="product-nav-disclosure" type="button" aria-expanded="true" aria-controls="product-sections" data-product-enter>Overview <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="product-nav-section-wrap" id="product-sections">
+                <div class="product-nav-sections">
+                  <a href="#highlights" data-product-enter>Highlights</a>
+                  <a href="#design" data-product-enter>Design</a>
+                  <a href="#personalization" data-product-enter>Personalization</a>
+                  <a href="#lock-screen-experience" data-product-enter>Experience</a>
+                  <a href="#more" data-product-enter>More</a>
+                </div>
+              </div>
+            </div>
+            <div class="product-nav-related">
+              <a class="text-link" href="../compare/" data-product-enter>Compare <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              <a class="text-link" href="../gallery/" data-product-enter>Explore iStage Gallery <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
 
+  <main>
+    <section class="section section--first hero-section" id="overview" aria-labelledby="i27-title">
+      <div class="page-hero i27-hero">
+        <div class="page-hero-media i27-hero-media">
+          <picture>
+            <source media="(max-width: 900px) and (orientation: portrait)" srcset="../assets/img/hero-iStage-27-mobile.png">
+            <img src="../assets/img/hero-iStage-27-desktop.png" alt="iStage 27 lock screen" loading="eager" decoding="async">
+          </picture>
+        </div>
+
+        <div class="i27-hero-footer">
           <div class="page-hero-copy copy i27-hero-copy">
             <h1 class="i27-hero-lockup" id="i27-title">
               <span class="i27-hero-product reveal-onload">iStage 27</span>
               <span class="i27-hero-headline reveal-onload reveal-delay-1">Glass act.</span>
             </h1>
-            <p class="release-availability reveal-onload reveal-delay-2">Coming this fall.</p>
           </div>
 
           <div class="i27-hero-action reveal-onload">
             <p><span>Available for free.</span><span>Requires KLCK Pro.</span></p>
-            <a class="btn btn-blue" href="../releases/#v=27" data-download-version="27" data-download-supported>Download</a>
+            <a class="btn btn-blue" href="../releases/#v=27" data-download-version="27" data-download-supported>Get</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="i27-highlights" id="highlights" aria-labelledby="highlights-title">
-      <h2 class="i27-highlights-heading body-content reveal reveal--long" id="highlights-title">Explore the highlights of iStage 27.</h2>
+    <section class="highlights" data-highlights id="highlights" aria-labelledby="highlights-title">
+      <h2 class="highlights-heading body-content reveal reveal--long" id="highlights-title">Explore the highlights of iStage 27.</h2>
 
-      <div class="highlight-stage" id="highlight-stage">
-      <div class="highlight-rail reveal reveal--short" id="highlight-rail" aria-label="iStage 27 highlights" tabindex="0">
+      <div class="highlight-stage" id="highlight-stage" data-highlight-stage>
+      <div class="highlight-rail reveal reveal--short" id="highlight-rail" data-highlight-rail aria-label="iStage 27 highlights" tabindex="0">
         <article class="highlight-card" data-card="0" tabindex="0" aria-label="Highlight 1 of 7">
           <div class="highlight-copy"><h3>A lighter Liquid Glass design with refined clarity and subtle depth.</h3></div>
           <div class="highlight-media highlight-media--zoom-top">
@@ -124,7 +172,7 @@
 
       <div class="highlight-controls-anchor" id="highlight-controls-anchor" aria-hidden="true"></div>
       <div class="highlight-controls-track">
-      <div class="highlight-controls popup-motion" id="highlight-controls" aria-label="Highlight playback controls" aria-hidden="true" inert>
+      <div class="highlight-controls popup-motion" id="highlight-controls" data-highlight-controls aria-label="Highlight playback controls" aria-hidden="true" inert>
         <span class="popup-blob" aria-hidden="true"></span>
         <div class="progress-pill popup-control" data-popup-direction="left" data-popup-shape="stretch">
           <div class="progress-dots popup-content--unfold" role="group" aria-label="Choose a highlight">
@@ -137,7 +185,7 @@
             <button class="progress-dot popup-content-item" type="button" data-index="6" aria-label="Show highlight 7"></button>
           </div>
         </div>
-        <button class="play-toggle popup-control" data-popup-direction="right" data-popup-shape="circle" id="highlight-play-toggle" type="button" aria-label="Pause highlights">
+        <button class="play-toggle popup-control" data-popup-direction="right" data-popup-shape="circle" id="highlight-play-toggle" data-highlight-play-toggle type="button" aria-label="Pause highlights">
           <span class="play-icon popup-content--scale" aria-hidden="true">
             <svg class="play-icon-play" viewBox="0 0 24 24">
               <path fill="currentColor" d="M8.2 5.4c-.9-.6-2.1.1-2.1 1.2v10.8c0 1.1 1.2 1.8 2.1 1.2l8.7-5.4c.9-.5.9-1.8 0-2.4L8.2 5.4Z"/>
@@ -183,51 +231,51 @@
         <p class="i27-design-description reveal reveal--long">Engineered to be more responsive, refined Liquid Glass delivers a faster, smoother experience across the entire system. It flows naturally with your touch, and gives the Lock Screen an elegant depth effect.</p>
       </div>
 
-      <div class="i27-feature-carousel" data-feature-carousel data-stagger-reveal=".i27-feature-item">
-        <div class="i27-feature-rail" data-feature-rail aria-label="Refined Liquid Glass design features" tabindex="0">
-          <article class="i27-feature-item">
-            <div class="i27-feature-card">
+      <div class="feature-carousel" data-feature-carousel data-stagger-reveal=".feature-item">
+        <div class="feature-rail" data-feature-rail aria-label="Refined Liquid Glass design features" tabindex="0">
+          <article class="feature-item">
+            <div class="feature-card">
               <img src="../assets/img/iStage-27-design.png" alt="The redesigned iStage 27 Lock Screen" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>A whole new look for iStage.</strong> The new Liquid Glass design reshapes the entire experience with clean visual clarity. It lays down a sleek, modern foundation that makes every interface feel brand new.</p>
+            <p class="feature-caption"><strong>A whole new look for iStage.</strong> The new Liquid Glass design reshapes the entire experience with clean visual clarity. It lays down a sleek, modern foundation that makes every interface feel brand new.</p>
           </article>
 
-          <article class="i27-feature-item">
-            <div class="i27-feature-card i27-feature-card--zoom-top-left">
+          <article class="feature-item">
+            <div class="feature-card i27-feature-card--zoom-top-left">
               <img src="../assets/img/iStage-27-buttons.png" alt="Liquid Glass buttons reflecting light and depth" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>Dynamic light and depth.</strong> Top and bottom reflections capture light just like real glass, while soft drop shadows create the illusion of elements floating seamlessly over your screen.</p>
+            <p class="feature-caption"><strong>Dynamic light and depth.</strong> Top and bottom reflections capture light just like real glass, while soft drop shadows create the illusion of elements floating seamlessly over your screen.</p>
           </article>
 
-          <article class="i27-feature-item">
-            <div class="i27-feature-card i27-feature-card--zoom-bottom-soft">
+          <article class="feature-item">
+            <div class="feature-card i27-feature-card--zoom-bottom-soft">
               <img src="../assets/img/iStage-27-version-popup.png" alt="A responsive Liquid Glass version popup" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>Tactile, fluid responsiveness.</strong> Elements gently glow and press inward like liquid droplets when touched. Dragging them in any direction creates an elastic, fluid stretch that reacts instantly to your finger.</p>
+            <p class="feature-caption"><strong>Tactile, fluid responsiveness.</strong> Elements gently glow and press inward like liquid droplets when touched. Dragging them in any direction creates an elastic, fluid stretch that reacts instantly to your finger.</p>
           </article>
 
-          <article class="i27-feature-item">
-            <div class="i27-feature-card i27-feature-card--zoom-bottom i27-feature-card--tint">
+          <article class="feature-item">
+            <div class="feature-card i27-feature-card--zoom-bottom i27-feature-card--tint">
               <img src="../assets/img/iStage-27-tint.png" alt="Liquid Glass tint controls adapting to a wallpaper" width="2160" height="2160" loading="eager" decoding="async">
               <div class="i27-tint-labels" aria-hidden="true">
                 <span>More clear</span>
                 <span>More tinted</span>
               </div>
             </div>
-            <p class="i27-feature-caption"><strong>Artfully adaptive materials.</strong> Liquid Glass lets you dynamically adjust its blur intensity and tint based on your wallpaper, so it keeps text readable on any background.</p>
+            <p class="feature-caption"><strong>Artfully adaptive materials.</strong> Liquid Glass lets you dynamically adjust its blur intensity and tint based on your wallpaper, so it keeps text readable on any background.</p>
           </article>
 
-          <article class="i27-feature-item">
-            <div class="i27-feature-card">
+          <article class="feature-item">
+            <div class="feature-card">
               <img src="../assets/img/iStage-27-notifications.png" alt="Rich notifications rendered in Liquid Glass" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>Visually rich, highly efficient.</strong> Advanced shader optimization ensures that every refraction, shadow, and fluid animation renders smoothly with improved battery efficiency and performance.</p>
+            <p class="feature-caption"><strong>Visually rich, highly efficient.</strong> Advanced shader optimization ensures that every refraction, shadow, and fluid animation renders smoothly with improved battery efficiency and performance.</p>
           </article>
         </div>
 
-        <div class="i27-feature-controls" aria-label="Refined Liquid Glass carousel controls">
-          <button class="i27-feature-arrow i27-feature-arrow--previous" data-feature-previous type="button" aria-label="Show previous design feature"></button>
-          <button class="i27-feature-arrow i27-feature-arrow--next" data-feature-next type="button" aria-label="Show next design feature"></button>
+        <div class="feature-controls" aria-label="Refined Liquid Glass carousel controls">
+          <button class="feature-arrow feature-arrow--previous" data-feature-previous type="button" aria-label="Show previous design feature"></button>
+          <button class="feature-arrow feature-arrow--next" data-feature-next type="button" aria-label="Show next design feature"></button>
         </div>
       </div>
     </section>
@@ -239,47 +287,47 @@
         <p class="i27-design-description reveal reveal--long">Clock Composer 4 and Wallpaper Gallery 2 offer endless possibilities. Customize clock styles, colors, widgets, and shortcuts to craft a Lock Screen that reflects your taste.</p>
       </div>
 
-      <div class="i27-feature-carousel" data-feature-carousel data-stagger-reveal=".i27-feature-item">
-        <div class="i27-feature-rail" data-feature-rail aria-label="iStage 27 personalization features" tabindex="0">
-          <article class="i27-feature-item">
-            <div class="i27-feature-card">
+      <div class="feature-carousel" data-feature-carousel data-stagger-reveal=".feature-item">
+        <div class="feature-rail" data-feature-rail aria-label="iStage 27 personalization features" tabindex="0">
+          <article class="feature-item">
+            <div class="feature-card">
               <img src="../assets/img/iStage-27-editor.png" alt="The redesigned iStage 27 Lock Screen editor" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>A new way to customize.</strong> The redesigned editor space makes personalizing your Lock Screen faster and more intuitive.</p>
+            <p class="feature-caption"><strong>A new way to customize.</strong> The redesigned editor space makes personalizing your Lock Screen faster and more intuitive.</p>
           </article>
 
-          <article class="i27-feature-item">
-            <div class="i27-feature-card">
+          <article class="feature-item">
+            <div class="feature-card">
               <img src="../assets/img/iStage-27-clock-editor.png" alt="Clock Composer 4 font, color, clock material, and size options" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>Expressive Typography.</strong> Make your clock stand out with expanded font styles, vibrant color palettes, clock materials, and the new smaller clock option in Clock Composer 4.</p>
+            <p class="feature-caption"><strong>Expressive Typography.</strong> Make your clock stand out with expanded font styles, vibrant color palettes, clock materials, and the new smaller clock option in Clock Composer 4.</p>
           </article>
 
-          <article class="i27-feature-item">
-            <div class="i27-feature-card">
+          <article class="feature-item">
+            <div class="feature-card">
               <img src="../assets/img/iStage-27-date-editor.png" alt="Inline Lock Screen information widgets" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>Info at a glance.</strong> Add subtle inline widgets right next to the date to track important information such as weather, calendar events, or alarms.</p>
+            <p class="feature-caption"><strong>Info at a glance.</strong> Add subtle inline widgets right next to the date to track important information such as weather, calendar events, or alarms.</p>
           </article>
 
-          <article class="i27-feature-item">
-            <div class="i27-feature-card">
+          <article class="feature-item">
+            <div class="feature-card">
               <img src="../assets/img/iStage-27-wallpaper-gallery.png" alt="Wallpaper Gallery 2 in iStage 27" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>A revamped Wallpaper Gallery.</strong> Browse curated stock wallpapers or create up to 5 fully customizable photo wallpapers with your favorite images in Wallpaper Gallery 2.</p>
+            <p class="feature-caption"><strong>A revamped Wallpaper Gallery.</strong> Browse curated stock wallpapers or create up to 5 fully customizable photo wallpapers with your favorite images in Wallpaper Gallery 2.</p>
           </article>
 
-          <article class="i27-feature-item">
-            <div class="i27-feature-card i27-feature-card--zoom-bottom">
+          <article class="feature-item">
+            <div class="feature-card i27-feature-card--zoom-bottom">
               <img src="../assets/img/iStage-27-editor.png" alt="Custom Lock Screen shortcut controls" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>Shortcuts, your way.</strong> Swap out standard Lock Screen controls for your favorite shortcuts for instant access to the tools you use most.</p>
+            <p class="feature-caption"><strong>Shortcuts, your way.</strong> Swap out standard Lock Screen controls for your favorite shortcuts for instant access to the tools you use most.</p>
           </article>
         </div>
 
-        <div class="i27-feature-controls" aria-label="Personalization carousel controls">
-          <button class="i27-feature-arrow i27-feature-arrow--previous" data-feature-previous type="button" aria-label="Show previous personalization feature"></button>
-          <button class="i27-feature-arrow i27-feature-arrow--next" data-feature-next type="button" aria-label="Show next personalization feature"></button>
+        <div class="feature-controls" aria-label="Personalization carousel controls">
+          <button class="feature-arrow feature-arrow--previous" data-feature-previous type="button" aria-label="Show previous personalization feature"></button>
+          <button class="feature-arrow feature-arrow--next" data-feature-next type="button" aria-label="Show next personalization feature"></button>
         </div>
       </div>
     </section>
@@ -291,45 +339,45 @@
         <p class="i27-design-description reveal reveal--long">Dynamic Island and Live Activities bring your most important updates right to the front. Track live events, manage playing media, and interact with notifications — all without leaving your Lock Screen.</p>
       </div>
 
-      <div class="i27-feature-carousel" data-feature-carousel data-stagger-reveal=".i27-feature-item">
-        <div class="i27-feature-rail" data-feature-rail aria-label="iStage 27 Lock Screen Experience features" tabindex="0">
-          <article class="i27-feature-item">
-            <div class="i27-feature-card i27-feature-card--zoom-top">
+      <div class="feature-carousel" data-feature-carousel data-stagger-reveal=".feature-item">
+        <div class="feature-rail" data-feature-rail aria-label="iStage 27 Lock Screen Experience features" tabindex="0">
+          <article class="feature-item">
+            <div class="feature-card i27-feature-card--zoom-top">
               <img src="../assets/img/iStage-27-dynamic-island.png" alt="Dynamic Island showing a priority system state" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>Dynamic Island in view.</strong> Dynamic Island seamlessly expands to show priority system states, such as lock and charging, so you always stay informed.</p>
+            <p class="feature-caption"><strong>Dynamic Island in view.</strong> Dynamic Island seamlessly expands to show priority system states, such as lock and charging, so you always stay informed.</p>
           </article>
 
-          <article class="i27-feature-item">
-            <div class="i27-feature-card i27-feature-card--zoom-bottom">
+          <article class="feature-item">
+            <div class="feature-card i27-feature-card--zoom-bottom">
               <img src="../assets/img/iStage-27-live-activities.png" alt="Live Activities showing live race and match updates" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>Real-time Live Activities.</strong> Follow live F1 races and match scores directly from your Lock Screen with live-updating widgets.</p>
+            <p class="feature-caption"><strong>Real-time Live Activities.</strong> Follow live F1 races and match scores directly from your Lock Screen with live-updating widgets.</p>
           </article>
 
-          <article class="i27-feature-item">
-            <div class="i27-feature-card">
+          <article class="feature-item">
+            <div class="feature-card">
               <img src="../assets/img/iStage-27-music-player-full.png" alt="Expanded full-screen Lock Screen media controls" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>Expanded media controls.</strong> The redesigned media player lets you easily switch between a minimal compact view and an immersive full-screen visual experience.</p>
+            <p class="feature-caption"><strong>Expanded media controls.</strong> The redesigned media player lets you easily switch between a minimal compact view and an immersive full-screen visual experience.</p>
           </article>
 
-          <article class="i27-feature-item">
-            <div class="i27-feature-card">
+          <article class="feature-item">
+            <div class="feature-card">
               <img src="../assets/img/iStage-27-notifications-stack.png" alt="Notifications stacked neatly at the bottom of the Lock Screen" width="2160" height="2160" loading="eager" decoding="async">
             </div>
-            <p class="i27-feature-caption"><strong>A smarter Notification Center.</strong> Notifications stack neatly at the bottom of your screen to stay out of the way. You can easily switch between Count, Stack, and List views with a simple swipe.</p>
+            <p class="feature-caption"><strong>A smarter Notification Center.</strong> Notifications stack neatly at the bottom of your screen to stay out of the way. You can easily switch between Count, Stack, and List views with a simple swipe.</p>
           </article>
         </div>
 
-        <div class="i27-feature-controls" aria-label="Lock Screen Experience carousel controls">
-          <button class="i27-feature-arrow i27-feature-arrow--previous" data-feature-previous type="button" aria-label="Show previous Lock Screen feature"></button>
-          <button class="i27-feature-arrow i27-feature-arrow--next" data-feature-next type="button" aria-label="Show next Lock Screen feature"></button>
+        <div class="feature-controls" aria-label="Lock Screen Experience carousel controls">
+          <button class="feature-arrow feature-arrow--previous" data-feature-previous type="button" aria-label="Show previous Lock Screen feature"></button>
+          <button class="feature-arrow feature-arrow--next" data-feature-next type="button" aria-label="Show next Lock Screen feature"></button>
         </div>
       </div>
     </section>
 
-    <section class="i27-more" aria-labelledby="more-title">
+    <section class="i27-more" id="more" aria-labelledby="more-title">
       <div class="i27-more-inner body-content">
         <h2 class="i27-more-title reveal reveal--long" id="more-title">And so much more.</h2>
         <div class="i27-more-grid" data-stagger-reveal=":scope > p">
@@ -343,44 +391,46 @@
       </div>
     </section>
 
-    <section class="section section--black i27-download promo-card promo-card--split" aria-labelledby="download-title">
-      <div class="container">
-        <div class="hero">
-          <img class="promo-card__media i27-download-art reveal" src="../assets/img/27.png" alt="" width="2160" height="2160" loading="eager" decoding="async" aria-hidden="true" data-image-motion>
-          <div class="copy">
-            <h2 class="title reveal" id="download-title">Upgrade your stage.</h2>
-            <p class="card-description reveal">Give your lock screen a new lease on life.</p>
-            <div class="cta">
-              <a class="btn btn-blue reveal" href="../releases/#v=27" data-download-version="27" data-download-supported>Download iStage 27</a>
+    <div class="promo-grid">
+      <section class="i27-download promo-card" aria-labelledby="download-title">
+        <div class="container">
+          <div class="hero">
+            <img class="promo-card__media i27-download-art reveal" src="../assets/img/27.png" alt="" width="2160" height="2160" loading="eager" decoding="async" aria-hidden="true" data-image-motion>
+            <div class="copy">
+              <h2 class="title reveal" id="download-title">Upgrade your stage.</h2>
+              <p class="card-description reveal">Ready when you are.</p>
+              <div class="cta">
+                <a class="btn btn-blue reveal" href="../releases/#v=27" data-download-version="27" data-download-supported>Get iStage 27</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section section--black promo-card promo-card--split comparison-card" aria-label="Compare iStage versions">
-      <div class="section-bg" aria-hidden="true"></div>
+      <section class="promo-card comparison-card" aria-label="Compare iStage versions">
+        <div class="section-bg" aria-hidden="true"></div>
 
-      <div class="container">
-        <div class="hero">
-          <div class="promo-card__media">
-            <img src="../assets/img/hero-iStage-series.png" alt="iStage versions shown together" width="2160" height="2160" loading="eager" decoding="async">
-          </div>
-          <div class="copy">
-            <h2 class="title reveal">Compare</h2>
-            <p class="card-description reveal">See what's different across iStage versions.</p>
-            <div class="cta">
-              <a class="btn btn-blue reveal" href="../compare/">Compare now</a>
+        <div class="container">
+          <div class="hero">
+            <div class="promo-card__media">
+              <img src="../assets/img/hero-iStage-series.png" alt="iStage versions shown together" width="2160" height="2160" loading="eager" decoding="async">
+            </div>
+            <div class="copy">
+              <h2 class="title reveal">Compare</h2>
+              <p class="card-description reveal">See what's different across iStage versions.</p>
+              <div class="cta">
+                <a class="btn btn-blue reveal" href="../compare/">Compare now</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
   <div id="footer-slot"></div>
-  <script type="module" src="../assets/js/shell.js?v=20261015i"></script>
+  <script type="module" src="../assets/js/shell.js?v=20261106i"></script>
 
-  <script type="module" src="../assets/js/pages/iStage-27.js?v=20261015i"></script>
+  <script type="module" src="../assets/js/pages/iStage-27.js?v=20261106i"></script>
 </body>
 </html>

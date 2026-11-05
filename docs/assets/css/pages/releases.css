@@ -20,7 +20,7 @@
   }
 }
 
-.page-releases .page-hero-card {
+.page-releases .page-hero {
   --hero-a: 235 166 48;
   --hero-b: 211 105 101;
   --hero-c: 193 135 93;
@@ -39,7 +39,7 @@
 }
 
 .empty {
-  border: 1px solid var(--nav-border);
+  border: 1px solid var(--surface-border);
   border-radius: var(--banner-radius);
   padding: 18px;
   text-align: center;
@@ -68,6 +68,7 @@
   margin: 0 0 1px;
   font-weight: 600;
   font-size: clamp(18px, 4vw, 20px);
+  letter-spacing: var(--tracking-title);
 }
 .release-meta {
   margin: -2px 0 0;
@@ -151,7 +152,6 @@
   background: #fff;
   color: #111317;
   border: 0;
-  border-radius: var(--banner-radius);
   overflow: hidden;
 }
 @media (prefers-color-scheme: dark) {

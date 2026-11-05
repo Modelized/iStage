@@ -1,6 +1,6 @@
-import { base } from "./context.js?v=20261015i";
+import { base } from "./context.js?v=20261104i";
 
-const assetVersion = "20261015i";
+const assetVersion = "20261105a";
 
 function getPartialUrl(file) {
   if (!base || base === ".") {

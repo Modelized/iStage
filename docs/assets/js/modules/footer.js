@@ -1,4 +1,4 @@
-import { base } from "./context.js?v=20261015i";
+import { base } from "./context.js?v=20261104i";
 
 function initFooterIcon() {
   const image = document.querySelector("[data-footer-icon]");

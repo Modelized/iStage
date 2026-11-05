@@ -4,15 +4,17 @@
   box-sizing: border-box;
 }
 html {
+  color-scheme: light;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-text-size-adjust: 100%;
 }
 body {
+  position: relative;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
   font-family:
     Inter,
     system-ui,
@@ -33,7 +35,12 @@ body {
 
 :root {
   --accent-blue: 0 113 227;
+  --overlay-strength-light: 1.2;
+  --overlay-strength-dark: 0.88;
+  --ambient-radius: clamp(360px, 55vw, 1440px);
   --title-weight: 650;
+  --tracking-heading: -0.02em;
+  --tracking-title: -0.01em;
   --control-duration: 180ms;
   --control-ease: ease-out;
   --control-transition:
@@ -41,7 +48,7 @@ body {
     border-color var(--control-duration) var(--control-ease),
     color var(--control-duration) var(--control-ease);
 
-  --nav-pill-height-mobile: 56px;
+  --nav-pill-height-mobile: 48px;
   --nav-pill-height-desktop: 44px;
   --nav-icon-size: var(--nav-pill-height-desktop);
   --nav-inline-pad: 16px;
@@ -54,7 +61,7 @@ body {
   /* Default navigation colors */
   --surface-dark: #111113;
   --nav-surface: rgba(24, 24, 27, 0.54);
-  --nav-border: #ffffff33;
+  --surface-border: #ffffff33;
   --nav-text: rgba(232, 233, 236, 1);
   --nav-text-dim: rgba(232, 233, 236, 0.72);
   --nav-press-bg: rgba(255, 255, 255, 0.06);
@@ -65,9 +72,15 @@ body {
   /* Navigation backdrop */
   --nav-backdrop: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.46) 0%,
-    rgba(0, 0, 0, 0.28) 55%,
-    rgba(0, 0, 0, 0) 100%
+    light-dark(
+      rgb(255 255 255 / calc(0.38 * var(--overlay-strength-light))),
+      rgb(0 0 0 / calc(0.38 * var(--overlay-strength-dark)))
+    ) 0%,
+    light-dark(
+      rgb(255 255 255 / calc(0.22 * var(--overlay-strength-light))),
+      rgb(0 0 0 / calc(0.22 * var(--overlay-strength-dark)))
+    ) 55%,
+    light-dark(rgb(255 255 255 / 0), rgb(0 0 0 / 0)) 100%
   );
 
   --nav-backdrop-h-mobile: calc(
@@ -77,10 +90,11 @@ body {
     env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 18px
   );
 
-  --nav-offset-mobile: calc(12px + var(--nav-pill-height-mobile) + var(--banner-vert-gap));
-  --nav-offset-desktop: calc(12px + var(--nav-pill-height-desktop) + var(--banner-vert-gap));
 
-  --banner-radius: calc(var(--nav-pill-height-mobile) / 2);
+  --banner-radius: clamp(28px, 2.4vw, 36px);
+  --content-max: 1160px;
+  --content-width: min(78vw, var(--content-max));
+  --hero-nav-space: calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 48px);
   --banner-side-gap: 12px;
   --banner-vert-gap: 14px;
 
@@ -100,6 +114,9 @@ body {
   }
 }
 @media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
   .page-home,
   .page-gallery,
   .page-feature:not(.page-iStage-27) {
@@ -113,7 +130,7 @@ body {
 @media (prefers-color-scheme: light) {
   :root {
     --nav-surface: rgba(255, 255, 255, 0.78);
-    --nav-border: rgba(0, 0, 0, 0.14);
+    --surface-border: rgba(0, 0, 0, 0.14);
     --nav-text: rgba(17, 19, 23, 0.92);
     --nav-text-dim: rgba(17, 19, 23, 0.68);
     --nav-press-bg: rgba(0, 0, 0, 0.06);
@@ -139,7 +156,7 @@ body {
 .body-heading {
   font-size: clamp(24px, 3vw, 32px);
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--tracking-heading);
   line-height: 1.2;
 }
 @media (max-width: 900px) {
@@ -154,11 +171,19 @@ body {
 .small {
   font-size: 0.9rem;
 }
-.no-scroll {
-  overflow: hidden;
-}
-
 .nav .container,
 .footer .container {
   max-width: none;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  :root {
+    --content-width: 82vw;
+    --hero-nav-space: calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-mobile) + 48px);
+  }
+}
+
+/* Lock only the viewport so sticky controls keep the same scroll container. */
+html.menu-open {
+  overflow: hidden;
 }

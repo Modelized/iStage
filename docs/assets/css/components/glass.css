@@ -1,0 +1,19 @@
+/* Glass outlines */
+
+:root {
+  --glass-outline-opacity: 0.14;
+  --glass-outline-light-strength: 0.65;
+}
+
+:where(.btn, .nav-search, .nav-toggle, .menu, .brand, .nav-panel, .product-nav, .popup-control, .feature-arrow) {
+  --glass-outline-color: rgb(255 255 255 / var(--glass-outline-opacity));
+  /* The translucent border overlays the background at its outer edge. */
+  --glass-outline: 1px solid var(--glass-outline-color);
+}
+
+:where(.nav-search, .nav-toggle, .menu, .brand, .nav-panel, .product-nav, .popup-control) {
+  --glass-outline-color: light-dark(
+    rgb(0 0 0 / calc(var(--glass-outline-opacity) * var(--glass-outline-light-strength))),
+    rgb(255 255 255 / var(--glass-outline-opacity))
+  );
+}

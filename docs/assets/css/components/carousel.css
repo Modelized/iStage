@@ -1,0 +1,204 @@
+/* Feature carousel */
+
+.feature-carousel {
+  position: relative;
+  padding-bottom: clamp(22px, 2.4vw, 34px);
+}
+
+.feature-rail {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(18px, 2vw, 26px);
+  margin: 0;
+  padding: 4px max(18px, calc((100vw - var(--content-width)) / 2)) 18px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: max(18px, calc((100vw - var(--content-width)) / 2));
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.feature-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.feature-rail.is-animating {
+  scroll-snap-type: none;
+}
+
+.feature-carousel.is-static .feature-rail {
+  overflow-x: hidden;
+}
+
+.feature-item {
+  flex: 0 0 clamp(260px, 23vw, 360px);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.feature-item:last-child {
+  scroll-snap-align: end;
+}
+
+.feature-card {
+  position: relative;
+  aspect-ratio: 0.82;
+  overflow: hidden;
+  border-radius: var(--banner-radius);
+  background: var(--section-surface, #111113);
+  isolation: isolate;
+}
+
+.feature-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1);
+  transform-origin: center;
+}
+
+.feature-caption {
+  margin: clamp(22px, 2.2vw, 30px) clamp(16px, 1.5vw, 22px) 0;
+  color: var(--section-muted, #86868b);
+  font-size: clamp(16px, 1.35vw, 19px);
+  font-weight: 500;
+  line-height: 1.42;
+}
+
+.js [data-stagger-reveal] .feature-item {
+  --reveal-distance: 10px;
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+}
+
+.js [data-stagger-reveal] .feature-item.is-revealed {
+  opacity: 1;
+  transform: none;
+  animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s) backwards;
+}
+
+.feature-caption strong {
+  color: var(--section-text, #f5f5f7);
+  font-weight: inherit;
+}
+
+.feature-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  width: var(--content-width);
+  margin: clamp(28px, 3.6vw, 50px) auto 0;
+}
+
+.feature-arrow {
+  position: relative;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  place-items: center;
+  border: var(--glass-outline);
+  border-radius: 50%;
+  background: var(--control-surface, #242427);
+  color: var(--section-text, #f5f5f7);
+  cursor: pointer;
+  transition:
+    var(--control-transition),
+    opacity var(--control-duration) var(--control-ease),
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.feature-arrow::before,
+.feature-arrow::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2.5px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.feature-arrow--previous::before {
+  transform: translate(-1px, -3px) rotate(-45deg);
+}
+
+.feature-arrow--previous::after {
+  transform: translate(-1px, 3px) rotate(45deg);
+}
+
+.feature-arrow--next::before {
+  transform: translate(1px, -3px) rotate(45deg);
+}
+
+.feature-arrow--next::after {
+  transform: translate(1px, 3px) rotate(-45deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feature-arrow:hover:not(:disabled) {
+    background: var(--control-hover, #323236);
+  }
+}
+
+.feature-arrow:active:not(:disabled) {
+  background: var(--control-press, #1c1c1f);
+  transform: translateY(0.5px);
+}
+
+.feature-arrow:focus-visible {
+  outline: 2px solid rgb(var(--accent-blue));
+  outline-offset: 3px;
+}
+
+.feature-arrow:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+.feature-rail {
+    gap: 16px;
+    padding-inline: max(18px, calc((100vw - 82vw) / 2));
+    scroll-padding-inline: max(18px, calc((100vw - 82vw) / 2));
+  }
+
+.feature-item {
+    flex-basis: min(72vw, 330px);
+  }
+
+.feature-caption {
+    margin: 22px 16px 0;
+    font-size: 16px;
+    line-height: 1.42;
+  }
+
+.feature-controls {
+    width: 82vw;
+    margin-top: 30px;
+  }
+
+.feature-arrow {
+    width: 44px;
+    height: 44px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+.feature-arrow {
+    transition: none !important;
+  }
+
+.js [data-stagger-reveal] .feature-item {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+}

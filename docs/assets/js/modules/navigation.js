@@ -1,4 +1,4 @@
-import { body } from "./context.js?v=20261015i";
+import { body } from "./context.js?v=20261104i";
 
 // Menu visibility and branding
 
@@ -8,12 +8,16 @@ function setNavOpenState(nav, open) {
   if (!nav || !toggle || !sheet) {
     return;
   }
+  if (nav.classList.contains("nav--open") === open) return;
 
   nav.classList.toggle("nav--open", open);
   toggle.setAttribute("aria-expanded", open ? "true" : "false");
   toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   sheet.setAttribute("aria-hidden", open ? "false" : "true");
-  body.classList.toggle("no-scroll", open);
+  sheet.inert = !open;
+  nav.querySelector(".brand").inert = open;
+  document.documentElement.classList.toggle("menu-open", open);
+  document.dispatchEvent(new CustomEvent("nav:toggle"));
 }
 
 function initBrandLogo(nav) {
@@ -279,9 +283,36 @@ function initNav() {
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && nav.classList.contains("nav--open")) {
         setNavOpenState(nav, false);
+        toggle.focus();
       }
     });
   }
+
+  const mobile = window.matchMedia("(max-width: 900px) and (orientation: portrait)");
+  mobile.addEventListener("change", () => setNavOpenState(nav, false));
+  sheet?.addEventListener("click", (event) => {
+    if (event.target.closest("a")) setNavOpenState(nav, false);
+  });
+  document.addEventListener("pointerdown", (event) => {
+    if (nav.classList.contains("nav--open") && !nav.contains(event.target)) {
+      setNavOpenState(nav, false);
+    }
+  });
+  nav.addEventListener("keydown", (event) => {
+    if (event.key !== "Tab" || !nav.classList.contains("nav--open")) return;
+    const focusable = [...nav.querySelectorAll("a[href], button")].filter((item) =>
+      !item.closest("[inert]") && item.getClientRects().length
+    );
+    const first = focusable[0];
+    const last = focusable.at(-1);
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
 
   initBrandLogo(nav);
   initMenuThumb(nav);

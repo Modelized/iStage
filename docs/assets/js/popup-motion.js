@@ -4,6 +4,7 @@
 export const createPopupMotion = function (root) {
   const firstControl = root.querySelector(".popup-control");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  let requestedVisible = false;
   let visible = false;
   let introFrame = 0;
   let visibilityFrame = 0;
@@ -40,6 +41,16 @@ export const createPopupMotion = function (root) {
   }
 
   function setVisible(next) {
+    requestedVisible = next;
+    syncVisibility();
+  }
+
+  function setDocked(next) {
+    root.classList.toggle("is-docked", next);
+  }
+
+  function syncVisibility() {
+    const next = requestedVisible && !document.documentElement.classList.contains("menu-open");
     if (next === visible) return;
     visible = next;
     cancelAnimationFrame(visibilityFrame);
@@ -73,6 +84,7 @@ export const createPopupMotion = function (root) {
   firstControl.addEventListener("animationend", (event) => {
     if (event.target === firstControl && event.animationName === "popup-split") finishIntro();
   });
+  document.addEventListener("nav:toggle", syncVisibility);
   reduce.addEventListener("change", () => {
     cancelAnimationFrame(visibilityFrame);
     visibilityFrame = 0;
@@ -84,5 +96,5 @@ export const createPopupMotion = function (root) {
   });
   root.inert = true;
   root.setAttribute("aria-hidden", "true");
-  return { setVisible };
+  return { setVisible, setDocked };
 };

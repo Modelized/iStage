@@ -10,6 +10,11 @@
   inherits: false;
   initial-value: 0;
 }
+@property --popup-shadow-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
 
 .popup-motion {
   --popup-size: 56px;
@@ -19,8 +24,9 @@
   --popup-surface: rgba(37, 37, 40, 0.78);
   --popup-blob: rgb(37, 37, 40);
   --popup-merged-surface: rgb(37, 37, 40);
-  --popup-border: rgba(255, 255, 255, 0.1);
   --popup-shadow: rgba(0, 0, 0, 0.34);
+  --popup-shadow-color: var(--popup-shadow);
+  --popup-shadow-duration: 0.3s;
   --popup-ease: cubic-bezier(0.42, 0, 0.18, 1);
   --popup-split-ease: cubic-bezier(0.4, 1.6, 0.6, 1);
   --popup-duration: 1.3s;
@@ -32,30 +38,35 @@
   --popup-exit-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --popup-outline-exit: 0.12s;
   --popup-merge-duration: 0.64s;
+  --popup-exit-duration: 0.66s;
   /* Begin the exit while the merge settles to avoid a pause between movements. */
-  --popup-exit-delay: calc(var(--popup-outline-exit) + var(--popup-merge-duration) * 0.6);
+  --popup-exit-delay: calc(var(--popup-merge-duration) * 0.6);
   --popup-compressed-height: 39px;
   height: var(--popup-size);
-  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transform: translate(-50%, 180px);
   transform-origin: center;
-  /* Prepare movement without an opacity backdrop root isolating the glass. */
   will-change: transform;
-  transition-property: opacity, transform;
-  transition-duration: 0.22s, 0.66s;
-  transition-timing-function: linear, var(--popup-exit-ease);
-  transition-delay: calc(var(--popup-exit-delay) + 0.06s), var(--popup-exit-delay);
+  transition-property: visibility, transform, --popup-shadow-color;
+  transition-duration: 0s, var(--popup-exit-duration), var(--popup-shadow-duration);
+  transition-timing-function: linear, var(--popup-exit-ease), linear;
+  /* Hide only after descent so ancestor opacity never fades the glass. */
+  transition-delay: calc(var(--popup-exit-delay) + var(--popup-exit-duration)), var(--popup-exit-delay), 0s;
 }
 .popup-motion.is-mounted {
-  opacity: 1;
+  visibility: visible;
   pointer-events: auto;
   transform: translate(-50%, 0) scale(1);
-  transition-delay: 0s, 0s;
+  transition-delay: 0s, 0s, 0s;
+}
+.popup-motion.is-docked {
+  --popup-shadow-color: transparent;
 }
 .popup-motion.is-introducing {
+  /* Fade the orb separately so glass can sample the page throughout entry. */
   animation: popup-rise var(--popup-rise-duration) var(--popup-ease) both;
-  transition: none;
+  transition: --popup-shadow-color var(--popup-shadow-duration) linear;
 }
 /* Control geometry and surfaces */
 
@@ -82,13 +93,13 @@
   border-radius: 999px;
   background: transparent;
   color: inherit;
-  box-shadow: none;
+  /* The outer shadow must stay outside the clipped glass and content. */
+  box-shadow: 0 12px 38px var(--popup-shadow-color);
   transform: translateY(-50%);
   transition-property: width, left, height;
   transition-duration: var(--popup-merge-duration);
   transition-timing-function: var(--popup-merge-ease);
-  /* Clear the outline before the two controls begin to overlap. */
-  transition-delay: var(--popup-outline-exit);
+  transition-delay: 0s;
 }
 .popup-control[data-popup-direction="left"] {
   --popup-slot-width: var(--popup-primary-width);
@@ -126,7 +137,6 @@
   z-index: 0;
   /* Equal opaque surfaces merge without accumulating two glass layers. */
   background: var(--popup-current-surface, var(--popup-merged-surface));
-  box-shadow: 0 12px 38px var(--popup-shadow);
   backdrop-filter: saturate(150%) blur(22px);
   -webkit-backdrop-filter: saturate(150%) blur(22px);
   transition: background-color var(--popup-outline-exit) linear;
@@ -138,15 +148,13 @@
 .popup-control::after {
   z-index: 3;
   box-sizing: border-box;
-  border: 1px solid var(--popup-border);
+  border: var(--glass-outline);
   opacity: 0;
-  transition:
-    opacity var(--popup-outline-exit) var(--popup-settle-ease),
-    border-color var(--control-duration) var(--control-ease);
+  transition: opacity var(--popup-outline-exit) var(--popup-settle-ease);
 }
 .popup-motion.is-mounted .popup-control::after {
   opacity: 1;
-  transition-duration: 0.22s, var(--control-duration);
+  transition-duration: 0.22s;
 }
 /* Entry orb and control handoff */
 
@@ -162,7 +170,7 @@
   border-radius: 999px;
   opacity: 0;
   background: var(--popup-blob);
-  box-shadow: 0 12px 38px var(--popup-shadow);
+  box-shadow: 0 12px 38px var(--popup-shadow-color);
   pointer-events: none;
   transform: translate(-50%, -50%);
   transform-origin: center;
@@ -226,8 +234,8 @@
   opacity: 0;
   transform: scale(0.74);
   transition:
-    opacity var(--popup-merge-duration) var(--popup-merge-ease) var(--popup-outline-exit),
-    transform var(--popup-merge-duration) var(--popup-merge-ease) var(--popup-outline-exit);
+    opacity var(--popup-merge-duration) var(--popup-merge-ease),
+    transform var(--popup-merge-duration) var(--popup-merge-ease);
 }
 .popup-motion.is-introducing .popup-content-item {
   animation: popup-item-arrive 0.1s cubic-bezier(0.18, 0.72, 0.22, 0.88)
@@ -235,7 +243,9 @@
   transition: none;
 }
 /* Preserve the intro endpoint until the next visibility change. */
-.popup-motion.is-intro-settling,
+.popup-motion.is-intro-settling {
+  transition: --popup-shadow-color var(--popup-shadow-duration) linear;
+}
 .popup-motion.is-intro-settling .popup-control,
 .popup-motion.is-intro-settling .popup-content--unfold,
 .popup-motion.is-intro-settling .popup-content--scale {
@@ -246,26 +256,19 @@
 
 @keyframes popup-rise {
   0% {
-    opacity: 0;
     transform: translate(-50%, 180px);
     animation-timing-function: cubic-bezier(0.48, 0, 0.2, 1);
   }
-  7% {
-    opacity: 1;
-  }
   30% {
-    opacity: 1;
     transform: translate(-50%, -46px);
     animation-timing-function: cubic-bezier(0.32, 0, 0.38, 1);
   }
   /* Both easing segments reach zero velocity at the low point without a pause. */
   60% {
-    opacity: 1;
     transform: translate(-50%, 12px);
     animation-timing-function: cubic-bezier(0.18, 0, 0.4, 1);
   }
   100% {
-    opacity: 1;
     transform: translate(-50%, 0) scale(1);
   }
 }
@@ -339,12 +342,19 @@
 }
 
 @keyframes popup-split {
-  0%,
+  0% {
+    --popup-expansion: 0;
+    box-shadow: 0 12px 38px transparent;
+    animation-timing-function: steps(1, end);
+  }
   27% {
     --popup-expansion: 0;
+    box-shadow: 0 12px 38px var(--popup-shadow-color);
+    animation-timing-function: var(--popup-split-ease);
   }
   100% {
     --popup-expansion: 1;
+    box-shadow: 0 12px 38px var(--popup-shadow-color);
   }
 }
 

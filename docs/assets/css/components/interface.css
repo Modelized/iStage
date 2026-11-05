@@ -1,21 +1,26 @@
 /* Buttons */
 
+:root {
+  --action-font-size: clamp(0.875rem, calc(0.7rem + 0.55vmin), 1rem);
+}
+
 a.btn,
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.4ch;
-  padding: clamp(10px, 2.8vw, 12px) clamp(14px, 4.2vw, 18px);
+  padding: clamp(9px, calc(7px + 0.6vmin), 12px) clamp(12px, calc(8px + 1.1vmin), 18px);
   border-radius: 999px;
+  font-family: inherit;
   font-weight: 500;
   line-height: 1;
-  font-size: clamp(0.88rem, 2.6vw, 1rem);
+  font-size: var(--action-font-size);
   text-decoration: none !important;
   appearance: none;
   -webkit-appearance: none;
 
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: var(--glass-outline);
   backdrop-filter: saturate(170%) blur(18px);
   -webkit-backdrop-filter: saturate(170%) blur(18px);
   box-shadow: 0 0 24px -14px rgba(0, 0, 0, 0.28);
@@ -39,7 +44,6 @@ a.btn:visited {
 }
 .btn-blue {
   background: rgb(var(--accent-blue) / 0.76);
-  border-color: rgb(var(--accent-blue) / 0.56);
   --button-text: #fff;
   color: var(--button-text);
 }
@@ -50,7 +54,6 @@ a.btn:visited {
 
 .btn-outline {
   background: rgba(120, 120, 120, 0.32);
-  border-color: rgba(255, 255, 255, 0.18);
   --button-text: #fff;
   color: var(--button-text);
 }
@@ -62,7 +65,8 @@ a.btn:visited {
 /* Release availability */
 
 .btn[aria-disabled="true"] {
-  opacity: 0.55;
+  --reveal-opacity: 0.55;
+  opacity: var(--reveal-opacity);
   pointer-events: none;
   cursor: default;
 }
@@ -76,8 +80,8 @@ a.btn:visited {
 
 .card {
   background: var(--surface-dark);
-  border: 1px solid var(--nav-border);
-  border-radius: 18px;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--banner-radius);
   padding: 18px;
   color: #e8e9ec;
 }
@@ -231,7 +235,7 @@ a.btn:visited {
 .nav--open .mobile-menu li {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: var(--menu-delay, 0s);
+  transition-delay: calc(.16s + var(--menu-index, 0) * .04s);
 }
 @media (prefers-reduced-motion: reduce) {
   .mobile-menu li {
@@ -249,12 +253,12 @@ a.btn:visited {
     transform: translateY(var(--reveal-distance, 18px));
   }
   to {
-    opacity: 1;
+    opacity: var(--reveal-opacity, 1);
     transform: translateY(0);
   }
 }
 .reveal {
-  opacity: 1;
+  opacity: var(--reveal-opacity, 1);
   transform: none;
 }
 .js .reveal {
@@ -265,7 +269,7 @@ a.btn:visited {
   transition: var(--control-transition);
 }
 .js .reveal.is-revealed {
-  opacity: 1;
+  opacity: var(--reveal-opacity, 1);
   transform: none;
 }
 /* Explicit endpoints keep one-shot reveals independent of transition history.
@@ -311,9 +315,37 @@ a.btn:visited {
   .js .reveal,
   .js .reveal.is-revealed,
   .reveal-onload {
-    opacity: 1 !important;
+    opacity: var(--reveal-opacity, 1) !important;
     transform: none !important;
     transition: none !important;
     animation: none !important;
+  }
+}
+
+/* Text links */
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: rgb(var(--accent-blue));
+  font-size: var(--action-font-size);
+  text-decoration: none;
+  transition: opacity var(--control-duration) var(--control-ease);
+}
+.text-link .chevron {
+  width: 1.125em;
+  height: 1.125em;
+}
+.text-link[hidden] {
+  display: none;
+}
+.text-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .text-link:hover {
+    opacity: 0.75;
   }
 }

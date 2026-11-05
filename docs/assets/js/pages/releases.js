@@ -1,5 +1,5 @@
-import "../shell.js?v=20261015i";
-import { iStageReleases } from "../releases-data.js?v=20261015i";
+import "../shell.js?v=20261106i";
+import { iStageReleases } from "../releases-data.js?v=20261104i";
 
 "use strict";
 
@@ -172,7 +172,7 @@ import { iStageReleases } from "../releases-data.js?v=20261015i";
         </header>
         <div class="prose" style="margin-top:12px">${mdToHtml(r.body || "")}</div>
         <footer class="release-foot">
-          <a class="btn btn-blue" href="${href}" ${asset ? "download" : ""}>Download</a>
+          <a class="btn btn-blue" href="${href}" ${asset ? "download" : ""}>Get</a>
         </footer>
       </article>
     `;

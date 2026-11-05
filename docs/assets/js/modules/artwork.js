@@ -41,7 +41,7 @@ function initHeroArtwork() {
   };
   document
     .querySelectorAll(
-      ".page-hero-media, .event-visual, .page-home .media, .comparison-card .promo-card__media"
+      ".page-hero-media, .event-visual, .product-highlight-artwork, .comparison-card .promo-card__media"
     )
     .forEach((frame) => {
       const image = frame.querySelector("img");
@@ -63,12 +63,14 @@ function initHeroArtwork() {
         const alignY = parseFloat(style.getPropertyValue("--artwork-align-y"));
         const frameWidth = frame.clientWidth;
         const frameHeight = frame.clientHeight;
-        const scale = Math.min(frameWidth / width, frameHeight / height) * size;
+        const insetTop = frameHeight * (parseFloat(style.getPropertyValue("--artwork-top-inset-ratio")) || 0);
+        const availableHeight = frameHeight - insetTop;
+        const scale = Math.min(frameWidth / width, availableHeight / height) * size;
         const values = {
           width: `${image.naturalWidth * scale}px`,
           height: `${image.naturalHeight * scale}px`,
           left: `${(frameWidth - width * scale) / 2 - x * scale}px`,
-          top: `${(frameHeight - height * scale) * (Number.isFinite(alignY) ? alignY : 0.5) - y * scale}px`,
+          top: `${insetTop + (availableHeight - height * scale) * (Number.isFinite(alignY) ? alignY : 0.5) - y * scale}px`,
           transformOrigin: `${(x + width / 2) * scale}px ${(y + height / 2) * scale}px`
         };
         Object.entries(values).forEach(([key, value]) => {

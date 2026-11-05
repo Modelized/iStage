@@ -16,7 +16,7 @@
     color: #e8e9ec;
   }
 }
-.page-help .page-hero-card {
+.page-help .page-hero {
   --hero-a: 124 155 192;
   --hero-b: 167 158 188;
   --hero-c: 196 184 167;
@@ -76,7 +76,7 @@
   font-size: clamp(17px, 2vw, 22px);
   font-weight: 600;
   line-height: 1.3;
-  letter-spacing: -0.025em;
+  letter-spacing: var(--tracking-title);
 }
 .help-tile-label .chevron {
   width: 24px;
@@ -212,7 +212,7 @@
   font-size: clamp(25px, 3.2vw, 34px);
   font-weight: 600;
   line-height: 1.2;
-  letter-spacing: -0.025em;
+  letter-spacing: var(--tracking-heading);
 }
 .page-help .prose {
   line-height: 1.7;
@@ -225,12 +225,12 @@
 .help-callout,
 .help-topic-link {
   padding: 14px 16px;
-  border-radius: 18px;
 }
 .page-help .prose .help-callout {
   box-sizing: border-box;
   width: 100%;
   margin: 1.2em 0;
+  border-radius: var(--banner-radius);
   background: rgb(235 166 48 / 0.12);
 }
 .page-help .help-callout > :first-child {
@@ -288,6 +288,7 @@
 }
 .help-topic-link {
   display: flex;
+  border-radius: 18px;
   align-items: center;
   gap: 10px;
   min-width: 0;

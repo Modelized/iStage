@@ -1,7 +1,9 @@
-import { iStageImages } from "./artwork.js?v=20261015i";
-import { createScrollReveal } from "../scroll-reveal.js?v=20261015i";
+import { iStageImages } from "./artwork.js?v=20261106i";
+import { createScrollReveal } from "../scroll-reveal.js?v=20261104i";
 function initReveal() {
-  const revealNodes = Array.from(document.querySelectorAll(".reveal, .image-reveal"));
+  const revealNodes = Array.from(document.querySelectorAll(".reveal, .image-reveal")).filter(
+    (target) => !target.matches(".image-reveal") || !target.closest(".highlight-card")
+  );
   const onloadNodes = Array.from(document.querySelectorAll(".reveal-onload"));
   const staggerGroups = Array.from(document.querySelectorAll("[data-stagger-reveal]"));
   if (!revealNodes.length && !staggerGroups.length && !onloadNodes.length) {

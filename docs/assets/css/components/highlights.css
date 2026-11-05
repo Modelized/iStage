@@ -1,0 +1,312 @@
+/* Highlight carousel and playback */
+
+.highlights {
+  --highlight-card-width: var(--content-width);
+  position: relative;
+  padding: clamp(36px, 3.6vw, 48px) 0 0;
+  background: var(--page-bg);
+}
+
+.highlights-heading {
+  --body-content-width: var(--highlight-card-width);
+  --body-content-max: none;
+  margin: 0 auto clamp(30px, 5vw, 56px);
+  padding: 0;
+  color: var(--section-text, #f5f5f7);
+  font-size: clamp(28px, 4.2vw, 52px);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: var(--tracking-heading);
+}
+
+.highlight-rail {
+  display: flex;
+  gap: clamp(14px, 2vw, 22px);
+  margin: 0;
+  padding: 4px max(18px, calc((100vw - var(--highlight-card-width)) / 2)) 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-padding-inline: max(18px, calc((100vw - var(--highlight-card-width)) / 2));
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.highlight-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.highlight-rail.is-animating {
+  scroll-snap-type: none;
+}
+
+.highlight-card {
+  position: relative;
+  flex: 0 0 var(--highlight-card-width);
+  height: clamp(520px, 58vw, 680px);
+  overflow: hidden;
+  scroll-snap-align: center;
+  border: 0;
+  border-radius: var(--banner-radius);
+  background: var(--section-surface, var(--surface-dark));
+  color: var(--section-text, #f5f5f7);
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.highlight-card:focus-visible {
+  outline: 2px solid rgb(var(--accent-blue));
+  outline-offset: 4px;
+}
+
+.highlight-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(34px, 5vw, 62px) clamp(26px, 6vw, 72px) 0;
+  text-align: center;
+  opacity: var(--copy-opacity, 1);
+  transform: translate3d(var(--copy-shift, 0px), 0, 0);
+}
+
+.highlight-copy h3 {
+  margin: 0;
+  font-size: clamp(18px, 1.65vw, 26px);
+  font-weight: 550;
+  line-height: 1.24;
+  letter-spacing: var(--tracking-title);
+}
+
+.highlight-stage {
+  --controls-anchor-height: clamp(150px, 18vw, 190px);
+  position: relative;
+}
+
+.highlight-controls-anchor {
+  position: relative;
+  height: var(--controls-anchor-height);
+}
+
+.highlight-controls-track {
+  position: absolute;
+
+  top: calc(-100vh - 180px);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: calc((var(--controls-anchor-height) - 56px) / 2);
+  pointer-events: none;
+}
+
+.highlight-controls {
+  --popup-primary-width: calc(var(--dots-expanded-width) + 44px);
+  --progress-active-width: 46px;
+  --dots-collapsed-width: var(--progress-active-width);
+  --dots-expanded-width: calc(var(--progress-active-width) + (var(--highlight-count, 7) - 1) * 21px);
+
+  position: sticky;
+  flex: none;
+  margin-left: 50%;
+  top: auto;
+  bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px));
+  z-index: 900;
+  width: calc(var(--popup-primary-width) + 72px);
+  color: var(--section-text, #f5f5f7);
+}
+
+.progress-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-toggle {
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+.play-toggle:hover::before {
+    background: var(--highlight-control-hover, rgba(55, 55, 59, 0.88));
+  }
+
+.progress-dot:hover:not(.is-active) {
+    background: rgb(var(--control-ink, 245 245 247) / 0.72);
+  }
+
+}
+
+.progress-dots {
+  --progress-dot-gap: 13px;
+  --popup-content-width: var(--dots-expanded-width);
+  --popup-content-collapsed-width: var(--dots-collapsed-width);
+  display: flex;
+  width: var(--dots-expanded-width);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.progress-dot {
+  --dot-gap: var(--progress-dot-gap);
+  position: relative;
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  margin: 0 0 0 var(--dot-gap);
+  border-radius: 999px;
+  opacity: 1;
+  background: rgb(var(--control-ink, 245 245 247) / 0.48);
+  cursor: pointer;
+  transform: scale(1);
+  transition:
+    width 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color var(--control-duration) var(--control-ease);
+}
+
+.progress-dot:first-child {
+  --dot-gap: 0px;
+}
+
+.progress-dot.is-active {
+  width: var(--progress-active-width);
+  background: rgb(var(--control-ink, 245 245 247) / 0.22);
+}
+
+.progress-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgb(var(--control-ink, 245 245 247));
+  transform: translateX(-100%);
+  transform-origin: center;
+  will-change: transform;
+}
+
+.highlight-controls.is-playing.is-progressing .progress-dot.is-active::after {
+  animation: highlight-progress 5s linear forwards;
+}
+
+.progress-dot.is-complete::after {
+  transform: translateX(0);
+}
+
+@keyframes highlight-progress {
+  to {
+    transform: translateX(0);
+  }
+}
+
+.play-icon {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.play-icon svg {
+  grid-area: 1 / 1;
+  width: 24px;
+  height: 24px;
+  overflow: visible;
+  transition:
+    opacity 0.2s linear,
+    transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.play-icon-play {
+  opacity: 1;
+  transform: translateX(1px) scale(1) rotate(0deg);
+}
+
+.play-icon-pause {
+  opacity: 0;
+  transform: scale(0.68) rotate(-18deg);
+}
+
+.highlight-controls.is-playing .play-icon-play {
+  opacity: 0;
+  transform: translateX(1px) scale(0.68) rotate(18deg);
+}
+
+.highlight-controls.is-playing .play-icon-pause {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.progress-dot:focus-visible,
+.play-toggle:focus-visible {
+  outline: 2px solid rgb(var(--accent-blue));
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+.highlights {
+    --highlight-card-width: 82vw;
+    padding-top: 48px;
+  }
+
+.highlights-heading {
+    margin-bottom: 30px;
+    padding: 0;
+  }
+
+.highlight-rail {
+    gap: 14px;
+  }
+
+.highlight-card {
+    height: clamp(460px, 120vw, 560px);
+  }
+
+.highlight-copy {
+    padding: 34px 24px 0;
+  }
+
+.highlight-copy h3 {
+    font-size: clamp(16px, 4.4vw, 18px);
+    line-height: 1.22;
+  }
+
+.highlight-controls {
+    --progress-active-width: 40px;
+  }
+
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+.highlight-card {
+    height: clamp(370px, 78vh, 540px);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+.progress-dot {
+    animation: none !important;
+    transition: none !important;
+  }
+
+.highlight-copy {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+}

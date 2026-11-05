@@ -6,11 +6,12 @@
   <title>iStage</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261015i">
-  <link rel="stylesheet" href="assets/css/components/navigation.css?v=20261015i">
-  <link rel="stylesheet" href="assets/css/layout.css?v=20261015i">
-  <link rel="stylesheet" href="assets/css/components/cards.css?v=20261015i">
-  <link rel="stylesheet" href="assets/css/components/interface.css?v=20261015i">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261106c">
+  <link rel="stylesheet" href="assets/css/components/glass.css?v=20261106f">
+  <link rel="stylesheet" href="assets/css/components/navigation.css?v=20261106c">
+  <link rel="stylesheet" href="assets/css/layout.css?v=20261105c">
+  <link rel="stylesheet" href="assets/css/components/hero.css?v=20261106j">
+  <link rel="stylesheet" href="assets/css/components/interface.css?v=20261106g">
 
   <!-- Icons and web app metadata -->
   <link rel="icon" type="image/svg+xml" sizes="any" href="/iStage/favicon.svg?v=20260828a">
@@ -37,7 +38,10 @@
   <meta name="twitter:description" content="Android. Reimagined.">
   <meta name="twitter:image" content="https://modelized.github.io/iStage/assets/img/og.jpg">
 
-  <link rel="stylesheet" href="assets/css/pages/home.css?v=20261015i">
+  <link rel="stylesheet" href="assets/css/popup-motion.css?v=20261106e">
+  <link rel="stylesheet" href="assets/css/components/highlights.css?v=20261105b">
+  <link rel="stylesheet" href="assets/css/components/carousel.css?v=20261106c">
+  <link rel="stylesheet" href="assets/css/pages/home.css?v=20261106f">
 
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -48,16 +52,16 @@
   <div id="nav-slot"></div>
 
   <main>
-    <section class="section section--black section--first top-event" aria-label="iStage announcement">
-      <div class="section-bg" aria-hidden="true"></div>
+    <section class="page-hero top-event ambient-reveal-host" aria-label="iStage announcement">
+      <div class="section-bg ambient-reveal" aria-hidden="true"></div>
 
       <div class="event-fade" aria-hidden="true"></div>
 
       <div class="container">
         <div class="copy">
-          <div class="event-visual">
+          <h1 class="event-visual">
             <img src="assets/img/hero-iStage-series.png" alt="iStage Series" loading="eager" decoding="async">
-          </div>
+          </h1>
 
           <p class="event-copy text-aurora reveal">
             Introducing the next generation of iStage. Explore the all-new iStage 27 with more refined Liquid Glass design, smoother motion, and pro-grade controls. Discover iStage 18 featuring a familiar frosted aesthetic, tuned for broad device compatibility.
@@ -66,69 +70,101 @@
       </div>
     </section>
 
-    <section class="section section--black section--istage-27 promo-card promo-card--split product-card">
-      <div class="section-bg" aria-hidden="true"></div>
-
-      <div class="container">
-        <div class="hero hero-27">
-          <div class="media media-27 promo-card__media">
+    <section class="highlights home-highlights" data-highlights aria-label="Discover iStage">
+      <div class="highlight-stage" data-highlight-stage>
+        <div class="highlight-rail" data-highlight-rail>
+        <article class="highlight-card product-highlight product-highlight--27 ambient-reveal-host" tabindex="0" aria-label="iStage 27">
+          <div class="ambient-reveal" aria-hidden="true"></div>
+          <div class="highlight-copy product-highlight-copy">
+            <div><h2>iStage 27</h2><p class="product-tagline">Glass act.</p></div>
+            <div class="product-actions">
+              <a class="btn btn-outline" href="releases/#v=27" data-download-version="27" data-download-supported>Get</a>
+              <a class="btn btn-blue" href="iStage-27/">Learn more</a>
+            </div>
+          </div>
+          <div class="product-highlight-artwork">
             <picture>
               <source media="(max-width:900px) and (orientation:portrait)" srcset="assets/img/hero-iStage-27-mobile.png">
-              <img src="assets/img/hero-iStage-27-desktop.png" alt="iStage 27" loading="lazy" decoding="async">
+              <img src="assets/img/hero-iStage-27-desktop.png" alt="iStage 27 Lock Screen" loading="lazy" decoding="async">
             </picture>
           </div>
-          <div class="copy">
-            <h1 class="title reveal">iStage 27</h1>
-            <p class="subtitle reveal">Glass act.</p>
-            <p class="release-availability reveal">Coming this fall.</p>
-            <div class="cta">
-              <a class="btn btn-blue reveal" href="iStage-27/">Learn more</a>
-              <a class="btn btn-outline reveal" href="releases/#v=27" data-download-version="27" data-download-supported>Download</a>
+        </article>
+        <article class="highlight-card product-highlight product-highlight--18 ambient-reveal-host" tabindex="0" aria-label="iStage 18">
+          <div class="ambient-reveal" aria-hidden="true"></div>
+          <div class="highlight-copy product-highlight-copy">
+            <div><h2>iStage 18</h2><p class="product-tagline">Timeless frosted aesthetic.</p></div>
+            <div class="product-actions">
+              <a class="btn btn-outline" href="releases/#v=18" data-download-version="18" data-download-supported>Get</a>
+              <a class="btn btn-blue" href="iStage-18/">Learn more</a>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--white section--istage-18 promo-card promo-card--split product-card">
-      <div class="section-bg" aria-hidden="true"></div>
-
-      <div class="container">
-        <div class="hero hero-18">
-          <div class="media media-18 promo-card__media">
+          <div class="product-highlight-artwork">
             <picture>
               <source media="(max-width:900px) and (orientation:portrait)" srcset="assets/img/hero-iStage-18-mobile.png">
-              <img src="assets/img/hero-iStage-18-desktop.png" alt="iStage 18" loading="lazy" decoding="async">
+              <img src="assets/img/hero-iStage-18-desktop.png" alt="iStage 18 Lock Screen" loading="lazy" decoding="async">
             </picture>
           </div>
-          <div class="copy">
-            <h2 class="title reveal">iStage 18</h2>
-            <p class="subtitle reveal">Timeless frosted aesthetic.</p>
-            <p class="release-availability reveal">Coming soon.</p>
-            <div class="cta">
-              <a class="btn btn-blue reveal" href="iStage-18/">Learn more</a>
-              <a class="btn btn-outline reveal" href="releases/#v=18" data-download-version="18" data-download-supported>Download</a>
-            </div>
+        </article>
+        </div>
+      <div class="highlight-controls-anchor" aria-hidden="true"></div>
+      <div class="highlight-controls-track">
+      <div class="highlight-controls popup-motion" data-highlight-controls aria-label="Highlight playback controls" aria-hidden="true" inert>
+        <span class="popup-blob" aria-hidden="true"></span>
+        <div class="progress-pill popup-control" data-popup-direction="left" data-popup-shape="stretch">
+          <div class="progress-dots popup-content--unfold" role="group" aria-label="Choose a highlight">
+            <button class="progress-dot popup-content-item is-active" type="button" data-index="0" aria-label="Show highlight 1" aria-current="true"></button>
+            <button class="progress-dot popup-content-item" type="button" data-index="1" aria-label="Show highlight 2"></button>
+
           </div>
         </div>
+        <button class="play-toggle popup-control" data-popup-direction="right" data-popup-shape="circle" data-highlight-play-toggle type="button" aria-label="Pause highlights">
+          <span class="play-icon popup-content--scale" aria-hidden="true">
+            <svg class="play-icon-play" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M8.2 5.4c-.9-.6-2.1.1-2.1 1.2v10.8c0 1.1 1.2 1.8 2.1 1.2l8.7-5.4c.9-.5.9-1.8 0-2.4L8.2 5.4Z"/>
+            </svg>
+            <svg class="play-icon-pause" viewBox="0 0 24 24">
+              <rect x="6" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
+              <rect x="13.5" y="4.5" width="4.5" height="15" rx="2.25" fill="currentColor"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+      </div>
       </div>
     </section>
 
-    <section class="section section--black promo-card promo-card--split comparison-card" aria-label="Compare iStage versions">
-      <div class="section-bg" aria-hidden="true"></div>
-
-      <div class="container">
-        <div class="hero">
-          <div class="promo-card__media">
-            <img src="assets/img/hero-iStage-series.png" alt="iStage versions shown together" width="2160" height="2160" loading="eager" decoding="async">
+    <section class="home-lineup" aria-labelledby="lineup-title">
+      <div class="section-heading">
+        <h2 id="lineup-title" class="reveal">Explore the lineup.</h2>
+        <a class="text-link" href="compare/">Compare all models <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="feature-carousel" data-feature-carousel data-stagger-reveal=".feature-item">
+        <div class="feature-rail lineup-rail" data-feature-rail tabindex="0" aria-label="iStage lineup">
+        <article class="feature-item lineup-item">
+          <div class="feature-card lineup-artwork lineup-artwork--27"><img src="assets/img/compare-27.png" alt="iStage 27 Lock Screen" width="1200" height="1200" loading="lazy" decoding="async"></div>
+          <div class="lineup-copy">
+            <h3>iStage 27</h3><p>Refined Liquid Glass. More ways to make it yours.</p>
+            <div class="lineup-actions"><a class="btn btn-blue" href="releases/#v=27" data-download-version="27" data-download-supported>Get</a><a class="text-link" href="iStage-27/">Learn more <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
           </div>
-          <div class="copy">
-            <h2 class="title reveal">Compare</h2>
-            <p class="card-description reveal">See what's different across iStage versions.</p>
-            <div class="cta">
-              <a class="btn btn-blue reveal" href="compare/">Compare now</a>
-            </div>
+        </article>
+        <article class="feature-item lineup-item">
+          <div class="feature-card lineup-artwork lineup-artwork--26"><img src="assets/img/compare-26.png" alt="iStage 26 Lock Screen" width="1200" height="1200" loading="lazy" decoding="async"></div>
+          <div class="lineup-copy">
+            <h3>iStage 26</h3><p>Liquid Glass. A new era for the Lock Screen.</p>
+            <div class="lineup-actions"><a class="btn btn-blue" href="releases/#v=26" data-download-version="26" data-download-supported>Get</a></div>
           </div>
+        </article>
+        <article class="feature-item lineup-item">
+          <div class="feature-card lineup-artwork lineup-artwork--18"><img src="assets/img/compare-18.png" alt="iStage 18 Lock Screen" width="1200" height="1200" loading="lazy" decoding="async"></div>
+          <div class="lineup-copy">
+            <h3>iStage 18</h3><p>A familiar frosted look. Designed for a wide range of devices.</p>
+            <div class="lineup-actions"><a class="btn btn-blue" href="releases/#v=18" data-download-version="18" data-download-supported>Get</a><a class="text-link" href="iStage-18/">Learn more <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+          </div>
+        </article>
+        </div>
+        <div class="feature-controls" aria-label="Lineup controls">
+          <button class="feature-arrow feature-arrow--previous" data-feature-previous type="button" aria-label="Show previous model"></button>
+          <button class="feature-arrow feature-arrow--next" data-feature-next type="button" aria-label="Show next model"></button>
         </div>
       </div>
     </section>
@@ -136,7 +172,7 @@
 
   <div id="footer-slot"></div>
 
-  <script type="module" src="./assets/js/shell.js?v=20261015i"></script>
+  <script type="module" src="./assets/js/pages/home.js?v=20261106i"></script>
 
 </body>
 </html>

@@ -14,7 +14,7 @@
   position: relative;
   align-items: center;
   justify-items: center;
-  padding: 24px 16px 0;
+  padding: var(--hero-nav-space) 16px 0;
 }
 .gallery-stack > * + * {
   margin-top: 10px;
@@ -22,7 +22,7 @@
 .gallery-title {
   font-size: clamp(28px, 3.4vw, 44px);
   font-weight: var(--title-weight);
-  letter-spacing: -0.01em;
+  letter-spacing: var(--tracking-heading);
   margin: 0;
 }
 .gallery-icon {
@@ -57,10 +57,8 @@
   align-items: center;
   justify-content: center;
   height: auto;
-  position: absolute;
-  top: calc(50% + var(--center-shift));
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  transform: translateY(var(--center-shift));
   width: min(92%, 960px);
 }
 .page-gallery .btn {
