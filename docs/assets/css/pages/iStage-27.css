@@ -67,7 +67,7 @@ html {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: auto auto;
-  gap: clamp(6px, calc(4svh - 18px), 10px) 24px;
+  gap: clamp(4px, calc(4svh - 18px), 10px) 24px;
   position: relative;
   z-index: 2;
 }

@@ -319,7 +319,6 @@
   .product-nav-action { justify-content: space-between; gap: 12px; margin-top: 16px; }
   .product-nav-action p { font-size: 12px; }
   .product-nav-overview { margin-top: 28px; }
-  .product-nav-sections { display: flex; flex-wrap: wrap; column-gap: 12px; }
   .product-nav-sections a { font-size: 15px; }
 }
 @media (max-height: 500px) and (orientation: landscape) {
