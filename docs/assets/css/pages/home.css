@@ -46,35 +46,34 @@
 .top-event::after {
   content: none;
 }
-.top-event .section-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      var(--ambient-radius) calc(var(--ambient-radius) * 1.12) at 20% 34%,
-      light-dark(
-        rgb(var(--identity-aqua) / calc(.14 * var(--overlay-strength-light))),
-        rgb(var(--identity-aqua) / calc(.14 * var(--overlay-strength-dark)))
-      ),
-      transparent 62%
-    ),
-    radial-gradient(
-      var(--ambient-radius) calc(var(--ambient-radius) * 1.12) at 80% 36%,
-      light-dark(
-        rgb(var(--identity-rose) / calc(.12 * var(--overlay-strength-light))),
-        rgb(var(--identity-rose) / calc(.12 * var(--overlay-strength-dark)))
-      ),
-      transparent 62%
-    ),
-    radial-gradient(
-      calc(var(--ambient-radius) * .93) var(--ambient-radius) at 54% 82%,
-      light-dark(
-        rgb(var(--identity-champagne) / calc(.1 * var(--overlay-strength-light))),
-        rgb(var(--identity-champagne) / calc(.1 * var(--overlay-strength-dark)))
-      ),
-      transparent 64%
-    );
+.top-event .ambient-light__glow--a {
+  --ambient-x: -30%;
+  --ambient-y: -16%;
+  --ambient-height: 1.12;
+  --ambient-color: light-dark(
+    rgb(var(--identity-aqua) / calc(.14 * var(--overlay-strength-light))),
+    rgb(var(--identity-aqua) / calc(.14 * var(--overlay-strength-dark)))
+  );
+}
+.top-event .ambient-light__glow--b {
+  --ambient-x: 30%;
+  --ambient-y: -14%;
+  --ambient-height: 1.12;
+  --ambient-color: light-dark(
+    rgb(var(--identity-rose) / calc(.12 * var(--overlay-strength-light))),
+    rgb(var(--identity-rose) / calc(.12 * var(--overlay-strength-dark)))
+  );
+}
+.top-event .ambient-light__glow--c {
+  --ambient-x: 4%;
+  --ambient-y: 32%;
+  --ambient-width: .93;
+  --ambient-height: 1;
+  --ambient-stop: .64;
+  --ambient-color: light-dark(
+    rgb(var(--identity-champagne) / calc(.1 * var(--overlay-strength-light))),
+    rgb(var(--identity-champagne) / calc(.1 * var(--overlay-strength-dark)))
+  );
 }
 .top-event .event-fade {
   position: absolute;

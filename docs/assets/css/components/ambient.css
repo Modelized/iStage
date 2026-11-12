@@ -1,77 +1,109 @@
 /* Ambient light and reveal */
 
 .ambient-light {
+  --ambient-revealed: 1;
   position: absolute;
   inset: 0;
-  background: var(--ambient-light);
+  z-index: 0;
+  overflow: hidden;
+  opacity: var(--ambient-revealed);
   pointer-events: none;
 }
+.ambient-light__glow {
+  --ambient-width: 1;
+  --ambient-height: 1.2;
+  --ambient-stop: .62;
+  position: absolute;
+  inset: 0;
+  /* The state changes once, and transform interpolates the center and radius. */
+  transform:
+    translate(
+      calc(var(--ambient-x) * var(--ambient-revealed)),
+      calc(var(--ambient-y) * var(--ambient-revealed))
+    )
+    scale(calc(.48 + .52 * var(--ambient-revealed)));
+}
+.ambient-light__glow::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* Keep the complete transparent falloff inside each moving light. */
+  width: calc(var(--ambient-radius) * var(--ambient-width) * var(--ambient-stop) * 2);
+  height: calc(var(--ambient-radius) * var(--ambient-height) * var(--ambient-stop) * 2);
+  background: radial-gradient(ellipse closest-side, var(--ambient-color), transparent);
+  transform: translate(-50%, -50%);
+}
+.ambient-light__glow--a { z-index: 3; }
+.ambient-light__glow--b { z-index: 2; }
+.ambient-light__glow--c { z-index: 1; }
+
 .js .ambient-reveal {
-  opacity: 0;
-  transform: scale(.48);
-  transform-origin: center;
-  transition:
-    transform var(--artwork-reveal-duration, 1.6s) cubic-bezier(.16, 1, .3, 1),
-    opacity var(--artwork-reveal-duration, 1.6s) cubic-bezier(.22, 1, .36, 1);
+  --ambient-revealed: 0;
+  transition: opacity var(--artwork-reveal-duration, 1.6s) cubic-bezier(.22, 1, .36, 1);
+}
+.js .ambient-reveal > .ambient-light__glow {
+  transition: transform var(--artwork-reveal-duration, 1.6s) cubic-bezier(.16, 1, .3, 1);
 }
 .js .ambient-reveal-host:has(.image-reveal.is-revealed) > .ambient-reveal {
-  opacity: 1;
-  transform: none;
+  --ambient-revealed: 1;
 }
 
 /* Product palettes */
 
-.ambient-palette--27 {
-  --ambient-light:
-    radial-gradient(
-      var(--ambient-radius) calc(var(--ambient-radius) * 1.22) at 22% 36%,
-      light-dark(
-        rgb(188 133 82 / calc(.18 * var(--overlay-strength-light))),
-        rgb(188 133 82 / calc(.18 * var(--overlay-strength-dark)))
-      ),
-      transparent 62%
-    ),
-    radial-gradient(
-      calc(var(--ambient-radius) * .96) calc(var(--ambient-radius) * 1.2) at 78% 38%,
-      light-dark(
-        rgb(229 218 204 / calc(.14 * var(--overlay-strength-light))),
-        rgb(229 218 204 / calc(.14 * var(--overlay-strength-dark)))
-      ),
-      transparent 60%
-    ),
-    radial-gradient(
-      calc(var(--ambient-radius) * .87) var(--ambient-radius) at 72% 100%,
-      light-dark(
-        rgb(105 118 148 / calc(.08 * var(--overlay-strength-light))),
-        rgb(105 118 148 / calc(.08 * var(--overlay-strength-dark)))
-      ),
-      transparent 64%
-    );
+.ambient-palette--27 .ambient-light__glow--a {
+  --ambient-x: -28%;
+  --ambient-y: -14%;
+  --ambient-height: 1.22;
+  --ambient-color: light-dark(
+    rgb(188 133 82 / calc(.18 * var(--overlay-strength-light))),
+    rgb(188 133 82 / calc(.18 * var(--overlay-strength-dark)))
+  );
 }
-.ambient-palette--18 {
-  --ambient-light:
-    radial-gradient(
-      var(--ambient-radius) calc(var(--ambient-radius) * 1.2) at 30% 40%,
-      light-dark(
-        rgb(250 210 160 / calc(.28 * var(--overlay-strength-light))),
-        rgb(250 210 160 / calc(.28 * var(--overlay-strength-dark)))
-      ),
-      transparent 62%
-    ),
-    radial-gradient(
-      var(--ambient-radius) calc(var(--ambient-radius) * 1.2) at 75% 35%,
-      light-dark(
-        rgb(215 155 120 / calc(.22 * var(--overlay-strength-light))),
-        rgb(215 155 120 / calc(.22 * var(--overlay-strength-dark)))
-      ),
-      transparent 62%
-    );
+.ambient-palette--27 .ambient-light__glow--b {
+  --ambient-x: 28%;
+  --ambient-y: -12%;
+  --ambient-width: .96;
+  --ambient-stop: .6;
+  --ambient-color: light-dark(
+    rgb(229 218 204 / calc(.14 * var(--overlay-strength-light))),
+    rgb(229 218 204 / calc(.14 * var(--overlay-strength-dark)))
+  );
+}
+.ambient-palette--27 .ambient-light__glow--c {
+  --ambient-x: 22%;
+  --ambient-y: 50%;
+  --ambient-width: .87;
+  --ambient-height: 1;
+  --ambient-stop: .64;
+  --ambient-color: light-dark(
+    rgb(105 118 148 / calc(.08 * var(--overlay-strength-light))),
+    rgb(105 118 148 / calc(.08 * var(--overlay-strength-dark)))
+  );
+}
+.ambient-palette--18 .ambient-light__glow--a {
+  --ambient-x: -20%;
+  --ambient-y: -10%;
+  --ambient-color: light-dark(
+    rgb(250 210 160 / calc(.28 * var(--overlay-strength-light))),
+    rgb(250 210 160 / calc(.28 * var(--overlay-strength-dark)))
+  );
+}
+.ambient-palette--18 .ambient-light__glow--b {
+  --ambient-x: 25%;
+  --ambient-y: -15%;
+  --ambient-color: light-dark(
+    rgb(215 155 120 / calc(.22 * var(--overlay-strength-light))),
+    rgb(215 155 120 / calc(.22 * var(--overlay-strength-dark)))
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
   .js .ambient-reveal {
-    opacity: 1;
-    transform: none;
+    --ambient-revealed: 1;
+    transition: none;
+  }
+  .js .ambient-reveal > .ambient-light__glow {
     transition: none;
   }
 }

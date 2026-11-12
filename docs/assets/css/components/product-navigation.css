@@ -17,6 +17,8 @@
   --product-close-size: calc(var(--product-control-size) - 2 * var(--glass-outline-width));
   --product-control-inset: calc((var(--product-bar-height) - var(--product-control-size)) / 2);
   --product-motion-ease: cubic-bezier(.22, 1, .36, 1);
+  --product-toggle-fade-out: .08s;
+  --product-toggle-fade-in: .16s;
   position: relative;
   width: min(920px, 100%);
   height: var(--product-bar-height);
@@ -109,7 +111,7 @@
 .product-nav-explore-label {
   flex-shrink: 0;
   width: max-content;
-  transition: opacity .16s linear .16s;
+  transition: opacity var(--product-toggle-fade-in) linear var(--product-toggle-fade-out);
 }
 .product-nav-explore-close {
   position: absolute;
@@ -118,7 +120,7 @@
   inset: 0;
   margin: auto;
   opacity: 0;
-  transition: opacity .08s linear;
+  transition: opacity var(--product-toggle-fade-out) linear;
 }
 .product-nav.is-expanded .product-nav-explore {
   width: var(--product-close-size);
@@ -130,11 +132,11 @@
 }
 .product-nav.is-expanded .product-nav-explore-label {
   opacity: 0;
-  transition: opacity .08s linear;
+  transition: opacity var(--product-toggle-fade-out) linear;
 }
 .product-nav.is-expanded .product-nav-explore-close {
   opacity: 1;
-  transition: opacity .16s linear .22s;
+  transition: opacity var(--product-toggle-fade-in) linear var(--product-toggle-fade-out);
 }
 .product-nav-explore:active { transform: none; }
 .product-nav-get {
@@ -308,6 +310,10 @@
   .product-nav-details, .product-nav-overview { margin-top: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .product-nav {
+    --product-toggle-fade-out: 0s;
+    --product-toggle-fade-in: 0s;
+  }
   .product-nav, .product-nav-backdrop, .product-nav-panel,
   .product-nav-explore-label, .product-nav-explore-close,
   .product-nav-get, .product-nav-disclosure svg, [data-product-enter] { transition: none; }
