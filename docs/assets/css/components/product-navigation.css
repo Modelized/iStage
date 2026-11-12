@@ -276,6 +276,7 @@
   padding: 22px 0 4px;
 }
 .product-nav-sections a {
+  justify-self: start;
   padding: 10px 16px;
   border-radius: 999px;
   color: inherit;
