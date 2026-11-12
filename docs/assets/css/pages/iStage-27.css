@@ -67,7 +67,7 @@ html {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: auto auto;
-  gap: clamp(0px, calc(4svh - 18px), 10px) 24px;
+  gap: clamp(6px, calc(4svh - 18px), 10px) 24px;
   position: relative;
   z-index: 2;
 }
@@ -85,7 +85,7 @@ html {
   display: grid;
   grid-row: 1 / -1;
   grid-template-rows: subgrid;
-  align-items: start;
+  align-items: center;
   text-align: left;
   margin: 0;
 }
@@ -432,47 +432,23 @@ html {
   display: grid;
   place-items: center;
   padding-block: 26px 30px;
-}
-
-.i27-download::before {
-  content: "";
-  position: absolute;
-  inset: -22%;
-  z-index: 0;
-  background:
+  background-image:
     radial-gradient(
       calc(var(--ambient-radius) * .8) calc(var(--ambient-radius) * 1.13) at 27% 44%,
       light-dark(
-        rgb(192 145 100 / calc(0.32 * var(--overlay-strength-light))),
-        rgb(192 145 100 / calc(0.32 * var(--overlay-strength-dark)))
+        rgb(192 145 100 / calc(0.32 * 0.9 * var(--overlay-strength-light))),
+        rgb(192 145 100 / calc(0.32 * 0.9 * var(--overlay-strength-dark)))
       ) 0%,
       rgba(192, 145, 100, 0) 72%
     ),
     radial-gradient(
-      calc(var(--ambient-radius) * .63) calc(var(--ambient-radius) * .8) at 38% 28%,
-      light-dark(
-        rgb(235 222 202 / calc(0.16 * var(--overlay-strength-light))),
-        rgb(235 222 202 / calc(0.16 * var(--overlay-strength-dark)))
-      ) 0%,
-      rgba(235, 222, 202, 0) 70%
-    ),
-    radial-gradient(
       calc(var(--ambient-radius) * .93) calc(var(--ambient-radius) * 1.07) at 78% 66%,
       light-dark(
-        rgb(116 130 158 / calc(0.22 * var(--overlay-strength-light))),
-        rgb(116 130 158 / calc(0.22 * var(--overlay-strength-dark)))
+        rgb(116 130 158 / calc(0.22 * 0.9 * var(--overlay-strength-light))),
+        rgb(116 130 158 / calc(0.22 * 0.9 * var(--overlay-strength-dark)))
       ) 0%,
       rgba(116, 130, 158, 0) 74%
     );
-  filter: blur(46px) saturate(1.04);
-  opacity: 0.9;
-  pointer-events: none;
-}
-
-.i27-download .container {
-  position: relative;
-  z-index: 2;
-  width: 100%;
 }
 
 .i27-download-art {
@@ -692,11 +668,6 @@ html {
 
   .i27-content-section .i27-design-copy {
     padding-top: clamp(72px, 18vw, 92px);
-  }
-
-  .i27-download::before {
-    inset: -16%;
-    filter: blur(40px) saturate(1.06);
   }
 
   .i27-more {
