@@ -92,8 +92,11 @@ body {
 
 
   --banner-radius: clamp(28px, 2.4vw, 36px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-viewport-width: calc(100vw - var(--safe-left) - var(--safe-right));
   --content-max: 1160px;
-  --content-width: min(78vw, var(--content-max));
+  --content-width: min(78vw, var(--content-max), calc(var(--safe-viewport-width) - 36px));
   --hero-nav-space: calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-desktop) + 48px);
   --banner-side-gap: 12px;
   --banner-vert-gap: 14px;
@@ -142,6 +145,11 @@ body {
 
 /* Shared content layout */
 
+/* Keep content inside device cutouts without narrowing page backgrounds or heroes. */
+main .safe-content {
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+}
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -149,7 +157,7 @@ body {
 }
 /* Editorial gutters are separate from card and hero geometry. */
 .body-content {
-  width: var(--body-content-width, calc(100% - 56px));
+  width: min(var(--body-content-width, calc(100% - 56px)), 100%);
   max-width: var(--body-content-max, 1160px);
   margin-inline: auto;
 }
@@ -161,7 +169,7 @@ body {
 }
 @media (max-width: 900px) {
   .body-content {
-    width: 86vw;
+    width: min(86vw, 100%);
     max-width: none;
   }
 }
@@ -178,7 +186,7 @@ body {
 
 @media (max-width: 900px) and (orientation: portrait) {
   :root {
-    --content-width: 82vw;
+    --content-width: min(82vw, calc(var(--safe-viewport-width) - 36px));
     --hero-nav-space: calc(env(safe-area-inset-top, 0px) + 12px + var(--nav-pill-height-mobile) + 48px);
   }
 }

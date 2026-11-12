@@ -1,9 +1,9 @@
-import "../shell.js?v=20261106i";
+import "../shell.js?v=20261113a";
 import { iStageImages } from "../modules/artwork.js?v=20261106i";
-import { initHighlightCarousels } from "../modules/highlight-carousel.js?v=20261106i";
+import { initHighlightCarousels } from "../modules/highlight-carousel.js?v=20261113a";
 import { initFeatureCarousels } from "../modules/feature-carousel.js?v=20261104i";
 
-import { initProductNavigation } from "../modules/product-navigation.js?v=20261106h";
+import { initProductNavigation } from "../modules/product-navigation.js?v=20261113a";
 
 initProductNavigation();
 initHighlightCarousels();

@@ -89,6 +89,7 @@
 /* Floating pickers */
 
 .compare-dock {
+  --body-content-width: calc(var(--safe-viewport-width) - 56px);
   --popup-primary-width: calc((100% - var(--compare-column-gap)) / 2);
   --popup-secondary-width: var(--popup-primary-width);
   --popup-surface: var(--compare-dock-surface);
@@ -96,7 +97,7 @@
   --popup-merged-surface: var(--compare-dock-merged-surface);
   --popup-shadow: var(--compare-dock-shadow);
   position: fixed;
-  left: 50%;
+  left: calc(50% + (var(--safe-left) - var(--safe-right)) / 2);
   bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 18px));
   z-index: 900;
   margin: 0;

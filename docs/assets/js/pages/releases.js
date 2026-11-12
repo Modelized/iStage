@@ -1,4 +1,4 @@
-import "../shell.js?v=20261106i";
+import "../shell.js?v=20261113a";
 import { iStageReleases } from "../releases-data.js?v=20261104i";
 
 "use strict";
@@ -146,7 +146,7 @@ import { iStageReleases } from "../releases-data.js?v=20261104i";
 
   const { versionFromTag } = iStageReleases;
 
-  const tpl = (r, isHighlight = false) => {
+  const tpl = (r, { isLatest = false, isHighlight = false } = {}) => {
     const title = r.name || r.tag_name || "Untitled";
     const tag = r.tag_name ? `${r.tag_name}` : "";
     const date = r.published_at ? fmtDate(r.published_at) : "";
@@ -154,7 +154,7 @@ import { iStageReleases } from "../releases-data.js?v=20261104i";
     const size = asset ? fmtSize(asset.size) : "";
     const href = asset ? asset.browser_download_url : r.html_url;
 
-    const metaText = [date, size].filter(Boolean).join(" • ");
+    const metaText = [date, size].filter(Boolean).join(" | ");
 
     const ver = versionFromTag(tag);
     const icon = ver
@@ -172,7 +172,7 @@ import { iStageReleases } from "../releases-data.js?v=20261104i";
         </header>
         <div class="prose" style="margin-top:12px">${mdToHtml(r.body || "")}</div>
         <footer class="release-foot">
-          <a class="btn btn-blue" href="${href}" ${asset ? "download" : ""}>Get</a>
+          <a class="btn ${isLatest ? "btn-blue" : "btn-outline"}" href="${href}" ${asset ? "download" : ""}>Get</a>
         </footer>
       </article>
     `;
@@ -223,7 +223,10 @@ import { iStageReleases } from "../releases-data.js?v=20261104i";
       <div class="releases-group" data-group="${title}">
         <h2 class="group-title body-heading body-content">${title}</h2>
         <div class="releases-list">
-          ${arr.length ? arr.map((r, i) => tpl(r, title === "Latest Releases" && i === 0)).join("") : empty(emptyMsg || "No releases.")}
+          ${arr.length ? arr.map((r, i) => tpl(r, {
+            isLatest: title === "Latest Releases",
+            isHighlight: title === "Latest Releases" && i === 0
+          })).join("") : empty(emptyMsg || "No releases.")}
         </div>
       </div>`;
 

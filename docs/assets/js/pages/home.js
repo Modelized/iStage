@@ -1,5 +1,5 @@
-import "../shell.js?v=20261106i";
-import { initHighlightCarousels } from "../modules/highlight-carousel.js?v=20261106i";
+import "../shell.js?v=20261113a";
+import { initHighlightCarousels } from "../modules/highlight-carousel.js?v=20261113a";
 import { initFeatureCarousels } from "../modules/feature-carousel.js?v=20261104i";
 
 // Lineup status

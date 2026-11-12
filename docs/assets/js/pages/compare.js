@@ -1,6 +1,7 @@
-import "../shell.js?v=20261106i";
-import { createPopupMotion } from "../popup-motion.js?v=20261106e";
+import "../shell.js?v=20261113a";
+import { createPopupMotion } from "../popup-motion.js?v=20261113a";
 import { iStageReleases } from "../releases-data.js?v=20261104i";
+import { readViewport } from "../modules/viewport.js?v=20261113a";
 
 "use strict";
 
@@ -70,13 +71,11 @@ import { iStageReleases } from "../releases-data.js?v=20261104i";
 
     function update() {
       frame = 0;
-      const viewport = window.visualViewport;
-      const top = viewport?.offsetTop ?? 0;
-      const bottom = top + (viewport?.height ?? window.innerHeight);
+      const { top, bottom, overscroll } = readViewport();
       const pickerBottom = Math.max(
-        ...originals.map((select) => select.getBoundingClientRect().bottom)
+        ...originals.map((select) => select.getBoundingClientRect().bottom + overscroll)
       );
-      const footerTop = footer?.getBoundingClientRect().top ?? Infinity;
+      const footerTop = (footer?.getBoundingClientRect().top ?? Infinity) + overscroll;
       // Separate entry and exit thresholds prevent flicker near the viewport edges.
       const next =
         pickerBottom < top - (visible ? 0 : 24) && footerTop > bottom + (visible ? 0 : 16);

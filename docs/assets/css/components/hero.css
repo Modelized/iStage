@@ -145,42 +145,6 @@
 }
 
 
-/* Ambient reveal */
-
-@property --ambient-reveal-progress {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 1;
-}
-.ambient-reveal-host {
-  --ambient-light-radius: calc(var(--ambient-radius) * (0.48 + 0.52 * var(--ambient-reveal-progress)));
-}
-.js .ambient-reveal-host {
-  --ambient-reveal-progress: 0;
-  transition: --ambient-reveal-progress var(--artwork-reveal-duration, 1.6s) cubic-bezier(.16, 1, .3, 1);
-}
-.js .ambient-reveal {
-  opacity: 0;
-  transition: opacity var(--artwork-reveal-duration, 1.6s) cubic-bezier(.22, 1, .36, 1);
-}
-.js .ambient-reveal-host:has(.image-reveal.is-revealed) {
-  --ambient-reveal-progress: 1;
-}
-.js .ambient-reveal-host:has(.image-reveal.is-revealed) > .ambient-reveal {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .js .ambient-reveal-host {
-    --ambient-reveal-progress: 1;
-    transition: none;
-  }
-  .js .ambient-reveal {
-    opacity: 1;
-    transition: none;
-  }
-}
-
 /* Artwork reveal */
 
 .artwork-frame {

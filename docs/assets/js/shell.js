@@ -4,7 +4,7 @@ import { initDownloadAction } from "./modules/hero-action-layout.js?v=20261104i"
 import { initReveal } from "./modules/reveal.js?v=20261106i";
 import { injectPartial } from "./modules/site-partials.js?v=20261105a";
 import { initYear, initFooterIcon } from "./modules/footer.js?v=20261104i";
-import { initNav } from "./modules/navigation.js?v=20261105a";
+import { initNav } from "./modules/navigation.js?v=20261113a";
 async function boot() {
   initHeroArtwork();
   initDownloadAction();

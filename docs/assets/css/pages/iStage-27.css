@@ -264,7 +264,7 @@ html {
   grid-template-columns: 1fr 1.08fr 1fr;
   align-items: center;
   gap: 0;
-  width: min(90vw, 1200px);
+  width: min(90vw, 1200px, 100%);
   transform: translate(-50%, -50%);
 }
 

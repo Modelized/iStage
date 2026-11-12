@@ -1,6 +1,7 @@
 /* Glass outlines */
 
 :root {
+  --glass-outline-width: 1px;
   --glass-outline-opacity: 0.14;
   --glass-outline-light-strength: 0.65;
 }
@@ -8,7 +9,7 @@
 :where(.btn, .nav-search, .nav-toggle, .menu, .brand, .nav-panel, .product-nav, .popup-control, .feature-arrow) {
   --glass-outline-color: rgb(255 255 255 / var(--glass-outline-opacity));
   /* The translucent border overlays the background at its outer edge. */
-  --glass-outline: 1px solid var(--glass-outline-color);
+  --glass-outline: var(--glass-outline-width) solid var(--glass-outline-color);
 }
 
 :where(.nav-search, .nav-toggle, .menu, .brand, .nav-panel, .product-nav, .popup-control) {

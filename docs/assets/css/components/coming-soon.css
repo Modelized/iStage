@@ -1,0 +1,59 @@
+.page-coming-soon {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  --center-shift: 8svh;
+}
+
+/* The hero fills the initial viewport so the footer remains below the fold. */
+.coming-soon-hero {
+  flex: 1;
+  min-height: 100svh;
+  display: grid;
+  position: relative;
+  align-items: center;
+  justify-items: center;
+  padding: var(--hero-nav-space) 16px 0;
+}
+.coming-soon-stack > * + * {
+  margin-top: 10px;
+}
+.coming-soon-title {
+  font-size: clamp(28px, 3.4vw, 44px);
+  font-weight: var(--title-weight);
+  letter-spacing: var(--tracking-heading);
+  margin: 0;
+}
+.coming-soon-icon {
+  display: block;
+  width: clamp(72px, 10vw, 112px);
+  height: auto;
+  margin: 0 auto 12px;
+}
+.coming-soon-subtitle {
+  margin-top: 4px;
+  font-size: clamp(16px, 2vw, 20px);
+}
+
+@media (width > 900px) {
+  .page-coming-soon {
+    --center-shift: 4svh;
+  }
+}
+
+.coming-soon-stack {
+  text-align: center;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  position: relative;
+  transform: translateY(var(--center-shift));
+  width: min(92%, 960px);
+}
+.page-coming-soon .btn {
+  margin-top: clamp(24px, 12svh, 160px);
+}

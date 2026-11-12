@@ -23,11 +23,11 @@
   display: flex;
   gap: clamp(14px, 2vw, 22px);
   margin: 0;
-  padding: 4px max(18px, calc((100vw - var(--highlight-card-width)) / 2)) 20px;
+  padding: 4px max(18px, calc((100% - var(--highlight-card-width)) / 2)) 20px;
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-x: contain;
-  scroll-padding-inline: max(18px, calc((100vw - var(--highlight-card-width)) / 2));
+  scroll-padding-inline: max(18px, calc((100% - var(--highlight-card-width)) / 2));
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -259,7 +259,7 @@
 
 @media (max-width: 900px) and (orientation: portrait) {
 .highlights {
-    --highlight-card-width: 82vw;
+    --highlight-card-width: var(--content-width);
     padding-top: 48px;
   }
 

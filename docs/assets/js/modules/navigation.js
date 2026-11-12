@@ -290,9 +290,6 @@ function initNav() {
 
   const mobile = window.matchMedia("(max-width: 900px) and (orientation: portrait)");
   mobile.addEventListener("change", () => setNavOpenState(nav, false));
-  sheet?.addEventListener("click", (event) => {
-    if (event.target.closest("a")) setNavOpenState(nav, false);
-  });
   document.addEventListener("pointerdown", (event) => {
     if (nav.classList.contains("nav--open") && !nav.contains(event.target)) {
       setNavOpenState(nav, false);

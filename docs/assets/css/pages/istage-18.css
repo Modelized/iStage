@@ -1,0 +1,23 @@
+/* Fixed light appearance */
+
+html {
+  background: #f5f5f7;
+  color-scheme: light;
+}
+.page-iStage-18 {
+  --ambient-radius: clamp(320px, 40vw, 620px);
+  --nav-surface: rgba(255, 255, 255, .78);
+  --surface-border: rgba(0, 0, 0, .14);
+  --nav-text: rgba(17, 19, 23, .92);
+  --nav-text-dim: rgba(17, 19, 23, .68);
+  --nav-press-bg: rgba(0, 0, 0, .06);
+  --menu-thumb-bg-default: rgba(0, 0, 0, .08);
+  --menu-thumb-bg-press: rgba(0, 0, 0, .12);
+  --page-bg: #f5f5f7;
+  --footer-bg: #f5f5f7;
+  --footer-color: #5e6572;
+  color: #111317;
+  background: var(--page-bg);
+}
+.page-iStage-18 .brand-logo { filter: invert(1); }
+.page-iStage-18 .subtitle { color: #5e6572; }

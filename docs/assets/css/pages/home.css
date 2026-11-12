@@ -52,7 +52,7 @@
   pointer-events: none;
   background:
     radial-gradient(
-      var(--ambient-light-radius) calc(var(--ambient-light-radius) * 1.12) at calc(50% + -30% * var(--ambient-reveal-progress)) calc(50% + -16% * var(--ambient-reveal-progress)),
+      var(--ambient-radius) calc(var(--ambient-radius) * 1.12) at 20% 34%,
       light-dark(
         rgb(var(--identity-aqua) / calc(.14 * var(--overlay-strength-light))),
         rgb(var(--identity-aqua) / calc(.14 * var(--overlay-strength-dark)))
@@ -60,7 +60,7 @@
       transparent 62%
     ),
     radial-gradient(
-      var(--ambient-light-radius) calc(var(--ambient-light-radius) * 1.12) at calc(50% + 30% * var(--ambient-reveal-progress)) calc(50% + -14% * var(--ambient-reveal-progress)),
+      var(--ambient-radius) calc(var(--ambient-radius) * 1.12) at 80% 36%,
       light-dark(
         rgb(var(--identity-rose) / calc(.12 * var(--overlay-strength-light))),
         rgb(var(--identity-rose) / calc(.12 * var(--overlay-strength-dark)))
@@ -68,7 +68,7 @@
       transparent 62%
     ),
     radial-gradient(
-      calc(var(--ambient-light-radius) * .93) var(--ambient-light-radius) at calc(50% + 4% * var(--ambient-reveal-progress)) calc(50% + 32% * var(--ambient-reveal-progress)),
+      calc(var(--ambient-radius) * .93) var(--ambient-radius) at 54% 82%,
       light-dark(
         rgb(var(--identity-champagne) / calc(.1 * var(--overlay-strength-light))),
         rgb(var(--identity-champagne) / calc(.1 * var(--overlay-strength-dark)))
@@ -126,64 +126,20 @@
 /* Product highlights */
 
 .product-highlight {
-  --product-overlay: rgb(255 255 255 / calc(.05 - .025 * var(--ambient-reveal-progress)));
   display: flex;
   flex-direction: column;
-  /* Keep the card visible before ambient light appears, then soften its contrast. */
-  background-image: linear-gradient(var(--product-overlay), var(--product-overlay));
+  background-image: linear-gradient(rgb(255 255 255 / .025), rgb(255 255 255 / .025));
 }
-.product-highlight > .ambient-reveal {
+.product-highlight::before {
+  content: "";
   position: absolute;
   inset: 0;
+  background: rgb(255 255 255 / .025);
   pointer-events: none;
-  background: var(--product-ambient);
+  opacity: 0;
+  transition: opacity var(--artwork-reveal-duration) cubic-bezier(.22, 1, .36, 1);
 }
-.product-highlight--27 {
-  --product-ambient:
-    radial-gradient(
-      var(--ambient-light-radius) calc(var(--ambient-light-radius) * 1.22) at calc(50% + -28% * var(--ambient-reveal-progress)) calc(50% + -14% * var(--ambient-reveal-progress)),
-      light-dark(
-        rgb(188 133 82 / calc(.18 * var(--overlay-strength-light))),
-        rgb(188 133 82 / calc(.18 * var(--overlay-strength-dark)))
-      ),
-      transparent 62%
-    ),
-    radial-gradient(
-      calc(var(--ambient-light-radius) * .96) calc(var(--ambient-light-radius) * 1.2) at calc(50% + 28% * var(--ambient-reveal-progress)) calc(50% + -12% * var(--ambient-reveal-progress)),
-      light-dark(
-        rgb(229 218 204 / calc(.14 * var(--overlay-strength-light))),
-        rgb(229 218 204 / calc(.14 * var(--overlay-strength-dark)))
-      ),
-      transparent 60%
-    ),
-    radial-gradient(
-      calc(var(--ambient-light-radius) * .87) var(--ambient-light-radius) at calc(50% + 22% * var(--ambient-reveal-progress)) calc(50% + 50% * var(--ambient-reveal-progress)),
-      light-dark(
-        rgb(105 118 148 / calc(.08 * var(--overlay-strength-light))),
-        rgb(105 118 148 / calc(.08 * var(--overlay-strength-dark)))
-      ),
-      transparent 64%
-    );
-}
-.product-highlight--18 {
-  --product-ambient:
-    radial-gradient(
-      var(--ambient-light-radius) calc(var(--ambient-light-radius) * 1.2) at calc(50% + -20% * var(--ambient-reveal-progress)) calc(50% + -10% * var(--ambient-reveal-progress)),
-      light-dark(
-        rgb(250 210 160 / calc(.28 * var(--overlay-strength-light))),
-        rgb(250 210 160 / calc(.28 * var(--overlay-strength-dark)))
-      ),
-      transparent 62%
-    ),
-    radial-gradient(
-      var(--ambient-light-radius) calc(var(--ambient-light-radius) * 1.2) at calc(50% + 25% * var(--ambient-reveal-progress)) calc(50% + -15% * var(--ambient-reveal-progress)),
-      light-dark(
-        rgb(215 155 120 / calc(.22 * var(--overlay-strength-light))),
-        rgb(215 155 120 / calc(.22 * var(--overlay-strength-dark)))
-      ),
-      transparent 62%
-    );
-}
+.js .product-highlight:not(:has(.image-reveal.is-revealed))::before { opacity: 1; }
 .product-highlight-copy {
   display: flex;
   flex-wrap: wrap;

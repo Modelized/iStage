@@ -11,12 +11,12 @@
   align-items: flex-start;
   gap: clamp(18px, 2vw, 26px);
   margin: 0;
-  padding: 4px max(18px, calc((100vw - var(--content-width)) / 2)) 18px;
+  padding: 4px max(18px, calc((100% - var(--content-width)) / 2)) 18px;
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: max(18px, calc((100vw - var(--content-width)) / 2));
+  scroll-padding-inline: max(18px, calc((100% - var(--content-width)) / 2));
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -163,8 +163,8 @@
 @media (max-width: 900px) and (orientation: portrait) {
 .feature-rail {
     gap: 16px;
-    padding-inline: max(18px, calc((100vw - 82vw) / 2));
-    scroll-padding-inline: max(18px, calc((100vw - 82vw) / 2));
+    padding-inline: max(18px, calc((100% - var(--content-width)) / 2));
+    scroll-padding-inline: max(18px, calc((100% - var(--content-width)) / 2));
   }
 
 .feature-item {
@@ -178,7 +178,7 @@
   }
 
 .feature-controls {
-    width: 82vw;
+    width: var(--content-width);
     margin-top: 30px;
   }
 

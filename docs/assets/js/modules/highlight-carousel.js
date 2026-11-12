@@ -1,6 +1,7 @@
-import { createPopupMotion } from "../popup-motion.js?v=20261106e";
+import { createPopupMotion } from "../popup-motion.js?v=20261113a";
 import { createRailScroller } from "./rail-scroll.js?v=20261104i";
 import { iStageImages } from "./artwork.js?v=20261106i";
+import { readViewport } from "./viewport.js?v=20261113a";
 
 function initHighlights(root, { autoplayTarget, autoplayEntryDelay = 1360 } = {}) {
   const rail = root.querySelector("[data-highlight-rail]");
@@ -277,24 +278,19 @@ function initHighlights(root, { autoplayTarget, autoplayEntryDelay = 1360 } = {}
     const railBox = rail.getBoundingClientRect();
     const stageBox = stage.getBoundingClientRect();
     const playbackBox = playbackTargets[currentIndex]?.getBoundingClientRect() || railBox;
-    const visualViewport = window.visualViewport;
-    const viewportHeight = visualViewport
-      ? visualViewport.height
-      : window.innerHeight || document.documentElement.clientHeight;
-    const viewportTop = visualViewport ? visualViewport.offsetTop : 0;
-    const viewportBottom = viewportTop + viewportHeight;
+    const { top: viewportTop, bottom: viewportBottom, overscroll } = readViewport();
     const previousRegion = controlsRegion;
     const aboveThreshold = viewportBottom + (previousRegion === "above" ? -4 : 12);
     const playbackAboveThreshold = viewportBottom + (playbackRegion === "above" ? -4 : 12);
     const belowExitThreshold = viewportTop + (playbackRegion === "below" ? 8 : -8);
     let nextRegion = "inside";
 
-    if (railBox.top >= aboveThreshold) nextRegion = "above";
+    if (railBox.top + overscroll >= aboveThreshold) nextRegion = "above";
 
     const nextPlaybackRegion =
-      playbackBox.top >= playbackAboveThreshold
+      playbackBox.top + overscroll >= playbackAboveThreshold
         ? "above"
-        : stageBox.bottom <= belowExitThreshold ? "below" : "inside";
+        : stageBox.bottom + overscroll <= belowExitThreshold ? "below" : "inside";
     const enteringFromAbove = playbackRegion === "above";
     const shouldMount = nextRegion !== "above";
     const wasAvailable = playbackAvailable;
@@ -302,7 +298,7 @@ function initHighlights(root, { autoplayTarget, autoplayEntryDelay = 1360 } = {}
 
     // Sticky positioning stays in CSS so scrolling needs no scripted position handoff.
     if (controlsTrack) {
-      const restingBottom = controlsTrack.getBoundingClientRect().bottom -
+      const restingBottom = controlsTrack.getBoundingClientRect().bottom + overscroll -
         parseFloat(getComputedStyle(controlsTrack).paddingBottom);
       const floatingBottom = viewportBottom - parseFloat(getComputedStyle(controls).bottom);
       popupMotion.setDocked(restingBottom <= floatingBottom);

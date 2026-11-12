@@ -6,6 +6,7 @@ export const createPopupMotion = function (root) {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   let requestedVisible = false;
   let visible = false;
+  let docked = false;
   let introFrame = 0;
   let visibilityFrame = 0;
 
@@ -46,16 +47,20 @@ export const createPopupMotion = function (root) {
   }
 
   function setDocked(next) {
+    if (docked === next) return;
+    docked = next;
     root.classList.toggle("is-docked", next);
+    syncVisibility();
   }
 
   function syncVisibility() {
-    const next = requestedVisible && !document.documentElement.classList.contains("menu-open");
+    const menuOpen = document.documentElement.classList.contains("menu-open");
+    const next = requestedVisible && (!menuOpen || docked);
+    root.inert = !next || menuOpen;
+    root.setAttribute("aria-hidden", String(!next || menuOpen));
     if (next === visible) return;
     visible = next;
     cancelAnimationFrame(visibilityFrame);
-    root.inert = !next;
-    root.setAttribute("aria-hidden", String(!next));
     if (!next && root.contains(document.activeElement)) document.activeElement.blur();
 
     if (!next) {

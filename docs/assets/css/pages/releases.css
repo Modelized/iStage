@@ -10,7 +10,7 @@
 }
 
 .page-releases {
-  --release-highlight: 235 166 48;
+  --release-highlight: 255 255 255;
   background: #f5f5f7;
 }
 @media (prefers-color-scheme: dark) {
@@ -187,19 +187,4 @@
   align-items: center;
   gap: 0.6rem;
   margin-top: 12px;
-}
-
-.page-releases .card.is-highlight .btn-blue {
-  background: rgb(var(--release-highlight) / 0.86);
-  border-color: rgb(var(--release-highlight) / 0.62);
-  --button-text: #111317;
-  color: var(--button-text);
-}
-@media (hover: hover) and (pointer: fine) {
-  .page-releases .card.is-highlight .btn-blue:hover {
-    background: rgb(var(--release-highlight) / 0.94);
-  }
-}
-.page-releases .card.is-highlight .btn-blue:active {
-  background: rgb(var(--release-highlight) / 0.78);
 }
