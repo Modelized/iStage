@@ -3,7 +3,7 @@ import { iStageImages } from "../modules/artwork.js?v=20261106i";
 import { initHighlightCarousels } from "../modules/highlight-carousel.js?v=20261113a";
 import { initFeatureCarousels } from "../modules/feature-carousel.js?v=20261104i";
 
-import { initProductNavigation } from "../modules/product-navigation.js?v=20261113a";
+import { initProductNavigation } from "../modules/product-navigation.js?v=20261113c";
 
 initProductNavigation();
 initHighlightCarousels();

@@ -169,7 +169,7 @@ main .safe-content {
 }
 @media (max-width: 900px) {
   .body-content {
-    width: min(86vw, 100%);
+    width: min(86vw, 100%, var(--safe-viewport-width));
     max-width: none;
   }
 }

@@ -1,3 +1,5 @@
+const PANEL_MOTION_DURATION_MS = 560;
+
 export function initProductNavigation() {
   document.querySelectorAll("[data-product-navigation]").forEach(initProductNav);
 }
@@ -69,7 +71,7 @@ function initProductNav(track) {
     nav.style.setProperty("--product-explore-width", `${Math.ceil(width)}px`);
   }
 
-  function layoutPanel(animateChange = false, duration = expanded ? 560 : 360) {
+  function layoutPanel(animateChange = false, duration = PANEL_MOTION_DURATION_MS) {
     const current = nav.getBoundingClientRect();
     const titleFrom = title.getBoundingClientRect();
     const toggleFrom = explore.getBoundingClientRect();

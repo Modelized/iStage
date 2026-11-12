@@ -54,6 +54,37 @@
   display: grid;
   place-items: center;
 }
+.comparison-card .section-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      var(--ambient-radius) calc(var(--ambient-radius) * 1.2) at 28% 40%,
+      light-dark(
+        rgb(0 229 255 / calc(0.1 * var(--overlay-strength-light))),
+        rgb(0 229 255 / calc(0.1 * var(--overlay-strength-dark)))
+      ),
+      transparent 62%
+    ),
+    radial-gradient(
+      var(--ambient-radius) calc(var(--ambient-radius) * 1.2) at 74% 38%,
+      light-dark(
+        rgb(251 116 234 / calc(0.08 * var(--overlay-strength-light))),
+        rgb(251 116 234 / calc(0.08 * var(--overlay-strength-dark)))
+      ),
+      transparent 62%
+    ),
+    radial-gradient(
+      calc(var(--ambient-radius) * 1.2) calc(var(--ambient-radius) * 1.4) at 50% 0%,
+      light-dark(
+        rgb(255 255 255 / calc(0.3 * var(--overlay-strength-light))),
+        rgb(255 255 255 / calc(0.3 * var(--overlay-strength-dark)))
+      ),
+      transparent 58%
+    );
+}
 .comparison-card .promo-card__media {
   --artwork-reveal-duration: 1.2s;
   position: relative;

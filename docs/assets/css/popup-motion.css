@@ -43,7 +43,6 @@
   --popup-exit-delay: calc(var(--popup-merge-duration) * 0.6);
   --popup-compressed-height: 39px;
   height: var(--popup-size);
-  max-width: var(--safe-viewport-width);
   visibility: hidden;
   pointer-events: none;
   transform: translate(-50%, 180px);

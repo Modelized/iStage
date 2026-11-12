@@ -33,6 +33,7 @@ html {
   --hero-b: 229 218 204;
   --hero-c: 105 118 148;
   --hero-inset: clamp(32px, 5vw, 80px);
+  grid-template-rows: minmax(200px, 1fr) auto;
   min-height: 100svh;
   background: linear-gradient(145deg, #0e0b09 0%, #080809 52%, #090a0d 100%);
 }
@@ -431,6 +432,41 @@ html {
   display: grid;
   place-items: center;
   padding-block: 26px 30px;
+}
+
+.i27-download::before {
+  content: "";
+  position: absolute;
+  inset: -22%;
+  z-index: 0;
+  background:
+    radial-gradient(
+      calc(var(--ambient-radius) * .8) calc(var(--ambient-radius) * 1.13) at 27% 44%,
+      light-dark(
+        rgb(192 145 100 / calc(0.32 * var(--overlay-strength-light))),
+        rgb(192 145 100 / calc(0.32 * var(--overlay-strength-dark)))
+      ) 0%,
+      rgba(192, 145, 100, 0) 72%
+    ),
+    radial-gradient(
+      calc(var(--ambient-radius) * .63) calc(var(--ambient-radius) * .8) at 38% 28%,
+      light-dark(
+        rgb(235 222 202 / calc(0.16 * var(--overlay-strength-light))),
+        rgb(235 222 202 / calc(0.16 * var(--overlay-strength-dark)))
+      ) 0%,
+      rgba(235, 222, 202, 0) 70%
+    ),
+    radial-gradient(
+      calc(var(--ambient-radius) * .93) calc(var(--ambient-radius) * 1.07) at 78% 66%,
+      light-dark(
+        rgb(116 130 158 / calc(0.22 * var(--overlay-strength-light))),
+        rgb(116 130 158 / calc(0.22 * var(--overlay-strength-dark)))
+      ) 0%,
+      rgba(116, 130, 158, 0) 74%
+    );
+  filter: blur(46px) saturate(1.04);
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 .i27-download .container {

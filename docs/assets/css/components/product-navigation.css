@@ -1,6 +1,10 @@
 /* Product navigation track */
 
 .product-nav-track {
+  --product-bar-height: 54px;
+  --product-inline-inset: calc(var(--nav-inline-pad) + 12px);
+  --product-reveal-duration: .55s;
+  --product-motion-ease: cubic-bezier(.22, 1, .36, 1);
   position: absolute;
   inset: 0;
   z-index: 950;
@@ -9,27 +13,38 @@
 .product-nav-dock {
   position: sticky;
   top: calc(env(safe-area-inset-top, 0px) + 12px);
-  padding-inline: calc(var(--nav-inline-pad) + 12px);
+  width: min(920px, calc(100% - var(--product-inline-inset) * 2));
+  margin-inline: auto;
+  border-radius: calc(var(--product-bar-height) / 2);
+  /* Keep the moving glass inside the dock, away from Safari's edge sampling. */
+  overflow: clip;
+  visibility: hidden;
+  transition:
+    box-shadow var(--product-reveal-duration) var(--product-motion-ease),
+    visibility 0s linear var(--product-reveal-duration);
+}
+.product-nav-dock:has(.product-nav.is-visible) {
+  visibility: visible;
+  box-shadow: var(--nav-shadow);
+  transition-delay: 0s;
 }
 .product-nav {
-  --product-bar-height: 54px;
   --product-control-size: 36px;
   --product-close-size: calc(var(--product-control-size) - 2 * var(--glass-outline-width));
   --product-control-inset: calc((var(--product-bar-height) - var(--product-control-size)) / 2);
-  --product-motion-ease: cubic-bezier(.22, 1, .36, 1);
   --product-toggle-fade-out: .08s;
   --product-toggle-fade-in: .16s;
   position: relative;
-  width: min(920px, 100%);
+  width: 100%;
   height: var(--product-bar-height);
-  margin-inline: auto;
   overflow: hidden;
   border-radius: calc(var(--product-bar-height) / 2);
   color: var(--nav-text);
-  box-shadow: var(--nav-shadow);
   visibility: hidden;
   transform: translateY(calc(-100% - 28px));
-  transition: transform .55s var(--product-motion-ease), visibility 0s linear .55s;
+  transition:
+    transform var(--product-reveal-duration) var(--product-motion-ease),
+    visibility 0s linear var(--product-reveal-duration);
   pointer-events: none;
 }
 .product-nav::before {
@@ -177,12 +192,11 @@
   scrollbar-gutter: stable;
   overscroll-behavior: contain;
   visibility: hidden;
-  transition: visibility 0s linear .36s;
   scrollbar-width: thin;
 }
-.product-nav.is-expanded .product-nav-panel {
+.product-nav.is-expanded .product-nav-panel,
+.product-nav.is-transitioning .product-nav-panel {
   visibility: visible;
-  transition-delay: 0s;
 }
 .product-nav:not(.is-expanded) .product-nav-panel,
 .product-nav.is-transitioning .product-nav-panel {
@@ -293,7 +307,7 @@
     var(--control-transition);
 }
 @media (max-width: 900px) and (orientation: portrait) {
-  .product-nav-dock { padding-inline: var(--banner-side-gap); }
+  .product-nav-track { --product-inline-inset: var(--banner-side-gap); }
   .product-nav-panel { padding: 60px 22px 30px; }
   .product-nav-models { padding-bottom: 24px; }
   .product-nav-models a { font-size: 15px; }
@@ -310,11 +324,12 @@
   .product-nav-details, .product-nav-overview { margin-top: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .product-nav-track { --product-reveal-duration: 0s; }
   .product-nav {
     --product-toggle-fade-out: 0s;
     --product-toggle-fade-in: 0s;
   }
-  .product-nav, .product-nav-backdrop, .product-nav-panel,
+  .product-nav-dock, .product-nav, .product-nav-backdrop, .product-nav-panel,
   .product-nav-explore-label, .product-nav-explore-close,
   .product-nav-get, .product-nav-disclosure svg, [data-product-enter] { transition: none; }
 }
