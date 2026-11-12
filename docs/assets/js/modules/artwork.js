@@ -40,13 +40,10 @@ function initHeroArtwork() {
     "hero-iStage-18-mobile.png": [622, 160, 916, 1839]
   };
   document
-    .querySelectorAll(
-      ".page-hero-media, .event-visual, .product-highlight-artwork, .comparison-card .promo-card__media"
-    )
+    .querySelectorAll(".artwork-frame")
     .forEach((frame) => {
       const image = frame.querySelector("img");
       if (!image) return;
-      frame.classList.add("artwork-frame", "image-reveal");
       const fit = () => {
         if (!image.naturalWidth) return;
         const name = new URL(image.currentSrc || image.src, document.baseURI).pathname
@@ -63,6 +60,7 @@ function initHeroArtwork() {
         const alignY = parseFloat(style.getPropertyValue("--artwork-align-y"));
         const frameWidth = frame.clientWidth;
         const frameHeight = frame.clientHeight;
+        if (!frameWidth || !frameHeight) return;
         const insetTop = frameHeight * (parseFloat(style.getPropertyValue("--artwork-top-inset-ratio")) || 0);
         const availableHeight = frameHeight - insetTop;
         const scale = Math.min(frameWidth / width, availableHeight / height) * size;
@@ -76,6 +74,7 @@ function initHeroArtwork() {
         Object.entries(values).forEach(([key, value]) => {
           if (image.style[key] !== value) image.style[key] = value;
         });
+        frame.classList.add("is-artwork-ready");
       };
       image.addEventListener("load", fit);
       iStageImages.ready(image).then(fit);

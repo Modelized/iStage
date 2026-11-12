@@ -34,7 +34,7 @@ html {
   --hero-c: 105 118 148;
   --hero-inset: clamp(32px, 5vw, 80px);
   grid-template-rows: minmax(200px, 1fr) auto;
-  min-height: 100svh;
+  min-height: max(520px, 100svh);
   background: linear-gradient(145deg, #0e0b09 0%, #080809 52%, #090a0d 100%);
 }
 
@@ -67,7 +67,7 @@ html {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: auto auto;
-  gap: 10px 24px;
+  gap: clamp(0px, calc(4svh - 18px), 10px) 24px;
   position: relative;
   z-index: 2;
 }
@@ -85,7 +85,7 @@ html {
   display: grid;
   grid-row: 1 / -1;
   grid-template-rows: subgrid;
-  align-items: center;
+  align-items: start;
   text-align: left;
   margin: 0;
 }
@@ -725,10 +725,6 @@ html {
 }
 
 @media (max-width: 900px) and (orientation: landscape) {
-  .page-iStage-27 .i27-hero {
-    min-height: 520px;
-  }
-
   .i27-hero-headline {
     font-size: clamp(34px, 6.5vw, 48px);
   }

@@ -1,4 +1,4 @@
-import "../shell.js?v=20261113a";
+import "../shell.js?v=20261113d";
 import { createPopupMotion } from "../popup-motion.js?v=20261113a";
 import { iStageReleases } from "../releases-data.js?v=20261104i";
 import { readViewport } from "../modules/viewport.js?v=20261113a";

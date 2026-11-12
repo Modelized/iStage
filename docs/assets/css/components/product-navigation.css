@@ -16,8 +16,6 @@
   width: min(920px, calc(100% - var(--product-inline-inset) * 2));
   margin-inline: auto;
   border-radius: calc(var(--product-bar-height) / 2);
-  /* Keep the moving glass inside the dock, away from Safari's edge sampling. */
-  overflow: clip;
   visibility: hidden;
   transition:
     box-shadow var(--product-reveal-duration) var(--product-motion-ease),
@@ -27,6 +25,11 @@
   visibility: visible;
   box-shadow: var(--nav-shadow);
   transition-delay: 0s;
+}
+.product-nav-clip {
+  /* A straight edge clips travel without changing the glass or its shadow. */
+  position: relative;
+  overflow: clip;
 }
 .product-nav {
   --product-control-size: 36px;
@@ -50,8 +53,8 @@
 .product-nav::before {
   content: "";
   position: absolute;
-  inset: var(--glass-outline-width);
-  border-radius: calc(var(--product-bar-height) / 2 - var(--glass-outline-width));
+  inset: 0;
+  border-radius: inherit;
   background: var(--nav-surface);
   backdrop-filter: saturate(170%) blur(22px);
   -webkit-backdrop-filter: saturate(170%) blur(22px);
@@ -270,10 +273,9 @@
   grid-template-columns: repeat(auto-fit, minmax(min(100%, max(122px, calc((100% - 32px) / 3))), 1fr));
   gap: 14px 16px;
   max-width: 580px;
-  padding: 22px 4px 4px;
+  padding: 22px 0 4px;
 }
 .product-nav-sections a {
-  justify-self: start;
   padding: 10px 16px;
   border-radius: 999px;
   color: inherit;
@@ -290,6 +292,7 @@
 }
 .product-nav a:focus-visible,
 .product-nav button:focus-visible { outline: 2px solid rgb(var(--accent-blue)); outline-offset: 3px; }
+.product-nav-sections a:focus-visible { outline-offset: -3px; }
 @media (hover: hover) and (pointer: fine) {
   .product-nav-sections a:hover:not([aria-current]) { background: rgba(255, 255, 255, .12); }
 }

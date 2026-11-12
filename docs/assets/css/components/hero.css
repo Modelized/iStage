@@ -159,6 +159,9 @@
   max-width: none;
   margin: 0;
 }
+.js .artwork-frame:not(.is-artwork-ready) img {
+  visibility: hidden;
+}
 .js .image-reveal img {
   opacity: 0;
   transform: scale(1.16);
