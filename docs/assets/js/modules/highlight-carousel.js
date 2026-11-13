@@ -1,6 +1,6 @@
 import { createPopupMotion } from "../popup-motion.js?v=20261113a";
 import { createRailScroller } from "./rail-scroll.js?v=20261104i";
-import { iStageImages } from "./artwork.js?v=20261113d";
+import { iStageImages } from "./artwork.js?v=20261113i";
 import { readViewport } from "./viewport.js?v=20261113a";
 
 function initHighlights(root, { autoplayTarget, autoplayEntryDelay = 1360 } = {}) {

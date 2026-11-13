@@ -7,6 +7,8 @@
   --product-motion-ease: cubic-bezier(.22, 1, .36, 1);
   position: absolute;
   inset: 0;
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
   z-index: 950;
   pointer-events: none;
 }

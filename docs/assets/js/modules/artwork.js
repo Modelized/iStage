@@ -33,7 +33,7 @@ function initHeroArtwork() {
   const bounds = {
     "hero-iStage-series.png": [367, 118, 1427, 1921],
     "releases-hero.png": [367, 118, 1427, 1921],
-    "help-hero.png": [367, 118, 1427, 1921],
+    "support-hero.png": [367, 118, 1427, 1921],
     "hero-iStage-27-desktop.png": [1130, 160, 1604, 1839],
     "hero-iStage-27-mobile.png": [290, 160, 1604, 1839],
     "hero-iStage-18-desktop.png": [1460, 160, 920, 1839],

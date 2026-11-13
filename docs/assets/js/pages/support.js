@@ -1,17 +1,17 @@
-import "../shell.js?v=20261113d";
+import "../shell.js?v=20261113i";
 
 "use strict";
 
 (function () {
-  const deck = document.getElementById("help-deck");
+  const deck = document.getElementById("support-deck");
   if (!deck || !window.Animation || !window.KeyframeEffect || !window.CSS?.registerProperty) return;
   CSS.registerProperty({
-    name: "--help-phase",
+    name: "--support-phase",
     syntax: "<number>",
     inherits: true,
     initialValue: "0"
   });
-  const topics = [...deck.querySelectorAll(".help-topic")];
+  const topics = [...deck.querySelectorAll(".support-topic")];
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
   const layers = new Map();
   let selected = null;
@@ -24,7 +24,7 @@ import "../shell.js?v=20261113d";
   let pendingNavigation = null;
   deck.classList.add("is-ready");
   topics.forEach((topic, index) => {
-    topic.querySelector("button").setAttribute("aria-controls", `help-detail-${index}`);
+    topic.querySelector("button").setAttribute("aria-controls", `support-detail-${index}`);
   });
 
   // Tile and detail geometry
@@ -66,17 +66,17 @@ import "../shell.js?v=20261113d";
     layer.surface.style.transformOrigin = `${tile.x + tile.width / 2}px ${tile.y + tile.height / 2}px`;
     layer.detail.style.height = `${canvasHeight}px`;
     const values = {
-      "--help-tile-top": `${tile.y}px`,
-      "--help-tile-right": `${width - tile.x - tile.width}px`,
-      "--help-tile-bottom": `${canvasHeight - tile.y - tile.height}px`,
-      "--help-tile-left": `${tile.x}px`,
-      "--help-open-bottom": `${canvasHeight - height}px`,
-      "--help-shift-x": `${dx}px`,
-      "--help-shift-y": `${dy}px`,
-      "--help-content-scale-x": tile.width / width,
-      "--help-content-scale-y": tile.height / height,
-      "--help-preview-growth-x": width / tile.width - 1,
-      "--help-preview-growth-y": height / tile.height - 1
+      "--support-tile-top": `${tile.y}px`,
+      "--support-tile-right": `${width - tile.x - tile.width}px`,
+      "--support-tile-bottom": `${canvasHeight - tile.y - tile.height}px`,
+      "--support-tile-left": `${tile.x}px`,
+      "--support-open-bottom": `${canvasHeight - height}px`,
+      "--support-shift-x": `${dx}px`,
+      "--support-shift-y": `${dy}px`,
+      "--support-content-scale-x": tile.width / width,
+      "--support-content-scale-y": tile.height / height,
+      "--support-preview-growth-x": width / tile.width - 1,
+      "--support-preview-growth-y": height / tile.height - 1
     };
     Object.entries(values).forEach(([key, value]) =>
       layer.detail.style.setProperty(key, String(value))
@@ -167,25 +167,25 @@ import "../shell.js?v=20261113d";
   function createLayer(topic) {
     const index = topics.indexOf(topic);
     const surface = document.createElement("div");
-    surface.className = "help-layer";
-    surface.innerHTML = `<section class="help-detail" id="help-detail-${index}" aria-labelledby="help-detail-title-${index}">
-      <div class="help-detail-preview" aria-hidden="true"></div>
-      <div class="help-detail-content" inert>
-        <button class="help-back" aria-label="Back to help topics">
+    surface.className = "support-layer";
+    surface.innerHTML = `<section class="support-detail" id="support-detail-${index}" aria-labelledby="support-detail-title-${index}">
+      <div class="support-detail-preview" aria-hidden="true"></div>
+      <div class="support-detail-content" inert>
+        <button class="support-back" aria-label="Back to support topics">
           <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <h2 class="help-detail-title" id="help-detail-title-${index}"></h2>
+        <h2 class="support-detail-title" id="support-detail-title-${index}"></h2>
         <div class="prose"></div>
-        <nav class="help-topic-navigation" aria-label="Adjacent help topics"></nav>
+        <nav class="support-topic-navigation" aria-label="Adjacent support topics"></nav>
       </div>
     </section>`;
     const layer = {
       topic,
       surface,
-      detail: surface.querySelector(".help-detail"),
-      preview: surface.querySelector(".help-detail-preview"),
-      content: surface.querySelector(".help-detail-content"),
-      back: surface.querySelector(".help-back"),
+      detail: surface.querySelector(".support-detail"),
+      preview: surface.querySelector(".support-detail-preview"),
+      content: surface.querySelector(".support-detail-content"),
+      back: surface.querySelector(".support-back"),
       from: 0,
       target: 0,
       morph: null,
@@ -193,25 +193,25 @@ import "../shell.js?v=20261113d";
       previewOpacity: "1"
     };
     // Preserve both the original tile layout and its current background motion.
-    const label = topic.querySelector(".help-topic-heading").cloneNode(true);
+    const label = topic.querySelector(".support-topic-heading").cloneNode(true);
     const labelButton = label.querySelector("button");
     labelButton.removeAttribute("aria-controls");
     labelButton.removeAttribute("aria-expanded");
     labelButton.tabIndex = -1;
     layer.preview.inert = true;
     layer.preview.append(label);
-    layer.content.querySelector(".help-detail-title").textContent =
-      topic.querySelector(".help-tile-label > span").textContent;
+    layer.content.querySelector(".support-detail-title").textContent =
+      topic.querySelector(".support-tile-label > span").textContent;
     layer.content.querySelector(".prose").innerHTML = topic.querySelector(".prose").innerHTML;
-    const navigation = layer.content.querySelector(".help-topic-navigation");
+    const navigation = layer.content.querySelector(".support-topic-navigation");
     [-1, 1].forEach((offset) => {
       const adjacent = topics[index + offset];
       if (!adjacent) return;
       const direction = offset < 0 ? "previous" : "next";
-      const title = adjacent.querySelector(".help-tile-label > span").textContent;
+      const title = adjacent.querySelector(".support-tile-label > span").textContent;
       const button = document.createElement("button");
       button.type = "button";
-      button.className = `help-topic-link help-topic-link--${direction}`;
+      button.className = `support-topic-link support-topic-link--${direction}`;
       button.setAttribute("aria-label", `${offset < 0 ? "Previous" : "Next"} topic: ${title}`);
       button.innerHTML = `<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="${offset < 0 ? "m15 5-7 7 7 7" : "m9 5 7 7-7 7"}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span></span>`;
       button.querySelector("span").textContent = title;
@@ -290,7 +290,7 @@ import "../shell.js?v=20261113d";
       if (layer === selected) {
         layer.from = layer.target = 1;
         Object.assign(layer.surface.style, { opacity: "1", transform: "none", filter: "" });
-        layer.detail.style.setProperty("--help-phase", "1");
+        layer.detail.style.setProperty("--support-phase", "1");
       } else {
         layer.surface.remove();
         layers.delete(topic);
@@ -344,14 +344,14 @@ import "../shell.js?v=20261113d";
         layer.target = open ? 1 : 0;
         if (open) targetHeight = height;
         layer.detail.classList.toggle("is-opening", open);
-        layer.detail.style.setProperty("--help-from", String(layer.from));
-        layer.detail.style.setProperty("--help-to", String(layer.target));
-        layer.detail.style.setProperty("--help-content-opacity", layer.contentOpacity);
-        layer.detail.style.setProperty("--help-preview-opacity", layer.previewOpacity);
-        layer.detail.style.setProperty("--help-phase", "0");
+        layer.detail.style.setProperty("--support-from", String(layer.from));
+        layer.detail.style.setProperty("--support-to", String(layer.target));
+        layer.detail.style.setProperty("--support-content-opacity", layer.contentOpacity);
+        layer.detail.style.setProperty("--support-preview-opacity", layer.previewOpacity);
+        layer.detail.style.setProperty("--support-phase", "0");
         // One sampled value drives the mask, both transforms and both fades.
         // No independent compositor animation can run ahead of the card mask.
-        layer.morph = animate(layer.detail, { "--help-phase": "1" }, 780);
+        layer.morph = animate(layer.detail, { "--support-phase": "1" }, 780);
       }
       animate(layer.surface, backgroundTarget(layer.topic, !!selected && !open), 1000);
     });
