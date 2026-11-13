@@ -11,7 +11,7 @@ iStage is a pixel-perfect recreation of the iOS Lock Screen for Android, includi
 
 Formerly iOS KLCK
 
-<img width="1920" height="1080" alt="iStage Thumbnail" src="https://github.com/user-attachments/assets/f36d523b-9587-4bbe-96cc-08448235c624" />
+<img width="1920" height="1080" alt="iStage 27 Thumbnail" src="https://github.com/user-attachments/assets/28c8b306-9b61-498d-87ac-146f47483109" />
 
 ---
 
